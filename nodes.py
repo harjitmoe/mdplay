@@ -46,6 +46,9 @@ class UlliNode(BlockContainerNode):
 class CodeBlockNode(RawContainerNode):
     pass
 
+class MonoNode(InlineNode):
+    pass
+
 class BoldNode(InlineNode):
     pass
 
@@ -56,6 +59,9 @@ class HrefNode(InlineNode):
     pass
 
 class NewlineNode(NonContainerNode):
+    pass
+
+class RuleNode(NonContainerNode):
     pass
 
 class LinestackIter(object):

@@ -33,6 +33,8 @@ def _bb_out(node,in_list):
         return "[b]"+bb_out(node.content)+"[/b]"
     elif isinstance(node,ItalicNode):
         return "[i]"+bb_out(node.content)+"[/i]"
+    elif isinstance(node,MonoNode):
+        return "[font=\"Monaco, Courier, Liberation Mono, DejaVu Sans Mono, monospace\"]"+bb_out(node.content)+"[/font]"
     elif isinstance(node,HrefNode):
         if node.hreftype=="link":
             return ("[url=%r]"%node.content)+bb_out(node.label)+"[/url]"
@@ -43,5 +45,7 @@ def _bb_out(node,in_list):
             return "["+node.hreftype+"]"+node.content+"[/media]"
     elif isinstance(node,NewlineNode):
         return "[br]"
+    elif isinstance(node,RuleNode):
+        return "[rule]"
     else:
         return "ERROR"+repr(node)

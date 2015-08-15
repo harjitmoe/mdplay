@@ -30,6 +30,7 @@ def _parse_block(f):
     fenceinfo=None
 
     import re
+    rule_re=" ? ? ?((- ?)(- ?)(- ?)+|(_ ?)(_ ?)(_ ?)+|(\* ?)(\* ?)(\* ?)+)"
     isheadatx=lambda line:line.strip() and line.startswith("#") and (not line.lstrip("#")[:1].strip()) and ((len(line)-len(line.lstrip("#")))<=6)
     isulin=lambda line:line.strip() and ((len(line)-len(line.lstrip()))<=3) and (all_same(line.strip()) in tuple("=-"))
     isfence=lambda line:line.strip() and ((len(line)-len(line.lstrip()))<=3) and (line.lstrip()[0]==line.lstrip()[1]==line.lstrip()[2]) and (line.lstrip()[0] in "`~") and ((line.lstrip()[0]=="~") or ("`" not in line.lstrip().lstrip("`")))
@@ -46,6 +47,10 @@ def _parse_block(f):
                 continue
             elif isheadatx(line):
                 within="atxhead"
+                f.rtpma()
+                continue
+            elif re.match(rule_re, line.rstrip()):
+                within="rule"
                 f.rtpma()
                 continue
             elif isul(line):
@@ -101,6 +106,11 @@ def _parse_block(f):
                 within="root"
                 f.rtpma()
                 continue
+            elif re.match(rule_re, line.rstrip()):
+                within="rule"
+                depth=0
+                f.rtpma()
+                continue
             if line.rstrip("\r\n").endswith("  "):
                 minibuf+=line.strip()+"\n"
             else:
@@ -112,6 +122,14 @@ def _parse_block(f):
                 depth=0
                 depths=[]
                 within="root"
+                f.rtpma()
+                continue
+            elif re.match(rule_re, line.rstrip()):
+                yield (UlliNode(minibuf,depth))
+                minibuf=""
+                depth=0
+                depths=[]
+                within="rule"
                 f.rtpma()
                 continue
             elif isul(line):
@@ -131,6 +149,9 @@ def _parse_block(f):
                 minibuf+=line.lstrip()[1:].strip()+" "
             else:
                 minibuf+=line.strip()+" "
+        elif within=="rule":
+            yield (RuleNode())
+            within="root"
         elif within=="fence":
             if fence==None:
                 fence=0
@@ -208,6 +229,10 @@ def _parse_inline(content,lev="root"):
                 if lev=="italic":
                     return out
                 out.append(ItalicNode(_parse_inline(content,"italic")))
+        elif c=="`":
+            if lev=="mono":
+                return out
+            out.append(MonoNode(_parse_inline(content,"mono")))
         elif c=="]" and lev=="label":
             return out
         #re.match, i.e. looks only at start of string

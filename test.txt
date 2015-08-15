@@ -14,7 +14,7 @@ I think so too.
 
 Another paragraph.
 
-I can use *italic*, **bold**, `monospace`.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/3yXSlqS.jpg) images and !media[](http://i.imgur.com/3yXSlqS.jpg) embeds!
+I can use *italic*, **bold**, `monospace`.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/3yXSlqS.jpg) images and !media[](http://i.imgur.com/3yXSlqS.jpg) embeds, or even [link images ![](http://i.imgur.com/3yXSlqS.jpg)](http://egscomics.com)!
 
 ~~~~ python
 #!/usr/bin/env python
@@ -51,4 +51,4 @@ builder
 > yes we can
 ## Verily ##
 
-
+- - -

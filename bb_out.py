@@ -16,8 +16,12 @@ def bb_out(nodes):
     return r.strip("\r\n")
 
 def _bb_out(node,in_list):
-    if in_list and not isinstance(node,UlliNode):
-        return "[/list]\n"+_bb_out(node,False),False
+    if in_list and ((not isinstance(node,UlliNode)) or ((node.depth+1)<in_list)):
+        _r=_bb_out(node,in_list-1)
+        if len(_r)==2 and type(_r)==type(()):
+            _r,in_list=_r
+            in_list+=1
+        return "[/list]\n"+_r,in_list-1
     if isinstance(node,basestring):
         return node
     elif isinstance(node,TitleNode):
@@ -30,10 +34,12 @@ def _bb_out(node,in_list):
     elif isinstance(node,CodeBlockNode):
         return "\n[code]"+bb_out(node.content)+"[/code]\n"
     elif isinstance(node,UlliNode):
-        r="[*]"+bb_out(node.content)+"\n"
-        if not in_list:
-            r="\n[list]"+r
-        return r,True
+        r=""
+        while (node.depth+1)>in_list:
+            r+="\n[list]" if in_list==0 else "[list]"
+            in_list+=1
+        r+="[*]"+bb_out(node.content)+"\n"
+        return r,in_list
     elif isinstance(node,BoldNode):
         return "[b]"+bb_out(node.content)+"[/b]"
     elif isinstance(node,ItalicNode):

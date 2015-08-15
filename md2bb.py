@@ -9,6 +9,9 @@ absence of such in BBCode.  Unordered lists are converted, though.
 Headings are converted in the best way possible, considering that 
 BBCode has no concept of semantic headings.
 
+Superscripts are implemented in the syntax used on Reddit, being 
+a very prominent syntax due to this use.
+
 I wrote this fairly recently, and I do not believe that I interpolated
 code from anywhere else.  It is not impossible that I may have 
 forgotten, albeit unlikely, as I nowadays tend to avoid doing that
@@ -106,6 +109,9 @@ class BoldNode(InlineNode):
     pass
 
 class ItalicNode(InlineNode):
+    pass
+
+class SuperNode(InlineNode):
     pass
 
 class HrefNode(InlineNode):
@@ -351,13 +357,15 @@ def parse_block(content):
     return _parse_block(LinestackIter(StringIO(content)))
 
 def _parse_inline(content,lev="root"):
+    # Note: the recursion works by the list being a Python
+    # mutable, "passed by reference" as it were
     lastchar=" "
     out=[]
     while content:
         c=content.pop(0)
-        if c=="\\":
+        if c=="\\" and (content[0] in "![]*`) \n#*+-=~"):
             c2=content.pop(0)
-            if c2==" ":
+            if c2 in " \n":
                 lastchar=" "
                 continue
             else:
@@ -383,7 +391,9 @@ def _parse_inline(content,lev="root"):
             out.append(MonoNode(_parse_inline(content,"mono")))
         elif c=="]" and lev=="label":
             return out
-        #re.match, i.e. looks only at start of string
+        elif c==")" and lev=="sup":
+            return out
+        #re.match, not re.search, i.e. looks only at start of string
         elif lastchar==" " and re.match("(!\w*)?\[.*\]\(.*\)",c+("".join(content))):
             hreftype=""
             while c!="[":
@@ -400,10 +410,13 @@ def _parse_inline(content,lev="root"):
             if hreftype=="!":
                 hreftype="img"
             elif hreftype=="":
-                hreftype="link"
+                hreftype="url"
             else:
                 hreftype=hreftype[1:] #Minus the leading !
             out.append(HrefNode(href,label,hreftype))
+        elif c=="^" and content[0]=="(":
+            del content[0]
+            out.append(SuperNode(_parse_inline(content,"sup")))
         else:
             lastchar=c
             out.append(c)
@@ -451,16 +464,23 @@ def _bb_out(node,in_list):
         return "[b]"+bb_out(node.content)+"[/b]"
     elif isinstance(node,ItalicNode):
         return "[i]"+bb_out(node.content)+"[/i]"
+    elif isinstance(node,SuperNode):
+        return "[sup]"+bb_out(node.content)+"[/sup]"
     elif isinstance(node,MonoNode):
         return "[font=\"Monaco, Courier, Liberation Mono, DejaVu Sans Mono, monospace\"]"+bb_out(node.content)+"[/font]"
     elif isinstance(node,HrefNode):
-        if node.hreftype=="link":
-            return ("[url=%s]"%json.dumps(node.content))+bb_out(node.label)+"[/url]"
+        label=bb_out(node.label)
+        ht=node.hreftype
+        content=node.content
+        if ht=="url":
+            if re.match("https?://(www\.)?tvtropes.org",content):
+                return "[u]"+label+("[/u][sup][url=%s](TVTropes)[/url][/sup]"%json.dumps(content))
+            return ("[url=%s]"%json.dumps(content))+label+"[/url]"
         else: #Including img
-            label=bb_out(node.label).strip()
+            label=label.strip()
             if label:
-                return ("[%s alt=%s]"%(node.hreftype,json.dumps(label)))+node.content+"[/"+node.hreftype+"]"
-            return "["+node.hreftype+"]"+node.content+"[/"+node.hreftype+"]"
+                return ("[%s alt=%s]"%(ht,json.dumps(label)))+content+"[/"+ht+"]"
+            return "["+ht+"]"+content+"[/"+ht+"]"
     elif isinstance(node,NewlineNode):
         return "[br]"
     elif isinstance(node,RuleNode):

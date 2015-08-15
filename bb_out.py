@@ -1,5 +1,10 @@
 from nodes import *
 
+try:
+    import json
+except:
+    import simplejson as json
+
 def bb_out(nodes):
     in_list=0
     r=""
@@ -17,7 +22,7 @@ def _bb_out(node,in_list):
         return node
     elif isinstance(node,TitleNode):
         #Yeah, BBCode sucks at titles
-        return ("\n[size=%d][b]"%(8-node.depth))+bb_out(node.content)+"[/b][/font]\n"
+        return ("\n[size=%d][b]"%(8-node.depth))+bb_out(node.content)+"[/b][/size]\n"
     elif isinstance(node,ParagraphNode):
         return "\n"+bb_out(node.content)+"\n"
     elif isinstance(node,BlockQuoteNode):
@@ -37,15 +42,18 @@ def _bb_out(node,in_list):
         return "[font=\"Monaco, Courier, Liberation Mono, DejaVu Sans Mono, monospace\"]"+bb_out(node.content)+"[/font]"
     elif isinstance(node,HrefNode):
         if node.hreftype=="link":
-            return ("[url=%r]"%node.content)+bb_out(node.label)+"[/url]"
+            return ("[url=%s]"%json.dumps(node.content))+bb_out(node.label)+"[/url]"
         elif node.hreftype=="img":
+            label=bb_out(node.label).strip()
+            if label:
+                return ("[img alt=%s]"%json.dumps(label))+node.content+"[/img]"
             return "[img]"+node.content+"[/img]"
         else:
-            #e.g. [media]...[/media]
+            #e.g. [media]...[/media], [youtube]...[/youtube], [video]...[/video]
             return "["+node.hreftype+"]"+node.content+"[/media]"
     elif isinstance(node,NewlineNode):
         return "[br]"
     elif isinstance(node,RuleNode):
-        return "[rule]"
+        return "\n[rule]\n"
     else:
         return "ERROR"+repr(node)

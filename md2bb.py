@@ -1,3 +1,48 @@
+"""Markdown to BBCode converter.
+
+As a conscious decision, no support is included for indented code 
+blocks.  Use fenced code blocks.
+
+No special support is included for ordered lists, paralleling the
+absence of such in BBCode.  Unordered lists are converted, though.
+
+Headings are converted in the best way possible, considering that 
+BBCode has no concept of semantic headings.
+
+I wrote this fairly recently, and I do not believe that I interpolated
+code from anywhere else.  It is not impossible that I may have 
+forgotten, albeit unlikely, as I nowadays tend to avoid doing that
+without noting in comments.
+
+With that in mind, this software is:
+
+Copyright (c) 2015 Thomas Hori.  All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its 
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTERS
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR 
+A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT 
+HOLDER OR CONTRIBUTERS BE LIABLEFOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"""
+
 import re
 try:
     import json
@@ -384,7 +429,7 @@ def _bb_out(node,in_list):
             _r,in_list=_r
             in_list+=1
         return "[/list]\n"+_r,in_list-1
-    if isinstance(node,basestring):
+    if not isinstance(node,Node): #i.e. is a string
         return node
     elif isinstance(node,TitleNode):
         #Yeah, BBCode sucks at titles
@@ -423,9 +468,16 @@ def _bb_out(node,in_list):
     else:
         return "ERROR"+repr(node)
 
+def convert_from_file(f):
+    return bb_out(list(_parse_block(LinestackIter(f))))
+
+def convert_from_string(s):
+    return bb_out(list(parse_block(s)))
+
 if __name__=="__main__":
     import sys
-    f=open(sys.argv[1],"rb")
-    doc=list(_parse_block(LinestackIter(f)))
-    dd=bb_out(doc)
-    print dd
+    if len(sys.argv)!=2:
+        print ("Usage: %s <input file>"%sys.argv[0])
+        sys.exit(1)
+    f=open(sys.argv[1],"r")
+    print (convert_from_file(f))

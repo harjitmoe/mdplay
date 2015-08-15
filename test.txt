@@ -1,0 +1,58 @@
+# Heading #
+## Subheading ##
+
+Paragraphs are
+very
+nice.  
+I think so too.
+
+* Knives
+  * Forks
+  * Spoons
+* Reality
+* Hello World.
+
+Another paragraph.
+
+1. Hello
+2.World
+3) Today
+
+I can use *italic*, **bold**, `monospace`.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/3yXSlqS.jpg) images and !media[](http://i.imgur.com/3yXSlqS.jpg) embeds.
+
+~~~~ python
+#!/usr/bin/env python
+# -*- python -*-
+import utility
+
+#so as to pass JSON to eval
+null=None
+false=False
+true=True
+
+import os,sys
+
+main_db=eval(open(".build/MegaDb.txt","rU").read())
+
+arcs=[]
+curatitl=""
+
+def handle_line(line):
+    atitl,ltitl=line["Title"].split(": ",1)
+    if atitl!=curatitl:
+        arcs.append({"Title":atitl,"StoryLines":[]})
+        curatitl=atitl
+    arcs[-1]["StoryLines"].append({"Title":ltitl,"Comics":line["Comics"]})
+
+map(handle_line,main_db)
+
+open(".build/MegaDb.txt","w").write(repr(arcs))
+~~~~
+
+> # Can he fix it???
+> Bob the
+builder
+> yes we can
+    *sure* you can
+
+

@@ -1,5 +1,5 @@
 # Heading #
-## Subheading ##
+## Subheading
 
 Paragraphs are
 very
@@ -14,11 +14,7 @@ I think so too.
 
 Another paragraph.
 
-1. Hello
-2.World
-3) Today
-
-I can use *italic*, **bold**, `monospace`.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/3yXSlqS.jpg) images and !media[](http://i.imgur.com/3yXSlqS.jpg) embeds.
+I can use *italic*, **bold**, `monospace`.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/3yXSlqS.jpg) images and !media[](http://i.imgur.com/3yXSlqS.jpg) embeds!
 
 ~~~~ python
 #!/usr/bin/env python
@@ -53,6 +49,6 @@ open(".build/MegaDb.txt","w").write(repr(arcs))
 > Bob the
 builder
 > yes we can
-    *sure* you can
+## Verily ##
 
 

@@ -124,8 +124,6 @@ def all_same(l):
     else:
         return False
 
-f=open("test.txt","rb")
-
 def _parse_block(f):
     within="root"
     minibuf=""
@@ -426,6 +424,8 @@ def _bb_out(node,in_list):
         return "ERROR"+repr(node)
 
 if __name__=="__main__":
+    import sys
+    f=open(sys.argv[1],"rb")
     doc=list(_parse_block(LinestackIter(f)))
     dd=bb_out(doc)
     print dd

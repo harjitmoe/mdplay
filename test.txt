@@ -57,6 +57,9 @@ builder
 
 - - -
 
+Escaping and stuff
+------------------
+
 !![This is not](an embed.)
 
 \![This is not](an embed) either.
@@ -68,3 +71,9 @@ Whereas this is: !\ ![an embed](http://i.imgur.com/3yXSlqS.jpg)
 Th[is isn't](either).
 
 Th\ [is is.](http://egscomics.com)
+
+At the start of a  
+[line](http://egscomics.com)
+
+Like this  
+![](http://i.imgur.com/3yXSlqS.jpg)

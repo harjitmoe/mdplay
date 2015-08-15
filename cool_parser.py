@@ -219,6 +219,7 @@ def _parse_inline(content,lev="root"):
                 continue
         elif c=="\n":
             out.append(NewlineNode())
+            lastchar=" "
         elif c=="*":
             if content[0]=="*":
                 del content[0]

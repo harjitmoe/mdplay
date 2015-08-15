@@ -14,7 +14,7 @@ I think so too.
 
 Another paragraph.
 
-I can use *italic*, **bold**, `monospace`.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/3yXSlqS.jpg) images and !media[](http://i.imgur.com/3yXSlqS.jpg) embeds, or even [link images ![](http://i.imgur.com/3yXSlqS.jpg)](http://egscomics.com)!
+I can use *italic*, **bold**, `monospace`.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/3yXSlqS.jpg) images and !media[](http://i.imgur.com/3yXSlqS.jpg) embeds, or even [link images ![like this](http://i.imgur.com/3yXSlqS.jpg)](http://egscomics.com)!
 
 ~~~~ python
 #!/usr/bin/env python
@@ -52,3 +52,9 @@ builder
 ## Verily ##
 
 - - -
+
+!![This is not](an embed.)
+
+\![This is not](an embed) either.
+
+This is: !\ ![an embed](http://i.imgur.com/3yXSlqS.jpg)

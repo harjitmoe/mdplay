@@ -49,14 +49,11 @@ def _bb_out(node,in_list):
     elif isinstance(node,HrefNode):
         if node.hreftype=="link":
             return ("[url=%s]"%json.dumps(node.content))+bb_out(node.label)+"[/url]"
-        elif node.hreftype=="img":
+        else: #Including img
             label=bb_out(node.label).strip()
             if label:
-                return ("[img alt=%s]"%json.dumps(label))+node.content+"[/img]"
-            return "[img]"+node.content+"[/img]"
-        else:
-            #e.g. [media]...[/media], [youtube]...[/youtube], [video]...[/video]
-            return "["+node.hreftype+"]"+node.content+"[/media]"
+                return ("[%s alt=%s]"%(node.hreftype,json.dumps(label)))+node.content+"[/"+node.hreftype+"]"
+            return "["+node.hreftype+"]"+node.content+"[/"+node.hreftype+"]"
     elif isinstance(node,NewlineNode):
         return "[br]"
     elif isinstance(node,RuleNode):

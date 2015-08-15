@@ -16,7 +16,7 @@ Another paragraph.
 
 I can use *italic*, **bold**, `monospace`.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/3yXSlqS.jpg) images and !media[](http://i.imgur.com/3yXSlqS.jpg) embeds, or even [link images ![like this](http://i.imgur.com/3yXSlqS.jpg)](http://egscomics.com)!
 
-~~~~ python
+~~~~~~~~ python
 #!/usr/bin/env python
 # -*- python -*-
 import utility
@@ -33,6 +33,10 @@ main_db=eval(open(".build/MegaDb.txt","rU").read())
 arcs=[]
 curatitl=""
 
+useless="""
+~~~~~~~
+"""
+
 def handle_line(line):
     atitl,ltitl=line["Title"].split(": ",1)
     if atitl!=curatitl:
@@ -43,7 +47,7 @@ def handle_line(line):
 map(handle_line,main_db)
 
 open(".build/MegaDb.txt","w").write(repr(arcs))
-~~~~
+~~~~~~~~
 
 > # Can he fix it???
 > Bob the

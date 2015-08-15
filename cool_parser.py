@@ -32,9 +32,9 @@ def _parse_block(f):
     import re
     rule_re=" ? ? ?((- ?)(- ?)(- ?)+|(_ ?)(_ ?)(_ ?)+|(\* ?)(\* ?)(\* ?)+)"
     isheadatx=lambda line:line.strip() and line.startswith("#") and (not line.lstrip("#")[:1].strip()) and ((len(line)-len(line.lstrip("#")))<=6)
-    isulin=lambda line:line.strip() and ((len(line)-len(line.lstrip()))<=3) and (all_same(line.strip()) in tuple("=-"))
-    isfence=lambda line:line.strip() and ((len(line)-len(line.lstrip()))<=3) and (line.lstrip()[0]==line.lstrip()[1]==line.lstrip()[2]) and (line.lstrip()[0] in "`~") and ((line.lstrip()[0]=="~") or ("`" not in line.lstrip().lstrip("`")))
-    isbq=lambda line:line.strip() and ((len(line)-len(line.lstrip()))<=3) and (line.lstrip().startswith(">"))
+    isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple("=-"))
+    isfence=lambda line:line.strip() and (line.lstrip()[0]==line.lstrip()[1]==line.lstrip()[2]) and (line.lstrip()[0] in "`~") and ((line.lstrip()[0]=="~") or ("`" not in line.lstrip().lstrip("`")))
+    isbq=lambda line:line.strip() and (line.lstrip().startswith(">"))
     iscb=lambda line:len(line)>=4 and all_same(line[:4])==" "
     isul=lambda line:line.strip() and (line.lstrip()[0] in "*+-") and (line.lstrip()[1:][:1] in (""," "))
 

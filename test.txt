@@ -61,4 +61,10 @@ builder
 
 \![This is not](an embed) either.
 
-This is: !\ ![an embed](http://i.imgur.com/3yXSlqS.jpg)
+Whereas this is: !\ ![an embed](http://i.imgur.com/3yXSlqS.jpg)
+
+\[This is not](a link).
+
+Th[is isn't](either).
+
+Th\ [is is.](http://egscomics.com)

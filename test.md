@@ -14,7 +14,7 @@ I think so too.
 
 Another paragraph.
 
-I can use *italic*, **bold**, `monospace`.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/3yXSlqS.jpg) images and !media[embeds with site-specific tags](http://i.imgur.com/3yXSlqS.jpg), or even [link images ![like this](http://i.imgur.com/3yXSlqS.jpg)](http://egscomics.com)!
+I can use *italic*, **bold**, `monospace`, __bold__.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/3yXSlqS.jpg) images and !media[embeds with site-specific tags](http://i.imgur.com/3yXSlqS.jpg), or even [link images ![like this](http://i.imgur.com/3yXSlqS.jpg)](http://egscomics.com)!
 
 ~~~~~~~~ python
 #!/usr/bin/env python
@@ -82,10 +82,28 @@ Likewise
 
 C:\WINDOWS\\--hello--
 
+\\*Italics*
+
 \---
 
 ---
 
 [Useful Notes: UNIX](http://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/UNIX)
 
+## Superscripts and subscripts ##
+
 m=Ec^(-2)
+
+E=(mv(^2^))/2
+
+CH(~3~)COOH
+
+Back^((not Backside\))
+
+(\^Not a superscript.^) \(^Not a superscript either.^) \^(Nor this.) ^\(Or this.)
+
+>! The lie is a muffin.
+
+>! Expand the below for a spoiler:
+>!
+>!>! (Insert picture of the back of a racing car here.)

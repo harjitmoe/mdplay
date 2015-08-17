@@ -9,10 +9,11 @@ absence of such in BBCode.  Unordered lists are converted, though.
 Headings are converted in the best way possible, considering that 
 BBCode has no concept of semantic headings.
 
-Version 1.3
+Version 1.4
 
 Changelog:
 
+1.4: more conventional link escaping rules.
 1.3: fix compatibility with Python (2.5 < Version < 3.0), i.e.
      Python 2.6 and 2.7.
 1.2: fixed some crashes.  added subscript, and alternate syntaxes
@@ -429,7 +430,7 @@ def _parse_inline(content,lev="root"):
                 return out
             out.append(MonoNode(_parse_inline(content,"mono")))
         ### HREFs (links and embeds) ###
-        elif lastchar==" " and re.match("(!\w*)?\[.*\]\(.*\)",c+("".join(content))):
+        elif (len(lastchar)==1) and re.match("( !\w*|.)\[.*\]\(.*\)",lastchar+c+("".join(content))):
             #(re.match, not re.search, i.e. looks only at start of string)
             hreftype=""
             while c!="[":

@@ -64,15 +64,17 @@ Escaping and stuff
 
 \![This is not](an embed) either.
 
+Th![is likewise isn't](an embed).
+
 Whereas this is: !\ ![an embed](http://i.imgur.com/3yXSlqS.jpg)
 
 ![This embed](http://i.imgur.com/3yXSlqS.jpg) is also an embed.
 
 \[This is not](a link).
 
-Th[is isn't](either).
+Th\[is isn't](either).
 
-Th\ [is is.](http://egscomics.com)
+Th[is is.](http://egscomics.com)
 
 At the start of a  
 [line](http://egscomics.com)

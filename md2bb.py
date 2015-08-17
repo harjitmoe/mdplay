@@ -9,19 +9,18 @@ absence of such in BBCode.  Unordered lists are converted, though.
 Headings are converted in the best way possible, considering that 
 BBCode has no concept of semantic headings.
 
-Superscripts are implemented in the syntax used on Reddit, being 
-a very prominent syntax due to this use.
-
-Version 1.1
+Version 1.2
 
 Changelog:
 
+1.2: fixed some crashes.  added subscript, and alternate syntaxes
+     for bold, italic and superscript, and spoilers.
 1.1: bugfix: handle "\\" correctly
 1.0: first "release"
 
 I wrote this fairly recently, and I do not believe that I interpolated
 code from anywhere else.  It is not impossible that I may have 
-forgotten, albeit unlikely, as I nowadays tend to avoid doing that
+forgotten, albeit unlikely as I nowadays tend to avoid doing that
 without noting in comments.
 
 With that in mind, this software is:
@@ -103,10 +102,13 @@ class ParagraphNode(InlineContainerNode):
 class BlockQuoteNode(BlockContainerNode):
     pass
 
-class UlliNode(BlockContainerNode):
+class CodeBlockNode(RawContainerNode):
     pass
 
-class CodeBlockNode(RawContainerNode):
+class SpoilerNode(BlockContainerNode):
+    pass
+
+class UlliNode(BlockContainerNode):
     pass
 
 class MonoNode(InlineNode):
@@ -119,6 +121,9 @@ class ItalicNode(InlineNode):
     pass
 
 class SuperNode(InlineNode):
+    pass
+
+class SubscrNode(InlineNode):
     pass
 
 class HrefNode(InlineNode):
@@ -195,12 +200,13 @@ def _parse_block(f):
     isheadatx=lambda line:line.strip() and line.startswith("#") and (not line.lstrip("#")[:1].strip()) and ((len(line)-len(line.lstrip("#")))<=6)
     isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple("=-"))
     isfence=lambda line:line.strip() and (line.lstrip()[0]==line.lstrip()[1]==line.lstrip()[2]) and (line.lstrip()[0] in "`~") and ((line.lstrip()[0]=="~") or ("`" not in line.lstrip().lstrip("`")))
-    isbq=lambda line:line.strip() and (line.lstrip().startswith(">"))
+    isbq=lambda line:line.strip() and line.lstrip().startswith(">") and (not line.lstrip().startswith(">!"))
+    issp=lambda line:line.strip() and line.lstrip().startswith(">!")
     iscb=lambda line:len(line)>=4 and all_same(line[:4])==" "
     isul=lambda line:line.strip() and (line.lstrip()[0] in "*+-") and (line.lstrip()[1:][:1] in (""," "))
 
     for line in f:
-        line=line.replace("\0","\xef\xbf\xbd")
+        line=line.replace("\0","\xef\xbf\xbd").replace("\t","    ")
         if within=="root":
             if iscb(line):
                 within="codeblock"
@@ -224,6 +230,10 @@ def _parse_block(f):
                 continue
             elif isbq(line):
                 within="quote"
+                f.rtpma()
+                continue
+            elif issp(line):
+                within="spoiler"
                 f.rtpma()
                 continue
             elif line.strip():
@@ -336,13 +346,25 @@ def _parse_block(f):
                         line=line[1:]
                 minibuf+=line.rstrip("\r\n")+"\n"
         elif within=="quote":
-            if isbq(line) or (line.strip() and not iscb(line) and not isulin(line) and not isfence(line) and not isul(line) and not isheadatx(line)):
+            if isbq(line) or (line.strip() and not iscb(line) and not isulin(line) and not isfence(line) and not isul(line) and not isheadatx(line) and not issp(line)):
                 line=line.lstrip()
                 if line[:1]==">":line=line[1:]
                 if line[:1]==" ":line=line[1:]
                 minibuf+=line.rstrip("\r\n")+"\n"
             else:
                 yield (BlockQuoteNode(minibuf))
+                minibuf=""
+                within="root"
+                f.rtpma()
+                continue
+        elif within=="spoiler":
+            if issp(line) or (line.strip() and not iscb(line) and not isulin(line) and not isfence(line) and not isul(line) and not isheadatx(line) and not isbq(line)):
+                line=line.lstrip()
+                if line[:2]==">!":line=line[2:]
+                if line[:1]==" ":line=line[1:]
+                minibuf+=line.rstrip("\r\n")+"\n"
+            else:
+                yield (SpoilerNode(minibuf))
                 minibuf=""
                 within="root"
                 f.rtpma()
@@ -354,11 +376,6 @@ def _parse_block(f):
             depth=0
             fence=None
             within="root"
-        if within=="codeblock":
-            yield (CodeBlockNode(minibuf))
-            minibuf=""
-            within="root"
-            f.rtpma()
 
 def parse_block(content):
     return _parse_block(LinestackIter(StringIO(content)))
@@ -370,7 +387,8 @@ def _parse_inline(content,lev="root"):
     out=[]
     while content:
         c=content.pop(0)
-        if c=="\\" and (content[0] in "![]*`) \n\\#*+-=~"):
+        ### Escaping ###
+        if c=="\\" and (content[0] in "![]*`() \n\\#*+-=~^"):
             c2=content.pop(0)
             if c2 in " \n":
                 lastchar=" "
@@ -379,9 +397,11 @@ def _parse_inline(content,lev="root"):
                 lastchar=c+c2
                 out.append(c2)
                 continue
+        ### Newlines (there are only true newlines by this point) ###
         elif c=="\n":
             out.append(NewlineNode())
             lastchar=" "
+        ### Emphases and Monospace ###
         elif c=="*":
             if content[0]=="*":
                 del content[0]
@@ -392,16 +412,23 @@ def _parse_inline(content,lev="root"):
                 if lev=="italic":
                     return out
                 out.append(ItalicNode(_parse_inline(content,"italic")))
+        elif c=="_":
+            if content[0]=="_":
+                del content[0]
+                if lev=="boldalt":
+                    return out
+                out.append(BoldNode(_parse_inline(content,"boldalt")))
+            else:
+                if lev=="italicalt":
+                    return out
+                out.append(ItalicNode(_parse_inline(content,"italicalt")))
         elif c=="`":
             if lev=="mono":
                 return out
             out.append(MonoNode(_parse_inline(content,"mono")))
-        elif c=="]" and lev=="label":
-            return out
-        elif c==")" and lev=="sup":
-            return out
-        #re.match, not re.search, i.e. looks only at start of string
+        ### HREFs (links and embeds) ###
         elif lastchar==" " and re.match("(!\w*)?\[.*\]\(.*\)",c+("".join(content))):
+            #(re.match, not re.search, i.e. looks only at start of string)
             hreftype=""
             while c!="[":
                 hreftype+=c
@@ -421,16 +448,33 @@ def _parse_inline(content,lev="root"):
             else:
                 hreftype=hreftype[1:] #Minus the leading !
             out.append(HrefNode(href,label,hreftype))
+        elif c=="]" and lev=="label":
+            return out
+        ### Superscripts and Subscripts ###
         elif c=="^" and content[0]=="(":
             del content[0]
-            out.append(SuperNode(_parse_inline(content,"sup")))
+            out.append(SuperNode(_parse_inline(content,"supred")))
+        elif c==")" and lev=="supred":
+            return out
+        elif c=="(" and content[0]=="^":
+            del content[0]
+            out.append(SuperNode(_parse_inline(content,"suppan")))
+        elif c=="^" and content[0]==")" and lev=="suppan":
+            del content[0]
+            return out
+        elif c=="(" and content[0]=="~":
+            del content[0]
+            out.append(SubscrNode(_parse_inline(content,"sub")))
+        elif c=="~" and content[0]==")" and lev=="sub":
+            del content[0]
+            return out
         else:
             lastchar=c
             out.append(c)
     return out
 
 def parse_inline(content):
-    return _parse_inline(list(content))
+    return _parse_inline(list(content)+[""])
 
 def bb_out(nodes):
     in_list=0
@@ -458,6 +502,8 @@ def _bb_out(node,in_list):
         return "\n"+bb_out(node.content)+"\n"
     elif isinstance(node,BlockQuoteNode):
         return "\n[quote]"+bb_out(node.content)+"[/quote]\n"
+    elif isinstance(node,SpoilerNode):
+        return "\n[spoiler]"+bb_out(node.content)+"[/spoiler]\n"
     elif isinstance(node,CodeBlockNode):
         return "\n[code]"+bb_out(node.content)+"[/code]\n"
     elif isinstance(node,UlliNode):
@@ -473,6 +519,8 @@ def _bb_out(node,in_list):
         return "[i]"+bb_out(node.content)+"[/i]"
     elif isinstance(node,SuperNode):
         return "[sup]"+bb_out(node.content)+"[/sup]"
+    elif isinstance(node,SubscrNode):
+        return "[sub]"+bb_out(node.content)+"[/sub]"
     elif isinstance(node,MonoNode):
         return "[font=\"Monaco, Courier, Liberation Mono, DejaVu Sans Mono, monospace\"]"+bb_out(node.content)+"[/font]"
     elif isinstance(node,HrefNode):

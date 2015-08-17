@@ -12,6 +12,13 @@ BBCode has no concept of semantic headings.
 Superscripts are implemented in the syntax used on Reddit, being 
 a very prominent syntax due to this use.
 
+Version 1.1
+
+Changelog:
+
+1.1: bugfix: handle "\\" correctly
+1.0: first "release"
+
 I wrote this fairly recently, and I do not believe that I interpolated
 code from anywhere else.  It is not impossible that I may have 
 forgotten, albeit unlikely, as I nowadays tend to avoid doing that
@@ -37,7 +44,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTERS
 ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR 
 A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT 
-HOLDER OR CONTRIBUTERS BE LIABLEFOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+HOLDER OR CONTRIBUTERS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
 LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
 DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
@@ -363,7 +370,7 @@ def _parse_inline(content,lev="root"):
     out=[]
     while content:
         c=content.pop(0)
-        if c=="\\" and (content[0] in "![]*`) \n#*+-=~"):
+        if c=="\\" and (content[0] in "![]*`) \n\\#*+-=~"):
             c2=content.pop(0)
             if c2 in " \n":
                 lastchar=" "

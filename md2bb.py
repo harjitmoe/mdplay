@@ -9,10 +9,12 @@ absence of such in BBCode.  Unordered lists are converted, though.
 Headings are converted in the best way possible, considering that 
 BBCode has no concept of semantic headings.
 
-Version 1.2
+Version 1.3
 
 Changelog:
 
+1.3: fix compatibility with Python (2.5 < Version < 3.0), i.e.
+     Python 2.6 and 2.7.
 1.2: fixed some crashes.  added subscript, and alternate syntaxes
      for bold, italic and superscript, and spoilers.
 1.1: bugfix: handle "\\" correctly
@@ -58,9 +60,9 @@ try:
 except:
     import simplejson as json
 try:
-    from io import StringIO
-except:
     from StringIO import StringIO
+except:
+    from io import StringIO
 
 class Node(object):
     pass

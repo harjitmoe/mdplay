@@ -3,7 +3,6 @@ from LinestackIter import LinestackIter
 
 def parse_string(s):
     block.reinit()
-    return block.parse_block(s)
+    return block.parse_block(s,block.TitleLevels())
 def parse_file(f):
-    block.reinit()
-    return block._parse_block(LinestackIter(f))
+    return block._parse_block(LinestackIter(f),block.TitleLevels())

@@ -9,10 +9,12 @@ such in BBCode.  unordered lists are converted, though.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.
 
-version 2.0
+version 2.1
 
 changelog:
 
+2.1: fix some problems with underscore italics before (semi)colons and a 
+     glitch regarding Setext headings.
 2.0: code spans were not correctly implemented (they were merely implemented 
      as monospace format spans) and i have no intent of improving upon this so
      i removed it.  fixed middle-of-word underscore behaviour.
@@ -57,7 +59,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import re
+import re,string
 try:
     import json
 except:
@@ -273,7 +275,6 @@ def _parse_block(f):
                 minibuf=""
                 depth=0
                 within="root"
-                f.rtpma()
                 continue
             elif not line.strip():
                 yield (ParagraphNode(minibuf))
@@ -385,7 +386,7 @@ def _parse_block(f):
 def parse_block(content):
     return _parse_block(LinestackIter(StringIO(content)))
 
-punct="![]*`() \n\\#*+-=~^,.?{}'\"/|<>"
+punct=string.punctuation+string.whitespace
 def _parse_inline(content,lev="root"):
     # Note: the recursion works by the list being a Python
     # mutable, "passed by reference" as it were

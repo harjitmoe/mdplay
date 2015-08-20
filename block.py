@@ -8,20 +8,24 @@ import nodes
 import inline
 from LinestackIter import LinestackIter
 
-class TitleItem(object):
+class _TitleItem(object):
     c=None
-    def __init__(self,n):
+    def __init__(self,l,n):
+        self.l=l
         self.n=n
     def setchar(self,c):
-        bychar[c]=self
+        self.l.bychar[c]=self
         self.c=c
 
-class _TitleLevels(dict):
+class TitleLevels(dict):
+    def __init__(self):
+        self.bychar={}
+        dict.__init__(self)
     def __getitem__(self,k):
         try:
             return dict.__getitem__(self,k)
         except KeyError:
-            self[k]=TitleItem(k)
+            self[k]=_TitleItem(self,k)
             return self[k]
 
 def all_same(l):
@@ -32,7 +36,7 @@ def all_same(l):
     else:
         return False
 
-def _parse_block(f):
+def _parse_block(f,titlelevels):
     within="root"
     minibuf=""
     depth=0
@@ -122,8 +126,8 @@ def _parse_block(f):
                 # first heading in the document.
                 # Thus implement ReST-style but mostly MD-compatible.
                 char=line.strip()[0]
-                if char in bychar:
-                    depth=bychar[char].n
+                if char in titlelevels.bychar:
+                    depth=titlelevels.bychar[char].n
                 else:
                     depth=1
                     while 1:
@@ -159,7 +163,7 @@ def _parse_block(f):
                 minibuf+=line.strip()+" "
         elif within=="ul":
             if not line.strip():
-                yield (nodes.UlliNode(parse_block(minibuf),depth))
+                yield (nodes.UlliNode(parse_block(minibuf,titlelevels),depth))
                 minibuf=""
                 depth=0
                 depths=[]
@@ -167,7 +171,7 @@ def _parse_block(f):
                 f.rtpma()
                 continue
             elif re.match(rule_re, line.rstrip()):
-                yield (nodes.UlliNode(parse_block(minibuf),depth))
+                yield (nodes.UlliNode(parse_block(minibuf,titlelevels),depth))
                 minibuf=""
                 depth=0
                 depths=[]
@@ -176,7 +180,7 @@ def _parse_block(f):
                 continue
             elif isul(line):
                 if minibuf:
-                    yield (nodes.UlliNode(parse_block(minibuf),depth))
+                    yield (nodes.UlliNode(parse_block(minibuf,titlelevels),depth))
                     minibuf=""
                 deep=len(line.replace("\t"," "*4))-len(line.replace("\t"," "*4).lstrip())
                 if not depths:
@@ -223,7 +227,7 @@ def _parse_block(f):
                 if line[:1]==" ":line=line[1:]
                 minibuf+=line.rstrip("\r\n")+"\n"
             else:
-                yield (nodes.BlockQuoteNode(parse_block(minibuf)))
+                yield (nodes.BlockQuoteNode(parse_block(minibuf,titlelevels)))
                 minibuf=""
                 within="root"
                 f.rtpma()
@@ -235,7 +239,7 @@ def _parse_block(f):
                 if line[:1]==" ":line=line[1:]
                 minibuf+=line.rstrip("\r\n")+"\n"
             else:
-                yield (nodes.SpoilerNode(parse_block(minibuf)))
+                yield (nodes.SpoilerNode(parse_block(minibuf,titlelevels)))
                 minibuf=""
                 within="root"
                 f.rtpma()
@@ -248,11 +252,6 @@ def _parse_block(f):
             fence=None
             within="root"
 
-def parse_block(content):
-    return _parse_block(LinestackIter(StringIO(content)))
+def parse_block(content,titlelevels):
+    return _parse_block(LinestackIter(StringIO(content)),titlelevels)
 
-def reinit():
-    global bychar
-    global titlelevels
-    bychar={}
-    titlelevels=_TitleLevels()

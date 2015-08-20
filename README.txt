@@ -9,10 +9,11 @@ such in BBCode.  unordered lists are converted, though.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.
 
-version 3.1
+version 3.2
 
 changelog:
 
+3.2: fix the global variables problem properly this time.
 3.1: complete support for ReST headings, this has a slight risk of breaking 
      compatibility with a given Markdown doc, but only slight.  Fix, in 
      theory, as stopgap, the more-than-one-doc problem.

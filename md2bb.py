@@ -1,32 +1,34 @@
 """Markdown to BBCode converter.
 
-As a conscious decision, no support is included for indented code 
-blocks.  Use fenced code blocks.
+as a conscious decision, no support is included for indented code blocks.  use
+fenced code blocks.
 
-No special support is included for ordered lists, paralleling the
-absence of such in BBCode.  Unordered lists are converted, though.
+no special support is included for ordered lists, paralleling the absence of 
+such in BBCode.  unordered lists are converted, though.
 
-Headings are converted in the best way possible, considering that 
-BBCode has no concept of semantic headings.
+headings are converted in the best way possible, considering that BBCode has 
+no concept of semantic headings.
 
-Version 1.4
+version 2.0
 
-Changelog:
+changelog:
 
+2.0: code spans were not correctly implemented (they were merely implemented 
+     as monospace format spans) and i have no intent of improving upon this so
+     i removed it.  fixed middle-of-word underscore behaviour.
 1.4: more conventional link escaping rules.
-1.3: fix compatibility with Python (2.5 < Version < 3.0), i.e.
-     Python 2.6 and 2.7.
-1.2: fixed some crashes.  added subscript, and alternate syntaxes
-     for bold, italic and superscript, and spoilers.
+1.3: fix compatibility with Python (2.5 < version < 3.0), i.e. Python 2.6 and 
+     2.7.
+1.2: fixed some crashes.  added subscript, and alternate syntaxes for bold, 
+     italic and superscript, and spoilers.
 1.1: bugfix: handle "\\" correctly
 1.0: first "release"
 
-I wrote this fairly recently, and I do not believe that I interpolated
-code from anywhere else.  It is not impossible that I may have 
-forgotten, albeit unlikely as I nowadays tend to avoid doing that
-without noting in comments.
+i wrote this fairly recently, and i do not believe that i interpolated code 
+from anywhere else.  it is not impossible that i may have forgotten, albeit 
+unlikely as i nowadays tend to avoid doing that without noting in comments.
 
-With that in mind, this software is:
+with that in mind, this software is:
 
 Copyright (c) 2015 Thomas Hori.  All rights reserved.
 
@@ -42,11 +44,11 @@ are met:
    contributors may be used to endorse or promote products derived from
    this software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTERS
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR 
 A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT 
-HOLDER OR CONTRIBUTERS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
 LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
 DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
@@ -383,6 +385,7 @@ def _parse_block(f):
 def parse_block(content):
     return _parse_block(LinestackIter(StringIO(content)))
 
+punct="![]*`() \n\\#*+-=~^,.?{}'\"/|<>"
 def _parse_inline(content,lev="root"):
     # Note: the recursion works by the list being a Python
     # mutable, "passed by reference" as it were
@@ -391,7 +394,7 @@ def _parse_inline(content,lev="root"):
     while content:
         c=content.pop(0)
         ### Escaping ###
-        if c=="\\" and (content[0] in "![]*`() \n\\#*+-=~^"):
+        if c=="\\" and (content[0] in punct):
             c2=content.pop(0)
             if c2 in " \n":
                 lastchar=" "
@@ -404,7 +407,7 @@ def _parse_inline(content,lev="root"):
         elif c=="\n":
             out.append(NewlineNode())
             lastchar=" "
-        ### Emphases and Monospace ###
+        ### Emphases ###
         elif c=="*":
             if content[0]=="*":
                 del content[0]
@@ -415,20 +418,16 @@ def _parse_inline(content,lev="root"):
                 if lev=="italic":
                     return out
                 out.append(ItalicNode(_parse_inline(content,"italic")))
-        elif c=="_":
-            if content[0]=="_":
-                del content[0]
-                if lev=="boldalt":
-                    return out
-                out.append(BoldNode(_parse_inline(content,"boldalt")))
-            else:
-                if lev=="italicalt":
-                    return out
-                out.append(ItalicNode(_parse_inline(content,"italicalt")))
-        elif c=="`":
-            if lev=="mono":
-                return out
-            out.append(MonoNode(_parse_inline(content,"mono")))
+        elif c=="_" and content[0]=="_" and lev!="boldalt" and (lastchar in punct):
+            del content[0]
+            out.append(BoldNode(_parse_inline(content,"boldalt")))
+        elif c=="_" and content[0]=="_" and lev=="boldalt" and ("".join(content[1:2]) in punct):
+            del content[0]
+            return out
+        elif c=="_" and content[0]!="_" and lev!="italicalt" and (lastchar in punct):
+            out.append(ItalicNode(_parse_inline(content,"italicalt")))
+        elif c=="_" and (content[0] in punct) and lev=="italicalt":
+            return out
         ### HREFs (links and embeds) ###
         elif (len(lastchar)==1) and re.match("( !\w*|.)\[.*\]\(.*\)",lastchar+c+("".join(content))):
             #(re.match, not re.search, i.e. looks only at start of string)
@@ -524,8 +523,6 @@ def _bb_out(node,in_list):
         return "[sup]"+bb_out(node.content)+"[/sup]"
     elif isinstance(node,SubscrNode):
         return "[sub]"+bb_out(node.content)+"[/sub]"
-    elif isinstance(node,MonoNode):
-        return "[font=\"Monaco, Courier, Liberation Mono, DejaVu Sans Mono, monospace\"]"+bb_out(node.content)+"[/font]"
     elif isinstance(node,HrefNode):
         label=bb_out(node.label)
         ht=node.hreftype

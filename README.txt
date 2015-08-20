@@ -9,10 +9,17 @@ such in BBCode.  unordered lists are converted, though.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.
 
-version 2.0
+version 3.1
 
 changelog:
 
+3.1: complete support for ReST headings, this has a slight risk of breaking 
+     compatibility with a given Markdown doc, but only slight.  Fix, in 
+     theory, as stopgap, the more-than-one-doc problem.
+3.0: fix handling of underscore emphasis before (semi)colons, as in 2.1, and 
+     split from a script into many modules and implement partial support for 
+     ReST-style extended Setext headings.  Note that this will not behave 
+     correctly if used to translate more than one document.
 2.0: code spans were not correctly implemented (they were merely implemented 
      as monospace format spans) and i have no intent of improving upon this so
      i removed it.  fixed middle-of-word underscore behaviour.

@@ -1,5 +1,5 @@
 import sys
-import block
+import public
 import out_bb
 
 #if len(sys.argv)!=2:
@@ -7,4 +7,4 @@ import out_bb
 #    sys.exit(1)
 
 f=open(sys.argv[1] if sys.argv[1:] else "test.md","r")
-print (out_bb.bb_out(block.parse_file(f)))
+print (out_bb.bb_out(public.parse_file(f)))

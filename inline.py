@@ -1,8 +1,8 @@
-import re
+import re,string
 
 import nodes
 
-punct="![]*`() \n\\#*+-=~^,.?{}'\"/|<>"
+punct=string.punctuation+string.whitespace
 def _parse_inline(content,lev="root"):
     # Note: the recursion works by the list being a Python
     # mutable, "passed by reference" as it were

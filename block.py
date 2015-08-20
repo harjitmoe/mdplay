@@ -1,4 +1,4 @@
-import re
+import re,string
 try:
     from StringIO import StringIO
 except:
@@ -7,6 +7,25 @@ except:
 import nodes
 import inline
 from LinestackIter import LinestackIter
+
+bychar={}
+class TitleItem(object):
+    c=None
+    def __init__(self,n):
+        self.n=n
+    def setchar(self,c):
+        bychar[c]=self
+        self.c=c
+
+class _TitleLevels(dict):
+    def __getitem__(self,k):
+        try:
+            return dict.__getitem__(self,k)
+        except KeyError:
+            self[k]=TitleItem(k)
+            return self[k]
+
+titlelevels=_TitleLevels()
 
 def all_same(l):
     if len(l)==0:
@@ -27,7 +46,7 @@ def _parse_block(f):
 
     rule_re=" ? ? ?((- ?)(- ?)(- ?)+|(_ ?)(_ ?)(_ ?)+|(\* ?)(\* ?)(\* ?)+)"
     isheadatx=lambda line:line.strip() and line.startswith("#") and (not line.lstrip("#")[:1].strip()) and ((len(line)-len(line.lstrip("#")))<=6)
-    isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple("=-"))
+    isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple(string.punctuation))
     isfence=lambda line:line.strip() and (line.lstrip()[0]==line.lstrip()[1]==line.lstrip()[2]) and (line.lstrip()[0] in "`~") and ((line.lstrip()[0]=="~") or ("`" not in line.lstrip().lstrip("`")))
     isbq=lambda line:line.strip() and line.lstrip().startswith(">") and (not line.lstrip().startswith(">!"))
     issp=lambda line:line.strip() and line.lstrip().startswith(">!")
@@ -82,6 +101,7 @@ def _parse_block(f):
             while line.startswith("#"):
                 deep+=1
                 line=line[1:]
+            titlelevels[deep] #Yes, just eval this.
             if depth and deep!=depth:
                 yield (nodes.TitleNode(inline.parse_inline(minibuf),depth))
                 minibuf=""
@@ -93,11 +113,30 @@ def _parse_block(f):
         elif within=="para":
             depth+=1
             if depth==2 and isulin(line.rstrip()):
-                yield (nodes.TitleNode(inline.parse_inline(minibuf),(1 if line.strip()[0]=="=" else 2)))
+                # Combining vanilla-Setext and ATX headers is easy.
+                # Combining ReST and ATX headers is not.
+                # For each new char, use the first level without a char.
+                # Exception is - which never represents highest level.
+                # Thus implement ReST-style but MD-compatible.
+                # Overlines are still todo.
+                char=line.strip()[0]
+                if char in bychar:
+                    depth=bychar[char].n
+                else:
+                    depth=1
+                    while 1:
+                        if (depth>1) or (char!="-"):
+                            i=titlelevels[depth]
+                            if i.c==char:
+                                break
+                            elif i.c==None:
+                                i.setchar(char)
+                                break
+                        depth+=1
+                yield (nodes.TitleNode(inline.parse_inline(minibuf),depth))
                 minibuf=""
                 depth=0
                 within="root"
-                f.rtpma()
                 continue
             elif not line.strip():
                 yield (nodes.ParagraphNode(inline.parse_inline(minibuf)))

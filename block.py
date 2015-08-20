@@ -8,7 +8,6 @@ import nodes
 import inline
 from LinestackIter import LinestackIter
 
-bychar={}
 class TitleItem(object):
     c=None
     def __init__(self,n):
@@ -24,8 +23,6 @@ class _TitleLevels(dict):
         except KeyError:
             self[k]=TitleItem(k)
             return self[k]
-
-titlelevels=_TitleLevels()
 
 def all_same(l):
     if len(l)==0:
@@ -63,6 +60,10 @@ def _parse_block(f):
             elif isheadatx(line):
                 within="atxhead"
                 f.rtpma()
+                continue
+            elif isulin(line):
+                within="sthead"
+                #NO rtpma
                 continue
             elif re.match(rule_re, line.rstrip()):
                 within="rule"
@@ -110,22 +111,23 @@ def _parse_block(f):
                 line=line[:-depth]
             line=line.strip()
             minibuf+=line+" "
-        elif within=="para":
+        elif within in ("para","sthead"):
             depth+=1
-            if depth==2 and isulin(line.rstrip()):
-                # Combining vanilla-Setext and ATX headers is easy.
+            if isulin(line.rstrip()) and ((depth==2) or (within=="sthead")):
+                # Combining vanilla-Setext and ATX headers is obvious.
                 # Combining ReST and ATX headers is not.
                 # For each new char, use the first level without a char.
-                # Exception is - which never represents highest level.
-                # Thus implement ReST-style but MD-compatible.
-                # Overlines are still todo.
+                # Exception is "-" which never represents highest level,
+                # unless it is the character used for literally the 
+                # first heading in the document.
+                # Thus implement ReST-style but mostly MD-compatible.
                 char=line.strip()[0]
                 if char in bychar:
                     depth=bychar[char].n
                 else:
                     depth=1
                     while 1:
-                        if (depth>1) or (char!="-"):
+                        if (depth>1) or (char!="-") or (not titlelevels.keys()):
                             i=titlelevels[depth]
                             if i.c==char:
                                 break
@@ -137,6 +139,7 @@ def _parse_block(f):
                 minibuf=""
                 depth=0
                 within="root"
+                #NO rtpma
                 continue
             elif not line.strip():
                 yield (nodes.ParagraphNode(inline.parse_inline(minibuf)))
@@ -248,5 +251,8 @@ def _parse_block(f):
 def parse_block(content):
     return _parse_block(LinestackIter(StringIO(content)))
 
-def parse_file(f):
-    return _parse_block(LinestackIter(f))
+def reinit():
+    global bychar
+    global titlelevels
+    bychar={}
+    titlelevels=_TitleLevels()

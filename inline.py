@@ -3,11 +3,12 @@ import re,string
 import nodes
 
 punct=string.punctuation+string.whitespace
-def _parse_inline(content,lev="root"):
+def _parse_inline(content,levs=("root",)):
     # Note: the recursion works by the list being a Python
     # mutable, "passed by reference" as it were
     lastchar=" "
     out=[]
+    lev=levs[0]
     while content:
         c=content.pop(0)
         ### Escaping ###
@@ -25,25 +26,42 @@ def _parse_inline(content,lev="root"):
             out.append(nodes.NewlineNode())
             lastchar=" "
         ### Emphases ###
-        elif c=="*":
-            if content[0]=="*":
-                del content[0]
-                if lev=="bold":
-                    return out
-                out.append(nodes.BoldNode(_parse_inline(content,"bold")))
-            else:
-                if lev=="italic":
-                    return out
-                out.append(nodes.ItalicNode(_parse_inline(content,"italic")))
-        elif c=="_" and content[0]=="_" and lev!="boldalt" and (lastchar in punct):
+        #### /With asterisks
+        elif c=="*" and content[0]=="*" and ("bold" not in levs):
             del content[0]
-            out.append(nodes.BoldNode(_parse_inline(content,"boldalt")))
+            out.append(nodes.BoldNode(_parse_inline(content,("bold",)+levs)))
+        elif c=="*" and content[0]=="*" and lev=="bold":
+            del content[0]
+            return out
+        elif c=="*" and content[0]!="*" and ("italic" not in levs):
+            out.append(nodes.ItalicNode(_parse_inline(content,("italic",)+levs)))
+        elif c=="*" and lev=="italic":
+            return out
+        #### /With underscores
+        elif c=="_" and content[0]=="_" and ("boldalt" not in levs) and (lastchar in punct):
+            del content[0]
+            out.append(nodes.BoldNode(_parse_inline(content,("boldalt",)+levs)))
         elif c=="_" and content[0]=="_" and lev=="boldalt" and ("".join(content[1:2]) in punct):
             del content[0]
             return out
-        elif c=="_" and content[0]!="_" and lev!="italicalt" and (lastchar in punct):
-            out.append(nodes.ItalicNode(_parse_inline(content,"italicalt")))
+        elif c=="_" and content[0]!="_" and ("italicalt" not in levs) and (lastchar in punct):
+            out.append(nodes.ItalicNode(_parse_inline(content,("italicalt",)+levs)))
         elif c=="_" and (content[0] in punct) and lev=="italicalt":
+            return out
+        #### /With apostrophes
+        elif c=="'" and "".join(content).startswith("''") and ("boldmw" not in levs):
+            del content[0]
+            del content[0] #yes, again
+            out.append(nodes.BoldNode(_parse_inline(content,("boldmw",)+levs)))
+        elif c=="'" and "".join(content).startswith("''") and lev=="boldmw":
+            del content[0]
+            del content[0] #yes, again
+            return out
+        elif c=="'" and content[0]=="'" and ("italicmw" not in levs):
+            del content[0]
+            out.append(nodes.ItalicNode(_parse_inline(content,("italicmw",)+levs)))
+        elif c=="'" and content[0]=="'" and lev=="italicmw":
+            del content[0]
             return out
         ### HREFs (links and embeds) ###
         elif (len(lastchar)==1) and re.match("( !\w*|.)\[.*\]\(.*\)",lastchar+c+("".join(content))):
@@ -52,7 +70,7 @@ def _parse_inline(content,lev="root"):
             while c!="[":
                 hreftype+=c
                 c=content.pop(0)
-            label=_parse_inline(content,"label")
+            label=_parse_inline(content,("label",)+levs)
             href=""
             if content[0]=="(":
                 del content[0]
@@ -72,18 +90,18 @@ def _parse_inline(content,lev="root"):
         ### Superscripts and Subscripts ###
         elif c=="^" and content[0]=="(":
             del content[0]
-            out.append(nodes.SuperNode(_parse_inline(content,"supred")))
+            out.append(nodes.SuperNode(_parse_inline(content,("supred",)+levs)))
         elif c==")" and lev=="supred":
             return out
         elif c=="(" and content[0]=="^":
             del content[0]
-            out.append(nodes.SuperNode(_parse_inline(content,"suppan")))
+            out.append(nodes.SuperNode(_parse_inline(content,("suppan",)+levs)))
         elif c=="^" and content[0]==")" and lev=="suppan":
             del content[0]
             return out
         elif c=="(" and content[0]=="~":
             del content[0]
-            out.append(nodes.SubscrNode(_parse_inline(content,"sub")))
+            out.append(nodes.SubscrNode(_parse_inline(content,("sub",)+levs)))
         elif c=="~" and content[0]==")" and lev=="sub":
             del content[0]
             return out

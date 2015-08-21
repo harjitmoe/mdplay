@@ -1,4 +1,4 @@
-Markdown to BBCode converter.
+convert a derivative of Markdown to BBCode.
 
 as a conscious decision, no support is included for indented code blocks.  use
 fenced code blocks.
@@ -9,10 +9,12 @@ such in BBCode.  unordered lists are converted, though.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.
 
-version 3.3
+version 3.4
 
 changelog:
 
+3.4: fix a nested emphasis bug that has been in here since the get-go.
+     also add MediaWiki emphases.
 3.3: more accurate regexps, regexps in place of convoluted testing, fix 
      problem of rules being swallowed (since 3.1), MediaWiki headings.
 3.2: fix the global variables problem properly this time.

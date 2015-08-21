@@ -9,10 +9,12 @@ such in BBCode.  unordered lists are converted, though.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.
 
-version 2.1
+version 2.2
 
 changelog:
 
+2.2: fix the since-beginning nested-emphasis bug.  some improvements in 
+     detecting features, including much regexp work.
 2.1: fix some problems with underscore italics before (semi)colons and a 
      glitch regarding Setext headings.
 2.0: code spans were not correctly implemented (they were merely implemented 
@@ -203,14 +205,14 @@ def _parse_block(f):
     fence=None
     fenceinfo=None
 
-    rule_re=" ? ? ?((- ?)(- ?)(- ?)+|(_ ?)(_ ?)(_ ?)+|(\* ?)(\* ?)(\* ?)+)"
-    isheadatx=lambda line:line.strip() and line.startswith("#") and (not line.lstrip("#")[:1].strip()) and ((len(line)-len(line.lstrip("#")))<=6)
+    isrule=lambda line:re.match(r"\s*((?P<c>\*|_|-)\s?)\s*(?P=c)+\s*((?P=c)+\s+)*$",line+" ")
+    isheadatx=lambda line:line.strip() and re.match(r"(#+) .*(\S#|[^#]|\\#)( \1)?$",line)
     isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple("=-"))
-    isfence=lambda line:line.strip() and (line.lstrip()[0]==line.lstrip()[1]==line.lstrip()[2]) and (line.lstrip()[0] in "`~") and ((line.lstrip()[0]=="~") or ("`" not in line.lstrip().lstrip("`")))
-    isbq=lambda line:line.strip() and line.lstrip().startswith(">") and (not line.lstrip().startswith(">!"))
+    isfence=lambda line:line.strip() and re.match(r"\s*(```+[^`]*$|~~~+.*$)",line)
+    isbq=lambda line:line.strip() and re.match(r"\s*>([^!].*)?$",line)
     issp=lambda line:line.strip() and line.lstrip().startswith(">!")
     iscb=lambda line:len(line)>=4 and all_same(line[:4])==" "
-    isul=lambda line:line.strip() and (line.lstrip()[0] in "*+-") and (line.lstrip()[1:][:1] in (""," "))
+    isul=lambda line:line.strip() and re.match(r"\s*[*+-](\s.*)?$",line)
 
     for line in f:
         line=line.replace("\0","\xef\xbf\xbd").replace("\t","    ")
@@ -223,7 +225,7 @@ def _parse_block(f):
                 within="atxhead"
                 f.rtpma()
                 continue
-            elif re.match(rule_re, line.rstrip()):
+            elif isrule(line):
                 within="rule"
                 f.rtpma()
                 continue
@@ -283,7 +285,7 @@ def _parse_block(f):
                 within="root"
                 f.rtpma()
                 continue
-            elif re.match(rule_re, line.rstrip()):
+            elif isrule(line):
                 within="rule"
                 depth=0
                 f.rtpma()
@@ -301,7 +303,7 @@ def _parse_block(f):
                 within="root"
                 f.rtpma()
                 continue
-            elif re.match(rule_re, line.rstrip()):
+            elif isrule(line):
                 yield (UlliNode(minibuf,depth))
                 minibuf=""
                 depth=0
@@ -387,11 +389,12 @@ def parse_block(content):
     return _parse_block(LinestackIter(StringIO(content)))
 
 punct=string.punctuation+string.whitespace
-def _parse_inline(content,lev="root"):
+def _parse_inline(content,levs=("root",)):
     # Note: the recursion works by the list being a Python
     # mutable, "passed by reference" as it were
     lastchar=" "
     out=[]
+    lev=levs[0]
     while content:
         c=content.pop(0)
         ### Escaping ###
@@ -409,24 +412,26 @@ def _parse_inline(content,lev="root"):
             out.append(NewlineNode())
             lastchar=" "
         ### Emphases ###
-        elif c=="*":
-            if content[0]=="*":
-                del content[0]
-                if lev=="bold":
-                    return out
-                out.append(BoldNode(_parse_inline(content,"bold")))
-            else:
-                if lev=="italic":
-                    return out
-                out.append(ItalicNode(_parse_inline(content,"italic")))
-        elif c=="_" and content[0]=="_" and lev!="boldalt" and (lastchar in punct):
+        #### /With asterisks
+        elif c=="*" and content[0]=="*" and ("bold" not in levs):
             del content[0]
-            out.append(BoldNode(_parse_inline(content,"boldalt")))
+            out.append(BoldNode(_parse_inline(content,("bold",)+levs)))
+        elif c=="*" and content[0]=="*" and lev=="bold":
+            del content[0]
+            return out
+        elif c=="*" and content[0]!="*" and ("italic" not in levs):
+            out.append(ItalicNode(_parse_inline(content,("italic",)+levs)))
+        elif c=="*" and lev=="italic":
+            return out
+        #### /With underscores
+        elif c=="_" and content[0]=="_" and ("boldalt" not in levs) and (lastchar in punct):
+            del content[0]
+            out.append(BoldNode(_parse_inline(content,("boldalt",)+levs)))
         elif c=="_" and content[0]=="_" and lev=="boldalt" and ("".join(content[1:2]) in punct):
             del content[0]
             return out
-        elif c=="_" and content[0]!="_" and lev!="italicalt" and (lastchar in punct):
-            out.append(ItalicNode(_parse_inline(content,"italicalt")))
+        elif c=="_" and content[0]!="_" and ("italicalt" not in levs) and (lastchar in punct):
+            out.append(ItalicNode(_parse_inline(content,("italicalt",)+levs)))
         elif c=="_" and (content[0] in punct) and lev=="italicalt":
             return out
         ### HREFs (links and embeds) ###
@@ -436,7 +441,7 @@ def _parse_inline(content,lev="root"):
             while c!="[":
                 hreftype+=c
                 c=content.pop(0)
-            label=_parse_inline(content,"label")
+            label=_parse_inline(content,("label",)+levs)
             href=""
             if content[0]=="(":
                 del content[0]
@@ -456,18 +461,18 @@ def _parse_inline(content,lev="root"):
         ### Superscripts and Subscripts ###
         elif c=="^" and content[0]=="(":
             del content[0]
-            out.append(SuperNode(_parse_inline(content,"supred")))
+            out.append(SuperNode(_parse_inline(content,("supred",)+levs)))
         elif c==")" and lev=="supred":
             return out
         elif c=="(" and content[0]=="^":
             del content[0]
-            out.append(SuperNode(_parse_inline(content,"suppan")))
+            out.append(SuperNode(_parse_inline(content,("suppan",)+levs)))
         elif c=="^" and content[0]==")" and lev=="suppan":
             del content[0]
             return out
         elif c=="(" and content[0]=="~":
             del content[0]
-            out.append(SubscrNode(_parse_inline(content,"sub")))
+            out.append(SubscrNode(_parse_inline(content,("sub",)+levs)))
         elif c=="~" and content[0]==")" and lev=="sub":
             del content[0]
             return out

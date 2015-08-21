@@ -109,3 +109,6 @@ Back^((not Backside\))
 >! Expand the below for a spoiler:
 >!
 >!>! (Insert picture of the back of a racing car here.)
+
+***Nested emphasis*** works?
+

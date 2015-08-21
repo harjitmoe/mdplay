@@ -26,6 +26,7 @@ def _bb_out(node,in_list):
     if not isinstance(node,nodes.Node): #i.e. is a string
         return node
     elif isinstance(node,nodes.TitleNode):
+        if node.depth>6: node.depth=6
         #Yeah, BBCode sucks at titles
         return ("\n[size=%d][b]"%(8-node.depth))+bb_out(node.content)+"[/b][/size]\n"
     elif isinstance(node,nodes.ParagraphNode):

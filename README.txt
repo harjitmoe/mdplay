@@ -9,10 +9,12 @@ such in BBCode.  unordered lists are converted, though.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.
 
-version 3.2
+version 3.3
 
 changelog:
 
+3.3: more accurate regexps, regexps in place of convoluted testing, fix 
+     problem of rules being swallowed (since 3.1), MediaWiki headings.
 3.2: fix the global variables problem properly this time.
 3.1: complete support for ReST headings, this has a slight risk of breaking 
      compatibility with a given Markdown doc, but only slight.  Fix, in 

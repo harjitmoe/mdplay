@@ -45,14 +45,15 @@ def _parse_block(f,titlelevels):
     fence=None
     fenceinfo=None
 
-    rule_re=" ? ? ?((- ?)(- ?)(- ?)+|(_ ?)(_ ?)(_ ?)+|(\* ?)(\* ?)(\* ?)+)"
-    isheadatx=lambda line:line.strip() and line.startswith("#") and (not line.lstrip("#")[:1].strip()) and ((len(line)-len(line.lstrip("#")))<=6)
+    isrule=lambda line:re.match(r"\s*((?P<c>\*|_|-)\s?)\s*(?P=c)+\s*((?P=c)+\s+)*$",line+" ")
+    isheadatx=lambda line:line.strip() and re.match(r"(#+) .*(\S#|[^#]|\\#)( \1)?$",line)
+    isheadmw=lambda line:line.strip() and re.match(r"\s*(=+)([^=](.*[^=])?)?\1\s*$",line)
     isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple(string.punctuation))
-    isfence=lambda line:line.strip() and (line.lstrip()[0]==line.lstrip()[1]==line.lstrip()[2]) and (line.lstrip()[0] in "`~") and ((line.lstrip()[0]=="~") or ("`" not in line.lstrip().lstrip("`")))
-    isbq=lambda line:line.strip() and line.lstrip().startswith(">") and (not line.lstrip().startswith(">!"))
+    isfence=lambda line:line.strip() and re.match(r"\s*(```+[^`]*$|~~~+.*$)",line)
+    isbq=lambda line:line.strip() and re.match(r"\s*>([^!].*)?$",line)
     issp=lambda line:line.strip() and line.lstrip().startswith(">!")
     iscb=lambda line:len(line)>=4 and all_same(line[:4])==" "
-    isul=lambda line:line.strip() and (line.lstrip()[0] in "*+-") and (line.lstrip()[1:][:1] in (""," "))
+    isul=lambda line:line.strip() and re.match(r"\s*[*+-](\s.*)?$",line)
 
     for line in f:
         line=line.replace("\0","\xef\xbf\xbd").replace("\t","    ")
@@ -65,13 +66,17 @@ def _parse_block(f,titlelevels):
                 within="atxhead"
                 f.rtpma()
                 continue
+            elif isheadmw(line):
+                within="mwhead"
+                f.rtpma()
+                continue
+            elif isrule(line):
+                within="rule"
+                f.rtpma()
+                continue
             elif isulin(line):
                 within="sthead"
                 #NO rtpma
-                continue
-            elif re.match(rule_re, line.rstrip()):
-                within="rule"
-                f.rtpma()
                 continue
             elif isul(line):
                 within="ul"
@@ -115,15 +120,28 @@ def _parse_block(f,titlelevels):
                 line=line[:-depth]
             line=line.strip()
             minibuf+=line+" "
+        elif within=="mwhead":
+            depth=0
+            line=line.strip()
+            while line.startswith("="):
+                depth+=1
+                line=line[1:]
+            titlelevels[depth] #Yes, just eval this.
+            #all_same(line[-depth:])=="=" assuming the regexp is correct
+            line=line[:-depth]
+            line=line.strip()
+            yield (nodes.TitleNode(inline.parse_inline(line),depth))
+            depth=0
+            within="root"
         elif within in ("para","sthead"):
             depth+=1
             if isulin(line.rstrip()) and ((depth==2) or (within=="sthead")):
                 # Combining vanilla-Setext and ATX headers is obvious.
                 # Combining ReST and ATX headers is not.
                 # For each new char, use the first level without a char.
-                # Exception is "-" which never represents highest level,
-                # unless it is the character used for literally the 
-                # first heading in the document.
+                # Exception is "-" which is not assigned highest level,
+                # unless it is used for literally the first heading in 
+                # the document.
                 # Thus implement ReST-style but mostly MD-compatible.
                 char=line.strip()[0]
                 if char in titlelevels.bychar:
@@ -152,7 +170,7 @@ def _parse_block(f,titlelevels):
                 within="root"
                 f.rtpma()
                 continue
-            elif re.match(rule_re, line.rstrip()):
+            elif isrule(line):
                 within="rule"
                 depth=0
                 f.rtpma()
@@ -170,7 +188,7 @@ def _parse_block(f,titlelevels):
                 within="root"
                 f.rtpma()
                 continue
-            elif re.match(rule_re, line.rstrip()):
+            elif isrule(line):
                 yield (nodes.UlliNode(parse_block(minibuf,titlelevels),depth))
                 minibuf=""
                 depth=0

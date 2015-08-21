@@ -127,3 +127,9 @@ Parse_this_text stu*pen*dously, _mate_, do you _he_\ ar me?
 == Level 2 Heading ==
 
 = Not a heading ==
+
+''Italic'', '''bold''', '''''both''''', \''neither\''.
+
+*Italic*, **bold**, ***both***, \*neither\*.
+
+_Italic_, __bold__, ___both___, \_neither\_.

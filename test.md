@@ -133,3 +133,17 @@ Parse_this_text stu*pen*dously, _mate_, do you _he_\ ar me?
 *Italic*, **bold**, ***both***, \*neither\*.
 
 _Italic_, __bold__, ___both___, \_neither\_.
+
+# Level 1
+
+#Not heading
+
+# Level 1 #
+
+## Level 2
+
+####
+ Hi
+####
+
+### Level 3

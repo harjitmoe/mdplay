@@ -9,10 +9,11 @@ such in BBCode.  unordered lists are converted, though.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.
 
-version 3.4
+version 3.5
 
 changelog:
 
+3.5: fix ReST heading over-lines being detected/parsed as MW headings.
 3.4: fix a nested emphasis bug that has been in here since the get-go.
      also add MediaWiki emphases.
 3.3: more accurate regexps, regexps in place of convoluted testing, fix 

@@ -47,7 +47,7 @@ def _parse_block(f,titlelevels):
 
     isrule=lambda line:re.match(r"\s*((?P<c>\*|_|-)\s?)\s*(?P=c)+\s*((?P=c)+\s+)*$",line+" ")
     isheadatx=lambda line:line.strip() and re.match(r"(#+) .*(\S#|[^#]|\\#)( \1)?$",line)
-    isheadmw=lambda line:line.strip() and re.match(r"\s*(=+)([^=](.*[^=])?)?\1\s*$",line)
+    isheadmw=lambda line:line.strip() and re.match(r"\s*(=+)([^=](.*[^=])?)\1\s*$",line)
     isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple(string.punctuation))
     isfence=lambda line:line.strip() and re.match(r"\s*(```+[^`]*$|~~~+.*$)",line)
     isbq=lambda line:line.strip() and re.match(r"\s*>([^!].*)?$",line)

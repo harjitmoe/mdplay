@@ -155,3 +155,27 @@ What does this do?
 
 - - -
 
+Faking::
+
+Thusly.
+
+Indented code block::
+
+    Hello world
+
+Indented code block: ::
+    Hello world
+
+Indented code block:
+
+::
+
+    Hello world
+
+Hello.
+
+Indented code block:
+
+::
+
+    Hello world

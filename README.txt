@@ -1,8 +1,5 @@
 convert a derivative of Markdown to BBCode.
 
-as a conscious decision, no support is included for indented code blocks.  use
-fenced code blocks.
-
 no special support is included for ordered lists, paralleling the absence of 
 such in BBCode.  unordered lists are converted, though.
 
@@ -13,6 +10,8 @@ version 3.5
 
 changelog:
 
+3.7: ReST indented code block support, fixing a nasty residual bug in the
+     process.
 3.6: fix paras disappearing etc if followed by rules without empty line.
 3.5: fix ReST heading over-lines being detected/parsed as MW headings.
 3.4: fix a nested emphasis bug that has been in here since the get-go.

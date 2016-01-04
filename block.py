@@ -58,13 +58,14 @@ def _parse_block(f,titlelevels):
     for line in f:
         line=line.replace("\0","\xef\xbf\xbd").replace("\t","    ")
         if within=="root":
-            if iscb(line):
-                within="codeblock"
-                f.rtpma()
-                continue
-            elif isheadatx(line):
+            assert depth==0
+            if isheadatx(line):
                 within="atxhead"
                 f.rtpma()
+                continue
+            elif line.strip() == "::":
+                within="icode"
+                #NO rtpma
                 continue
             elif isheadmw(line):
                 within="mwhead"
@@ -177,10 +178,27 @@ def _parse_block(f,titlelevels):
                 within="rule"
                 f.rtpma()
                 continue
-            if line.rstrip("\r\n").endswith("  "):
+            if line.rstrip()[-3:]==" ::":
+                if line.rstrip("\r\n").endswith("  "):
+                    minibuf+=line.rstrip()[:-2].rstrip()+"\n"
+                else:
+                    minibuf+=line.rstrip()[:-2].rstrip()
+            elif line.rstrip()[-2:]=="::":
+                if line.rstrip("\r\n").endswith("  "):
+                    minibuf+=line.rstrip()[:-1].rstrip()+"\n"
+                else:
+                    minibuf+=line.rstrip()[:-1].rstrip()
+            elif line.rstrip("\r\n").endswith("  "):
                 minibuf+=line.strip()+"\n"
             else:
                 minibuf+=line.strip()+" "
+            if line.rstrip().endswith("::"):
+                yield (nodes.ParagraphNode(inline.parse_inline(minibuf)))
+                minibuf=""
+                depth=0
+                within="icode"
+                #NO rtpma
+                continue
         elif within=="ul":
             if not line.strip():
                 yield (nodes.UlliNode(parse_block(minibuf,titlelevels),depth))
@@ -218,6 +236,28 @@ def _parse_block(f,titlelevels):
         elif within=="rule":
             yield (nodes.RuleNode())
             within="root"
+        elif within=="icode":
+            if (depth==0) and (not line.strip()):
+                continue
+            if depth==0:
+                depth=len(line)-len(line.lstrip())
+            if depth==0: #if depth /* still */ == 0...
+                minibuf=""
+                depth=0
+                fence=None
+                within="root"
+                f.rtpma()
+                continue
+            if not line.startswith(" "*depth):
+                yield (nodes.CodeBlockNode(minibuf,clas="::"))
+                minibuf=""
+                depth=0
+                fence=None
+                within="root"
+                f.rtpma()
+                continue
+            else:
+                minibuf+=line[depth:].rstrip("\r\n")+"\n"
         elif within=="fence":
             if fence==None:
                 fence=0
@@ -264,12 +304,19 @@ def _parse_block(f,titlelevels):
                 within="root"
                 f.rtpma()
                 continue
+        else:
+            raise AssertionError("Unknown syntax feature %r"%within)
     if minibuf:
         if within=="fence":
             yield (nodes.CodeBlockNode(minibuf,clas=fenceinfo))
             minibuf=""
             depth=0
             fence=None
+            within="root"
+        elif within=="icode":
+            yield (nodes.CodeBlockNode(minibuf,clas="::"))
+            minibuf=""
+            depth=0
             within="root"
 
 def parse_block(content,titlelevels):

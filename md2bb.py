@@ -13,6 +13,7 @@ version 2.2
 
 changelog:
 
+2.3: fix paragraphs disappearing etc if followed by rule without empty line.
 2.2: fix the since-beginning nested-emphasis bug.  some improvements in 
      detecting features, including much regexp work.
 2.1: fix some problems with underscore italics before (semi)colons and a 
@@ -286,8 +287,10 @@ def _parse_block(f):
                 f.rtpma()
                 continue
             elif isrule(line):
-                within="rule"
+                yield (ParagraphNode(minibuf))
+                minibuf=""
                 depth=0
+                within="rule"
                 f.rtpma()
                 continue
             if line.rstrip("\r\n").endswith("  "):

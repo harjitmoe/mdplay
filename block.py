@@ -171,8 +171,10 @@ def _parse_block(f,titlelevels):
                 f.rtpma()
                 continue
             elif isrule(line):
-                within="rule"
+                yield (nodes.ParagraphNode(inline.parse_inline(minibuf)))
+                minibuf=""
                 depth=0
+                within="rule"
                 f.rtpma()
                 continue
             if line.rstrip("\r\n").endswith("  "):

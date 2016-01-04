@@ -13,6 +13,7 @@ version 3.5
 
 changelog:
 
+3.6: fix paras disappearing etc if followed by rules without empty line.
 3.5: fix ReST heading over-lines being detected/parsed as MW headings.
 3.4: fix a nested emphasis bug that has been in here since the get-go.
      also add MediaWiki emphases.

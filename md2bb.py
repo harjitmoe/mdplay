@@ -13,6 +13,7 @@ version 2.2
 
 changelog:
 
+2.4: fix swallowing everything following possible attempts at indented code.
 2.3: fix paragraphs disappearing etc if followed by rule without empty line.
 2.2: fix the since-beginning nested-emphasis bug.  some improvements in 
      detecting features, including much regexp work.
@@ -218,11 +219,8 @@ def _parse_block(f):
     for line in f:
         line=line.replace("\0","\xef\xbf\xbd").replace("\t","    ")
         if within=="root":
-            if iscb(line):
-                within="codeblock"
-                f.rtpma()
-                continue
-            elif isheadatx(line):
+            assert depth==0
+            if isheadatx(line):
                 within="atxhead"
                 f.rtpma()
                 continue
@@ -380,6 +378,8 @@ def _parse_block(f):
                 within="root"
                 f.rtpma()
                 continue
+        else:
+            raise AssertionError("Unknown syntax feature %r"%within)
     if minibuf:
         if within=="fence":
             yield (CodeBlockNode(minibuf,clas=fenceinfo))

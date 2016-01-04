@@ -9,7 +9,7 @@ such in BBCode.  unordered lists are converted, though.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.
 
-version 2.2
+version 2.4
 
 changelog:
 

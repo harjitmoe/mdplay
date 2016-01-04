@@ -6,7 +6,7 @@ such in BBCode.  unordered lists are converted, though.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.
 
-version 3.5
+version 3.7
 
 changelog:
 

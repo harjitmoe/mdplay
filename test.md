@@ -179,3 +179,5 @@ Indented code block:
 ::
 
     Hello world
+
+Ada.

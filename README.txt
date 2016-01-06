@@ -43,7 +43,7 @@ unlikely as i nowadays tend to avoid doing that without noting in comments.
 
 with that in mind, this software is:
 
-Copyright (c) 2015 Thomas Hori.  All rights reserved.
+Copyright (c) 2015, 2016 Thomas Hori.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions

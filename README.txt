@@ -6,10 +6,15 @@ such in BBCode.  unordered lists are converted, though.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.
 
-version 3.7
+version 3.8
 
 changelog:
 
+3.8: added partial BibTeX umlaut support, including code derived from the
+     Python Documentation LaTeX-to-ReST converter (under a "BSD" licence,
+     almost certainly the same one as Sphinx uses, hence that is what I've
+     attached to the file so as to satisfy its terms).  to my own licence
+     for the rest of the program, added a non-misrepresentation clause.
 3.7: ReST indented code block support, fixing a nasty residual bug in the
      process.
 3.6: fix paras disappearing etc if followed by rules without empty line.
@@ -56,6 +61,8 @@ are met:
 3. Neither the name of the copyright holder nor the names of its 
    contributors may be used to endorse or promote products derived from
    this software without specific prior written permission.
+4. Altered versions in any form must not be misrepresented as being the
+   original software.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT

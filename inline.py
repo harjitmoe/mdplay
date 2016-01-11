@@ -17,6 +17,7 @@ def _parse_inline(content,levs=("root",)):
             if c2 in " \n":
                 lastchar=" "
                 continue
+            #elif c2=="'":
             else:
                 lastchar=c+c2
                 out.append(c2)

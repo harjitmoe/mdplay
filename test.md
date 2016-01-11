@@ -12,6 +12,8 @@ I think so too.
 * Knives
   * Forks
   * Spoons
+  * Ceramic
+    knifes
 * Reality
 * Hello World.
 
@@ -181,3 +183,13 @@ Indented code block:
     Hello world
 
 Ada.
+
+== Trivial indentation of paragraphs ==
+
+    Shouldn't make that  
+    much difference.
+    
+    Second paragraph
+
+    Third paragraph
+

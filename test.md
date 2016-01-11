@@ -193,3 +193,6 @@ Ada.
 
     Third paragraph
 
+J'ai regard{\'e}.
+
+Watashi-wa T{\=o}masu desu.

@@ -1,6 +1,6 @@
 import re,string
 
-import nodes
+import nodes, umlaut
 
 punct=string.punctuation+string.whitespace
 def _parse_inline(content,levs=("root",)):
@@ -17,11 +17,20 @@ def _parse_inline(content,levs=("root",)):
             if c2 in " \n":
                 lastchar=" "
                 continue
-            #elif c2=="'":
-            else:
-                lastchar=c+c2
-                out.append(c2)
-                continue
+            elif "bibuml" in levs:
+                c3=content.pop(0)
+                try:
+                    r=umlaut.umlaut(c2,c3).encode("utf-8")
+                except ValueError:
+                    content.insert(0,c3) #undo that...
+                    #NO continue
+                else:
+                    lastchar=r
+                    out.append(r)
+                    continue
+            lastchar=c+c2
+            out.append(c2)
+            continue
         ### Newlines (there are only true newlines by this point) ###
         elif c=="\n":
             out.append(nodes.NewlineNode())
@@ -106,6 +115,11 @@ def _parse_inline(content,levs=("root",)):
         elif c=="~" and content[0]==")" and lev=="sub":
             del content[0]
             return out
+        #
+        elif c=="}" and lev=="bibuml":
+            return out
+        elif c=="{":
+            out.extend(_parse_inline(content,("bibuml",)+levs))
         else:
             lastchar=c
             out.append(c)

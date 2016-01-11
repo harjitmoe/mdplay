@@ -7,4 +7,6 @@ import out_bb
 #    sys.exit(1)
 
 f=open(sys.argv[1] if sys.argv[1:] else "test.md","r")
-print (out_bb.bb_out(public.parse_file(f)))
+ret=out_bb.bb_out(public.parse_file(f))
+print ret
+open("out.txt","w").write(ret)

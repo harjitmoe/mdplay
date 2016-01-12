@@ -12,22 +12,49 @@ def _parse_inline(content,levs=("root",)):
     while content:
         c=content.pop(0)
         ### Escaping ###
-        if c=="\\" and (content[0] in punct):
+        if c=="\\" and ("bibuml" in levs):
+            c2=""
+            umldep=0
+            while content:
+                c2+=content.pop(0)
+                if c2[-1]=="{":
+                    umldep+=1
+                if c2[-1]=="}":
+                    umldep-=1
+                if umldep<0:
+                    break
+            if c2.endswith("}"): #i.e. did not run into EOF
+                c2=c2[:-1]
+            braced=0
+            if ("{" in c2) and c2.endswith("}"): #a second }
+                braced=1
+                c2=c2[:-1]
+                c2,c3=c2.split("{",1)
+            else:
+                c2,c3=c2[:1],c2[1:]
+            try:
+                r=umlaut.umlaut(c2,c3).encode("utf-8")
+            except ValueError:
+                try:
+                    if not braced:
+                        r=umlaut.umlaut(c2+c3,'').encode("utf-8")
+                    else:
+                        raise ValueError #yeah yeah I know
+                except ValueError:
+                    lastchar=c+c2+c3
+                    out.append(lastchar)
+                else:
+                    lastchar=r
+                    out.append(r)
+            else:
+                lastchar=r
+                out.append(r)
+            return out
+        if c=="\\" and ((content[0] in punct) or ("bibuml" in levs)):
             c2=content.pop(0)
             if c2 in " \n":
                 lastchar=" "
                 continue
-            elif "bibuml" in levs:
-                c3=content.pop(0)
-                try:
-                    r=umlaut.umlaut(c2,c3).encode("utf-8")
-                except ValueError:
-                    content.insert(0,c3) #undo that...
-                    #NO continue
-                else:
-                    lastchar=r
-                    out.append(r)
-                    continue
             lastchar=c+c2
             out.append(c2)
             continue
@@ -116,8 +143,6 @@ def _parse_inline(content,levs=("root",)):
             del content[0]
             return out
         #
-        elif c=="}" and lev=="bibuml":
-            return out
         elif c=="{":
             out.extend(_parse_inline(content,("bibuml",)+levs))
         else:

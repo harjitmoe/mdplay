@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-From the Python documentation conversion utils.
+Derived from part of "Python documentation conversion utils".
 Original filename util.py
 
-HarJIT added more accented characters, including adding circumflexes
-and macrons full stop, and integrated with mdplay3.
+HarJIT added many, many more accented (et cetara) characters, 
+including adding circumflexes and macrons full stop, 
+and integrated with mdplay3.
  -- May be distributed under same terms as original.
 
 Copyright (c) 2007-2008 by Georg Brandl.
@@ -38,13 +39,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import re, sys
 
 #from docutils.nodes import make_id
-
 #from .docnodes import TextNode, EmptyNode, NodeList
-
 
 def umlaut(cmd, c):
     try:
-        if cmd == '"':
+        if cmd == '"': #Umlauts and diereses.
             return {'a': u'ä',
                     'i': u'ï',
                     'u': u'ü',
@@ -55,7 +54,17 @@ def umlaut(cmd, c):
                     'U': u'Ü',
                     'E': u'Ë',
                     'O': u'Ö'}[c]
-        elif cmd == "^":
+        elif cmd == 'r': #Rings.
+            return {'a': u'å',
+                    'u': u'ů',
+                    'A': u'Å',
+                    'U': u'Ů'}[c]
+        elif cmd == 'H': #Double acutes.
+            return {'o': u'ő',
+                    'u': u'ű',
+                    'O': u'Ő',
+                    'U': u'Ű'}[c]
+        elif cmd == "^": #Circumflexes.
             return {'a': u'â',
                     'i': u'î',
                     'u': u'û',
@@ -66,18 +75,28 @@ def umlaut(cmd, c):
                     'U': u'Û',
                     'E': u'Ê',
                     'O': u'Ô'}[c]
-        elif cmd == "'":
+        elif cmd == "'": #Acutes.
             return {'a': u'á',
                     'i': u'í',
                     'u': u'ú',
                     'e': u'é',
                     'o': u'ó',
+                    's': u'ś',
+                    'z': u'ź',
+                    'n': u'ń',
+                    'y': u'ý',
+                    'r': u'ŕ',
                     'A': u'Á',
                     'I': u'Í',
                     'U': u'Ú',
                     'E': u'É',
-                    'O': u'Ó'}[c]
-        elif cmd == "=":
+                    'O': u'Ó',
+                    'S': u'Ś',
+                    'Z': u'Ź',
+                    'N': u'Ń',
+                    'Y': U'Ý',
+                    'R': u'Ŕ'}[c]
+        elif cmd == "=": #Macrons.
             return {'a': u'ā',
                     'i': u'ī',
                     'u': u'ū',
@@ -88,15 +107,23 @@ def umlaut(cmd, c):
                     'U': u'Ū',
                     'E': u'Ē',
                     'O': u'Ō'}[c]
-        elif cmd == '~':
+        elif cmd == '~': #Tildes.
             return {'o': u'õ',
                     'n': u'ñ',
                     'O': u'Õ',
                     'N': u'Ñ'}[c]
-        elif cmd == 'c':
-            return {'c': u'ç',
-                    'C': u'Ç'}[c]
-        elif cmd == '`':
+        elif cmd in 'ck': #Vowel ogoneks and consonant cedillas.
+            return {'a': u'ą',
+                    'e': u'ę',
+                    'c': u'ç',
+                    's': u'ş',
+                    't': u'ţ',
+                    'A': u'Ą',
+                    'E': u'Ę',
+                    'C': u'Ç',
+                    'S': u'Ş',
+                    'T': u'Ţ'}[c]
+        elif cmd == '`': #Graves.
             return {'a': u'à',
                     'i': u'ì',
                     'u': u'ù',
@@ -107,17 +134,72 @@ def umlaut(cmd, c):
                     'U': u'Ù',
                     'E': u'È',
                     'O': u'Ò'}[c]
-        elif cmd == 'v':
+        elif cmd == 'v': #Carons.
             return {'a': u'ǎ',
                     'i': u'ǐ',
                     'u': u'ǔ',
                     'e': u'ě',
                     'o': u'ǒ',
+                    'c': u'č',
+                    's': u'š',
+                    'z': u'ž',
+                    't': u'ť',
+                    'd': u'ď',
+                    'n': u'ň',
+                    'r': u'ř',
+                    'l': u'ľ',
                     'A': u'Ǎ',
                     'I': u'Ǐ',
                     'U': u'Ǔ',
                     'E': u'Ě',
-                    'O': u'Ǒ'}[c]
+                    'O': u'Ǒ',
+                    'C': u'Č',
+                    'S': u'Š',
+                    'Z': u'Ž',
+                    'T': u'Ť',
+                    'D': u'Ď',
+                    'N': u'Ň',
+                    'R': u'Ř',
+                    'L': u'Ľ'}[c]
+        elif cmd == 'u': #Breves
+            return {'a': u'ă',
+                    'ŏ': u'ŏ',
+                    'A': u'Ă',
+                    'Ŏ': u'Ŏ'}[c]
+        elif cmd == 'B': #Slashes
+            return {'o': u'ø',
+                    'd': u'đ', #XXX get ð in somewhere
+                    'l': u'ł',
+                    'O': u'Ø',
+                    'D': u'Đ',
+                    'L': u'Ł'}[c]
+        elif cmd == 'th': #Thorn
+            return {'': u'þ'}[c]
+        elif cmd == 'TH': #Thorn
+            return {'': u'Þ'}[c]
+        elif cmd == 'ss': #Sharp s
+            return {'': u'ß'}[c]
+        elif cmd == 'oe':
+            return {'': u'œ'}[c]
+        elif cmd == 'OE':
+            return {'': u'Œ'}[c]
+        elif cmd == 'ae':
+            return {'': u'æ'}[c]
+        elif cmd == 'AE':
+            return {'': u'Æ'}[c]
+        #
+        elif cmd == 'aa': #Ringed a
+            return {'': u'å'}[c]
+        elif cmd == 'AA': #Ringed a
+            return {'': u'Å'}[c]
+        elif cmd == 'l': #Slashed l
+            return {'': u'ł'}[c]
+        elif cmd == 'L': #Slashed l
+            return {'': u'Ł'}[c]
+        elif cmd == 'o': #Slashed o
+            return {'': u'ø'}[c]
+        elif cmd == 'O': #Slashed o
+            return {'': u'Ø'}[c]
         else:
             #from .latexparser import ParserError
             raise ValueError('invalid umlaut \\%s' % cmd)#, 0)
@@ -125,61 +207,63 @@ def umlaut(cmd, c):
         #from .latexparser import ParserError
         raise ValueError('unsupported umlaut \\%s%s' % (cmd, c))#, 0)
 
-def fixup_text(text):
-    return text.replace('``', '"').replace("''", '"').replace('`', "'").\
-           replace('|', '\\|').replace('*', '\\*')
-
-def empty(node):
-    return (type(node) is EmptyNode)
-
-def text(node):
-    """ Return the text for a TextNode or raise an error. """
-    if isinstance(node, TextNode):
-        return node.text
-    elif isinstance(node, NodeList):
-        restext = ''
-        for subnode in node:
-            restext += text(subnode)
-        return restext
-    from .restwriter import WriterError
-    raise WriterError('text() failed for %r' % node)
-
-markup_re = re.compile(r'(:[a-zA-Z0-9_-]+:)?`(.*?)`')
-
-def my_make_id(name):
-    """ Like make_id(), but strip roles first. """
-    return make_id(markup_re.sub(r'\2', name))
-
-alphanum = u'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-wordchars_s = alphanum + u'_.-'
-wordchars_e = alphanum + u'+`(-'
-bad_markup_re = re.compile(r'(:[a-zA-Z0-9_-]+:)?(`{1,2})[ ]*(.+?)[ ]*(\2)')
-quoted_code_re = re.compile(r'\\`(``.+?``)\'')
-paren_re = re.compile(r':(func|meth|cfunc):`(.*?)\(\)`')
-
-def repair_bad_inline_markup(text):
-    # remove quoting from `\code{x}'
-    xtext = quoted_code_re.sub(r'\1', text)
-
-    # special: the literal backslash
-    xtext = xtext.replace('``\\``', '\x03')
-    # special: literal backquotes
-    xtext = xtext.replace('``````', '\x02')
-
-    # remove () from function markup
-    xtext = paren_re.sub(r':\1:`\2`', xtext)
-
-    ntext = []
-    lasti = 0
-    l = len(xtext)
-    for m in bad_markup_re.finditer(xtext):
-        ntext.append(xtext[lasti:m.start()])
-        s, e = m.start(), m.end()
-        if s != 0 and xtext[s-1:s] in wordchars_s:
-            ntext.append('\\ ')
-        ntext.append((m.group(1) or '') + m.group(2) + m.group(3) + m.group(4))
-        if e != l and xtext[e:e+1] in wordchars_e:
-            ntext.append('\\ ')
-        lasti = m.end()
-    ntext.append(xtext[lasti:])
-    return ''.join(ntext).replace('\x02', '``````').replace('\x03', '``\\``')
+## The following has nothing to do with mdplay. -- HarJIT
+#
+#def fixup_text(text):
+#    return text.replace('``', '"').replace("''", '"').replace('`', "'").\
+#           replace('|', '\\|').replace('*', '\\*')
+#
+#def empty(node):
+#    return (type(node) is EmptyNode)
+#
+#def text(node):
+#    """ Return the text for a TextNode or raise an error. """
+#    if isinstance(node, TextNode):
+#        return node.text
+#    elif isinstance(node, NodeList):
+#        restext = ''
+#        for subnode in node:
+#            restext += text(subnode)
+#        return restext
+#    from .restwriter import WriterError
+#    raise WriterError('text() failed for %r' % node)
+#
+#markup_re = re.compile(r'(:[a-zA-Z0-9_-]+:)?`(.*?)`')
+#
+#def my_make_id(name):
+#    """ Like make_id(), but strip roles first. """
+#    return make_id(markup_re.sub(r'\2', name))
+#
+#alphanum = u'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+#wordchars_s = alphanum + u'_.-'
+#wordchars_e = alphanum + u'+`(-'
+#bad_markup_re = re.compile(r'(:[a-zA-Z0-9_-]+:)?(`{1,2})[ ]*(.+?)[ ]*(\2)')
+#quoted_code_re = re.compile(r'\\`(``.+?``)\'')
+#paren_re = re.compile(r':(func|meth|cfunc):`(.*?)\(\)`')
+#
+#def repair_bad_inline_markup(text):
+#    # remove quoting from `\code{x}'
+#    xtext = quoted_code_re.sub(r'\1', text)
+#
+#    # special: the literal backslash
+#    xtext = xtext.replace('``\\``', '\x03')
+#    # special: literal backquotes
+#    xtext = xtext.replace('``````', '\x02')
+#
+#    # remove () from function markup
+#    xtext = paren_re.sub(r':\1:`\2`', xtext)
+#
+#    ntext = []
+#    lasti = 0
+#    l = len(xtext)
+#    for m in bad_markup_re.finditer(xtext):
+#        ntext.append(xtext[lasti:m.start()])
+#        s, e = m.start(), m.end()
+#        if s != 0 and xtext[s-1:s] in wordchars_s:
+#            ntext.append('\\ ')
+#        ntext.append((m.group(1) or '') + m.group(2) + m.group(3) + m.group(4))
+#        if e != l and xtext[e:e+1] in wordchars_e:
+#            ntext.append('\\ ')
+#        lasti = m.end()
+#    ntext.append(xtext[lasti:])
+#    return ''.join(ntext).replace('\x02', '``````').replace('\x03', '``\\``')

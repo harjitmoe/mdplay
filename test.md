@@ -193,6 +193,11 @@ Ada.
 
     Third paragraph
 
+S{\o}ren.
+S{\Bo}ren.
+
 J'ai regard{\'e}.
 
 Watashi-wa T{\=o}masu desu.
+
+{\o}e vo {\oe} vs {\o{e}} vs {\oe{}} mate.

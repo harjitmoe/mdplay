@@ -6,10 +6,11 @@ such in BBCode.  unordered lists are converted, though.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.
 
-version 3.8
+version 3.9
 
 changelog:
 
+3.9: much better BibTeX dieretic support.
 3.8: added partial BibTeX umlaut support, including code derived from the
      Python Documentation LaTeX-to-ReST converter (under a "BSD" licence,
      almost certainly the same one as Sphinx uses, hence that is what I've

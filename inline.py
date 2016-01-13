@@ -11,7 +11,7 @@ def _parse_inline(content,levs=("root",)):
     lev=levs[0]
     while content:
         c=content.pop(0)
-        ### Escaping ###
+        ### BibTeX diacritics
         if c=="\\" and ("bibuml" in levs):
             c2=""
             umldep=0
@@ -50,7 +50,13 @@ def _parse_inline(content,levs=("root",)):
                 lastchar=r
                 out.append(r)
             return out
-        if c=="\\" and ((content[0] in punct) or ("bibuml" in levs)):
+        elif "bibuml" in levs: #but not c=="\\"
+            lastchar=c
+            out.append("{")
+            out.append(c)
+            return out
+        ### Escaping ###
+        if c=="\\" and content and (content[0] in punct):
             c2=content.pop(0)
             if c2 in " \n":
                 lastchar=" "

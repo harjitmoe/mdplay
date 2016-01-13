@@ -12,7 +12,7 @@ I think so too.
 * Knives
   * Forks
   * Spoons
-  * Ceramic
+  * Ceramic  
     knifes
 * Reality
 * Hello World.
@@ -200,4 +200,16 @@ J'ai regard{\'e}.
 
 Watashi-wa T{\=o}masu desu.
 
-{\o}e vo {\oe} vs {\o{e}} vs {\oe{}} mate.
+''illegitimi n{\=o}n carborundum''.
+
+''spuri{\=i}s n{\=o}n carborandum''.
+
+{\o}e vs {\oe} vs {\o{e}} vs {\oe{}} mate.
+
+{Nothing \^(Special) *h*.}
+
+{Nothing \^(Spe{cial}) *h*.}
+
+{Nothing} \^(Spe{cial}). *h*
+
+\

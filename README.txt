@@ -1,16 +1,19 @@
-convert a derivative of Markdown to BBCode.
+convert a derivative of Markdown to BBCode or HTML.
 
-no special support is included for ordered lists, paralleling the absence of 
-such in BBCode.  unordered lists are converted, though.
+no special support is included for ordered lists, parallelling the absence of
+such in BBCode.  unordered lists are converted, though.  this may be changed
+in a future release.
 
 headings are converted in the best way possible, considering that BBCode has 
-no concept of semantic headings.
+no concept of semantic headings.  HTML conversion does it sensibly.
 
-version 3.9
+version 4.0
 
-changelog:
+change-log:
 
-3.9: much better BibTeX dieretic support.
+4.0: added HTML output support, sorted out handling of instances where
+     braces do not contain a BibTeX diacritic.
+3.9: much better BibTeX [s]dieretic[/s] (EDIT: diacritic) support.
 3.8: added partial BibTeX umlaut support, including code derived from the
      Python Documentation LaTeX-to-ReST converter (under a "BSD" licence,
      almost certainly the same one as Sphinx uses, hence that is what I've
@@ -40,7 +43,7 @@ changelog:
      2.7.
 1.2: fixed some crashes.  added subscript, and alternate syntaxes for bold, 
      italic and superscript, and spoilers.
-1.1: bugfix: handle "\\" correctly
+1.1: bug-fix: handle "\\" correctly
 1.0: first "release"
 
 i wrote this fairly recently, and i do not believe that i interpolated code 

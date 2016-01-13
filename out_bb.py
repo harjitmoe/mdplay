@@ -6,7 +6,7 @@ except:
 
 import nodes
 
-def bb_out(nodes):
+def bb_out(nodes,titl_ignored=None):
     in_list=0
     r=""
     for node in nodes:

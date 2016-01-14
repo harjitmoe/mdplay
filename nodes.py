@@ -11,9 +11,10 @@ class BlockNode(Node):
         self.number=number
 
 class InlineNode(Node):
-    def __init__(self,content,label="",hreftype=""):
+    def __init__(self,content,label="",hreftype="",emphatic=False):
         self.content=content
         self.hreftype=hreftype
+        self.emphatic=emphatic
         self.label=label
 
 class RawContainerNode(Node):

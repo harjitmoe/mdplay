@@ -72,37 +72,37 @@ def _parse_inline(content,levs=("root",)):
         #### /With asterisks
         elif c=="*" and content[0]=="*" and ("bold" not in levs):
             del content[0]
-            out.append(nodes.BoldNode(_parse_inline(content,("bold",)+levs)))
+            out.append(nodes.BoldNode(_parse_inline(content,("bold",)+levs),emphatic=True))
         elif c=="*" and content[0]=="*" and lev=="bold":
             del content[0]
             return out
         elif c=="*" and content[0]!="*" and ("italic" not in levs):
-            out.append(nodes.ItalicNode(_parse_inline(content,("italic",)+levs)))
+            out.append(nodes.ItalicNode(_parse_inline(content,("italic",)+levs),emphatic=True))
         elif c=="*" and lev=="italic":
             return out
         #### /With underscores
         elif c=="_" and content[0]=="_" and ("boldalt" not in levs) and (lastchar in punct):
             del content[0]
-            out.append(nodes.BoldNode(_parse_inline(content,("boldalt",)+levs)))
+            out.append(nodes.BoldNode(_parse_inline(content,("boldalt",)+levs),emphatic=False))
         elif c=="_" and content[0]=="_" and lev=="boldalt" and ("".join(content[1:2]) in punct):
             del content[0]
             return out
         elif c=="_" and content[0]!="_" and ("italicalt" not in levs) and (lastchar in punct):
-            out.append(nodes.ItalicNode(_parse_inline(content,("italicalt",)+levs)))
+            out.append(nodes.ItalicNode(_parse_inline(content,("italicalt",)+levs),emphatic=False))
         elif c=="_" and (content[0] in punct) and lev=="italicalt":
             return out
         #### /With apostrophes
         elif c=="'" and "".join(content).startswith("''") and ("boldmw" not in levs):
             del content[0]
             del content[0] #yes, again
-            out.append(nodes.BoldNode(_parse_inline(content,("boldmw",)+levs)))
+            out.append(nodes.BoldNode(_parse_inline(content,("boldmw",)+levs),emphatic=False))
         elif c=="'" and "".join(content).startswith("''") and lev=="boldmw":
             del content[0]
             del content[0] #yes, again
             return out
         elif c=="'" and content[0]=="'" and ("italicmw" not in levs):
             del content[0]
-            out.append(nodes.ItalicNode(_parse_inline(content,("italicmw",)+levs)))
+            out.append(nodes.ItalicNode(_parse_inline(content,("italicmw",)+levs),emphatic=False))
         elif c=="'" and content[0]=="'" and lev=="italicmw":
             del content[0]
             return out

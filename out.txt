@@ -17,7 +17,7 @@ Paragraphs are very nice.[br]I think so too.
 
 Another paragraph. 
 
-I can use [i]italic[/i], [b]bold[/b], `monospace`, [b]bold[/b].  I can [url="http://egscomics.com"]link[/url], or include [img]http://i.imgur.com/3yXSlqS.jpg[/img] images and [media alt="embeds with site-specific tags"]http://i.imgur.com/3yXSlqS.jpg[/media], or even [url="http://egscomics.com"]link images [img alt="like this"]http://i.imgur.com/3yXSlqS.jpg[/img][/url]! 
+I can use [i]italic[/i], [b]bold[/b], `monospace`, [b]bold[/b].  I can [url="http://egscomics.com"]link[/url], or include [img]http://i.imgur.com/YW5So8y.jpg[/img] images and [media alt="embeds with site-specific tags"]http://i.imgur.com/YW5So8y.jpg[/media], or even [url="http://egscomics.com"]link images [img alt="like this"]http://i.imgur.com/YW5So8y.jpg[/img][/url]! 
 
 [code]#!/usr/bin/env python
 # -*- python -*-
@@ -70,9 +70,9 @@ Bob the builder yes we can [/quote]
 
 Th![url="an embed"]is likewise isn't[/url]. 
 
-Whereas this is: ![img alt="an embed"]http://i.imgur.com/3yXSlqS.jpg[/img] 
+Whereas this is: ![img alt="an embed"]http://i.imgur.com/YW5So8y.jpg[/img] 
 
-[img alt="This embed"]http://i.imgur.com/3yXSlqS.jpg[/img] is also an embed. 
+[img alt="This embed"]http://i.imgur.com/YW5So8y.jpg[/img] is also an embed. 
 
 [This is not](a link). 
 
@@ -82,7 +82,7 @@ Th[url="http://egscomics.com"]is is.[/url]
 
 At the start of a[br][url="http://egscomics.com"]line[/url] 
 
-Likewise[br][img]http://i.imgur.com/3yXSlqS.jpg[/img] 
+Likewise[br][img]http://i.imgur.com/YW5So8y.jpg[/img] 
 
 C:\WINDOWS\--hello-- 
 

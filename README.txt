@@ -7,10 +7,12 @@ in a future release.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.  HTML conversion does it sensibly.
 
-version 4.0
+version 4.1
 
 change-log:
 
+4.1: spanking new HTML export code using minidom.  no added syntax 
+     features.  command-line interface.
 4.0: added HTML output support, sorted out handling of instances where
      braces do not contain a BibTeX diacritic.
 3.9: much better BibTeX [s]dieretic[/s] (EDIT: diacritic) support.

@@ -1,77 +1,162 @@
 import re
-try:
-    import json
-except:
-    import simplejson as json
+from xml.dom import minidom
 
 import nodes
 
-def html_out_body(nodes):
-    in_list=0
-    r=""
-    for node in nodes:
-        _r=_html_out_body(node,in_list)
-        if len(_r)==2 and type(_r)==type(()):
-            _r,in_list=_r
-        r+=_r
-    return r.strip("\r\n")
+def html_out_body(nodem,document,in_list=0):
+    return list(_html_out_body(nodem,document,in_list))
 
-def _html_out_body(node,in_list):
-    if in_list and ((not isinstance(node,nodes.UlliNode)) or ((node.depth+1)<in_list)):
-        _r=_html_out_body(node,in_list-1)
-        if len(_r)==2 and type(_r)==type(()):
-            _r,in_list=_r
-            in_list+=1
-        return "</ul>\n"+_r,in_list-1
-    if not isinstance(node,nodes.Node): #i.e. is a string
-        return node
-    elif isinstance(node,nodes.TitleNode):
-        if node.depth>6: node.depth=6
-        return ("<h%d>"%node.depth)+html_out_body(node.content)+("</h%d>"%node.depth)
-    elif isinstance(node,nodes.ParagraphNode):
-        return "<p>"+html_out_body(node.content)+"</p>"
-    elif isinstance(node,nodes.BlockQuoteNode):
-        return "<blockquote>"+html_out_body(node.content)+"</blockquote>\n"
-    elif isinstance(node,nodes.SpoilerNode):
-        return "<p><a href='javascript:void(0);' onclick=\"document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')\">Expand/Hide Spoiler</a></p><div class='spoiler' id='spoil%d' style='display:none;'>"%(id(node),id(node),id(node))+html_out_body(node.content)+"</div>"
-    elif isinstance(node,nodes.CodeBlockNode):
-        return "<pre>"+html_out_body(node.content)+"</pre>"
-    elif isinstance(node,nodes.UlliNode):
-        r=""
-        while (node.depth+1)>in_list:
-            r+="<ul>"
-            in_list+=1
-        r+="<li>"+html_out_body(node.content)+"</li>"
-        return r,in_list
-    elif isinstance(node,nodes.BoldNode):
-        return "<strong>"+html_out_body(node.content)+"</strong>"
-    elif isinstance(node,nodes.ItalicNode):
-        return "<em>"+html_out_body(node.content)+"</em>"
-    elif isinstance(node,nodes.SuperNode):
-        return "<sup>"+html_out_body(node.content)+"</sup>"
-    elif isinstance(node,nodes.SubscrNode):
-        return "<sub>"+html_out_body(node.content)+"</sub>"
-    elif isinstance(node,nodes.HrefNode):
-        label=html_out_body(node.label)
-        ht=node.hreftype
-        content=node.content
-        if ht=="url":
-            if re.match("https?://(www\.)?tvtropes.org",content):
-                return "<u>"+label+("</u><sup><a href=%s>(TVTropes)</a></sup>"%json.dumps(content))
-            return ("<a href=%s>"%json.dumps(content))+label+"</a>"
-        else: #Including img
-            label=label.strip()
-            if label:
-                return "<%s alt=%s src=%s />"%(ht,json.dumps(label),json.dumps(content))
-            return "<%s src=%s />"%(ht,json.dumps(content))
-    elif isinstance(node,nodes.NewlineNode):
-        return "<br />"
-    elif isinstance(node,nodes.RuleNode):
-        return "<hr />"
-    else:
-        return "ERROR"+repr(node)
+def _html_out_body(nodem,document,in_list=0):
+    while nodem:
+        node=nodem.pop(0)
+        if isinstance(node,nodes.UlliNode):
+            if (node.depth+1)>in_list:
+                r=document.createElement("ul")
+                r2=document.createElement("li")
+                r.appendChild(r2)
+                for domn in html_out_body(node.content,document):
+                    r2.appendChild(domn)
+                for domn in html_out_body(nodem,document,in_list+1):
+                    r.appendChild(domn)
+                yield r
+            elif (node.depth+1)<in_list:
+                nodem.insert(0,node)
+                return
+            else:
+                r=document.createElement("li")
+                for domn in html_out_body(node.content,document):
+                    r.appendChild(domn)
+                yield r
+        elif in_list: #A non-list node at list-stack level
+            nodem.insert(0,node)
+            return
+        elif not isinstance(node,nodes.Node): #i.e. is a string
+            yield document.createTextNode(node.decode("utf-8"))
+        elif isinstance(node,nodes.TitleNode):
+            if node.depth>6: node.depth=6
+            r=document.createElement("h%d"%node.depth)
+            for domn in html_out_body(node.content,document):
+                r.appendChild(domn)
+            yield r
+        elif isinstance(node,nodes.ParagraphNode):
+            r=document.createElement("p")
+            for domn in html_out_body(node.content,document):
+                r.appendChild(domn)
+            yield r
+        elif isinstance(node,nodes.BlockQuoteNode):
+            r=document.createElement("blockquote")
+            for domn in html_out_body(node.content,document):
+                r.appendChild(domn)
+            yield r
+        #elif isinstance(node,nodes.SpoilerNode):
+        #    yield "<p><a href='javascript:void(0);' onclick=\"document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')\">Expand/Hide Spoiler</a></p><div class='spoiler' id='spoil%d' style='display:none;'>"%(id(node),id(node),id(node))+html_out_body(node.content,document)+"</div>"
+        elif isinstance(node,nodes.SpoilerNode):
+            metar=document.createElement("div")
+            metar.setAttribute("class",'spoilerwrapper')
+            r=document.createElement("p")
+            metar.appendChild(r)
+            r2=document.createElement("a")
+            r.appendChild(r2)
+            r2.setAttribute("href",'javascript:void(0);')
+            r2.setAttribute("onclick","document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')"%(id(node),id(node)))
+            r2.appendChild(document.createTextNode("Expand/Hide Spoiler"))
+            r3=document.createElement("div")
+            metar.appendChild(r3)
+            r3.setAttribute("class",'spoiler')
+            r3.setAttribute("id",'spoil%d'%id(node))
+            r3.setAttribute("style",'display:none;')
+            for domn in html_out_body(node.content,document):
+                r3.appendChild(domn)
+            yield metar
+        elif isinstance(node,nodes.CodeBlockNode):
+            r=document.createElement("pre")
+            r.appendChild(document.createTextNode("".join(node.content)))
+            yield r
+        elif isinstance(node,nodes.BoldNode):
+            if node.emphatic:
+                r=document.createElement("strong")
+            else:
+                r=document.createElement("b")
+            for domn in html_out_body(node.content,document):
+                r.appendChild(domn)
+            yield r
+        elif isinstance(node,nodes.ItalicNode):
+            if node.emphatic:
+                r=document.createElement("em")
+            else:
+                r=document.createElement("i")
+            for domn in html_out_body(node.content,document):
+                r.appendChild(domn)
+            yield r
+        elif isinstance(node,nodes.SuperNode):
+            r=document.createElement("sup")
+            for domn in html_out_body(node.content,document):
+                r.appendChild(domn)
+            yield r
+        elif isinstance(node,nodes.SubscrNode):
+            r=document.createElement("sub")
+            for domn in html_out_body(node.content,document):
+                r.appendChild(domn)
+            yield r
+        elif isinstance(node,nodes.HrefNode):
+            ht=node.hreftype
+            content=node.content
+            if ht=="url":
+                label=html_out_body(node.label,document)
+                if re.match("https?://(www\.)?tvtropes.org",content):
+                    metar=document.createElement("span")
+                    r=document.createElement("u")
+                    metar.appendChild(r)
+                    for domn in label:
+                        r.appendChild(domn)
+                    r2=document.createElement("sup")
+                    metar.appendChild(r2)
+                    r3=document.createElement("a")
+                    r2.appendChild(r3)
+                    r3.setAttribute("href",content)
+                    r3.appendChild(document.createTextNode("(TVTropes)"))
+                    yield metar
+                    continue
+                r=document.createElement("a")
+                r.setAttribute("href",content)
+                for domn in label:
+                    r.appendChild(domn)
+                yield r
+            else: #Including img
+                label="".join(node.label)
+                r=document.createElement(ht)
+                r.setAttribute("src",content)
+                if label:
+                    r.setAttribute("alt",label)
+                yield r
+        elif isinstance(node,nodes.NewlineNode):
+            r=document.createElement("br")
+            yield r
+        elif isinstance(node,nodes.RuleNode):
+            r=document.createElement("hr")
+            yield r
+        else:
+            yield document.createTextNode("ERROR"+repr(node))
 
 def html_out(nodes,titl=""):
-    #Note: trust is assumed to have been established on titl by this point
-    return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml"><head><title>'+titl+'</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head><body>'+html_out_body(nodes)+"</body></html>"
+    mdi=minidom.getDOMImplementation()
+    document=mdi.createDocument("http://www.w3.org/1999/xhtml","html",mdi.createDocumentType("html","-//W3C//DTD XHTML 1.1//EN","http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"))
+    head=document.createElement("head")
+    document.documentElement.appendChild(head)
+    body=document.createElement("body")
+    document.documentElement.appendChild(body)
+    #Head
+    if titl:
+        titlebar=document.createElement("title")
+        head.appendChild(titlebar)
+        titlebar.appendChild(document.createTextNode(titl))
+    charset=document.createElement("meta")
+    head.appendChild(charset)
+    charset.setAttribute("http-equiv","Content-Type")
+    charset.setAttribute("content","text/html; charset=UTF-8")
+    #Body
+    nodes=list(nodes)
+    for domn in html_out_body(nodes,document):
+        body.appendChild(domn)
+    return document.toxml("utf-8")
 

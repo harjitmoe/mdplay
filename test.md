@@ -19,7 +19,7 @@ I think so too.
 
 Another paragraph.
 
-I can use *italic*, **bold**, `monospace`, __bold__.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/3yXSlqS.jpg) images and !media[embeds with site-specific tags](http://i.imgur.com/3yXSlqS.jpg), or even [link images ![like this](http://i.imgur.com/3yXSlqS.jpg)](http://egscomics.com)!
+I can use *italic*, **bold**, `monospace`, __bold__.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/YW5So8y.jpg) images and !media[embeds with site-specific tags](http://i.imgur.com/YW5So8y.jpg), or even [link images ![like this](http://i.imgur.com/YW5So8y.jpg)](http://egscomics.com)!
 
 ~~~~~~~~ python
 #!/usr/bin/env python
@@ -78,9 +78,9 @@ Escaping and stuff
 
 Th![is likewise isn't](an embed).
 
-Whereas this is: !\ ![an embed](http://i.imgur.com/3yXSlqS.jpg)
+Whereas this is: !\ ![an embed](http://i.imgur.com/YW5So8y.jpg)
 
-![This embed](http://i.imgur.com/3yXSlqS.jpg) is also an embed.
+![This embed](http://i.imgur.com/YW5So8y.jpg) is also an embed.
 
 \[This is not](a link).
 
@@ -92,7 +92,7 @@ At the start of a
 [line](http://egscomics.com)
 
 Likewise  
-![](http://i.imgur.com/3yXSlqS.jpg)
+![](http://i.imgur.com/YW5So8y.jpg)
 
 C:\WINDOWS\\--hello--
 

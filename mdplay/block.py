@@ -4,9 +4,9 @@ try:
 except:
     from io import StringIO
 
-import nodes
-import inline
-from LinestackIter import LinestackIter
+from mdplay import nodes
+from mdplay import inline
+from mdplay.LinestackIter import LinestackIter
 
 class _TitleItem(object):
     c=None

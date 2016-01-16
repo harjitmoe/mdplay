@@ -3,7 +3,7 @@
 Derived from part of "Python documentation conversion utils".
 Original filename util.py
 
-HarJIT added many, many more accented (et cetara) characters, 
+Thomas Hori added many, many more accented (et cetara) characters, 
 including adding circumflexes and macrons full stop, 
 and integrated with mdplay3.
  -- May be distributed under same terms as original.

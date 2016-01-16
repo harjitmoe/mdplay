@@ -4,9 +4,9 @@ try:
 except:
     import simplejson as json
 
-import nodes
+from mdplay import nodes
 
-def bb_out(nodes,titl_ignored=None):
+def bb_out(nodes,titl_ignored=None,html5_ignored=None):
     in_list=0
     r=""
     for node in nodes:
@@ -71,3 +71,6 @@ def _bb_out(node,in_list):
         return "\n[rule]\n"
     else:
         return "ERROR"+repr(node)
+
+__mdplay_renderer__="bb_out"
+

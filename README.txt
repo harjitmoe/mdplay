@@ -7,18 +7,20 @@ in a future release.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.  HTML conversion does it sensibly.
 
-version 4.1
+version 4.2
 
 change-log:
 
+4.2: added polish.  now functions as an importable Python package. added
+     load_renderer mechanism.  added HTML5 mode.  proper entity escaping.
 4.1: spanking new HTML export code using minidom.  no added syntax 
      features.  command-line interface.
 4.0: added HTML output support, sorted out handling of instances where
      braces do not contain a BibTeX diacritic.
-3.9: much better BibTeX [s]dieretic[/s] (EDIT: diacritic) support.
+3.9: much better BibTeX diacritic support.
 3.8: added partial BibTeX umlaut support, including code derived from the
      Python Documentation LaTeX-to-ReST converter (under a "BSD" licence,
-     almost certainly the same one as Sphinx uses, hence that is what I've
+     almost certainly the same one as Sphinx itself, hence that is what I
      attached to the file so as to satisfy its terms).  to my own licence
      for the rest of the program, added a non-misrepresentation clause.
 3.7: ReST indented code block support, fixing a nasty residual bug in the
@@ -52,7 +54,7 @@ i wrote this fairly recently, and i do not believe that i interpolated code
 from anywhere else.  it is not impossible that i may have forgotten, albeit 
 unlikely as i nowadays tend to avoid doing that without noting in comments.
 
-with that in mind, this software is:
+with that in mind, this software is, unless otherwise specified:
 
 Copyright (c) 2015, 2016 HarJIT.  All rights reserved.
 

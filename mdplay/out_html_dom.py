@@ -1,7 +1,7 @@
 import re
 from xml.dom import minidom
 
-import nodes
+from mdplay import nodes
 
 def html_out_body(nodem,document,in_list=0):
     return list(_html_out_body(nodem,document,in_list))
@@ -48,8 +48,6 @@ def _html_out_body(nodem,document,in_list=0):
             for domn in html_out_body(node.content,document):
                 r.appendChild(domn)
             yield r
-        #elif isinstance(node,nodes.SpoilerNode):
-        #    yield "<p><a href='javascript:void(0);' onclick=\"document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')\">Expand/Hide Spoiler</a></p><div class='spoiler' id='spoil%d' style='display:none;'>"%(id(node),id(node),id(node))+html_out_body(node.content,document)+"</div>"
         elif isinstance(node,nodes.SpoilerNode):
             metar=document.createElement("div")
             metar.setAttribute("class",'spoilerwrapper')
@@ -138,9 +136,20 @@ def _html_out_body(nodem,document,in_list=0):
         else:
             yield document.createTextNode("ERROR"+repr(node))
 
-def html_out(nodes,titl=""):
-    mdi=minidom.getDOMImplementation()
-    document=mdi.createDocument("http://www.w3.org/1999/xhtml","html",mdi.createDocumentType("html","-//W3C//DTD XHTML 1.1//EN","http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"))
+import htmlentitydefs
+def _escape(text):
+    for name in htmlentitydefs.name2codepoint.keys():
+        if name not in ("amp","lt","quot","gt"): #handled already by minidom and would mess up syntax
+            text=text.replace(unichr(htmlentitydefs.name2codepoint[name]).encode("utf-8"),"&"+name+";")
+    return text
+
+def html_out(nodes,titl="",html5=False):
+    mdi=minidom.getDOMImplementation() #minidom: other xml.dom imps don't necessarily support toxml
+    if not html5:
+        document=mdi.createDocument("http://www.w3.org/1999/xhtml","html",mdi.createDocumentType("html","-//W3C//DTD XHTML 1.1//EN","http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"))
+    else:
+        document=mdi.createDocument("http://www.w3.org/1999/xhtml","html",mdi.createDocumentType("html",None,"about:legacy-compat"))
+    document.documentElement.setAttribute("xmlns","http://www.w3.org/1999/xhtml") #ehem... minidom... ehem...
     head=document.createElement("head")
     document.documentElement.appendChild(head)
     body=document.createElement("body")
@@ -152,11 +161,16 @@ def html_out(nodes,titl=""):
         titlebar.appendChild(document.createTextNode(titl))
     charset=document.createElement("meta")
     head.appendChild(charset)
-    charset.setAttribute("http-equiv","Content-Type")
-    charset.setAttribute("content","text/html; charset=UTF-8")
+    if not html5:
+        charset.setAttribute("http-equiv","Content-Type")
+        charset.setAttribute("content","text/html; charset=UTF-8")
+    else:
+        charset.setAttribute("charset","UTF-8")
     #Body
     nodes=list(nodes)
     for domn in html_out_body(nodes,document):
         body.appendChild(domn)
-    return document.toxml("utf-8")
+    return _escape(document.toxml("utf-8"))
+
+__mdplay_renderer__="html_out"
 

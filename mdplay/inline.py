@@ -1,6 +1,6 @@
 import re,string
 
-import nodes, umlaut
+from mdplay import nodes, umlaut
 
 punct=string.punctuation+string.whitespace
 def _parse_inline(content,levs=("root",)):

@@ -1,10 +1,15 @@
 import re
-try:
-    import json
-except:
-    import simplejson as json
 
-import nodes
+#Ought to have at least one of these three
+try:
+    from json import dumps as _strquote
+except:
+    try:
+        from simplejson import dumps as _strquote
+    except:
+        _strquote=repr
+
+from mdplay import nodes
 
 def html_out_body(nodes):
     in_list=0
@@ -16,6 +21,14 @@ def html_out_body(nodes):
         r+=_r
     return r.strip("\r\n")
 
+import htmlentitydefs
+def _escape(text):
+    text=text.replace("&","&amp;") #must be done first, else others get broken.
+    for name in htmlentitydefs.name2codepoint.keys():
+        if name!="amp":
+            text=text.replace(unichr(htmlentitydefs.name2codepoint[name]).encode("utf-8"),"&"+name+";")
+    return text
+
 def _html_out_body(node,in_list):
     if in_list and ((not isinstance(node,nodes.UlliNode)) or ((node.depth+1)<in_list)):
         _r=_html_out_body(node,in_list-1)
@@ -24,7 +37,7 @@ def _html_out_body(node,in_list):
             in_list+=1
         return "</ul>"+_r,in_list-1
     if not isinstance(node,nodes.Node): #i.e. is a string
-        return node
+        return _escape(node)
     elif isinstance(node,nodes.TitleNode):
         if node.depth>6: node.depth=6
         return ("<h%d>"%node.depth)+html_out_body(node.content)+("</h%d>"%node.depth)
@@ -63,13 +76,13 @@ def _html_out_body(node,in_list):
         content=node.content
         if ht=="url":
             if re.match("https?://(www\.)?tvtropes.org",content):
-                return "<u>"+label+("</u><sup><a href=%s>(TVTropes)</a></sup>"%json.dumps(content))
-            return ("<a href=%s>"%json.dumps(content))+label+"</a>"
+                return "<u>"+label+("</u><sup><a href=%s>(TVTropes)</a></sup>"%_strquote(content))
+            return ("<a href=%s>"%_strquote(content))+label+"</a>"
         else: #Including img
             label=label.strip()
             if label:
-                return "<%s alt=%s src=%s />"%(ht,json.dumps(label),json.dumps(content))
-            return "<%s src=%s />"%(ht,json.dumps(content))
+                return "<%s alt=%s src=%s />"%(ht,_strquote(label),_strquote(content))
+            return "<%s src=%s />"%(ht,_strquote(content))
     elif isinstance(node,nodes.NewlineNode):
         return "<br />"
     elif isinstance(node,nodes.RuleNode):
@@ -77,7 +90,11 @@ def _html_out_body(node,in_list):
     else:
         return "ERROR"+repr(node)
 
-def html_out(nodes,titl=""):
-    #Note: trust is assumed to have been established on titl by this point
-    return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml"><head><title>'+titl+'</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head><body>'+html_out_body(nodes)+"</body></html>"
+def html_out(nodes,titl="",html5=False):
+    if not html5:
+        return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml"><head><title>'+_escape(titl)+'</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head><body>'+html_out_body(nodes)+"</body></html>"
+    else:
+        return '<!DOCTYPE html SYSTEM "about:legacy-compat">\n<html xmlns="http://www.w3.org/1999/xhtml"><head><title>'+_escape(titl)+'</title><meta charset="UTF-8" /></head><body>'+html_out_body(nodes)+"</body></html>"
+
+__mdplay_renderer__="html_out"
 

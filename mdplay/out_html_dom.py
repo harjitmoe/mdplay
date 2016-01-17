@@ -138,10 +138,11 @@ def _html_out_body(nodem,document,in_list=0):
 
 import htmlentitydefs
 def _escape(text):
+    text=text.decode("utf-8")
     for name in htmlentitydefs.name2codepoint.keys():
         if name not in ("amp","lt","quot","gt"): #handled already by minidom and would mess up syntax
-            text=text.replace(unichr(htmlentitydefs.name2codepoint[name]).encode("utf-8"),"&"+name+";")
-    return text
+            text=text.replace(unichr(htmlentitydefs.name2codepoint[name]),("&"+name+";").decode("ascii"))
+    return text.encode("utf-8")
 
 def html_out(nodes,titl="",html5=False):
     mdi=minidom.getDOMImplementation() #minidom: other xml.dom imps don't necessarily support toxml

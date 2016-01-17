@@ -23,11 +23,11 @@ def html_out_body(nodes):
 
 import htmlentitydefs
 def _escape(text):
-    text=text.replace("&","&amp;") #must be done first, else others get broken.
+    text=text.decode("utf-8").replace(u"&",u"&amp;") #must be done first, else others get broken.
     for name in htmlentitydefs.name2codepoint.keys():
         if name!="amp":
-            text=text.replace(unichr(htmlentitydefs.name2codepoint[name]).encode("utf-8"),"&"+name+";")
-    return text
+            text=text.replace(unichr(htmlentitydefs.name2codepoint[name]),("&"+name+";").decode("ascii"))
+    return text.encode("utf-8")
 
 def _html_out_body(node,in_list):
     if in_list and ((not isinstance(node,nodes.UlliNode)) or ((node.depth+1)<in_list)):

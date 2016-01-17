@@ -7,7 +7,7 @@ in a future release.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.  HTML conversion does it sensibly.
 
-version 4.2
+version 4.2.1
 
 change-log:
 

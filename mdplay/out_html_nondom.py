@@ -87,6 +87,20 @@ def _html_out_body(node,in_list):
         return "<br />"
     elif isinstance(node,nodes.RuleNode):
         return "<hr />"
+    elif isinstance(node,nodes.TableNode):
+        r='<table border="1"><thead>'
+        for row in node.table_head:
+            r+="<tr>"
+            for cell in row:
+                r+="<th>"+html_out_body(list(cell))+"</th>"
+            r+="</tr>"
+        r+="</thead><tbody>"
+        for row in node.table_body:
+            r+="<tr>"
+            for cell in row:
+                r+="<td>"+html_out_body(list(cell))+"</td>"
+            r+="</tr>"
+        return r+"</tbody></table>"
     else:
         return "ERROR"+repr(node)
 

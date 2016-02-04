@@ -36,7 +36,7 @@ def all_same(l):
     else:
         return False
 
-def _parse_block(f,titlelevels):
+def _parse_block(f,titlelevels,flags):
     within="root"
     minibuf=""
     depth=0
@@ -44,8 +44,11 @@ def _parse_block(f,titlelevels):
     depths=[]
     fence=None
     fenceinfo=None
+    cellwid=[]
+    cellrows=[]
 
     isrule=lambda line:re.match(r"\s*((?P<c>\*|_|-)\s?)\s*(?P=c)+\s*((?P=c)+\s+)*$",line+" ")
+    istable=lambda line:re.match(r"(=+ )*=+\s*$",line)
     isheadatx=lambda line:line.strip() and re.match(r"(#+) .*(\S#|[^#]|\\#)( \1)?$",line)
     isheadmw=lambda line:line.strip() and re.match(r"\s*(=+)([^=](.*[^=])?)\1\s*$",line)
     isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple(string.punctuation))
@@ -59,7 +62,11 @@ def _parse_block(f,titlelevels):
         line=line.replace("\0","\xef\xbf\xbd").replace("\t","    ")
         if within=="root":
             assert depth==0
-            if isheadatx(line):
+            if line.startswith("    ") and ("uicode" in flags):
+                within="icode"
+                f.rtpma()
+                continue
+            elif isheadatx(line):
                 within="atxhead"
                 f.rtpma()
                 continue
@@ -69,6 +76,10 @@ def _parse_block(f,titlelevels):
                 continue
             elif isheadmw(line):
                 within="mwhead"
+                f.rtpma()
+                continue
+            elif istable(line):
+                within="table"
                 f.rtpma()
                 continue
             elif isrule(line):
@@ -101,7 +112,7 @@ def _parse_block(f,titlelevels):
                 continue
         elif within=="atxhead":
             if not isheadatx(line):
-                yield (nodes.TitleNode(inline.parse_inline(minibuf),depth))
+                yield (nodes.TitleNode(inline.parse_inline(minibuf,flags),depth))
                 minibuf=""
                 depth=0
                 within="root"
@@ -114,7 +125,7 @@ def _parse_block(f,titlelevels):
                 line=line[1:]
             titlelevels[deep] #Yes, just eval this.
             if depth and deep!=depth:
-                yield (nodes.TitleNode(inline.parse_inline(minibuf),depth))
+                yield (nodes.TitleNode(inline.parse_inline(minibuf,flags),depth))
                 minibuf=""
             depth=deep
             if all_same(line[-depth:])=="#":
@@ -131,7 +142,7 @@ def _parse_block(f,titlelevels):
             #all_same(line[-depth:])=="=" assuming the regexp is correct
             line=line[:-depth]
             line=line.strip()
-            yield (nodes.TitleNode(inline.parse_inline(line),depth))
+            yield (nodes.TitleNode(inline.parse_inline(line,flags),depth))
             depth=0
             within="root"
         elif within in ("para","sthead"):
@@ -158,21 +169,21 @@ def _parse_block(f,titlelevels):
                                 i.setchar(char)
                                 break
                         depth+=1
-                yield (nodes.TitleNode(inline.parse_inline(minibuf),depth))
+                yield (nodes.TitleNode(inline.parse_inline(minibuf,flags),depth))
                 minibuf=""
                 depth=0
                 within="root"
                 #NO rtpma
                 continue
             elif not line.strip():
-                yield (nodes.ParagraphNode(inline.parse_inline(minibuf)))
+                yield (nodes.ParagraphNode(inline.parse_inline(minibuf,flags)))
                 minibuf=""
                 depth=0
                 within="root"
                 f.rtpma()
                 continue
             elif isrule(line):
-                yield (nodes.ParagraphNode(inline.parse_inline(minibuf)))
+                yield (nodes.ParagraphNode(inline.parse_inline(minibuf,flags)))
                 minibuf=""
                 depth=0
                 within="rule"
@@ -193,7 +204,7 @@ def _parse_block(f,titlelevels):
             else:
                 minibuf+=line.strip()+" "
             if line.rstrip().endswith("::"):
-                yield (nodes.ParagraphNode(inline.parse_inline(minibuf)))
+                yield (nodes.ParagraphNode(inline.parse_inline(minibuf,flags)))
                 minibuf=""
                 depth=0
                 within="icode"
@@ -201,7 +212,7 @@ def _parse_block(f,titlelevels):
                 continue
         elif within=="ul":
             if not line.strip():
-                yield (nodes.UlliNode(parse_block(minibuf,titlelevels),depth))
+                yield (nodes.UlliNode(parse_block(minibuf,titlelevels,flags),depth))
                 minibuf=""
                 depth=0
                 depths=[]
@@ -209,7 +220,7 @@ def _parse_block(f,titlelevels):
                 f.rtpma()
                 continue
             elif isrule(line):
-                yield (nodes.UlliNode(parse_block(minibuf,titlelevels),depth))
+                yield (nodes.UlliNode(parse_block(minibuf,titlelevels,flags),depth))
                 minibuf=""
                 depth=0
                 depths=[]
@@ -218,7 +229,7 @@ def _parse_block(f,titlelevels):
                 continue
             elif isul(line):
                 if minibuf:
-                    yield (nodes.UlliNode(parse_block(minibuf,titlelevels),depth))
+                    yield (nodes.UlliNode(parse_block(minibuf,titlelevels,flags),depth))
                     minibuf=""
                 deep=len(line.replace("\t"," "*4))-len(line.replace("\t"," "*4).lstrip())
                 if not depths:
@@ -287,7 +298,7 @@ def _parse_block(f,titlelevels):
                 if line[:1]==" ":line=line[1:]
                 minibuf+=line.rstrip("\r\n")+"\n"
             else:
-                yield (nodes.BlockQuoteNode(parse_block(minibuf,titlelevels)))
+                yield (nodes.BlockQuoteNode(parse_block(minibuf,titlelevels,flags)))
                 minibuf=""
                 within="root"
                 f.rtpma()
@@ -299,10 +310,68 @@ def _parse_block(f,titlelevels):
                 if line[:1]==" ":line=line[1:]
                 minibuf+=line.rstrip("\r\n")+"\n"
             else:
-                yield (nodes.SpoilerNode(parse_block(minibuf,titlelevels)))
+                yield (nodes.SpoilerNode(parse_block(minibuf,titlelevels,flags)))
                 minibuf=""
                 within="root"
                 f.rtpma()
+                continue
+        elif within=="table":
+            def validly(line,cellwid):
+                for cell in cellwid:
+                    line=line[cell:]
+                    if line.strip() and line[0]!=" ":
+                        return 0
+                    line=line[1:]
+                return 1
+            def splice(line,cellwid):
+                lines=[]
+                for cell in cellwid:
+                    lines.append(line[:cell].rstrip())
+                    line=line[cell:]
+                    line=line[1:] #Assume validity already tested
+                return lines
+            if (not cellwid) and (istable(line)):
+                cellwid=map(len,line.strip().split(" "))
+                cellrows=[[],[]]
+            elif (depth==0) and (not istable(line)) and validly(line,cellwid):
+                cellrows[0].append(splice(line,cellwid))
+            elif (depth==0) and (istable(line)):
+                depth=1
+            elif (depth==1) and (not istable(line)) and validly(line,cellwid):
+                cellrows[1].append(splice(line,cellwid))
+            else:
+                cellrows2=[[],[]]
+                for row in cellrows[0]:
+                    if cellrows2[0] and (not row[0].strip()):
+                        for n,i in enumerate(row):
+                            if n>=len(cellrows2[0][-1]):
+                                cellrows2[0][-1].append("")
+                            cellrows2[0][-1][n]+="\n"+i
+                    else:
+                        cellrows2[0].append([])
+                        cellrows2[0][-1].extend(row)
+                for row in cellrows2[0]:
+                    for i in range(len(row)):
+                        row[i]=parse_block(row[i],flags)
+                for row in cellrows[1]:
+                    if cellrows2[1] and (not row[0].strip()):
+                        for n,i in enumerate(row):
+                            if n>=len(cellrows2[1][-1]):
+                                cellrows2[1][-1].append("")
+                            cellrows2[1][-1][n]+="\n"+i
+                    else:
+                        cellrows2[1].append([])
+                        cellrows2[1][-1].extend(row)
+                for row in cellrows2[1]:
+                    for i in range(len(row)):
+                        row[i]=parse_block(row[i],flags)
+                yield (nodes.TableNode(cellrows2))
+                within="root"
+                cellwid=[]
+                cellrows=[]
+                depth=0
+                if (not istable(line)) or (not validly(line,cellwid)):
+                    f.rtpma()
                 continue
         else:
             raise AssertionError("Unknown syntax feature %r"%within)
@@ -319,6 +388,6 @@ def _parse_block(f,titlelevels):
             depth=0
             within="root"
 
-def parse_block(content,titlelevels):
-    return _parse_block(LinestackIter(StringIO(content)),titlelevels)
+def parse_block(content,titlelevels,flags=()):
+    return _parse_block(LinestackIter(StringIO(content)),titlelevels,flags)
 

@@ -1,11 +1,11 @@
 import block
 from LinestackIter import LinestackIter
 
-def parse_string(s):
+def parse_string(s,flags=()):
     block.reinit()
-    return block.parse_block(s,block.TitleLevels())
-def parse_file(f):
-    return block._parse_block(LinestackIter(f),block.TitleLevels())
+    return block.parse_block(s,block.TitleLevels(),flags)
+def parse_file(f,flags=()):
+    return block._parse_block(LinestackIter(f),block.TitleLevels(),flags)
 
 class NoSuchDecoderError(ValueError):pass
 writers={"bbcode":"out_bb","html":"out_html_dom","htmlalt":"out_html_nondom"}

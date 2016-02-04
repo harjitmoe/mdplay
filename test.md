@@ -188,6 +188,8 @@ Ada.
 
     Shouldn't make that  
     much difference.
+    Except when uicode
+    flag passed.
     
     Second paragraph
 
@@ -211,5 +213,24 @@ Watashi-wa T{\=o}masu desu.
 {Nothing \^(Spe{cial}) *h*.}
 
 {Nothing} \^(Spe{cial}). *h*
+
+=== ====
+Why What
+=== ====
+123 4567
+    8 9 
+a   bcde
+fgh ijkl
+\   mnop
+123
+456 789
+UUU Dwe\
+    lt
+=== ====
+
+Hi.
+
+Hello.
+
 
 \

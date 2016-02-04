@@ -10,6 +10,11 @@ class BlockNode(Node):
         self.depth=depth
         self.number=number
 
+class TableNode(Node):
+    def __init__(self,content):
+        self.table_head=content[0]
+        self.table_body=content[1]
+
 class InlineNode(Node):
     def __init__(self,content,label="",hreftype="",emphatic=False):
         self.content=content

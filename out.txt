@@ -59,11 +59,7 @@ Bob the builder yes we can [/quote]
 [rule]
 
 [size=6][b]Escaping and stuff [/b][/size]
-
-[size=7][b]Escaping and stuff [/b][/size]
-
-[size=5][b]Escaping and stuff [/b][/size]
-
+ERROR<mdplay.nodes.TableNode object at 0x00DCA750>
 !![url="an embed."]This is not[/url] 
 
 ![This is not](an embed) either. 
@@ -134,7 +130,7 @@ Parse_this_text stu[i]pen[/i]dously, [i]mate[/i], do you [i]he[/i]ar me?
 
 [size=6][b]Level 2 [/b][/size]
 
-[size=4][b]Hi [/b][/size]
+[size=7][b]Hi [/b][/size]
 
 [size=5][b]Level 3 [/b][/size]
 
@@ -172,7 +168,7 @@ Ada.
 
 [size=6][b]Trivial indentation of paragraphs[/b][/size]
 
-Shouldn't make that[br]much difference. 
+Shouldn't make that[br]much difference. Except when uicode flag passed. 
 
 Second paragraph 
 
@@ -195,3 +191,7 @@ Watashi-wa Tōmasu desu.
 {Nothing ^(Spe{cial}) [i]h[/i].} 
 
 {Nothing} ^(Spe{cial}). [i]h[/i] 
+ERROR<mdplay.nodes.TableNode object at 0x00DCA770>
+Hi. 
+
+Hello. 

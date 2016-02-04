@@ -7,10 +7,12 @@ in a future release.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.  HTML conversion does it sensibly.
 
-version 4.2.1
+version 4.3
 
 change-log:
 
+4.3: added a subset of ReST simple table support, and add a flag system for
+     enabling non-designated indented code blocks.  <ol> still pending.
 4.2: added polish.  now functions as an importable Python package. added
      load_renderer mechanism.  added HTML5 mode.  proper entity escaping.
 4.1: spanking new HTML export code using minidom.  no added syntax 

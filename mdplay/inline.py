@@ -3,7 +3,7 @@ import re,string
 from mdplay import nodes, umlaut
 
 punct=string.punctuation+string.whitespace
-def _parse_inline(content,levs=("root",)):
+def _parse_inline(content,levs=("root",),flags=()):
     # Note: the recursion works by the list being a Python
     # mutable, "passed by reference" as it were
     lastchar=" "
@@ -72,37 +72,37 @@ def _parse_inline(content,levs=("root",)):
         #### /With asterisks
         elif c=="*" and content[0]=="*" and ("bold" not in levs):
             del content[0]
-            out.append(nodes.BoldNode(_parse_inline(content,("bold",)+levs),emphatic=True))
+            out.append(nodes.BoldNode(_parse_inline(content,("bold",)+levs,flags=flags),emphatic=True))
         elif c=="*" and content[0]=="*" and lev=="bold":
             del content[0]
             return out
         elif c=="*" and content[0]!="*" and ("italic" not in levs):
-            out.append(nodes.ItalicNode(_parse_inline(content,("italic",)+levs),emphatic=True))
+            out.append(nodes.ItalicNode(_parse_inline(content,("italic",)+levs,flags=flags),emphatic=True))
         elif c=="*" and lev=="italic":
             return out
         #### /With underscores
         elif c=="_" and content[0]=="_" and ("boldalt" not in levs) and (lastchar in punct):
             del content[0]
-            out.append(nodes.BoldNode(_parse_inline(content,("boldalt",)+levs),emphatic=False))
+            out.append(nodes.BoldNode(_parse_inline(content,("boldalt",)+levs,flags=flags),emphatic=False))
         elif c=="_" and content[0]=="_" and lev=="boldalt" and ("".join(content[1:2]) in punct):
             del content[0]
             return out
         elif c=="_" and content[0]!="_" and ("italicalt" not in levs) and (lastchar in punct):
-            out.append(nodes.ItalicNode(_parse_inline(content,("italicalt",)+levs),emphatic=False))
+            out.append(nodes.ItalicNode(_parse_inline(content,("italicalt",)+levs,flags=flags),emphatic=False))
         elif c=="_" and (content[0] in punct) and lev=="italicalt":
             return out
         #### /With apostrophes
         elif c=="'" and "".join(content).startswith("''") and ("boldmw" not in levs):
             del content[0]
             del content[0] #yes, again
-            out.append(nodes.BoldNode(_parse_inline(content,("boldmw",)+levs),emphatic=False))
+            out.append(nodes.BoldNode(_parse_inline(content,("boldmw",)+levs,flags=flags),emphatic=False))
         elif c=="'" and "".join(content).startswith("''") and lev=="boldmw":
             del content[0]
             del content[0] #yes, again
             return out
         elif c=="'" and content[0]=="'" and ("italicmw" not in levs):
             del content[0]
-            out.append(nodes.ItalicNode(_parse_inline(content,("italicmw",)+levs),emphatic=False))
+            out.append(nodes.ItalicNode(_parse_inline(content,("italicmw",)+levs,flags=flags),emphatic=False))
         elif c=="'" and content[0]=="'" and lev=="italicmw":
             del content[0]
             return out
@@ -113,7 +113,7 @@ def _parse_inline(content,levs=("root",)):
             while c!="[":
                 hreftype+=c
                 c=content.pop(0)
-            label=_parse_inline(content,("label",)+levs)
+            label=_parse_inline(content,("label",)+levs,flags=flags)
             href=""
             if content[0]=="(":
                 del content[0]
@@ -133,28 +133,28 @@ def _parse_inline(content,levs=("root",)):
         ### Superscripts and Subscripts ###
         elif c=="^" and content[0]=="(":
             del content[0]
-            out.append(nodes.SuperNode(_parse_inline(content,("supred",)+levs)))
+            out.append(nodes.SuperNode(_parse_inline(content,("supred",)+levs,flags=flags)))
         elif c==")" and lev=="supred":
             return out
         elif c=="(" and content[0]=="^":
             del content[0]
-            out.append(nodes.SuperNode(_parse_inline(content,("suppan",)+levs)))
+            out.append(nodes.SuperNode(_parse_inline(content,("suppan",)+levs,flags=flags)))
         elif c=="^" and content[0]==")" and lev=="suppan":
             del content[0]
             return out
         elif c=="(" and content[0]=="~":
             del content[0]
-            out.append(nodes.SubscrNode(_parse_inline(content,("sub",)+levs)))
+            out.append(nodes.SubscrNode(_parse_inline(content,("sub",)+levs,flags=flags)))
         elif c=="~" and content[0]==")" and lev=="sub":
             del content[0]
             return out
         #
         elif c=="{":
-            out.extend(_parse_inline(content,("bibuml",)+levs))
+            out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags))
         else:
             lastchar=c
             out.append(c)
     return out
 
-def parse_inline(content):
-    return _parse_inline(list(content)+[""])
+def parse_inline(content,flags=()):
+    return _parse_inline(list(content)+[""],flags=flags)

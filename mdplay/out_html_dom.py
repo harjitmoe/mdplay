@@ -133,6 +133,30 @@ def _html_out_body(nodem,document,in_list=0):
         elif isinstance(node,nodes.RuleNode):
             r=document.createElement("hr")
             yield r
+        elif isinstance(node,nodes.TableNode):
+            r=document.createElement("table")
+            r.setAttribute("border","1")
+            thead=document.createElement("thead")
+            r.appendChild(thead)
+            for row in node.table_head:
+                tr=document.createElement("tr")
+                thead.appendChild(tr)
+                for cell in row:
+                    th=document.createElement("th")
+                    tr.appendChild(th)
+                    for domn in html_out_body(list(cell),document):
+                        th.appendChild(domn)
+            tbody=document.createElement("tbody")
+            r.appendChild(tbody)
+            for row in node.table_body:
+                tr=document.createElement("tr")
+                tbody.appendChild(tr)
+                for cell in row:
+                    td=document.createElement("td")
+                    tr.appendChild(td)
+                    for domn in html_out_body(list(cell),document):
+                        td.appendChild(domn)
+            yield r
         else:
             yield document.createTextNode("ERROR"+repr(node))
 

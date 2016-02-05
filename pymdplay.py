@@ -3,15 +3,19 @@ import sys, getopt
 import mdplay
 
 def help():
-    sys.stderr.write("\nUsage: pymdplay -f ["+("|".join(mdplay.writers.keys()))+"] [-o out_file] [-t title] [-P parserflag,parserflag...] [-5] in_file\n\n")
+    sys.stderr.write("\nUsage: pymdplay -f ["+("|".join(mdplay.writers.keys()))+"] [-o out_file] [-t title] [-P parserflag,parserflag...] [-W writerflag,writerflag...] [-5] in_file\n\n")
     sys.stderr.write("""\
 Parser flag uicode enables detection of sufficiently large indents
 as code blocks, a la standard behaviour, rather than assuming indents
-are purely aesthetic unless indicated otherwise.\n""")
+are purely aesthetic unless indicated otherwise.
+
+Writer flag html5 enables HTML5 output (rather than HTML4).  -5 is a
+shorthand for -W html5 .
+""")
     sys.exit()
 
 try:
-    opts,args=getopt.gnu_getopt(sys.argv[1:],"5f:o:h?P:")
+    opts,args=getopt.gnu_getopt(sys.argv[1:],"5f:o:h?P:W:")
 except getopt.GetoptError:
     help()
 
@@ -19,9 +23,9 @@ if len(args)!=1: help()
 
 format="bbcode"
 output="-"
-html5=False
 titl=args[0] #default title is input filename
-flags=""
+flags=[]
+oflags=[]
 
 for opt,val in opts:
     if opt in ("-h","-?"):
@@ -29,25 +33,23 @@ for opt,val in opts:
     elif opt=="-f":
         format=val
     elif opt=="-P":
-        if flags:
-            flags+=","
-        flags+=val
+        flags.extend(val.split(","))
+    elif opt=="-W":
+        oflags.extend(val.split(","))
     elif opt=="-o":
         output=val
     elif opt=="-t":
         titl=val
     elif opt=="-5":
-        html5=True
+        oflags.append("html5")
     else:
         help()
-
-flags=flags.split(",")
 
 f=open(args[0],"rU")
 try:
     #Two parentheticals, as it is a second-order function: not a mistake
-    ret=mdplay.load_renderer(format)(mdplay.parse_file(f,flags),titl,html5)
-except mdplay.NoSuchDecoderError:
+    ret=mdplay.load_renderer(format)(mdplay.parse_file(f,flags),titl,oflags)
+except mdplay.NoSuchRendererError:
     help()
 f.close()
 

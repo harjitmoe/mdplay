@@ -7,10 +7,14 @@ in a future release.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.  HTML conversion does it sensibly.
 
-version 4.3
+version 4.4
 
 change-log:
 
+4.4: better indented code parsing.  flag system API for writers as well as
+     the parser.  add table handling to BBCode writer (was only present in
+     HTML at first) - might work depending on targeted BBCode dialect.
+     added snippet renderer API.  fix detecting headings as tables.
 4.3: added a subset of ReST simple table support, and add a flag system for
      enabling non-designated indented code blocks.  <ol> still pending.
 4.2: added polish.  now functions as an importable Python package. added

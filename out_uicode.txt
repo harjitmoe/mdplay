@@ -172,11 +172,14 @@ Ada.
 
 [size=6][b]Trivial indentation of paragraphs[/b][/size]
 
-Shouldn't make that[br]much difference. Except when uicode flag passed. 
+[code]Shouldn't make that  
+much difference.
+Except when uicode
+flag passed.
 
-Second paragraph 
+Second paragraph
 
-Third paragraph 
+Third paragraph[/code]
 
 Søren. Søren. 
 
@@ -202,11 +205,12 @@ Hi.
 
 Hello. 
 
-Indent ation. 
+[code] Indent
+ation.[/code]
 
 [code]Indent[/code]
 
-ation. 
+[code]ation.[/code]
 
 [code]Breaking
 

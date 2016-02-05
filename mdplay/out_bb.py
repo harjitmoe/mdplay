@@ -6,7 +6,10 @@ except:
 
 from mdplay import nodes
 
-def bb_out(nodes,titl_ignored=None,html5_ignored=None):
+def bb_out(nodes,titl_ignored=None,flags=()):
+    return bb_out_body(nodes,flags=flags)
+
+def bb_out_body(nodes,flags=()):
     in_list=0
     r=""
     for node in nodes:
@@ -69,8 +72,22 @@ def _bb_out(node,in_list):
         return "[br]"
     elif isinstance(node,nodes.RuleNode):
         return "\n[rule]\n"
+    elif isinstance(node,nodes.TableNode):
+        r='\n[table]'
+        for row in node.table_head:
+            r+="[tr]"
+            for cell in row:
+                r+="[th]"+bb_out_body(list(cell))+"[/th]"
+            r+="[/tr]"
+        for row in node.table_body:
+            r+="[tr]"
+            for cell in row:
+                r+="[td]"+bb_out_body(list(cell))+"[/td]"
+            r+="[/tr]"
+        return r+"[/table]\n"
     else:
         return "ERROR"+repr(node)
 
 __mdplay_renderer__="bb_out"
+__mdplay_snippet_renderer__="bb_out_body"
 

@@ -232,5 +232,25 @@ Hi.
 
 Hello.
 
+     Indent
+    ation.
+
+::
+
+     Indent
+    ation.
+
+::
+
+    Breaking
+
+    the news (still in code).
+
+::
+
+    Breaking
+    
+    the news (also).
+
 
 \

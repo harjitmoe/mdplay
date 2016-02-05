@@ -17,7 +17,14 @@ def _html_out_body(nodem,document,in_list=0):
                 for domn in html_out_body(node.content,document):
                     r2.appendChild(domn)
                 for domn in html_out_body(nodem,document,in_list+1):
-                    r.appendChild(domn)
+                    if domn.tagName not in ("ul","ol"):
+                        r.appendChild(domn)
+                    elif not len(r2.childNodes):
+                        r3=document.createElement("li")
+                        r.appendChild(r3)
+                        r3.appendChild(domn)
+                    else:
+                        r.lastChild.appendChild(domn)
                 yield r
             elif (node.depth+1)<in_list:
                 nodem.insert(0,node)

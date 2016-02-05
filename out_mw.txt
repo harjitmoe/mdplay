@@ -1,0 +1,259 @@
+EXPERIMENTAL RENDERER - NOT FOR PRODUCTION USE.
+
+
+= Heading =
+
+== Subheading ==
+
+== Overcast ==
+
+Paragraphs are very nice.<br />I think so too. 
+* Knives 
+** Forks 
+** Spoons 
+** Ceramic<br />knifes 
+* Reality 
+* Hello World. 
+
+Another paragraph. 
+
+I can use ''italic'', '''bold''', `monospace`, '''bold'''.  I can [http://egscomics.com link], or include [http://i.imgur.com/YW5So8y.jpg ] images and [http://i.imgur.com/YW5So8y.jpg embeds with site-specific tags], or even [http://egscomics.com link images [http://i.imgur.com/YW5So8y.jpg like this]]! 
+
+<pre>#!/usr/bin/env python
+# -*- python -*-
+import utility
+
+#so as to pass JSON to eval
+null=None
+false=False
+true=True
+
+import os,sys
+
+main_db=eval(open(".build/MegaDb.txt","rU").read())
+
+arcs=[]
+curatitl=""
+
+useless="""
+~~~~~~~
+"""
+
+def handle_line(line):
+    atitl,ltitl=line["Title"].split(": ",1)
+    if atitl!=curatitl:
+        arcs.append({"Title":atitl,"StoryLines":[]})
+        curatitl=atitl
+    arcs[-1]["StoryLines"].append({"Title":ltitl,"Comics":line["Comics"]})
+
+map(handle_line,main_db)
+
+open(".build/MegaDb.txt","w").write(repr(arcs))
+</pre>
+
+:= Can he fix it??? =
+:
+:Bob the builder yes we can 
+
+== Verily ==
+
+<hr />
+
+== Escaping and stuff ==
+
+= Escaping and stuff =
+
+=== Escaping and stuff ===
+
+!![an%20embed. This is not] 
+
+![This is not](an embed) either. 
+
+Th![an%20embed is likewise isn't]. 
+
+Whereas this is: ![http://i.imgur.com/YW5So8y.jpg an embed] 
+
+[http://i.imgur.com/YW5So8y.jpg This embed] is also an embed. 
+
+[This is not](a link). 
+
+Th[is isn't](either). 
+
+Th[http://egscomics.com is is.] 
+
+At the start of a<br />[http://egscomics.com line] 
+
+Likewise<br />[http://i.imgur.com/YW5So8y.jpg ] 
+
+C:\WINDOWS\--hello-- 
+
+\''Italics'' 
+
+--- 
+
+<hr />
+
+<u>Useful Notes: UNIX</u><sup>[http://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/UNIX (TVTropes)]</sup> 
+
+== Superscripts and subscripts ==
+
+m=Ec<sup>-2</sup> 
+
+E=(mv<sup>2</sup>)/2 
+
+CH<sub>3</sub>COOH 
+
+Back<sup>(not Backside)</sup> 
+
+(^Not a superscript.^) (^Not a superscript either.^) ^(Nor this.) ^(Or this.) 
+<span class="mw-customtoggle-14417168" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14417168" class="mw-collapsible mw-collapsed" style="display:none;">
+The lie is a muffin. 
+</div><span class="mw-customtoggle-14417296" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14417296" class="mw-collapsible mw-collapsed" style="display:none;">
+Expand the below for a spoiler: 
+<span class="mw-customtoggle-14417072" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14417072" class="mw-collapsible mw-collapsed" style="display:none;">
+(Insert picture of the back of a racing car here.) 
+</div></div>
+Parse_this_text stu''pen''dously, ''mate'', do you ''he''ar me? 
+
+<hr />
+
+== Level 2 Heading==
+
+= Not a heading == 
+
+''Italic'', '''bold''', '''''both''''', ''neither''. 
+
+''Italic'', '''bold''', '''''both''''', *neither*. 
+
+''Italic'', '''bold''', '''''both''''', _neither_. 
+
+= Level 1 =
+
+#Not heading 
+
+= Level 1 =
+
+== Level 2 ==
+
+==== Hi ====
+
+=== Level 3 ===
+
+What does this do? 
+
+<hr />
+
+What does this do? 
+
+<hr />
+
+Faking:
+
+Thusly. 
+
+Indented code block:
+
+<pre>Hello world
+
+</pre>
+
+Indented code block:
+
+<pre>Hello world
+
+</pre>
+
+Indented code block: 
+
+<pre>Hello world
+
+</pre>
+
+Hello. 
+
+Indented code block: 
+
+<pre>Hello world
+
+</pre>
+
+Ada. 
+
+== Trivial indentation of paragraphs==
+
+Shouldn't make that<br />much difference. Except when uicode flag passed. 
+
+Second paragraph 
+
+Third paragraph 
+
+Søren. Søren. 
+
+J'ai regardé. 
+
+Watashi-wa Tōmasu desu. 
+
+''illegitimi nōn carborundum''. 
+
+''spuriīs nōn carborandum''. 
+
+øe vs œ vs \oe vs œ mate. 
+
+{Nothing ^(Special) ''h''.} 
+
+{Nothing ^(Spe{cial}) ''h''.} 
+
+{Nothing} ^(Spe{cial}). ''h'' 
+
+{|border="1"
+|-
+!Why 
+!What 
+|-
+|123 
+|4567 8 9 
+|-
+|a 
+|bcde 
+|-
+|fgh 
+|ijkl 
+|-
+|
+|mnop 
+|-
+|123 
+|
+|-
+|456 
+|789 
+|-
+|UUU 
+|Dwelt 
+|}
+
+Hi. 
+
+Hello. 
+
+Indent ation. 
+
+<pre>Indent
+</pre>
+
+ation. 
+
+<pre>Breaking
+
+the news (still in code).
+
+</pre>
+
+<pre>Breaking
+
+the news (also).
+
+
+</pre>
+
+

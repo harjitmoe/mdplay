@@ -48,7 +48,7 @@ def _parse_block(f,titlelevels,flags):
     cellrows=[]
 
     isrule=lambda line:re.match(r"\s*((?P<c>\*|_|-)\s?)\s*(?P=c)+\s*((?P=c)+\s+)*$",line+" ")
-    istable=lambda line:re.match(r"(=+ )*=+\s*$",line)
+    istable=lambda line:re.match(r"(=+ )+=+\s*$",line)
     isheadatx=lambda line:line.strip() and re.match(r"(#+) .*(\S#|[^#]|\\#)( \1)?$",line)
     isheadmw=lambda line:line.strip() and re.match(r"\s*(=+)([^=](.*[^=])?)\1\s*$",line)
     isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple(string.punctuation))
@@ -59,11 +59,12 @@ def _parse_block(f,titlelevels,flags):
     isul=lambda line:line.strip() and re.match(r"\s*[*+-](\s.*)?$",line)
 
     for line in f:
-        line=line.replace("\0","\xef\xbf\xbd").replace("\t","    ")
+        line=line.replace("\0","\xef\xbf\xbd").replace("\t"," "*4)
         if within=="root":
             assert depth==0
-            if line.startswith("    ") and ("uicode" in flags):
+            if line.startswith(" "*4) and ("uicode" in flags):
                 within="icode"
+                depth=4
                 f.rtpma()
                 continue
             elif isheadatx(line):
@@ -259,7 +260,7 @@ def _parse_block(f,titlelevels,flags):
                 within="root"
                 f.rtpma()
                 continue
-            if not line.startswith(" "*depth):
+            if line.strip() and (not line.startswith(" "*depth)):
                 yield (nodes.CodeBlockNode(minibuf,clas="::"))
                 minibuf=""
                 depth=0

@@ -168,7 +168,8 @@ def _escape(text):
             text=text.replace(unichr(htmlentitydefs.name2codepoint[name]),("&"+name+";").decode("ascii"))
     return text.encode("utf-8")
 
-def html_out(nodes,titl="",html5=False):
+def html_out(nodes,titl="",flags=()):
+    html5=("html5" in flags)
     mdi=minidom.getDOMImplementation() #minidom: other xml.dom imps don't necessarily support toxml
     if not html5:
         document=mdi.createDocument("http://www.w3.org/1999/xhtml","html",mdi.createDocumentType("html","-//W3C//DTD XHTML 1.1//EN","http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"))
@@ -198,4 +199,5 @@ def html_out(nodes,titl="",html5=False):
     return _escape(document.toxml("utf-8"))
 
 __mdplay_renderer__="html_out"
+__mdplay_snippet_renderer__=None #Not capable of snippet rendering
 

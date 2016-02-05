@@ -11,7 +11,7 @@ except:
 
 from mdplay import nodes
 
-def html_out_body(nodes):
+def html_out_body(nodes,flags=()):
     in_list=0
     r=""
     for node in nodes:
@@ -104,11 +104,13 @@ def _html_out_body(node,in_list):
     else:
         return "ERROR"+repr(node)
 
-def html_out(nodes,titl="",html5=False):
+def html_out(nodes,titl="",flags=()):
+    html5=("html5" in flags)
     if not html5:
         return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml"><head><title>'+_escape(titl)+'</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head><body>'+html_out_body(nodes)+"</body></html>"
     else:
         return '<!DOCTYPE html SYSTEM "about:legacy-compat">\n<html xmlns="http://www.w3.org/1999/xhtml"><head><title>'+_escape(titl)+'</title><meta charset="UTF-8" /></head><body>'+html_out_body(nodes)+"</body></html>"
 
 __mdplay_renderer__="html_out"
+__mdplay_snippet_renderer__="html_out_body"
 

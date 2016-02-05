@@ -9,8 +9,7 @@ Parser flag uicode enables detection of sufficiently large indents
 as code blocks, a la standard behaviour, rather than assuming indents
 are purely aesthetic unless indicated otherwise.
 
-Writer flag html5 enables HTML5 output (rather than HTML4).  -5 is a
-shorthand for -W html5 .
+Writer flag html5 enables HTML5 output.  -5 is a shorthand.
 """)
     sys.exit()
 

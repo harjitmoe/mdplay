@@ -242,9 +242,9 @@ def _parse_block(f,titlelevels,flags):
                 elif deep in depths:
                     depth=depths.index(deep)
                     depths=depths[:depth+1]
-                minibuf+=line.lstrip()[1:].strip()+" "
+                minibuf+=line.lstrip()[1:].lstrip()
             else:
-                minibuf+=line.strip()+" "
+                minibuf+=line.lstrip()+" "
         elif within=="rule":
             yield (nodes.RuleNode())
             within="root"

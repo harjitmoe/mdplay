@@ -1,0 +1,105 @@
+import re
+from mdplay import nodes
+
+def md_out(nodes,titl_ignored=None,flags=()):
+    return md_out_body(nodes,flags=flags)
+
+def md_out_body(nodes,flags=()):
+    r=""
+    for node in nodes:
+        r+=_md_out_body(node,flags=flags)
+    return r
+
+def _md_out_body(node,flags=()):
+    if not isinstance(node,nodes.Node): #i.e. is a string
+        #XXX any more needed?  are these appropriate?
+        return node.replace("\\","\\\\").replace("[","\\[").replace("*","\\*").replace("_","\\_").replace("^","\\^").replace("-","\\-").replace("'","\\'")
+    elif isinstance(node,nodes.TitleNode):
+        return "\n"+("#"*node.depth)+" "+md_out_body(node.content).rstrip()+"\n"
+    elif isinstance(node,nodes.ParagraphNode):
+        return "\n"+md_out_body(node.content).rstrip(" ")+"\n"
+    elif isinstance(node,nodes.BlockQuoteNode):
+        return "\n> "+md_out_body(node.content).strip("\r\n").replace("\n","\n> ")+"\n"
+    elif isinstance(node,nodes.SpoilerNode):
+        return "\n>! "+md_out_body(node.content).strip("\r\n").replace("\n","\n>! ")+"\n"
+    elif isinstance(node,nodes.CodeBlockNode):
+        rcontent="".join(node.content)
+        fence="~~~~~~"
+        while fence in rcontent:
+            fence+="~"
+        return "\n"+fence+"\n"+rcontent+fence+"\n"
+    elif isinstance(node,nodes.UlliNode):
+        return ("\x20\x20"*node.depth)+"* "+md_out_body(node.content).strip("\r\n").replace("\n","\n"+("\x20\x20"*(node.depth+1)))+"\n"
+    elif isinstance(node,nodes.BoldNode):
+        return "**"+md_out_body(node.content)+"**"
+    elif isinstance(node,nodes.ItalicNode):
+        return "*"+md_out_body(node.content)+"*"
+    elif isinstance(node,nodes.SuperNode):
+        return "^("+md_out_body(node.content).replace(")","\\)")+")"
+    elif isinstance(node,nodes.SubscrNode):
+        return "(~"+md_out_body(node.content).replace(")","\\)")+"~)"
+    elif isinstance(node,nodes.HrefNode):
+        label=md_out_body(node.label)
+        ht=node.hreftype
+        content=node.content
+        if ht=="url":
+            return "["+label+"]("+content.replace("\\","\\\\").replace(")","\\)")+")"
+        elif ht=="img":
+            return "!["+label+"]("+content.replace("\\","\\\\").replace(")","\\)")+")"
+        else:
+            return "!"+ht+"["+label+"]("+content.replace("\\","\\\\").replace(")","\\)")+")"
+    elif isinstance(node,nodes.NewlineNode):
+        return "\x20\x20\n"
+    elif isinstance(node,nodes.RuleNode):
+        return "\n- - -\n"
+    elif isinstance(node,nodes.TableNode):
+        r="\n"
+        rows_header=[]
+        rows_body=[]
+        for arow in node.table_head:
+            row=[]
+            for cell in arow:
+                row.append(md_out_body(cell).strip("\r\n"))
+            rows_header.append(row)
+        for arow in node.table_body:
+            row=[]
+            for cell in arow:
+                row.append(md_out_body(cell).strip("\r\n"))
+            rows_body.append(row)
+        column_guage=[]
+        for col in range(len(rows_header[0])):
+            guage=0
+            for row in rows_header+rows_body:
+                for line in row[col].split("\n"):
+                    if len(line)>guage:
+                        guage=len(line)
+            column_guage.append(guage)
+        rule=" ".join(["="*l for l in column_guage])+"\n"
+        r+=rule
+        def pad_to_len(line,guage):
+            while len(line)<guage:
+                line+=" "
+            return line
+        for row in rows_header:
+            if row and (not row[0].strip()): row[0]="\\"
+            lines=zip(*[i.split("\n") for i in row])
+            for line in lines:
+                if line:
+                    r+=(" ".join(map(pad_to_len,line[:-1],column_guage[:-1])))+" "+line[-1]+"\n"
+        r+=rule
+        for row in rows_body:
+            if row and (not row[0].strip()): row[0]="\\"
+            lines=zip(*[i.split("\n") for i in row])
+            for line in lines:
+                if line:
+                    r+=(" ".join(map(pad_to_len,line[:-1],column_guage[:-1])))+" "+line[-1]+"\n"
+        r+=rule
+        return r
+    elif isinstance(node,nodes.EmptyInterrupterNode):
+        return "\n\n"
+    else:
+        return "ERROR"+repr(node)
+
+__mdplay_renderer__="md_out"
+__mdplay_snippet_renderer__="md_out_body"
+

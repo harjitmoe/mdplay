@@ -2,7 +2,7 @@ import re
 from mdplay import nodes
 
 def mwiki_out(nodes,titl_ignored=None,flags=()):
-    return "EXPERIMENTAL RENDERER - NOT FOR PRODUCTION USE.\n\n"+mwiki_out_body(nodes,flags=flags)
+    return mwiki_out_body(nodes,flags=flags)
 
 def mwiki_out_body(nodes,flags=()):
     r=""

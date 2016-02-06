@@ -2,7 +2,7 @@ import re
 from mdplay import nodes
 
 def md_out(nodes,titl_ignored=None,flags=()):
-    return md_out_body(nodes,flags=flags)
+    return md_out_body(nodes,flags=flags).rstrip("\n")
 
 def md_out_body(nodes,flags=()):
     r=""
@@ -27,13 +27,25 @@ def _md_out_body(node,flags=()):
         fence="~~~~~~"
         while fence in rcontent:
             fence+="~"
-        return "\n"+fence+"\n"+rcontent+fence+"\n"
+        return "\n"+fence+" "+node.clas+"\n"+rcontent+fence+"\n"
+    elif isinstance(node,nodes.CodeSpanNode):
+        rcontent="".join(node.content)
+        fence="`"
+        while fence in rcontent:
+            fence+="`"
+        return fence+rcontent+fence
     elif isinstance(node,nodes.UlliNode):
         return ("\x20\x20"*node.depth)+"* "+md_out_body(node.content).strip("\r\n").replace("\n","\n"+("\x20\x20"*(node.depth+1)))+"\n"
     elif isinstance(node,nodes.BoldNode):
-        return "**"+md_out_body(node.content)+"**"
+        if node.emphatic:
+            return "**"+md_out_body(node.content)+"**"
+        else:
+            return "\ __"+md_out_body(node.content)+"__\ "
     elif isinstance(node,nodes.ItalicNode):
-        return "*"+md_out_body(node.content)+"*"
+        if node.emphatic:
+            return "*"+md_out_body(node.content)+"*"
+        else:
+            return "\ _"+md_out_body(node.content)+"_\ "
     elif isinstance(node,nodes.SuperNode):
         return "^("+md_out_body(node.content).replace(")","\\)")+")"
     elif isinstance(node,nodes.SubscrNode):

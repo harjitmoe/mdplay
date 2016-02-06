@@ -230,6 +230,16 @@ UUU Dwe\
     lt
 === ====
 
+Why|What
+:--|:--
+123|4567 8 9
+a|bcde
+fgh|ijkl
+ |mnop
+123| 
+456|789
+UUU|Dwelt
+
 Hi.
 
 Hello.
@@ -244,7 +254,7 @@ Hello.
 
 ::
 
-    Breaking
+    ''Breaking''
 
     the news (still in code).
 
@@ -278,7 +288,7 @@ And
 * one
 * list
 
-* same
+* ``*sa`me*``
 * list
 
 \

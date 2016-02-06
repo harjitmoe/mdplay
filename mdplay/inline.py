@@ -55,8 +55,20 @@ def _parse_inline(content,levs=("root",),flags=()):
             out.append("{")
             out.append(c)
             return out
+        ### Code spans (must be before escaping) ###
+        if lev.startswith("codespan"):
+            backticks=len(lev)-len("codespan")
+            if ( c+("".join(content[:backticks-1])) ) == ( "`"*backticks ):
+                for i in range(backticks-1):
+                    content.pop(0)
+                return out
+            out.append(c)
+        elif c=="`":
+            while content[0]=="`":
+                c+=content.pop(0)
+            out.append(nodes.CodeSpanNode(_parse_inline(content,("codespan"+c,)+levs,flags=flags)))
         ### Escaping ###
-        if c=="\\" and content and (content[0] in punct):
+        elif c=="\\" and content and (content[0] in punct):
             c2=content.pop(0)
             if c2 in " \n":
                 lastchar=" "

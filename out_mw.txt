@@ -17,7 +17,7 @@ rule.
 
 Another paragraph. 
 
-I can use ''italic'', '''bold''', `monospace`, '''bold'''.  I can [http://egscomics.com link], or include [http://i.imgur.com/YW5So8y.jpg ] images and [http://i.imgur.com/YW5So8y.jpg embeds with site-specific tags], or even [http://egscomics.com link images [http://i.imgur.com/YW5So8y.jpg like this]]! 
+I can use ''italic'', '''bold''', <code>monospace</code>, '''bold'''.  I can [http://egscomics.com link], or include [http://i.imgur.com/YW5So8y.jpg ] images and [http://i.imgur.com/YW5So8y.jpg embeds with site-specific tags], or even [http://egscomics.com link images [http://i.imgur.com/YW5So8y.jpg like this]]! 
 
 <pre>#!/usr/bin/env python
 # -*- python -*-
@@ -106,13 +106,9 @@ CH<sub>3</sub>COOH
 Back<sup>(not Backside)</sup> 
 
 (^Not a superscript.^) (^Not a superscript either.^) ^(Nor this.) ^(Or this.) 
-<span class="mw-customtoggle-14421744" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14421744" class="mw-collapsible mw-collapsed" style="display:none;">
-The lie is a muffin. 
-</div><span class="mw-customtoggle-14422000" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14422000" class="mw-collapsible mw-collapsed" style="display:none;">
+<span class="mw-customtoggle-14430928" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14430928" class="mw-collapsible mw-collapsed" style="display:none;">The lie is a muffin. </div><span class="mw-customtoggle-14431152" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14431152" class="mw-collapsible mw-collapsed" style="display:none;">
 Expand the below for a spoiler: 
-<span class="mw-customtoggle-14434480" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14434480" class="mw-collapsible mw-collapsed" style="display:none;">
-(Insert picture of the back of a racing car here.) 
-</div></div>
+<span class="mw-customtoggle-14430960" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14430960" class="mw-collapsible mw-collapsed" style="display:none;">(Insert picture of the back of a racing car here.) </div></div>
 Parse_this_text stu''pen''dously, ''mate'', do you ''he''ar me? 
 
 <hr />
@@ -232,6 +228,33 @@ Watashi-wa Tōmasu desu.
 |Dwelt 
 |}
 
+{|border="1"
+|-
+!Why
+!What
+|-
+|123
+|4567 8 9
+|-
+|a
+|bcde
+|-
+|fgh
+|ijkl
+|-
+| 
+|mnop
+|-
+|123
+|
+|-
+|456
+|789
+|-
+|UUU
+|Dwelt
+|}
+
 Hi. 
 
 Hello. 
@@ -243,7 +266,7 @@ Indent ation.
 
 ation. 
 
-<pre>Breaking
+<pre>''Breaking''
 
 the news (still in code).
 
@@ -273,7 +296,7 @@ And
 And 
 * one 
 * list 
-* same 
+* <code>*sa`me*</code> 
 * list 
 
 

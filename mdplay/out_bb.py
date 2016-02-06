@@ -40,6 +40,8 @@ def _bb_out(node,in_list,flags):
         return "\n[spoiler]"+bb_out_body(node.content,flags=flags)+"[/spoiler]\n"
     elif isinstance(node,nodes.CodeBlockNode):
         return "\n[code]"+bb_out_body(node.content,flags=flags)+"[/code]\n"
+    elif isinstance(node,nodes.CodeSpanNode):
+        return "[font=monospace]"+bb_out_body(node.content,flags=flags)+"[/font]"
     elif isinstance(node,nodes.UlliNode):
         r=""
         while (node.depth+1)>in_list:
@@ -63,6 +65,11 @@ def _bb_out(node,in_list,flags):
             if re.match("https?://(www\.)?tvtropes.org",content):
                 return "[u]"+label+("[/u][sup][url=%s](TVTropes)[/url][/sup]"%json.dumps(content))
             return ("[url=%s]"%json.dumps(content))+label+"[/url]"
+        elif ht=="wikilink":
+            if not label:
+                return "[wiki=%s]"%json.dumps(content)
+            else:
+                return "[wiki=%s title=%s]"%(json.dumps(content),json.dumps(label))
         else: #Including img
             label=label.strip()
             if label:

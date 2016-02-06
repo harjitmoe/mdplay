@@ -7,10 +7,15 @@ in a future release, or it may not.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.  HTML conversion does it sensibly.
 
-version 4.6
+version 4.7
 
 change-log:
 
+4.7: markdown renderer, enabling distillation to an extent as well as
+     round-trip testing.  by that means, fix bug involving detection of
+     opening fences without classes as ReST-style headings.  furthermore
+     add support for Reddit-style tables (in input) and code spans.  also
+     avoid extraneous whitespace in HTML where possible.
 4.6: make the undocumented TVTropes link exposure feature in the writers an
      optional feature enablable through a flag.  use valid HTML for nested
      lists in the non-DOM writer also.  make existing renderers implement

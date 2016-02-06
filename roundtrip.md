@@ -9,21 +9,21 @@ Paragraphs are very nice.
 I think so too.
 
 
-* Knives
-  * Forks
-  * Spoons
+* Knives 
+  * Forks 
+  * Spoons 
   * Ceramic  
     knifes
     
     rule.
-* Reality
-* Hello World.
+* Reality 
+* Hello World. 
 
 Another paragraph.
 
-I can use *italic*, **bold**, `monospace`, **bold**.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/YW5So8y.jpg) images and !media[embeds with site\-specific tags](http://i.imgur.com/YW5So8y.jpg), or even [link images ![like this](http://i.imgur.com/YW5So8y.jpg)](http://egscomics.com)!
+I can use *italic*, **bold**, `monospace`, \ __bold__\ .  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/YW5So8y.jpg) images and !media[embeds with site\-specific tags](http://i.imgur.com/YW5So8y.jpg), or even [link images ![like this](http://i.imgur.com/YW5So8y.jpg)](http://egscomics.com)!
 
-~~~~~~~~
+~~~~~~~~ python
 #!/usr/bin/env python
 # -*- python -*-
 import utility
@@ -114,13 +114,13 @@ Back^((not Backside\))
 
 (\^Not a superscript.\^) (\^Not a superscript either.\^) \^(Nor this.) \^(Or this.)
 
->! The lie is a muffin.
+>! The lie is a muffin. 
 
 >! Expand the below for a spoiler:
 >! 
->! >! (Insert picture of the back of a racing car here.)
+>! >! (Insert picture of the back of a racing car here.) 
 
-Parse\_this\_text stu*pen*dously, *mate*, do you *he*ar me?
+Parse\_this\_text stu*pen*dously, \ _mate_\ , do you \ _he_\ ar me?
 
 - - -
 
@@ -128,11 +128,11 @@ Parse\_this\_text stu*pen*dously, *mate*, do you *he*ar me?
 
 = Not a heading ==
 
-*Italic*, **bold**, ***both***, \'\'neither\'\'.
+\ _Italic_\ , \ __bold__\ , \ __\ _both_\ __\ , \'\'neither\'\'.
 
 *Italic*, **bold**, ***both***, \*neither\*.
 
-*Italic*, **bold**, ***both***, \_neither\_.
+\ _Italic_\ , \ __bold__\ , \ __\ _both_\ __\ , \_neither\_.
 
 # Level 1
 
@@ -160,21 +160,21 @@ Thusly.
 
 Indented code block:
 
-~~~~~~
+~~~~~~ ::
 Hello world
 
 ~~~~~~
 
 Indented code block:
 
-~~~~~~
+~~~~~~ ::
 Hello world
 
 ~~~~~~
 
 Indented code block:
 
-~~~~~~
+~~~~~~ ::
 Hello world
 
 ~~~~~~
@@ -183,7 +183,7 @@ Hello.
 
 Indented code block:
 
-~~~~~~
+~~~~~~ ::
 Hello world
 
 ~~~~~~
@@ -205,9 +205,9 @@ J\'ai regardé.
 
 Watashi\-wa Tōmasu desu.
 
-*illegitimi nōn carborundum*.
+\ _illegitimi nōn carborundum_\ .
 
-*spuriīs nōn carborandum*.
+\ _spuriīs nōn carborandum_\ .
 
 øe vs œ vs \\oe vs œ mate.
 
@@ -216,6 +216,18 @@ Watashi\-wa Tōmasu desu.
 {Nothing \^(Spe{cial}) *h*.}
 
 {Nothing} \^(Spe{cial}). *h*
+
+==== =========
+Why  What
+==== =========
+123  4567 8 9 
+a    bcde 
+fgh  ijkl 
+\    mnop 
+123  
+456  789 
+UUU  Dwelt 
+==== =========
 
 === ========
 Why What
@@ -235,20 +247,20 @@ Hello.
 
 Indent ation.
 
-~~~~~~
+~~~~~~ ::
 Indent
 ~~~~~~
 
 ation.
 
-~~~~~~
-Breaking
+~~~~~~ ::
+''Breaking''
 
 the news (still in code).
 
 ~~~~~~
 
-~~~~~~
+~~~~~~ ::
 Breaking
 
 the news (also).
@@ -261,29 +273,27 @@ the news (also).
 !wikilink[KSP](The King's (The Cathedral\) School)
 
 
-* one
-* list
+* one 
+* list 
 
 
-* another
-* list
-
-And
-
-
-* one
-* list
-
-
-* another
-* list
+* another 
+* list 
 
 And
 
 
-* one
-* list
-* same
-* list
+* one 
+* list 
 
 
+* another 
+* list 
+
+And
+
+
+* one 
+* list 
+* ``*sa`me*`` 
+* list 

@@ -23,6 +23,8 @@ def _mwiki_out_body(node,flags=()):
         return '<span class="mw-customtoggle-%s" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-%s" class="mw-collapsible mw-collapsed" style="display:none;">'%(id(node),id(node))+mwiki_out_body(node.content)+"</div>"
     elif isinstance(node,nodes.CodeBlockNode):
         return "\n<pre>"+mwiki_out_body(node.content)+"</pre>\n"
+    elif isinstance(node,nodes.CodeSpanNode):
+        return "<code>"+mwiki_out_body(node.content)+"</code>"
     elif isinstance(node,nodes.UlliNode):
         return ("*"*node.depth)+"* "+mwiki_out_body(node.content).strip("\r\n")+"\n"
     elif isinstance(node,nodes.BoldNode):

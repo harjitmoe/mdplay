@@ -57,6 +57,7 @@ def _parse_block(f,titlelevels,flags):
     issp=lambda line:line.strip() and line.lstrip().startswith(">!")
     iscb=lambda line:len(line)>=4 and all_same(line[:4])==" "
     isul=lambda line:line.strip() and re.match(r"\s*[*+-](\s.*)?$",line)
+    isalign=lambda line:(line!=None) and line.strip() and re.match(r"((:--|:-:|-_:)\|)+(:--|:-:|-_:)",line)
 
     for line in f:
         line=line.replace("\0","\xef\xbf\xbd").replace("\t"," "*4)
@@ -105,6 +106,10 @@ def _parse_block(f,titlelevels,flags):
                 continue
             elif issp(line):
                 within="spoiler"
+                f.rtpma()
+                continue
+            elif ("|" in line) and isalign(f.peek_ahead()):
+                within="tablered"
                 f.rtpma()
                 continue
             elif line.strip():
@@ -278,7 +283,7 @@ def _parse_block(f,titlelevels,flags):
                 while line[:1]==fchar:
                     fence+=1
                     line=line[1:]
-                fenceinfo=line
+                fenceinfo=line.strip()
                 fence*=fchar
             elif all_same(line.strip()) and (fence in line):
                 yield (nodes.CodeBlockNode(minibuf,clas=fenceinfo))
@@ -352,7 +357,7 @@ def _parse_block(f,titlelevels,flags):
                         cellrows2[0][-1].extend(row)
                 for row in cellrows2[0]:
                     for i in range(len(row)):
-                        row[i]=list(parse_block(row[i],flags))
+                        row[i]=nodes.filter_paratags(list(parse_block(row[i],flags)))
                 for row in cellrows[1]:
                     if cellrows2[1] and (not row[0].strip()):
                         for n,i in enumerate(row):
@@ -364,7 +369,7 @@ def _parse_block(f,titlelevels,flags):
                         cellrows2[1][-1].extend(row)
                 for row in cellrows2[1]:
                     for i in range(len(row)):
-                        row[i]=list(parse_block(row[i],flags))
+                        row[i]=nodes.filter_paratags(list(parse_block(row[i],flags)))
                 yield (nodes.TableNode(cellrows2))
                 within="root"
                 cellwid=[]
@@ -372,6 +377,37 @@ def _parse_block(f,titlelevels,flags):
                 depth=0
                 if (not istable(line)) or (not validly(line,cellwid)):
                     f.rtpma()
+                continue
+        elif within=="tablered":
+            def splitcols(line):
+                cols=[""]
+                esc=0
+                for char in line:
+                    if esc==1:
+                        cols[-1]+=char
+                        esc=0
+                    elif char=="\\":
+                        esc=1
+                        cols[-1]+=char
+                    elif char=="|":
+                        cols.append("")
+                    else:
+                        cols[-1]+=char
+                if not cols[-1].strip(): cols[-1]=""
+                return cols
+            if (not cellwid) and (cellrows):
+                cellwid=[{":--":"left",":-:":"center","--:":"right"}[i.strip()] for i in splitcols(line.strip())]
+            elif not cellwid:
+                cellrows=[[splitcols(line)],[]]
+            elif len(splitcols(line))==len(cellwid):
+                cellrows[1].append(splitcols(line))
+            else:
+                yield nodes.TableNode(cellrows,cellwid)
+                within="root"
+                cellwid=[]
+                cellrows=[]
+                depth=0
+                f.rtpma()
                 continue
         else:
             raise AssertionError("Unknown syntax feature %r"%within)

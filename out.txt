@@ -19,7 +19,7 @@ rule.
 
 Another paragraph. 
 
-I can use [i]italic[/i], [b]bold[/b], `monospace`, [b]bold[/b].  I can [url="http://egscomics.com"]link[/url], or include [img]http://i.imgur.com/YW5So8y.jpg[/img] images and [media alt="embeds with site-specific tags"]http://i.imgur.com/YW5So8y.jpg[/media], or even [url="http://egscomics.com"]link images [img alt="like this"]http://i.imgur.com/YW5So8y.jpg[/img][/url]! 
+I can use [i]italic[/i], [b]bold[/b], [font=monospace]monospace[/font], [b]bold[/b].  I can [url="http://egscomics.com"]link[/url], or include [img]http://i.imgur.com/YW5So8y.jpg[/img] images and [media alt="embeds with site-specific tags"]http://i.imgur.com/YW5So8y.jpg[/media], or even [url="http://egscomics.com"]link images [img alt="like this"]http://i.imgur.com/YW5So8y.jpg[/img][/url]! 
 
 [code]#!/usr/bin/env python
 # -*- python -*-
@@ -200,6 +200,8 @@ Watashi-wa Tōmasu desu.
 
 [table][tr][th]Why [/th][th]What [/th][/tr][tr][td]123 [/td][td]4567 8 9 [/td][/tr][tr][td]a [/td][td]bcde [/td][/tr][tr][td]fgh [/td][td]ijkl [/td][/tr][tr][td][/td][td]mnop [/td][/tr][tr][td]123 [/td][td][/td][/tr][tr][td]456 [/td][td]789 [/td][/tr][tr][td]UUU [/td][td]Dwelt [/td][/tr][/table]
 
+[table][tr][th]Why[/th][th]What[/th][/tr][tr][td]123[/td][td]4567 8 9[/td][/tr][tr][td]a[/td][td]bcde[/td][/tr][tr][td]fgh[/td][td]ijkl[/td][/tr][tr][td] [/td][td]mnop[/td][/tr][tr][td]123[/td][td][/td][/tr][tr][td]456[/td][td]789[/td][/tr][tr][td]UUU[/td][td]Dwelt[/td][/tr][/table]
+
 Hi. 
 
 Hello. 
@@ -210,7 +212,7 @@ Indent ation.
 
 ation. 
 
-[code]Breaking
+[code]''Breaking''
 
 the news (still in code).[/code]
 
@@ -218,19 +220,9 @@ the news (still in code).[/code]
 
 the news (also).[/code]
 
-[wikilink]User:HarJIT[/wikilink] 
+[wiki="User:HarJIT"] 
 
-[wikilink alt="KSP"]The King's (The Cathedral) School[/wikilink] 
-
-[list][*]one 
-[*]list 
-[/list]
-
-[list][*]another 
-[*]list 
-[/list]
-
-And 
+[wiki="The King's (The Cathedral) School" title="KSP"] 
 
 [list][*]one 
 [*]list 
@@ -244,6 +236,16 @@ And
 
 [list][*]one 
 [*]list 
-[*]same 
+[/list]
+
+[list][*]another 
+[*]list 
+[/list]
+
+And 
+
+[list][*]one 
+[*]list 
+[*][font=monospace]*sa`me*[/font] 
 [*]list 
 [/list]

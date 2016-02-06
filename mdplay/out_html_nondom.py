@@ -49,6 +49,8 @@ def _html_out_body(node,in_list,flags):
         return "<p><a href='javascript:void(0);' onclick=\"document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')\">Expand/Hide Spoiler</a></p><div class='spoiler' id='spoil%d' style='display:none;'>"%(id(node),id(node),id(node))+html_out_body(node.content,flags=flags)+"</div>"
     elif isinstance(node,nodes.CodeBlockNode):
         return "<pre>"+html_out_body(node.content,flags=flags)+"</pre>"
+    elif isinstance(node,nodes.CodeSpanNode):
+        return "<code>"+html_out_body(node.content,flags=flags)+"</code>"
     elif isinstance(node,nodes.UlliNode):
         r=""
         if (node.depth+1)>in_list:

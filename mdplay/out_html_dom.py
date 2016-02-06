@@ -77,6 +77,10 @@ def _html_out_body(nodem,document,in_list=0,flags=()):
             r=document.createElement("pre")
             r.appendChild(document.createTextNode("".join(node.content)))
             yield r
+        elif isinstance(node,nodes.CodeSpanNode):
+            r=document.createElement("code")
+            r.appendChild(document.createTextNode("".join(node.content)))
+            yield r
         elif isinstance(node,nodes.BoldNode):
             if node.emphatic:
                 r=document.createElement("strong")

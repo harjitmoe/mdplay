@@ -5,10 +5,11 @@ class NonContainerNode(Node):
     pass
 
 class BlockNode(Node):
-    def __init__(self,content,depth=-1,number=None):
+    def __init__(self,content,depth=-1,number=None,fence=None):
         self.content=list(content)
         self.depth=depth
         self.number=number
+        self.fence=fence
 
 class TableNode(Node):
     def __init__(self,content):
@@ -69,4 +70,7 @@ class NewlineNode(NonContainerNode):
     pass
 
 class RuleNode(NonContainerNode):
+    pass
+
+class EmptyInterrupterNode(NonContainerNode):
     pass

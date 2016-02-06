@@ -10,6 +10,8 @@ Paragraphs are very nice.[br]I think so too.
 [list][*]Forks 
 [*]Spoons 
 [*]Ceramic[br]knifes 
+
+rule. 
 [/list]
 [*]Reality 
 [*]Hello World. 
@@ -215,3 +217,33 @@ the news (still in code).[/code]
 [code]Breaking
 
 the news (also).[/code]
+
+[wikilink]User:HarJIT[/wikilink] 
+
+[wikilink alt="KSP"]The King's (The Cathedral) School[/wikilink] 
+
+[list][*]one 
+[*]list 
+[/list]
+
+[list][*]another 
+[*]list 
+[/list]
+
+And 
+
+[list][*]one 
+[*]list 
+[/list]
+
+[list][*]another 
+[*]list 
+[/list]
+
+And 
+
+[list][*]one 
+[*]list 
+[*]same 
+[*]list 
+[/list]

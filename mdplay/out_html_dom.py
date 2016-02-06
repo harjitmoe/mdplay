@@ -3,10 +3,10 @@ from xml.dom import minidom
 
 from mdplay import nodes
 
-def html_out_body(nodem,document,in_list=0):
-    return list(_html_out_body(nodem,document,in_list))
+def html_out_body(nodem,document,in_list=0,flags=()):
+    return list(_html_out_body(nodem,document,in_list,flags=flags))
 
-def _html_out_body(nodem,document,in_list=0):
+def _html_out_body(nodem,document,in_list=0,flags=()):
     while nodem:
         node=nodem.pop(0)
         if isinstance(node,nodes.UlliNode):
@@ -14,7 +14,7 @@ def _html_out_body(nodem,document,in_list=0):
                 r=document.createElement("ul")
                 r2=document.createElement("li")
                 r.appendChild(r2)
-                for domn in html_out_body(node.content,document):
+                for domn in html_out_body(node.content,document,flags=flags):
                     r2.appendChild(domn)
                 for domn in html_out_body(nodem,document,in_list+1):
                     if domn.tagName not in ("ul","ol"):
@@ -31,7 +31,7 @@ def _html_out_body(nodem,document,in_list=0):
                 return
             else:
                 r=document.createElement("li")
-                for domn in html_out_body(node.content,document):
+                for domn in html_out_body(node.content,document,flags=flags):
                     r.appendChild(domn)
                 yield r
         elif in_list: #A non-list node at list-stack level
@@ -42,17 +42,17 @@ def _html_out_body(nodem,document,in_list=0):
         elif isinstance(node,nodes.TitleNode):
             if node.depth>6: node.depth=6
             r=document.createElement("h%d"%node.depth)
-            for domn in html_out_body(node.content,document):
+            for domn in html_out_body(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.ParagraphNode):
             r=document.createElement("p")
-            for domn in html_out_body(node.content,document):
+            for domn in html_out_body(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.BlockQuoteNode):
             r=document.createElement("blockquote")
-            for domn in html_out_body(node.content,document):
+            for domn in html_out_body(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.SpoilerNode):
@@ -70,7 +70,7 @@ def _html_out_body(nodem,document,in_list=0):
             r3.setAttribute("class",'spoiler')
             r3.setAttribute("id",'spoil%d'%id(node))
             r3.setAttribute("style",'display:none;')
-            for domn in html_out_body(node.content,document):
+            for domn in html_out_body(node.content,document,flags=flags):
                 r3.appendChild(domn)
             yield metar
         elif isinstance(node,nodes.CodeBlockNode):
@@ -82,7 +82,7 @@ def _html_out_body(nodem,document,in_list=0):
                 r=document.createElement("strong")
             else:
                 r=document.createElement("b")
-            for domn in html_out_body(node.content,document):
+            for domn in html_out_body(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.ItalicNode):
@@ -90,17 +90,17 @@ def _html_out_body(nodem,document,in_list=0):
                 r=document.createElement("em")
             else:
                 r=document.createElement("i")
-            for domn in html_out_body(node.content,document):
+            for domn in html_out_body(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.SuperNode):
             r=document.createElement("sup")
-            for domn in html_out_body(node.content,document):
+            for domn in html_out_body(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.SubscrNode):
             r=document.createElement("sub")
-            for domn in html_out_body(node.content,document):
+            for domn in html_out_body(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.HrefNode):
@@ -108,7 +108,7 @@ def _html_out_body(nodem,document,in_list=0):
             content=node.content
             if ht=="url":
                 label=html_out_body(node.label,document)
-                if re.match("https?://(www\.)?tvtropes.org",content):
+                if ("showtropes" in flags) and re.match("https?://(www\.)?tvtropes.org",content):
                     metar=document.createElement("span")
                     r=document.createElement("u")
                     metar.appendChild(r)
@@ -164,6 +164,8 @@ def _html_out_body(nodem,document,in_list=0):
                     for domn in html_out_body(list(cell),document):
                         td.appendChild(domn)
             yield r
+        elif isinstance(node,nodes.EmptyInterrupterNode):
+            yield document.createTextNode("")
         else:
             yield document.createTextNode("ERROR"+repr(node))
 
@@ -201,7 +203,7 @@ def html_out(nodes,titl="",flags=()):
         charset.setAttribute("charset","UTF-8")
     #Body
     nodes=list(nodes)
-    for domn in html_out_body(nodes,document):
+    for domn in html_out_body(nodes,document,flags=flags):
         body.appendChild(domn)
     return _escape(document.toxml("utf-8"))
 

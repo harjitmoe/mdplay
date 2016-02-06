@@ -11,7 +11,7 @@ class MdplayError(ValueError):pass
 class NoSuchRendererError(MdplayError):pass
 class NoSnippetRendererError(MdplayError):pass
 
-writers={"bbcode":"out_bb","html":"out_html_dom","htmlalt":"out_html_nondom","mwiki":"out_mwiki"}
+writers={"bbcode":"out_bb","html":"out_html_dom","htmlalt":"out_html_nondom","mwiki":"out_mwiki","json":"out_json"}
 
 def _load_renderer(modname):
     renderer_module=getattr(__import__("mdplay."+modname),modname)

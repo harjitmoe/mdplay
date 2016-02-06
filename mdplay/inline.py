@@ -119,6 +119,8 @@ def _parse_inline(content,levs=("root",),flags=()):
                 del content[0]
                 c=content.pop(0)
                 while c!=")":
+                    if (c=="\\") and (content[0] in "\\)"):
+                        c=content.pop(0)
                     href+=c
                     c=content.pop(0)
             if hreftype=="!":

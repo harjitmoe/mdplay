@@ -43,7 +43,7 @@ def _mwiki_out_body(node,flags=()):
             else:
                 return "[["+content+"]]"
         else:
-            if re.match("https?://(www\.)?tvtropes.org",content):
+            if ("showtropes" in flags) and re.match("https?://(www\.)?tvtropes.org",content):
                 return "<u>"+label+("</u><sup>[%s (TVTropes)]</sup>"%content.replace(" ","%20"))
             return "["+content.replace(" ","%20")+" "+label+"]"
     elif isinstance(node,nodes.NewlineNode):
@@ -61,6 +61,8 @@ def _mwiki_out_body(node,flags=()):
             for cell in row:
                 r+="|"+mwiki_out_body(list(cell)).strip("\r\n")+"\n"
         return r+"|}\n"
+    elif isinstance(node,nodes.EmptyInterrupterNode):
+        return ""
     else:
         return "ERROR"+repr(node)
 

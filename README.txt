@@ -2,15 +2,25 @@ convert a derivative of Markdown to BBCode or HTML.
 
 no special support is included for ordered lists, parallelling the absence of
 such in BBCode.  unordered lists are converted, though.  this may be changed
-in a future release.
+in a future release, or it may not.
 
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.  HTML conversion does it sensibly.
 
-version 4.4
+version 4.6
 
 change-log:
 
+4.6: make the undocumented TVTropes link exposure feature in the writers an
+     optional feature enablable through a flag.  use valid HTML for nested
+     lists in the non-DOM writer also.  make existing renderers implement
+     the flag system properly.  allow escaping of close-brackets in link
+     targets (including wikilinks).  fix fusing of separate lists.  STILL
+     NO <OL>S, and seems more trouble than worth anyway (MD list syntax
+     seems disputed at best).
+4.5: added experimental MediaWiki-dialect wikitext renderer.  fixed handling
+     of two-space line breaks in list items.  use valid (rather than merely
+     browser-condoned) HTML for nested lists (DOM-based renderer only).
 4.4: better indented code parsing.  flag system API for writers as well as
      the parser.  add table handling to BBCode writer (was only present in
      HTML at first) - might work depending on targeted BBCode dialect.
@@ -45,6 +55,7 @@ change-log:
      split from a script into many modules and implement partial support for 
      ReST-style extended Setext headings.  Note that this will not behave 
      correctly if used to translate more than one document.
+[later 2.x revisions (2.1 through 2.4) back-ported fixes from 3.x]
 2.0: code spans were not correctly implemented (they were merely implemented 
      as monospace format spans) and i have no intent of improving upon this so
      i removed it.  fixed middle-of-word underscore behaviour.

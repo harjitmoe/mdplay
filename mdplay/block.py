@@ -212,26 +212,25 @@ def _parse_block(f,titlelevels,flags):
                 #NO rtpma
                 continue
         elif within=="ul":
-            if not line.strip():
-                yield (nodes.UlliNode(parse_block(minibuf,titlelevels,flags),depth))
+            if not fence:
+                fence=line.lstrip()[0]
+                yield (nodes.EmptyInterrupterNode())
+            if ( (not line.strip()) and ( (f.peek_ahead()==None) or (not f.peek_ahead().strip()) or (f.peek_ahead()[0] not in (" ",fence)) or ("breaklists" in flags) ) ) or isrule(line):
+                yield (nodes.UlliNode(parse_block(minibuf,titlelevels,flags),depth,fence=fence))
                 minibuf=""
                 depth=0
                 depths=[]
+                fence=None
                 within="root"
-                f.rtpma()
-                continue
-            elif isrule(line):
-                yield (nodes.UlliNode(parse_block(minibuf,titlelevels,flags),depth))
-                minibuf=""
-                depth=0
-                depths=[]
-                within="rule"
                 f.rtpma()
                 continue
             elif isul(line):
                 if minibuf:
-                    yield (nodes.UlliNode(parse_block(minibuf,titlelevels,flags),depth))
+                    yield (nodes.UlliNode(parse_block(minibuf,titlelevels,flags),depth,fence=fence))
                     minibuf=""
+                if fence!=line.lstrip()[0]:
+                    yield (nodes.EmptyInterrupterNode())
+                fence=line.lstrip()[0]
                 deep=len(line.replace("\t"," "*4))-len(line.replace("\t"," "*4).lstrip())
                 if not depths:
                     depths.append(deep)
@@ -244,7 +243,7 @@ def _parse_block(f,titlelevels,flags):
                     depths=depths[:depth+1]
                 minibuf+=line.lstrip()[1:].lstrip()
             else:
-                minibuf+=line.lstrip()+" "
+                minibuf+=line.lstrip()+"\n"
         elif within=="rule":
             yield (nodes.RuleNode())
             within="root"
@@ -353,7 +352,7 @@ def _parse_block(f,titlelevels,flags):
                         cellrows2[0][-1].extend(row)
                 for row in cellrows2[0]:
                     for i in range(len(row)):
-                        row[i]=parse_block(row[i],flags)
+                        row[i]=list(parse_block(row[i],flags))
                 for row in cellrows[1]:
                     if cellrows2[1] and (not row[0].strip()):
                         for n,i in enumerate(row):
@@ -365,7 +364,7 @@ def _parse_block(f,titlelevels,flags):
                         cellrows2[1][-1].extend(row)
                 for row in cellrows2[1]:
                     for i in range(len(row)):
-                        row[i]=parse_block(row[i],flags)
+                        row[i]=list(parse_block(row[i],flags))
                 yield (nodes.TableNode(cellrows2))
                 within="root"
                 cellwid=[]

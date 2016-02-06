@@ -87,16 +87,16 @@ def _parse_block(f,titlelevels,flags):
                 within="rule"
                 f.rtpma()
                 continue
+            elif isfence(line):
+                within="fence"
+                f.rtpma()
+                continue
             elif isulin(line):
                 within="sthead"
                 #NO rtpma
                 continue
             elif isul(line):
                 within="ul"
-                f.rtpma()
-                continue
-            elif isfence(line):
-                within="fence"
                 f.rtpma()
                 continue
             elif isbq(line):

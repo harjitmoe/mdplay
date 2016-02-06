@@ -9,3 +9,5 @@ set PYTHON=python
 %PYTHON% pymdplay.py -o out_alt.html -f htmlalt test.md
 %PYTHON% pymdplay.py -o out_mw.txt -f mwiki test.md
 %PYTHON% pymdplay.py -o json.txt -f json test.md
+%PYTHON% pymdplay.py -o roundtrip.md -f md test.md
+%PYTHON% pymdplay.py -o roundtrip2.md -f md roundtrip.md

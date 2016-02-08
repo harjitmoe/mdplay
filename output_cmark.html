@@ -1,0 +1,206 @@
+<h1>Heading</h1>
+<h2>Subheading</h2>
+<h2>Overcast</h2>
+<p>Paragraphs are very nice.<br />
+I think so too.</p>
+<ul>
+<li>Knives
+<ul>
+<li><p>Forks</p></li>
+<li><p>Spoons</p></li>
+<li><p>Ceramic<br />
+knifes</p>
+<p>rule.</p></li>
+</ul></li>
+<li>Reality</li>
+<li>Hello World.</li>
+</ul>
+<p>Another paragraph.</p>
+<p>I can use <em>italic</em>, <strong>bold</strong>, <code>monospace</code>, <strong>bold</strong>.  I can <a href="http://egscomics.com">link</a>, or include <img src="http://i.imgur.com/YW5So8y.jpg" alt="" /> images and !media<a href="http://i.imgur.com/YW5So8y.jpg">embeds with site-specific tags</a>, or even <a href="http://egscomics.com">link images <img src="http://i.imgur.com/YW5So8y.jpg" alt="like this" /></a>!</p>
+<pre><code class="language-python">#!/usr/bin/env python
+# -*- python -*-
+import utility
+
+#so as to pass JSON to eval
+null=None
+false=False
+true=True
+
+import os,sys
+
+main_db=eval(open(&quot;.build/MegaDb.txt&quot;,&quot;rU&quot;).read())
+
+arcs=[]
+curatitl=&quot;&quot;
+
+useless=&quot;&quot;&quot;
+~~~~~~~
+&quot;&quot;&quot;
+
+def handle_line(line):
+    atitl,ltitl=line[&quot;Title&quot;].split(&quot;: &quot;,1)
+    if atitl!=curatitl:
+        arcs.append({&quot;Title&quot;:atitl,&quot;StoryLines&quot;:[]})
+        curatitl=atitl
+    arcs[-1][&quot;StoryLines&quot;].append({&quot;Title&quot;:ltitl,&quot;Comics&quot;:line[&quot;Comics&quot;]})
+
+map(handle_line,main_db)
+
+open(&quot;.build/MegaDb.txt&quot;,&quot;w&quot;).write(repr(arcs))
+</code></pre>
+<blockquote>
+<h1>Can he fix it???</h1>
+<p>Bob the builder yes we can</p>
+</blockquote>
+<h2>Verily</h2>
+<hr />
+<h2>Escaping and stuff</h2>
+<h1>Escaping and stuff</h1>
+<h3>Escaping and stuff</h3>
+<p>!![This is not](an embed.)</p>
+<p>![This is not](an embed) either.</p>
+<p>Th![is likewise isn't](an embed).</p>
+<p>Whereas this is: !<img src="http://i.imgur.com/YW5So8y.jpg" alt="an embed" /></p>
+<p><img src="http://i.imgur.com/YW5So8y.jpg" alt="This embed" /> is also an embed.</p>
+<p>[This is not](a link).</p>
+<p>Th[is isn't](either).</p>
+<p>Th<a href="http://egscomics.com">is is.</a></p>
+<p>At the start of a<br />
+<a href="http://egscomics.com">line</a></p>
+<p>Likewise<br />
+<img src="http://i.imgur.com/YW5So8y.jpg" alt="" /></p>
+<p>C:\WINDOWS\--hello--</p>
+<p>\<em>Italics</em></p>
+<p>---</p>
+<hr />
+<p><a href="http://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/UNIX">Useful Notes: UNIX</a></p>
+<h2>Superscripts and subscripts</h2>
+<p>m=Ec^(-2)</p>
+<p>E=(mv^(2))/2</p>
+<p>CH(~3~)COOH</p>
+<p>Back^((not Backside))</p>
+<p>(^Not a superscript.^) (^Not a superscript either.^) ^(Nor this.) ^(Or this.)</p>
+<blockquote>
+<p>! The lie is a muffin.</p>
+</blockquote>
+<blockquote>
+<p>! Expand the below for a spoiler:
+!
+! &gt;! (Insert picture of the back of a racing car here.)</p>
+</blockquote>
+<p>Parse_this_text stu<em>pen</em>dously, <em>mate</em>, do you <em>he</em>ar me?</p>
+<hr />
+<h2>Level 2 Heading</h2>
+<p>= Not a heading ==</p>
+<p><em>Italic</em>, <strong>bold</strong>, <strong><em>both</em></strong>, ''neither''.</p>
+<p><em>Italic</em>, <strong>bold</strong>, <strong><em>both</em></strong>, *neither*.</p>
+<p><em>Italic</em>, <strong>bold</strong>, <strong><em>both</em></strong>, _neither_.</p>
+<h1>Level 1</h1>
+<p>#Not heading</p>
+<h1>Level 1</h1>
+<h2>Level 2</h2>
+<h4>Hi</h4>
+<h3>Level 3</h3>
+<p>What does this do?</p>
+<hr />
+<p>What does this do?</p>
+<hr />
+<p>Faking:</p>
+<p>Thusly.</p>
+<p>Indented code block:</p>
+<pre><code class="language-::">Hello world
+
+</code></pre>
+<p>Indented code block:</p>
+<pre><code class="language-::">Hello world
+
+</code></pre>
+<p>Indented code block:</p>
+<pre><code class="language-::">Hello world
+
+</code></pre>
+<p>Hello.</p>
+<p>Indented code block:</p>
+<pre><code class="language-::">Hello world
+
+</code></pre>
+<p>Ada.</p>
+<h2>Trivial indentation of paragraphs</h2>
+<p>Shouldn't make that<br />
+much difference. Except when uicode flag passed.</p>
+<p>Second paragraph</p>
+<p>Third paragraph</p>
+<p>Søren. Søren.</p>
+<p>J'ai regardé.</p>
+<p>Watashi-wa Tōmasu desu.</p>
+<p><em>illegitimi nōn carborundum</em>.</p>
+<p><em>spuriīs nōn carborandum</em>.</p>
+<p>øe vs œ vs \oe vs œ mate.</p>
+<p>{Nothing ^(Special) <em>h</em>.}</p>
+<p>{Nothing ^(Spe{cial}) <em>h</em>.}</p>
+<p>{Nothing} ^(Spe{cial}). <em>h</em></p>
+<p>==== =========
+Why  What
+==== =========
+123  4567 8 9
+a    bcde
+fgh  ijkl
+\    mnop
+123<br />
+456  789
+UUU  Dwelt
+==== =========</p>
+<p>=== ========
+Why What
+=== ========
+123 4567 8 9
+a   bcde
+fgh ijkl
+\   mnop
+123
+456 789
+UUU Dwelt
+=== ========</p>
+<p>Hi.</p>
+<p>Hello.</p>
+<p>Indent ation.</p>
+<pre><code class="language-::">Indent
+</code></pre>
+<p>ation.</p>
+<pre><code class="language-::">''Breaking''
+
+the news (still in code).
+
+</code></pre>
+<pre><code class="language-::">Breaking
+
+the news (also).
+
+
+</code></pre>
+<p>!wikilink<a href="User:HarJIT"></a></p>
+<p>!wikilink[KSP](The King's (The Cathedral) School)</p>
+<ul>
+<li>one</li>
+<li>list</li>
+</ul>
+<ul>
+<li>another</li>
+<li>list</li>
+</ul>
+<p>And</p>
+<ul>
+<li>one</li>
+<li>list</li>
+</ul>
+<ul>
+<li>another</li>
+<li>list</li>
+</ul>
+<p>And</p>
+<ul>
+<li>one</li>
+<li>list</li>
+<li><code>*sa`me*</code></li>
+<li>list</li>
+</ul>

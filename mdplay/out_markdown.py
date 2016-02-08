@@ -2,7 +2,10 @@ import re
 from mdplay import nodes
 
 def md_out(nodes,titl_ignored=None,flags=()):
-    return md_out_body(nodes,flags=flags).rstrip("\n")
+    r=md_out_body(nodes,flags=flags)
+    if r and (r[0]==r[-1]=="\n"):
+        r=r[1:-1]
+    return r
 
 def md_out_body(nodes,flags=()):
     r=""
@@ -15,13 +18,13 @@ def _md_out_body(node,flags=()):
         #XXX any more needed?  are these appropriate?
         return node.replace("\\","\\\\").replace("[","\\[").replace("*","\\*").replace("_","\\_").replace("^","\\^").replace("-","\\-").replace("'","\\'")
     elif isinstance(node,nodes.TitleNode):
-        return "\n"+("#"*node.depth)+" "+md_out_body(node.content).rstrip()+"\n"
+        return "\n"+("#"*node.depth)+" "+md_out_body(node.content,flags).rstrip()+"\n"
     elif isinstance(node,nodes.ParagraphNode):
-        return "\n"+md_out_body(node.content).rstrip(" ")+"\n"
+        return "\n"+md_out_body(node.content,flags).rstrip(" ")+"\n"
     elif isinstance(node,nodes.BlockQuoteNode):
-        return "\n> "+md_out_body(node.content).strip("\r\n").replace("\n","\n> ")+"\n"
+        return "\n> "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n> ")+"\n"
     elif isinstance(node,nodes.SpoilerNode):
-        return "\n>! "+md_out_body(node.content).strip("\r\n").replace("\n","\n>! ")+"\n"
+        return "\n>! "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n>! ")+"\n"
     elif isinstance(node,nodes.CodeBlockNode):
         rcontent="".join(node.content)
         fence="~~~~~~"
@@ -35,23 +38,23 @@ def _md_out_body(node,flags=()):
             fence+="`"
         return fence+rcontent+fence
     elif isinstance(node,nodes.UlliNode):
-        return ("\x20\x20"*node.depth)+"* "+md_out_body(node.content).strip("\r\n").replace("\n","\n"+("\x20\x20"*(node.depth+1)))+"\n"
+        return ("\x20\x20"*node.depth)+"* "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n"+("\x20\x20"*(node.depth+1)))+"\n"
     elif isinstance(node,nodes.BoldNode):
-        if node.emphatic:
-            return "**"+md_out_body(node.content)+"**"
+        if node.emphatic or ("nobackslashspace" in flags):
+            return "**"+md_out_body(node.content,flags)+"**"
         else:
-            return "\ __"+md_out_body(node.content)+"__\ "
+            return "\ __"+md_out_body(node.content,flags)+"__\ "
     elif isinstance(node,nodes.ItalicNode):
-        if node.emphatic:
-            return "*"+md_out_body(node.content)+"*"
+        if node.emphatic or ("nobackslashspace" in flags):
+            return "*"+md_out_body(node.content,flags)+"*"
         else:
-            return "\ _"+md_out_body(node.content)+"_\ "
+            return "\ _"+md_out_body(node.content,flags)+"_\ "
     elif isinstance(node,nodes.SuperNode):
-        return "^("+md_out_body(node.content).replace(")","\\)")+")"
+        return "^("+md_out_body(node.content,flags).replace(")","\\)")+")"
     elif isinstance(node,nodes.SubscrNode):
-        return "(~"+md_out_body(node.content).replace(")","\\)")+"~)"
+        return "(~"+md_out_body(node.content,flags).replace(")","\\)")+"~)"
     elif isinstance(node,nodes.HrefNode):
-        label=md_out_body(node.label)
+        label=md_out_body(node.label,flags)
         ht=node.hreftype
         content=node.content
         if ht=="url":
@@ -71,12 +74,12 @@ def _md_out_body(node,flags=()):
         for arow in node.table_head:
             row=[]
             for cell in arow:
-                row.append(md_out_body(cell).strip("\r\n"))
+                row.append(md_out_body(cell,flags).strip("\r\n"))
             rows_header.append(row)
         for arow in node.table_body:
             row=[]
             for cell in arow:
-                row.append(md_out_body(cell).strip("\r\n"))
+                row.append(md_out_body(cell,flags).strip("\r\n"))
             rows_body.append(row)
         column_guage=[]
         for col in range(len(rows_header[0])):

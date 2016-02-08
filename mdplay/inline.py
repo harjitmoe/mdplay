@@ -1,18 +1,36 @@
 import re,string
 
 from mdplay import nodes, umlaut
+from mdplay.uriregex import uriregex
 
 punct=string.punctuation+string.whitespace
+
+open("mega.txt","w").write(uriregex)
+
 def _parse_inline(content,levs=("root",),flags=()):
     # Note: the recursion works by the list being a Python
     # mutable, "passed by reference" as it were
     lastchar=" "
+    if ("strict" not in flags) and ("verifyurl" not in flags):
+        urireg=".*"
+    else:
+        urireg=uriregex
+    if ("strict" not in flags) and ("unpaddedembed" not in flags):
+        bangreg=" !"
+    else:
+        bangreg=".!"
+    if ("strict" not in flags) and ("nospecialhrefs" not in flags):
+        hrefre="(("+bangreg+"|.)\[.*\]\("+urireg+"\))|(("+bangreg+"\w+)\[.*\]\(.*\))"
+    elif ("noembeds" not in flags):
+        hrefre="("+bangreg+"|.)\[.*\]\("+urireg+"\)"
+    else:
+        hrefre=".\[.*\]\("+urireg+"\)"
     out=[]
     lev=levs[0]
     while content:
         c=content.pop(0)
         ### BibTeX diacritics
-        if c=="\\" and ("bibuml" in levs):
+        if c=="\\" and ("bibuml" in levs) and ("strict" not in flags) and ("nodiacritic" not in flags):
             c2=""
             umldep=0
             while content:
@@ -50,7 +68,7 @@ def _parse_inline(content,levs=("root",),flags=()):
                 lastchar=r
                 out.append(r)
             return out
-        elif "bibuml" in levs: #but not c=="\\"
+        elif ("bibuml" in levs) and ("strict" not in flags) and ("nodiacritic" not in flags): #but not c=="\\"
             lastchar=c
             out.append("{")
             out.append(c)
@@ -104,22 +122,22 @@ def _parse_inline(content,levs=("root",),flags=()):
         elif c=="_" and (content[0] in punct) and lev=="italicalt":
             return out
         #### /With apostrophes
-        elif c=="'" and "".join(content).startswith("''") and ("boldmw" not in levs):
+        elif c=="'" and "".join(content).startswith("''") and ("boldmw" not in levs) and ("strict" not in flags) and ("nowikitext" not in flags) and ("nowikiemph" not in flags):
             del content[0]
             del content[0] #yes, again
             out.append(nodes.BoldNode(_parse_inline(content,("boldmw",)+levs,flags=flags),emphatic=False))
-        elif c=="'" and "".join(content).startswith("''") and lev=="boldmw":
+        elif c=="'" and "".join(content).startswith("''") and lev=="boldmw" and ("strict" not in flags) and ("nowikitext" not in flags) and ("nowikiemph" not in flags):
             del content[0]
             del content[0] #yes, again
             return out
-        elif c=="'" and content[0]=="'" and ("italicmw" not in levs):
+        elif c=="'" and content[0]=="'" and ("italicmw" not in levs) and ("strict" not in flags) and ("nowikitext" not in flags) and ("nowikiemph" not in flags):
             del content[0]
             out.append(nodes.ItalicNode(_parse_inline(content,("italicmw",)+levs,flags=flags),emphatic=False))
-        elif c=="'" and content[0]=="'" and lev=="italicmw":
+        elif c=="'" and content[0]=="'" and lev=="italicmw" and ("strict" not in flags) and ("nowikitext" not in flags) and ("nowikiemph" not in flags):
             del content[0]
             return out
         ### HREFs (links and embeds) ###
-        elif (len(lastchar)==1) and re.match("( !\w*|.)\[.*\]\(.*\)",lastchar+c+("".join(content))):
+        elif (len(lastchar)==1) and re.match(hrefre,lastchar+c+("".join(content))):
             #(re.match, not re.search, i.e. looks only at start of string)
             hreftype=""
             while c!="[":
@@ -145,25 +163,25 @@ def _parse_inline(content,levs=("root",),flags=()):
         elif c=="]" and lev=="label":
             return out
         ### Superscripts and Subscripts ###
-        elif c=="^" and content[0]=="(":
+        elif c=="^" and content[0]=="(" and ("nosupersubscript" not in flags) and ("strict" not in flags) and ("noredditstyle" not in flags):
             del content[0]
             out.append(nodes.SuperNode(_parse_inline(content,("supred",)+levs,flags=flags)))
-        elif c==")" and lev=="supred":
+        elif c==")" and lev=="supred" and ("nosupersubscript" not in flags) and ("strict" not in flags) and ("noredditstyle" not in flags):
             return out
-        elif c=="(" and content[0]=="^":
+        elif c=="(" and content[0]=="^" and ("nosupersubscript" not in flags) and ("strict" not in flags) and ("nopandocstyle" not in flags):
             del content[0]
             out.append(nodes.SuperNode(_parse_inline(content,("suppan",)+levs,flags=flags)))
-        elif c=="^" and content[0]==")" and lev=="suppan":
+        elif c=="^" and content[0]==")" and lev=="suppan" and ("nosupersubscript" not in flags) and ("strict" not in flags) and ("nopandocstyle" not in flags):
             del content[0]
             return out
-        elif c=="(" and content[0]=="~":
+        elif c=="(" and content[0]=="~" and ("nosupersubscript" not in flags) and ("strict" not in flags) and ("nopandocstyle" not in flags):
             del content[0]
             out.append(nodes.SubscrNode(_parse_inline(content,("sub",)+levs,flags=flags)))
-        elif c=="~" and content[0]==")" and lev=="sub":
+        elif c=="~" and content[0]==")" and lev=="sub" and ("nosupersubscript" not in flags) and ("strict" not in flags) and ("nopandocstyle" not in flags):
             del content[0]
             return out
         #
-        elif c=="{":
+        elif c=="{" and ("strict" not in flags) and ("nodiacritic" not in flags):
             out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags))
         else:
             lastchar=c
@@ -171,4 +189,4 @@ def _parse_inline(content,levs=("root",),flags=()):
     return out
 
 def parse_inline(content,flags=()):
-    return _parse_inline(list(content)+[""],flags=flags)
+    return _parse_inline([i.encode("utf-8") for i in list(content.decode("utf-8"))]+[""],flags=flags)

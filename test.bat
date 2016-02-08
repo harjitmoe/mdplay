@@ -1,4 +1,5 @@
-set PYTHON=python
+rem set PYTHON=..\python.exe
+set PYTHON=python.exe
 
 %PYTHON% pymdplay.py -o out.txt -f bbcode test.md
 %PYTHON% pymdplay.py -o out_uicode.txt -P uicode -f bbcode test.md
@@ -11,3 +12,11 @@ set PYTHON=python
 %PYTHON% pymdplay.py -o json.txt -f json test.md
 %PYTHON% pymdplay.py -o roundtrip.md -f md test.md
 %PYTHON% pymdplay.py -o roundtrip2.md -f md roundtrip.md
+%PYTHON% pymdplay.py -o roundtrip.html -f html roundtrip2.md
+%PYTHON% pymdplay.py -o input_cmark.md -W nobackslashspace -f md test.md
+%PYTHON% pymdplay.py -o my_output_cmark.html -P strict -W nobackslashspace -f htmlalt input_cmark.md
+%PYTHON% c:/python27/Scripts/cmark.py input_cmark.md > output_cmark.html
+
+@echo Over.
+:a
+rem @goto a

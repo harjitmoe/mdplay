@@ -51,10 +51,17 @@ def _parse_block(f,titlelevels,flags):
     istable=lambda line:re.match(r"(=+ )+=+\s*$",line)
     isheadatx=lambda line:line.strip() and re.match(r"(#+) .*(\S#|[^#]|\\#)( \1)?$",line)
     isheadmw=lambda line:line.strip() and re.match(r"\s*(=+)([^=](.*[^=])?)\1\s*$",line)
-    isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple(string.punctuation))
+    if ("strict" not in flags) and ("norest" not in flags) and ("noresthead" not in flags):
+        isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple(string.punctuation))
+    else:
+        isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple("=-"))
     isfence=lambda line:line.strip() and re.match(r"\s*(```+[^`]*$|~~~+.*$)",line)
-    isbq=lambda line:line.strip() and re.match(r"\s*>([^!].*)?$",line)
-    issp=lambda line:line.strip() and line.lstrip().startswith(">!")
+    if ("strict" not in flags) and ("nospoilertag" not in flags):
+        isbq=lambda line:line.strip() and re.match(r"\s*>([^!].*)?$",line)
+        issp=lambda line:line.strip() and line.lstrip().startswith(">!")
+    else:
+        isbq=lambda line:line.strip() and re.match(r"\s*>.*$",line)
+        issp=lambda line:0
     iscb=lambda line:len(line)>=4 and all_same(line[:4])==" "
     isul=lambda line:line.strip() and re.match(r"\s*[*+-](\s.*)?$",line)
     isalign=lambda line:(line!=None) and line.strip() and re.match(r"((:--|:-:|-_:)\|)+(:--|:-:|-_:)",line)
@@ -72,15 +79,15 @@ def _parse_block(f,titlelevels,flags):
                 within="atxhead"
                 f.rtpma()
                 continue
-            elif line.strip() == "::":
+            elif (line.strip() == "::") and ("strict" not in flags) and ("norest" not in flags) and ("nodicode" not in flags):
                 within="icode"
                 #NO rtpma
                 continue
-            elif isheadmw(line):
+            elif isheadmw(line) and ("strict" not in flags) and ("nowikitext" not in flags) and ("nowikihead" not in flags):
                 within="mwhead"
                 f.rtpma()
                 continue
-            elif istable(line):
+            elif istable(line) and ("notable" not in flags) and ("strict" not in flags) and ("nowikitext" not in flags) and ("nowikitable" not in flags):
                 within="table"
                 f.rtpma()
                 continue
@@ -88,11 +95,11 @@ def _parse_block(f,titlelevels,flags):
                 within="rule"
                 f.rtpma()
                 continue
-            elif isfence(line):
+            elif isfence(line) and ("nofcode" not in flags):
                 within="fence"
                 f.rtpma()
                 continue
-            elif isulin(line):
+            elif isulin(line) and ("nosetexthead" not in flags) and ("strict" not in flags) and ("norest" not in flags) and ("noresthead" not in flags):
                 within="sthead"
                 #NO rtpma
                 continue
@@ -104,11 +111,11 @@ def _parse_block(f,titlelevels,flags):
                 within="quote"
                 f.rtpma()
                 continue
-            elif issp(line):
+            elif issp(line) and ("strict" not in flags) and ("nospoilertag" not in flags):
                 within="spoiler"
                 f.rtpma()
                 continue
-            elif ("|" in line) and isalign(f.peek_ahead()):
+            elif ("|" in line) and isalign(f.peek_ahead()) and ("notable" not in flags) and ("strict" not in flags) and ("noredditstyle" not in flags) and ("noredditstyletable" not in flags):
                 within="tablered"
                 f.rtpma()
                 continue
@@ -153,7 +160,7 @@ def _parse_block(f,titlelevels,flags):
             within="root"
         elif within in ("para","sthead"):
             depth+=1
-            if isulin(line.rstrip()) and ((depth==2) or (within=="sthead")):
+            if isulin(line.rstrip()) and ((depth==2) or (within=="sthead")) and ("nosetexthead" not in flags):
                 # Combining vanilla-Setext and ATX headers is obvious.
                 # Combining ReST and ATX headers is not.
                 # For each new char, use the first level without a char.
@@ -195,12 +202,12 @@ def _parse_block(f,titlelevels,flags):
                 within="rule"
                 f.rtpma()
                 continue
-            if line.rstrip()[-3:]==" ::":
+            if (line.rstrip()[-3:]==" ::") and ("strict" not in flags) and ("nodicode" not in flags):
                 if line.rstrip("\r\n").endswith("  "):
                     minibuf+=line.rstrip()[:-2].rstrip()+"\n"
                 else:
                     minibuf+=line.rstrip()[:-2].rstrip()
-            elif line.rstrip()[-2:]=="::":
+            elif (line.rstrip()[-2:]=="::") and ("strict" not in flags) and ("nodicode" not in flags):
                 if line.rstrip("\r\n").endswith("  "):
                     minibuf+=line.rstrip()[:-1].rstrip()+"\n"
                 else:

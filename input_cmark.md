@@ -20,7 +20,7 @@ I think so too.
 
 Another paragraph.
 
-I can use *italic*, **bold**, `monospace`, \ __bold__\ .  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/YW5So8y.jpg) images and !media[embeds with site\-specific tags](http://i.imgur.com/YW5So8y.jpg), or even [link images ![like this](http://i.imgur.com/YW5So8y.jpg)](http://egscomics.com)!
+I can use *italic*, **bold**, `monospace`, **bold**.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/YW5So8y.jpg) images and !media[embeds with site\-specific tags](http://i.imgur.com/YW5So8y.jpg), or even [link images ![like this](http://i.imgur.com/YW5So8y.jpg)](http://egscomics.com)!
 
 ~~~~~~~~ python
 #!/usr/bin/env python
@@ -119,7 +119,7 @@ Back^((not Backside\))
 >! 
 >! >! (Insert picture of the back of a racing car here.) 
 
-Parse\_this\_text stu*pen*dously, \ _mate_\ , do you \ _he_\ ar me?
+Parse\_this\_text stu*pen*dously, *mate*, do you *he*ar me?
 
 - - -
 
@@ -127,11 +127,11 @@ Parse\_this\_text stu*pen*dously, \ _mate_\ , do you \ _he_\ ar me?
 
 = Not a heading ==
 
-\ _Italic_\ , \ __bold__\ , \ __\ _both_\ __\ , \'\'neither\'\'.
+*Italic*, **bold**, ***both***, \'\'neither\'\'.
 
 *Italic*, **bold**, ***both***, \*neither\*.
 
-\ _Italic_\ , \ __bold__\ , \ __\ _both_\ __\ , \_neither\_.
+*Italic*, **bold**, ***both***, \_neither\_.
 
 # Level 1
 
@@ -204,9 +204,9 @@ J\'ai regardé.
 
 Watashi\-wa Tōmasu desu.
 
-\ _illegitimi nōn carborundum_\ .
+*illegitimi nōn carborundum*.
 
-\ _spuriīs nōn carborandum_\ .
+*spuriīs nōn carborandum*.
 
 øe vs œ vs \\oe vs œ mate.
 
@@ -228,17 +228,17 @@ fgh  ijkl
 UUU  Dwelt 
 ==== =========
 
-==== =========
-Why  What 
-==== =========
-123  4567 8 9 
-a    bcde 
-fgh  ijkl 
-\    mnop 
-123  
-456  789 
-UUU  Dwelt 
-==== =========
+=== ========
+Why What
+=== ========
+123 4567 8 9
+a   bcde
+fgh ijkl
+\   mnop
+123 
+456 789
+UUU Dwelt
+=== ========
 
 Hi.
 
@@ -296,3 +296,4 @@ And
 * list 
 * ``*sa`me*`` 
 * list 
+

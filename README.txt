@@ -7,10 +7,14 @@ in a future release, or it may not.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.  HTML conversion does it sensibly.
 
-version 4.7
+version 4.8
 
 change-log:
 
+4.8: added nobackslashspace flag to markdown renderer, fixed flag support
+     in markdown renderer.  fixed problem with UTF-8 input causing renderers
+     to fail with a UnicodeDecodeError (by splitting into Unicode characters,
+     not bytes, in the inline parser).  added strict mode.
 4.7: markdown renderer, enabling distillation to an extent as well as
      round-trip testing.  by that means, fix bug involving detection of
      opening fences without classes as ReST-style headings.  furthermore

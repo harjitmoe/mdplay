@@ -5,9 +5,20 @@ import mdplay
 def help():
     sys.stderr.write("\nUsage: pymdplay -f ["+("|".join(mdplay.writers.keys()))+"] [-o out_file] [-t title] [-P parserflag,parserflag...] [-W writerflag,writerflag...] [-5] in_file\n\n")
     sys.stderr.write("""\
+
+html generates XHTML, which may cause IE to bork if it parses empty 
+<a> tags etc as HTML, htmlalt generates HTML which is hopefully valid
+XHTML also.
+
 Parser flag uicode enables detection of sufficiently large indents
 as code blocks, a la standard behaviour, rather than assuming indents
 are purely aesthetic unless indicated otherwise.
+
+Parser flag "strict" disables extensions, and aims at strict*er*
+compliance to the CommonMark spec for the features which it *does*
+implement.
+
+Parser flag notable isn't "notable", it's "no table".
 
 Writer flag html5 enables HTML5 output.  -5 is a shorthand.
 """)

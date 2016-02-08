@@ -106,9 +106,9 @@ CH<sub>3</sub>COOH
 Back<sup>(not Backside)</sup> 
 
 (^Not a superscript.^) (^Not a superscript either.^) ^(Nor this.) ^(Or this.) 
-<span class="mw-customtoggle-14430928" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14430928" class="mw-collapsible mw-collapsed" style="display:none;">The lie is a muffin. </div><span class="mw-customtoggle-14431152" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14431152" class="mw-collapsible mw-collapsed" style="display:none;">
+<span class="mw-customtoggle-14428080" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14428080" class="mw-collapsible mw-collapsed" style="display:none;">The lie is a muffin. </div><span class="mw-customtoggle-14428304" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14428304" class="mw-collapsible mw-collapsed" style="display:none;">
 Expand the below for a spoiler: 
-<span class="mw-customtoggle-14430960" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14430960" class="mw-collapsible mw-collapsed" style="display:none;">(Insert picture of the back of a racing car here.) </div></div>
+<span class="mw-customtoggle-14428112" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14428112" class="mw-collapsible mw-collapsed" style="display:none;">(Insert picture of the back of a racing car here.) </div></div>
 Parse_this_text stu''pen''dously, ''mate'', do you ''he''ar me? 
 
 <hr />

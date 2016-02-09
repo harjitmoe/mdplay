@@ -39,7 +39,7 @@ def _mwiki_out_body(node,flags=()):
         label=mwiki_out_body(node.label)
         ht=node.hreftype
         content=node.content
-        if ht=="wikilink":
+        if ht in ("wiki","wikilink"):
             if label:
                 return "[["+content+"|"+label+"]]"
             else:

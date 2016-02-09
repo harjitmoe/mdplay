@@ -57,10 +57,10 @@ open(&quot;.build/MegaDb.txt&quot;,&quot;w&quot;).write(repr(arcs))
 <h2>Escaping and stuff</h2>
 <h1>Escaping and stuff</h1>
 <h3>Escaping and stuff</h3>
-<p>!![This is not](an embed.)</p>
-<p>![This is not](an embed) either.</p>
-<p>Th![is likewise isn't](an embed).</p>
-<p>Whereas this is: !<img src="http://i.imgur.com/YW5So8y.jpg" alt="an embed" /></p>
+<p>![This is not](an embed.)</p>
+<p><img src="http://i.imgur.com/YW5So8y.jpg" alt="This is not an embed either." /></p>
+<p>Nor is ![this.](http://i.imgur.com/YW5So8y.jpg)</p>
+<p>Whereas this is: <img src="http://i.imgur.com/YW5So8y.jpg" alt="an embed" /></p>
 <p><img src="http://i.imgur.com/YW5So8y.jpg" alt="This embed" /> is also an embed.</p>
 <p>[This is not](a link).</p>
 <p>Th[is isn't](either).</p>
@@ -87,6 +87,9 @@ open(&quot;.build/MegaDb.txt&quot;,&quot;w&quot;).write(repr(arcs))
 <p>! Expand the below for a spoiler:
 !
 ! &gt;! (Insert picture of the back of a racing car here.)</p>
+</blockquote>
+<blockquote>
+<p>Un &gt; Deux &gt;&gt; Trois &gt;&gt;&gt; Quatre</p>
 </blockquote>
 <p>Parse_this_text stu<em>pen</em>dously, <em>mate</em>, do you <em>he</em>ar me?</p>
 <hr />
@@ -126,10 +129,15 @@ open(&quot;.build/MegaDb.txt&quot;,&quot;w&quot;).write(repr(arcs))
 </code></pre>
 <p>Ada.</p>
 <h2>Trivial indentation of paragraphs</h2>
-<p>Shouldn't make that<br />
-much difference. Except when uicode flag passed.</p>
-<p>Second paragraph</p>
-<p>Third paragraph</p>
+<pre><code class="language-::">Shouldn't make that  
+much difference when
+nouicode flag passed.
+
+Second paragraph
+
+Third paragraph
+
+</code></pre>
 <p>Søren. Søren.</p>
 <p>J'ai regardé.</p>
 <p>Watashi-wa Tōmasu desu.</p>
@@ -163,10 +171,15 @@ UUU Dwelt
 === ========</p>
 <p>Hi.</p>
 <p>Hello.</p>
-<p>Indent ation.</p>
+<pre><code class="language-::"> Indent
+ation.
+
+</code></pre>
 <pre><code class="language-::">Indent
 </code></pre>
-<p>ation.</p>
+<pre><code class="language-::">ation.
+
+</code></pre>
 <pre><code class="language-::">''Breaking''
 
 the news (still in code).
@@ -178,8 +191,10 @@ the news (also).
 
 
 </code></pre>
-<p>!wikilink<a href="User:HarJIT"></a></p>
-<p>!wikilink[KSP](The King's (The Cathedral) School)</p>
+<p>!wiki<a href="User:HarJIT"></a></p>
+<p>!wiki[KSP](The King's (The Cathedral) School)</p>
+<p>!wiki[KSP <em>(again)</em>](The King's (The Cathedral) School)</p>
+<p>!wiki[Hmm...](Try ''to'' br{'e}ak <code>this</code>...)</p>
 <ul>
 <li>one</li>
 <li>list</li>
@@ -204,3 +219,6 @@ the news (also).
 <li><code>*sa`me*</code></li>
 <li>list</li>
 </ul>
+<p><a href="http://i.imgur.com/YW5So8y.jpg#hash">Testing hashes.</a></p>
+<p><img src="http://i.imgur.com/YW5So8y.jpg" alt="Let me &lt;em&gt;break&lt;/em&gt; this!" /></p>
+<p>~In other news~</p>

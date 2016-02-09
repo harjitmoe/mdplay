@@ -65,13 +65,13 @@ open(".build/MegaDb.txt","w").write(repr(arcs))
 
 === Escaping and stuff ===
 
-!![an%20embed. This is not] 
+![This is not](an embed.) 
 
-![This is not](an embed) either. 
+![http://i.imgur.com/YW5So8y.jpg This is not an embed either.] 
 
-Th![an%20embed is likewise isn't]. 
+Nor is ![this.](http://i.imgur.com/YW5So8y.jpg) 
 
-Whereas this is: ![http://i.imgur.com/YW5So8y.jpg an embed] 
+Whereas this is: [http://i.imgur.com/YW5So8y.jpg an embed] 
 
 [http://i.imgur.com/YW5So8y.jpg This embed] is also an embed. 
 
@@ -106,9 +106,11 @@ CH<sub>3</sub>COOH
 Back<sup>(not Backside)</sup> 
 
 (^Not a superscript.^) (^Not a superscript either.^) ^(Nor this.) ^(Or this.) 
-<span class="mw-customtoggle-14428080" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14428080" class="mw-collapsible mw-collapsed" style="display:none;">The lie is a muffin. </div><span class="mw-customtoggle-14428304" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14428304" class="mw-collapsible mw-collapsed" style="display:none;">
+<span class="mw-customtoggle-14428464" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14428464" class="mw-collapsible mw-collapsed" style="display:none;">The lie is a muffin. </div><span class="mw-customtoggle-14427664" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14427664" class="mw-collapsible mw-collapsed" style="display:none;">
 Expand the below for a spoiler: 
-<span class="mw-customtoggle-14428112" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14428112" class="mw-collapsible mw-collapsed" style="display:none;">(Insert picture of the back of a racing car here.) </div></div>
+<span class="mw-customtoggle-14428400" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-14428400" class="mw-collapsible mw-collapsed" style="display:none;">(Insert picture of the back of a racing car here.) </div></div>
+:Un > Deux >> Trois >>> Quatre 
+
 Parse_this_text stu''pen''dously, ''mate'', do you ''he''ar me? 
 
 <hr />
@@ -177,11 +179,15 @@ Ada.
 
 == Trivial indentation of paragraphs==
 
-Shouldn't make that<br />much difference. Except when uicode flag passed. 
+<pre>Shouldn't make that  
+much difference when
+nouicode flag passed.
 
-Second paragraph 
+Second paragraph
 
-Third paragraph 
+Third paragraph
+
+</pre>
 
 Søren. Søren. 
 
@@ -259,12 +265,17 @@ Hi.
 
 Hello. 
 
-Indent ation. 
+<pre> Indent
+ation.
+
+</pre>
 
 <pre>Indent
 </pre>
 
-ation. 
+<pre>ation.
+
+</pre>
 
 <pre>''Breaking''
 
@@ -282,6 +293,10 @@ the news (also).
 [[User:HarJIT]] 
 
 [[The King's (The Cathedral) School|KSP]] 
+
+[[The King's (The Cathedral) School|KSP ''(again)'']] 
+
+[[Try ''to'' br{'e}ak ``this``...|Hmm...]] 
 * one 
 * list 
 * another 
@@ -298,5 +313,11 @@ And
 * list 
 * <code>*sa`me*</code> 
 * list 
+
+[http://i.imgur.com/YW5So8y.jpg#hash Testing hashes.] 
+
+[http://i.imgur.com/YW5So8y.jpg Let me ''break'' this!] 
+
+~In other news~ 
 
 

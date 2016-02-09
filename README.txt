@@ -7,10 +7,16 @@ in a future release, or it may not.
 headings are converted in the best way possible, considering that BBCode has 
 no concept of semantic headings.  HTML conversion does it sensibly.
 
-version 4.8
+version 4.9
 
 change-log:
 
+4.9: don't utterly bork on markup within alt text.  iron out some old quirks
+     which i put into the parser, including enabling non-designated indented
+     code blocks by default.  add HTML5 entities from the current Python 
+     source tree.  add support for MediaWiki-style wikilinks (not external
+     links) in Markdown input (useful if used to write a wiki-page).  fix
+     htmlalt newline-stripping code blocks.
 4.8: added nobackslashspace flag to markdown renderer, fixed flag support
      in markdown renderer.  fixed problem with UTF-8 input causing renderers
      to fail with a UnicodeDecodeError (by splitting into Unicode characters,

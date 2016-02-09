@@ -65,7 +65,7 @@ def _bb_out(node,in_list,flags):
             if re.match("https?://(www\.)?tvtropes.org",content):
                 return "[u]"+label+("[/u][sup][url=%s](TVTropes)[/url][/sup]"%json.dumps(content))
             return ("[url=%s]"%json.dumps(content))+label+"[/url]"
-        elif ht=="wikilink":
+        elif ht in ("wiki","wikilink"):
             if not label:
                 return "[wiki=%s]"%json.dumps(content)
             else:

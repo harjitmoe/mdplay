@@ -74,13 +74,13 @@ Escaping and stuff
 Escaping and stuff
 ^^^^^^^^^^^^^^^^^^
 
-!![This is not](an embed.)
+![This is not](an embed.)
 
-\![This is not](an embed) either.
+\![This is not an embed either.](http://i.imgur.com/YW5So8y.jpg)
 
-Th![is likewise isn't](an embed).
+Nor is !\[this.](http://i.imgur.com/YW5So8y.jpg)
 
-Whereas this is: !\ ![an embed](http://i.imgur.com/YW5So8y.jpg)
+Whereas this is: ![an embed](http://i.imgur.com/YW5So8y.jpg)
 
 ![This embed](http://i.imgur.com/YW5So8y.jpg) is also an embed.
 
@@ -123,6 +123,11 @@ Back^((not Backside\))
 >! Expand the below for a spoiler:
 >!
 >!>! (Insert picture of the back of a racing car here.)
+
+> Un
+>> Deux
+>>> Trois
+>>>> Quatre
 
 Parse_this_text stu*pen*dously, _mate_, do you _he_\ ar me?
 
@@ -189,9 +194,8 @@ Ada.
 == Trivial indentation of paragraphs ==
 
     Shouldn't make that  
-    much difference.
-    Except when uicode
-    flag passed.
+    much difference when
+    nouicode flag passed.
     
     Second paragraph
 
@@ -265,9 +269,13 @@ Hello.
     the news (also).
     
 
-!wikilink[](User:HarJIT)
+!wiki[](User:HarJIT)
 
-!wikilink[KSP](The King's (The Cathedral\) School)
+!wiki[KSP](The King's (The Cathedral\) School)
+
+[[The King's (The Cathedral) School|KSP ''(again)'']]
+
+[[Try ''to'' br{\'e}ak ``this``...|Hmm...]]
 
 * one
 * list
@@ -290,5 +298,11 @@ And
 
 * ``*sa`me*``
 * list
+
+[Testing hashes.](http://i.imgur.com/YW5So8y.jpg#hash)
+
+![Let me _break_ this!](http://i.imgur.com/YW5So8y.jpg)
+
+~In other news~
 
 \

@@ -14,9 +14,8 @@ Parser flag uicode enables detection of sufficiently large indents
 as code blocks, a la standard behaviour, rather than assuming indents
 are purely aesthetic unless indicated otherwise.
 
-Parser flag "strict" disables extensions, and aims at strict*er*
-compliance to the CommonMark spec for the features which it *does*
-implement.
+Parser flag "strict" disables syntax extensions, some of which are
+shared by other implementations.
 
 Parser flag notable isn't "notable", it's "no table".
 

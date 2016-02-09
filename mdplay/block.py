@@ -70,7 +70,7 @@ def _parse_block(f,titlelevels,flags):
         line=line.replace("\0","\xef\xbf\xbd").replace("\t"," "*4)
         if within=="root":
             assert depth==0
-            if line.startswith(" "*4) and ("uicode" in flags):
+            if line.startswith(" "*4) and ("nouicode" not in flags):
                 within="icode"
                 depth=4
                 f.rtpma()

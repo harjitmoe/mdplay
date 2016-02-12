@@ -2,10 +2,9 @@ import re,string
 
 from mdplay import nodes, umlaut
 from mdplay.uriregex import uriregex
+from mdplay import htmlentitydefs_latest as htmlentitydefs
 
 punct=string.punctuation+string.whitespace
-
-open("mega.txt","w").write(uriregex)
 
 def _parse_inline(content,levs=("root",),flags=()):
     # Note: the recursion works by the list being a Python
@@ -26,6 +25,7 @@ def _parse_inline(content,levs=("root",),flags=()):
     lev=levs[0]
     while content:
         c=content.pop(0)
+        isurl=re.match(uriregex,c+("".join(content))) #NOT urireg
         ### BibTeX diacritics
         if c=="\\" and ("bibuml" in levs) and ("strict" not in flags) and ("nodiacritic" not in flags):
             c2=""
@@ -95,6 +95,13 @@ def _parse_inline(content,levs=("root",),flags=()):
         elif c=="\n" and (lev!="wikilink" or out2):
             out.append(nodes.NewlineNode())
             lastchar=" "
+        ### Bare URLs ###
+        elif isurl and ("nolinkbareurl" not in flags) and (lev not in ("wikilink","label")):
+            # No unescaping here.  Any escaping should be in %xx URL notation, unless escaping
+            # it *being* a URI (as in escaping EGS\:NP for to not look like a URN).
+            for i in range(isurl.end()-1):
+                c+=content.pop(0)
+            out.append(nodes.HrefNode(c,list(c),"url"))
         ### Emphases ###
         #### /With asterisks
         elif c=="*" and content[0]=="*" and ("bold" not in levs) and (lev!="wikilink" or out2):
@@ -142,6 +149,7 @@ def _parse_inline(content,levs=("root",),flags=()):
                 c=content.pop(0)
             label=_parse_inline(content,("label",)+levs,flags=flags)
             href=""
+            #print hreftype,label,content
             if content[0]=="(":
                 del content[0]
                 c=content.pop(0)
@@ -196,5 +204,32 @@ def _parse_inline(content,levs=("root",),flags=()):
             out.append(c)
     return out
 
+def cautious_replace(strn,frm,to):
+    """Replace string provided not backslash-escaped.
+    
+    Not needed (&amp;omacr; suffices) but nice."""
+    def count_yen(s):
+        n=0
+        while s.endswith(u"\\"):
+            n+=1
+            s=s[:-1]
+        return n
+    lst=strn.split(frm)
+    r=lst.pop(0)
+    for i in lst:
+        if (count_yen(r)%2): #Odd number of backslashes
+            r+=frm+i
+        else:
+            r+=to+i
+    return r
+
 def parse_inline(content,flags=()):
-    return _parse_inline([i.encode("utf-8") for i in list(content.decode("utf-8"))]+[""],flags=flags)
+    d=content.decode("utf-8")
+    if ("nohtmldeentity" not in flags):
+        for entity in htmlentitydefs.html5:
+            if entity.endswith(u";"):
+                d=cautious_replace(d,u"&"+entity,htmlentitydefs.html5[entity])
+        for entity in htmlentitydefs.html5:
+            if not entity.endswith(u";"):
+                d=cautious_replace(d,u"&"+entity,htmlentitydefs.html5[entity])
+    return _parse_inline([i.encode("utf-8") for i in list(d)]+[""],flags=flags)

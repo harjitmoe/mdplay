@@ -73,7 +73,7 @@ open(".build/MegaDb.txt","w").write(repr(arcs))
 
 ![This is not an embed either.](http://i.imgur.com/YW5So8y.jpg)
 
-Nor is !\[this.](http://i.imgur.com/YW5So8y.jpg)
+Nor is !\[this.]([http://i.imgur.com/YW5So8y.jpg](http://i.imgur.com/YW5So8y.jpg))
 
 Whereas this is: ![an embed](http://i.imgur.com/YW5So8y.jpg)
 
@@ -319,3 +319,5 @@ And
 ![Let me \ _break_\  this!](http://i.imgur.com/YW5So8y.jpg)
 
 ~In other news~
+
+Tōkyō.  Literal ō.

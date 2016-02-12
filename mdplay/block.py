@@ -87,7 +87,7 @@ def _parse_block(f,titlelevels,flags):
                 within="mwhead"
                 f.rtpma()
                 continue
-            elif istable(line) and ("notable" not in flags) and ("strict" not in flags) and ("nowikitext" not in flags) and ("nowikitable" not in flags):
+            elif istable(line) and ("notable" not in flags) and ("strict" not in flags) and ("norest" not in flags) and ("noresttable" not in flags):
                 within="table"
                 f.rtpma()
                 continue

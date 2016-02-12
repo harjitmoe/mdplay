@@ -305,4 +305,6 @@ And
 
 ~In other news~
 
+T&omacr;ky&omacr;.  Literal \&omacr;.
+
 \

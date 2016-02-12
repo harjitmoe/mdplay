@@ -70,7 +70,7 @@ Bob the builder yes we can [/quote]
 
 ![url="http://i.imgur.com/YW5So8y.jpg"]This is not an embed either.[/url] 
 
-Nor is ![this.](http://i.imgur.com/YW5So8y.jpg) 
+Nor is ![this.]([url="http://i.imgur.com/YW5So8y.jpg"]http://i.imgur.com/YW5So8y.jpg[/url]) 
 
 Whereas this is: [img alt="an embed"]http://i.imgur.com/YW5So8y.jpg[/img] 
 
@@ -261,3 +261,5 @@ And
 [img alt="Let me [i]break[/i] this!"]http://i.imgur.com/YW5So8y.jpg[/img] 
 
 ~In other news~ 
+
+Tōkyō.  Literal &omacr;. 

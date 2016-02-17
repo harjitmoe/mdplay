@@ -320,5 +320,7 @@ And
 
 ~In other news~
 
-Tōkyō.  Literal &omacr; or ō.
+Tōkyō.  Literal &omacr; or &omacr;.
+
+&unescaped behaviour.
 

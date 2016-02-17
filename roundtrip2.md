@@ -321,3 +321,5 @@ And
 ~In other news~
 
 Tōkyō.  Literal ō or ō.
+
+&unescaped behaviour.

@@ -320,4 +320,4 @@ And
 
 ~In other news~
 
-Tōkyō.  Literal ō.
+Tōkyō.  Literal ō or ō.

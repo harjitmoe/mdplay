@@ -1,16 +1,18 @@
 convert a derivative of Markdown to BBCode or HTML.
 
+flags can turn features and extensions off, the obvious one being the strict
+flag.
+
 no special support is included for ordered lists, parallelling the absence of
 such in BBCode.  unordered lists are converted, though.  this may be changed
 in a future release, or it may not.
 
-headings are converted in the best way possible, considering that BBCode has 
-no concept of semantic headings.  HTML conversion does it sensibly.
-
-version 4:10
+version 4:11
 
 change-log:
 
+4.11:fix to htmlalt and bbcode: terminate list even if last node in document
+     or snippet.  actually use Reddit table alignments in HTML output.
 4:10:stop always outputting debug output to mega.txt.  process bare URLs as
      links (not needed by the BBCode/MediaWiki outputs but benefits the HTML
      output substantially).  html5 entity un-escaping in markdown sources.

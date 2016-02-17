@@ -320,7 +320,9 @@ And
 
 ~In other news~
 
-Tōkyō.  Literal &omacr; or &omacr;.
+Tōkyō.  Literal &amp;omacr; or &amp;omacr;.
 
-&unescaped behaviour.
+&amp;unescaped behaviour.
+
+\[This is not a link.]([http://egscomics.com](http://egscomics.com))
 

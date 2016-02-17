@@ -59,15 +59,15 @@ def _tvwiki_out_body(node,flags=()):
                 if not label:
                     label=namespace+":"+content
                 namespace+="/"
-            if label:
+            if label and (label!=content):
                 return "[["+namespace+"{{"+content+"}} "+label+"]]"
             else:
                 return "{{"+content+"}}"
         else:
             #showtropes is a tad redundant here.
             #%-escapes will be parsed by browser and may be already present,
-            #so NO escaping of %.
-            if label:
+            #so NO escaping of % here.
+            if (label) and (label!=content):
                 return "[["+content.replace(" ","%20")+" "+label+"]]"
             else:
                 return content.replace(" ","%20")

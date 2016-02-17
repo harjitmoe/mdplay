@@ -265,3 +265,5 @@ And
 Tōkyō.  Literal &omacr; or &omacr;. 
 
 &unescaped behaviour. 
+
+[This is not a link.]([url="http://egscomics.com"]http://egscomics.com[/url]) 

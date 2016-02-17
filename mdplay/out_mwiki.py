@@ -12,7 +12,7 @@ def mwiki_out_body(nodes,flags=()):
 
 def _mwiki_out_body(node,flags=()):
     if not isinstance(node,nodes.Node): #i.e. is a string
-        return node
+        return node.replace("&","&amp;").replace("[","&#91;").replace("]","&#93;").replace("{","&#123;").replace("}","&#125;").replace("<","&lt;").replace(">","&gt;").replace("''","&#39;&#39;")
     elif isinstance(node,nodes.TitleNode):
         return "\n"+("="*node.depth)+" "+mwiki_out_body(node.content)+("="*node.depth)+"\n"
     elif isinstance(node,nodes.ParagraphNode):
@@ -47,7 +47,12 @@ def _mwiki_out_body(node,flags=()):
         else:
             if ("showtropes" in flags) and re.match("https?://(www\.)?tvtropes.org",content):
                 return "<u>"+label+("</u><sup>[%s (TVTropes)]</sup>"%content.replace(" ","%20"))
-            return "["+content.replace(" ","%20")+" "+label+"]"
+            #%-escapes will be parsed by browser and may be already present,
+            #so NO escaping of %.
+            if label:
+                return "["+content.replace(" ","%20")+" "+label+"]"
+            else:
+                return content.replace(" ","%20")
     elif isinstance(node,nodes.NewlineNode):
         return "<br />"
     elif isinstance(node,nodes.RuleNode):

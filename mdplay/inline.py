@@ -228,8 +228,12 @@ def parse_inline(content,flags=()):
     if ("nohtmldeentity" not in flags):
         for entity in htmlentitydefs.html5:
             if entity.endswith(u";"):
-                d=cautious_replace(d,u"&"+entity,htmlentitydefs.html5[entity])
+                if entity != "amp;":
+                    d=cautious_replace(d,u"&"+entity,htmlentitydefs.html5[entity])
         for entity in htmlentitydefs.html5:
             if not entity.endswith(u";"):
-                d=cautious_replace(d,u"&"+entity,htmlentitydefs.html5[entity])
+                if entity != "amp":
+                    d=cautious_replace(d,u"&"+entity,htmlentitydefs.html5[entity])
+        d=cautious_replace(d,u"&amp;","&")
+        d=cautious_replace(d,u"&amp","&")
     return _parse_inline([i.encode("utf-8") for i in list(d)]+[""],flags=flags)

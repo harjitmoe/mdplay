@@ -309,4 +309,6 @@ T&omacr;ky&omacr;.  Literal \&omacr; or &amp;omacr;.
 
 &unescaped behaviour.
 
+&lsqb;This is not a link.](http://egscomics.com)
+
 \

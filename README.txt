@@ -3,14 +3,16 @@ convert a derivative of Markdown to BBCode or HTML.
 flags can turn features and extensions off, the obvious one being the strict
 flag.
 
-no special support is included for ordered lists, parallelling the absence of
+no special support is included for ordered lists, paralleling the absence of
 such in BBCode.  unordered lists are converted, though.  this may be changed
 in a future release, or it may not.
 
-version 4:12
+version 4:13
 
 change-log:
 
+4:13:entity un-escape input during, not before, parsing so as to allow
+     syntax features to be escaped using entities, as well as other tweaks.
 4:12:add TVTropes-style-syntax renderer.  fix serious entity un-escaping bug
      of decoding &amp; at the wrong time (and not predictably either).  add
      escaping to the MediaWiki-syntax renderer.

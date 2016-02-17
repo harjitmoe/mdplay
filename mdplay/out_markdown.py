@@ -16,7 +16,7 @@ def md_out_body(nodes,flags=()):
 def _md_out_body(node,flags=()):
     if not isinstance(node,nodes.Node): #i.e. is a string
         #XXX any more needed?  are these appropriate?
-        return node.replace("\\","\\\\").replace("[","\\[").replace("*","\\*").replace("_","\\_").replace("^","\\^").replace("-","\\-").replace("'","\\'")
+        return node.replace("\\","\\\\").replace("[","\\[").replace("*","\\*").replace("_","\\_").replace("^","\\^").replace("-","\\-").replace("'","\\'").replace("&","&amp;")
     elif isinstance(node,nodes.TitleNode):
         return "\n"+("#"*node.depth)+" "+md_out_body(node.content,flags).rstrip()+"\n"
     elif isinstance(node,nodes.ParagraphNode):
@@ -40,17 +40,20 @@ def _md_out_body(node,flags=()):
     elif isinstance(node,nodes.UlliNode):
         return ("\x20\x20"*node.depth)+"* "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n"+("\x20\x20"*(node.depth+1)))+"\n"
     elif isinstance(node,nodes.BoldNode):
-        if node.emphatic or ("nobackslashspace" in flags):
+        if node.emphatic or ("nobackslashspace" in flags) or ("noemphunderscore" in flags):
             return "**"+md_out_body(node.content,flags)+"**"
         else:
             return "\ __"+md_out_body(node.content,flags)+"__\ "
     elif isinstance(node,nodes.ItalicNode):
-        if node.emphatic or ("nobackslashspace" in flags):
+        if node.emphatic or ("nobackslashspace" in flags) or ("noemphunderscore" in flags):
             return "*"+md_out_body(node.content,flags)+"*"
         else:
             return "\ _"+md_out_body(node.content,flags)+"_\ "
     elif isinstance(node,nodes.SuperNode):
-        return "^("+md_out_body(node.content,flags).replace(")","\\)")+")"
+        if ("pandoc" in flags):
+            return "(^"+md_out_body(node.content,flags).replace(")","\\)")+"^)"
+        else:
+            return "^("+md_out_body(node.content,flags).replace(")","\\)")+")"
     elif isinstance(node,nodes.SubscrNode):
         return "(~"+md_out_body(node.content,flags).replace(")","\\)")+"~)"
     elif isinstance(node,nodes.HrefNode):

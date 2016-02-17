@@ -91,6 +91,17 @@ def _parse_inline(content,levs=("root",),flags=()):
             lastchar=c+c2
             out.append(c2)
             continue
+        elif c=="&" and (len(content)>1) and ((content[0]+content[1]) in approaching_entity) and ("nohtmldeentity" not in flags):
+            c=content[0]+content[1] #NOT +=
+            n=2
+            while c in approaching_entity:
+                c+=content[n]
+                n+=1
+            if c in htmlentitydefs.html5.keys():
+                out.append(htmlentitydefs.html5[c].encode("utf-8"))
+                content=content[n:]
+            else:
+                out.append("&")
         ### Newlines (there are only true newlines by this point) ###
         elif c=="\n" and (lev!="wikilink" or out2):
             out.append(nodes.NewlineNode())
@@ -223,17 +234,15 @@ def cautious_replace(strn,frm,to):
             r+=to+i
     return r
 
+approaching_entity=[]
+for _entity in htmlentitydefs.html5.keys():
+    while 1:
+        _entity=_entity[:-1]
+        if not _entity:
+            break
+        if _entity not in approaching_entity:
+            approaching_entity.append(_entity)
+
 def parse_inline(content,flags=()):
     d=content.decode("utf-8")
-    if ("nohtmldeentity" not in flags):
-        for entity in htmlentitydefs.html5:
-            if entity.endswith(u";"):
-                if entity != "amp;":
-                    d=cautious_replace(d,u"&"+entity,htmlentitydefs.html5[entity])
-        for entity in htmlentitydefs.html5:
-            if not entity.endswith(u";"):
-                if entity != "amp":
-                    d=cautious_replace(d,u"&"+entity,htmlentitydefs.html5[entity])
-        d=cautious_replace(d,u"&amp;","&")
-        d=cautious_replace(d,u"&amp","&")
     return _parse_inline([i.encode("utf-8") for i in list(d)]+[""],flags=flags)

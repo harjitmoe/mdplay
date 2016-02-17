@@ -320,5 +320,5 @@ And
 
 ~In other news~
 
-Tōkyō.  Literal &omacr;.
+Tōkyō.  Literal &omacr; or ō.
 

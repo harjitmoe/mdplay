@@ -157,9 +157,11 @@ def _html_out_part(nodem,document,in_list=0,flags=()):
             for row in node.table_head:
                 tr=document.createElement("tr")
                 thead.appendChild(tr)
-                for cell in row:
+                for colno,cell in enumerate(row):
                     th=document.createElement("th")
                     tr.appendChild(th)
+                    if node.aligns and (len(node.aligns)>colno):
+                        th.setAttribute("style","text-align:"+node.aligns[colno])
                     for domn in html_out_part(list(cell),document):
                         th.appendChild(domn)
             tbody=document.createElement("tbody")
@@ -167,9 +169,11 @@ def _html_out_part(nodem,document,in_list=0,flags=()):
             for row in node.table_body:
                 tr=document.createElement("tr")
                 tbody.appendChild(tr)
-                for cell in row:
+                for colno,cell in enumerate(row):
                     td=document.createElement("td")
                     tr.appendChild(td)
+                    if node.aligns and (len(node.aligns)>colno):
+                        td.setAttribute("style","text-align:"+node.aligns[colno])
                     for domn in html_out_part(list(cell),document):
                         td.appendChild(domn)
             yield r

@@ -235,7 +235,7 @@ UUU Dwe\
 === ====
 
 Why|What
-:--|:--
+:-:|:--
 123|4567 8 9
 a|bcde
 fgh|ijkl
@@ -305,6 +305,6 @@ And
 
 ~In other news~
 
-T&omacr;ky&omacr;.  Literal \&omacr;.
+T&omacr;ky&omacr;.  Literal \&omacr; or &amp;omacr;.
 
 \

@@ -19,6 +19,9 @@ def html_out_body(nodes,flags=()):
         if len(_r)==2 and type(_r)==type(()):
             _r,in_list=_r
         r+=_r
+    while in_list>0:
+        r+="</li></ul>"
+        in_list-=1
     return r.strip("\r\n")
 
 #import htmlentitydefs
@@ -108,14 +111,22 @@ def _html_out_body(node,in_list,flags):
         r='<table border="1"><thead>'
         for row in node.table_head:
             r+="<tr>"
-            for cell in row:
-                r+="<th>"+html_out_body(list(cell))+"</th>"
+            for colno,cell in enumerate(row):
+                if node.aligns and (len(node.aligns)>colno):
+                    r+='<th style="text-align:'+_escape(node.aligns[colno])+'">'
+                else:
+                    r+="<th>"
+                r+=html_out_body(list(cell))+"</th>"
             r+="</tr>"
         r+="</thead><tbody>"
         for row in node.table_body:
             r+="<tr>"
-            for cell in row:
-                r+="<td>"+html_out_body(list(cell))+"</td>"
+            for colno,cell in enumerate(row):
+                if node.aligns and (len(node.aligns)>colno):
+                    r+='<td style="text-align:'+_escape(node.aligns[colno])+'">'
+                else:
+                    r+="<td>"
+                r+=html_out_body(list(cell))+"</td>"
             r+="</tr>"
         return r+"</tbody></table>"
     elif isinstance(node,nodes.EmptyInterrupterNode):

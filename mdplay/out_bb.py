@@ -17,6 +17,9 @@ def bb_out_body(nodes,flags=()):
         if len(_r)==2 and type(_r)==type(()):
             _r,in_list=_r
         r+=_r
+    while in_list>0:
+        r+="[/list]"
+        in_list-=1
     return r.strip("\r\n")
 
 def _bb_out(node,in_list,flags):

@@ -16,6 +16,7 @@ def md_out_body(nodes,flags=()):
 def _md_out_body(node,flags=()):
     if not isinstance(node,nodes.Node): #i.e. is a string
         #XXX any more needed?  are these appropriate?
+        #Bear in mind that the text node is likely a single character.
         return node.replace("\\","\\\\").replace("[","\\[").replace("*","\\*").replace("_","\\_").replace("^","\\^").replace("-","\\-").replace("'","\\'").replace("&","&amp;")
     elif isinstance(node,nodes.TitleNode):
         return "\n"+("#"*node.depth)+" "+md_out_body(node.content,flags).rstrip()+"\n"

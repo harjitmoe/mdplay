@@ -38,7 +38,8 @@ def _html_out_part(nodem,document,in_list=0,flags=()):
             if (node.depth+1)>in_list:
                 r=document.createElement("ol")
                 r2=document.createElement("li")
-                r2.setAttribute("value",str(node.fence))
+                if ("autonumberonly" not in flags):
+                    r2.setAttribute("value",str(node.fence))
                 r.appendChild(r2)
                 for domn in html_out_part(node.content,document,flags=flags):
                     r2.appendChild(domn)
@@ -57,7 +58,8 @@ def _html_out_part(nodem,document,in_list=0,flags=()):
                 return
             else:
                 r=document.createElement("li")
-                r.setAttribute("value",str(node.fence))
+                if ("autonumberonly" not in flags):
+                    r.setAttribute("value",str(node.fence))
                 for domn in html_out_part(node.content,document,flags=flags):
                     r.appendChild(domn)
                 yield r

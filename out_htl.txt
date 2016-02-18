@@ -6,16 +6,20 @@
 
 Paragraphs are very nice.[br]I think so too. 
 
-[list][*]Knives 
-[list][*]Forks 
-[*]Spoons 
-[*]Ceramic[br]knifes 
+[ul][li]Knives 
+[ul][li]Forks 
+[/li]
+[li]Spoons 
+[/li]
+[li]Ceramic[br]knifes 
 
 rule. 
-[/list]
-[*]Reality 
-[*]Hello World. 
-[/list]
+[/li][/ul]
+[/li]
+[li]Reality 
+[/li]
+[li]Hello World. 
+[/li][/ul]
 
 Another paragraph. 
 
@@ -186,11 +190,13 @@ Ada.
 
 [size=6][b]Trivial indentation of paragraphs[/b][/size]
 
-Shouldn't make that[br]much difference when nouicode flag passed. 
+[code]Shouldn't make that  
+much difference when
+nouicode flag passed.
 
-Second paragraph 
+Second paragraph
 
-Third paragraph 
+Third paragraph[/code]
 
 Søren. Søren. 
 
@@ -218,11 +224,12 @@ Hi.
 
 Hello. 
 
-Indent ation. 
+[code] Indent
+ation.[/code]
 
 [code]Indent[/code]
 
-ation. 
+[code]ation.[/code]
 
 [code]''Breaking''
 
@@ -240,31 +247,38 @@ the news (also).[/code]
 
 [wiki="Try ''to'' br{'e}ak ``this``..." title="Hmm..."] 
 
-[list][*]one 
-[*]list 
-[/list]
+[ul][li]one 
+[/li]
+[li]list 
+[/li][/ul]
 
-[list][*]another 
-[*]list 
-[/list]
-
-And 
-
-[list][*]one 
-[*]list 
-[/list]
-
-[list][*]another 
-[*]list 
-[/list]
+[ul][li]another 
+[/li]
+[li]list 
+[/li][/ul]
 
 And 
 
-[list][*]one 
-[*]list 
-[*][font=monospace]*sa`me*[/font] 
-[*]list 
-[/list]
+[ul][li]one 
+[/li]
+[li]list 
+[/li][/ul]
+
+[ul][li]another 
+[/li]
+[li]list 
+[/li][/ul]
+
+And 
+
+[ul][li]one 
+[/li]
+[li]list 
+[/li]
+[li][font=monospace]*sa`me*[/font] 
+[/li]
+[li]list 
+[/li][/ul]
 
 [url="http://i.imgur.com/YW5So8y.jpg#hash"]Testing hashes.[/url] 
 
@@ -282,19 +296,25 @@ Tōkyō.  Literal &omacr; or &omacr;.
 
 Testing ordered lists: 
 
-[list][*][1]The spirit of God, like a fire, is burning; 
-[*][2]the latter day glory begins to come forth. 
-[*][3]The visions and blessings of old are returning, 
-[*][4]and angels are coming to visit the earth. 
-[/list]
+[ol][li value="1"]The spirit of God, like a fire, is burning; 
+[/li]
+[li value="2"]the latter day glory begins to come forth. 
+[/li]
+[li value="3"]The visions and blessings of old are returning, 
+[/li]
+[li value="4"]and angels are coming to visit the earth. 
+[/li][/ol]
 
-[list][*]We'll sing and we'll shout with the armies of Heaven, 
-[*]"Hosanna!  Hosanna to God and the Lamb! 
-[*]Let glory to them in the highest be given 
-[*]henceforth and forever, Amen and Amen!" 
-[/list]
+[ul][li]We'll sing and we'll shout with the armies of Heaven, 
+[/li]
+[li]"Hosanna!  Hosanna to God and the Lamb! 
+[/li]
+[li]Let glory to them in the highest be given 
+[/li]
+[li]henceforth and forever, Amen and Amen!" 
+[/li][/ul]
 
-[list][*][5]The Lord is extending the Saints' understanding... 
-[/list]
+[ol][li value="5"]The Lord is extending the Saints' understanding... 
+[/li][/ol]
 
 (note that the above may come out as 1 or 5, depending on renderer and flags) 

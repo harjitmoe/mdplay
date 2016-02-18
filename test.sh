@@ -1,4 +1,6 @@
 python pymdplay.py -o out.txt -f bbcode test.md
+python pymdplay.py -o out_htl.txt -f bbcode -W htmllists test.md
+python pymdplay.py -o out_shtl.txt -f bbcode -W semihtmllists,autonumberonly test.md
 python pymdplay.py -o out_nouicode.txt -P nouicode -f bbcode test.md
 python pymdplay.py -o out.html -f html test.md
 python pymdplay.py -o out_nouicode.html -P nouicode -f html test.md

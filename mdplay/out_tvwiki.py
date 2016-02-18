@@ -12,9 +12,9 @@ def tvwiki_out_body(nodes,flags=()):
 
 def _tvwiki_out_body(node,flags=()):
     if not isinstance(node,nodes.Node): #i.e. is a string
-        return node.replace("&","&amp;").replace("[","&#91;").replace("]","&#93;").replace("{","&#123;").replace("}","&#125;").replace("<","&lt;").replace(">","&gt;").replace("''","&#39;&#39;")
+        return node.replace("&","&amp;").replace("[","&#91;").replace("]","&#93;").replace("{","&#123;").replace("}","&#125;").replace("<","&lt;").replace(">","&gt;").replace("''","&#39;&#39;").replace("/","&#47;")
     elif isinstance(node,nodes.TitleNode):
-        return "\n"+("="*node.depth)+" "+tvwiki_out_body(node.content)+("="*node.depth)+"\n"
+        return "\n"+("!"*node.depth)+" "+tvwiki_out_body(node.content)+"\n"
     elif isinstance(node,nodes.ParagraphNode):
         return "\n"+tvwiki_out_body(node.content)+"\n"
     elif isinstance(node,nodes.BlockQuoteNode):
@@ -33,9 +33,9 @@ def _tvwiki_out_body(node,flags=()):
     elif isinstance(node,nodes.SpoilerNode):
         return '\n[[spoiler:'+tvwiki_out_body(node.content)+"]]\n"
     elif isinstance(node,nodes.CodeBlockNode):
-        return "\n@@"+tvwiki_out_body(node.content).replace("\n","@@\n@@")+"@@\n"
+        return "\n@@[="+("".join(node.content)).replace("=]","=]=[=]").replace("\n","=]@@\n@@[=")+"=]@@\n"
     elif isinstance(node,nodes.CodeSpanNode):
-        return "@@"+tvwiki_out_body(node.content)+"@@"
+        return "@@[="+("".join(node.content)).replace("=]","=]=[=]")+"=]@@"
     elif isinstance(node,nodes.UlliNode):
         return ("*"*node.depth)+"* "+tvwiki_out_body(node.content).strip("\r\n")+"\n"
     elif isinstance(node,nodes.OlliNode):

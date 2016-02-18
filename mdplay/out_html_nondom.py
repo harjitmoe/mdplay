@@ -22,6 +22,9 @@ def html_out_body(nodes,flags=()):
     while in_list>0:
         r+="</li></ul>"
         in_list-=1
+    while in_list<0:
+        r+="</li></ol>"
+        in_list+=1
     return r.strip("\r\n")
 
 #import htmlentitydefs
@@ -45,12 +48,18 @@ def _escape(text,html5=0):
 
 def _html_out_body(node,in_list,flags):
     html5=("html5" in flags)
-    if in_list and ( (not isinstance(node,nodes.UlliNode)) or ((node.depth+1)<in_list) ):
+    if (in_list>0) and ( (not isinstance(node,nodes.UlliNode)) or ((node.depth+1)<in_list) ):
         _r=_html_out_body(node,in_list-1,flags=flags)
         if len(_r)==2 and type(_r)==type(()):
             _r,in_list=_r
             in_list+=1
         return "</li></ul>"+_r,in_list-1
+    if (in_list<0) and ( (not isinstance(node,nodes.OlliNode)) or ((-node.depth-1)<in_list) ):
+        _r=_html_out_body(node,in_list+1,flags=flags)
+        if len(_r)==2 and type(_r)==type(()):
+            _r,in_list=_r
+            in_list-=1
+        return "</li></ol>"+_r,in_list+1
     if not isinstance(node,nodes.Node): #i.e. is a string
         return _escape(node,html5)
     elif isinstance(node,nodes.TitleNode):
@@ -74,6 +83,16 @@ def _html_out_body(node,in_list,flags):
                 in_list+=1
         else:
             r+="</li><li>"
+        r+=html_out_body(node.content,flags=flags)
+        return r,in_list
+    elif isinstance(node,nodes.OlliNode):
+        r=""
+        if (node.depth+1)>in_list:
+            while (node.depth+1)>in_list:
+                r+="<ol><li value=%s>"%_strquote(str(node.fence))
+                in_list+=1
+        else:
+            r+="</li><li value=%s>"%_strquote(str(node.fence))
         r+=html_out_body(node.content,flags=flags)
         return r,in_list
     elif isinstance(node,nodes.BoldNode):

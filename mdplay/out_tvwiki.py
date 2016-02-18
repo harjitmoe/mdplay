@@ -38,6 +38,8 @@ def _tvwiki_out_body(node,flags=()):
         return "@@"+tvwiki_out_body(node.content)+"@@"
     elif isinstance(node,nodes.UlliNode):
         return ("*"*node.depth)+"* "+tvwiki_out_body(node.content).strip("\r\n")+"\n"
+    elif isinstance(node,nodes.OlliNode):
+        return ("#"*node.depth)+"# "+tvwiki_out_body(node.content).strip("\r\n")+"\n"
     elif isinstance(node,nodes.BoldNode):
         return "'''"+tvwiki_out_body(node.content)+"'''"
     elif isinstance(node,nodes.ItalicNode):
@@ -87,7 +89,7 @@ def _tvwiki_out_body(node,flags=()):
                 r+=tvwiki_out_body(list(cell)).strip().replace("\n","[softreturn]")+"||"
         return r+"\n"
     elif isinstance(node,nodes.EmptyInterrupterNode):
-        return ""
+        return "\n"
     else:
         return "ERROR"+repr(node)
 

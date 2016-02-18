@@ -34,6 +34,33 @@ def _html_out_part(nodem,document,in_list=0,flags=()):
                 for domn in html_out_part(node.content,document,flags=flags):
                     r.appendChild(domn)
                 yield r
+        elif isinstance(node,nodes.OlliNode):
+            if (node.depth+1)>in_list:
+                r=document.createElement("ol")
+                r2=document.createElement("li")
+                r2.setAttribute("value",str(node.fence))
+                r.appendChild(r2)
+                for domn in html_out_part(node.content,document,flags=flags):
+                    r2.appendChild(domn)
+                for domn in html_out_part(nodem,document,in_list+1):
+                    if domn.tagName not in ("ul","ol"):
+                        r.appendChild(domn)
+                    elif not len(r2.childNodes):
+                        r3=document.createElement("li")
+                        r.appendChild(r3)
+                        r3.appendChild(domn)
+                    else:
+                        r.lastChild.appendChild(domn)
+                yield r
+            elif (node.depth+1)<in_list:
+                nodem.insert(0,node)
+                return
+            else:
+                r=document.createElement("li")
+                r.setAttribute("value",str(node.fence))
+                for domn in html_out_part(node.content,document,flags=flags):
+                    r.appendChild(domn)
+                yield r
         elif in_list: #A non-list node at list-stack level
             nodem.insert(0,node)
             return

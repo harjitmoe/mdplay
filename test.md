@@ -129,6 +129,16 @@ Back^((not Backside\))
 >>> Trois
 >>>> Quatre
 
+---
+
+> Un
+>
+>> Deux
+>>
+>>> Trois
+>>>
+>>>> Quatre
+
 Parse_this_text stu*pen*dously, _mate_, do you _he_\ ar me?
 
 ---
@@ -309,6 +319,25 @@ T&omacr;ky&omacr;.  Literal \&omacr; or &amp;omacr;.
 
 &unescaped behaviour.
 
-&lsqb;This is not a link.](http://egscomics.com)
+&lsqb;This is not a piped link.](http://egscomics.com)
+
+&ltomitting semicolons&gt, &amoled.
+
+Testing ordered lists:
+
+1. The spirit of God, like a fire, is burning;
+2. the latter day glory begins to come forth.
+3. The visions and blessings of old are returning,
+4. and angels are coming to visit the earth.
+
+* We'll sing and we'll shout with the armies of Heaven,
+* "Hosanna!  Hosanna to God and the Lamb!
+* Let glory to them in the highest be given
+* henceforth and forever, Amen and Amen!"
+
+5. The Lord is extending the Saints' understanding...
+
+(note that the above may come out as 1 or 5, depending
+on renderer and flags)
 
 \

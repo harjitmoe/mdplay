@@ -7,10 +7,14 @@ no special support is included for ordered lists, paralleling the absence of
 such in BBCode.  unordered lists are converted, though.  this may be changed
 in a future release, or it may not.
 
-version 4:13
+version 5.0
 
 change-log:
 
+5.0: work on lists, including rudimentary ordered list support at long
+     length.  allow (but make disablable) un-escaping of sloppy (no 
+     semicolon) html entities listed as accepted thusly in the Python html5
+     entity table.
 4:13:entity un-escape input during, not before, parsing so as to allow
      syntax features to be escaped using entities, as well as other tweaks.
 4:12:add TVTropes-style-syntax renderer.  fix serious entity un-escaping bug

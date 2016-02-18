@@ -6,6 +6,7 @@
 == Overcast ==
 
 Paragraphs are very nice.[softreturn]I think so too. 
+
 * Knives 
 ** Forks 
 ** Spoons 
@@ -116,6 +117,16 @@ Expand the below for a spoiler:
 ]]
 
 ->Un &gt; Deux &gt;&gt; Trois &gt;&gt;&gt; Quatre 
+
+----
+
+->Un 
+->
+-->Deux 
+-->
+--->Trois 
+--->
+---->Quatre 
 
 Parse_this_text stu''pen''dously, ''mate'', do you ''he''ar me? 
 
@@ -269,18 +280,23 @@ Hello.
 [[{{The King's (The Cathedral) School}} KSP ''(again)'']] 
 
 [[{{Try ''to'' br{'e}ak ``this``...}} Hmm...]] 
+
 * one 
 * list 
+
 * another 
 * list 
 
 And 
+
 * one 
 * list 
+
 * another 
 * list 
 
 And 
+
 * one 
 * list 
 * @@*sa`me*@@ 
@@ -296,6 +312,24 @@ Tōkyō.  Literal &amp;omacr; or &amp;omacr;.
 
 &amp;unescaped behaviour. 
 
-&#91;This is not a link.&#93;(http://egscomics.com) 
+&#91;This is not a piped link.&#93;(http://egscomics.com) 
+
+&lt;omitting semicolons&gt;, &amp;amoled. 
+
+Testing ordered lists: 
+
+# The spirit of God, like a fire, is burning; 
+# the latter day glory begins to come forth. 
+# The visions and blessings of old are returning, 
+# and angels are coming to visit the earth. 
+
+* We'll sing and we'll shout with the armies of Heaven, 
+* "Hosanna!  Hosanna to God and the Lamb! 
+* Let glory to them in the highest be given 
+* henceforth and forever, Amen and Amen!" 
+
+# The Lord is extending the Saints' understanding... 
+
+(note that the above may come out as 1 or 5, depending on renderer and flags) 
 
 

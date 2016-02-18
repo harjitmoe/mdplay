@@ -18,17 +18,38 @@ def bb_out_body(nodes,flags=()):
             _r,in_list=_r
         r+=_r
     while in_list>0:
-        r+="[/list]"
+        if ("htmllists" not in flags):
+            r+="[/list]"
+        else:
+            r+="[/ul]"
         in_list-=1
+    while in_list<0:
+        if ("htmllists" not in flags):
+            r+="[/list]"
+        else:
+            r+="[/ol]"
+        in_list+=1
     return r.strip("\r\n")
 
 def _bb_out(node,in_list,flags):
-    if in_list and ((not isinstance(node,nodes.UlliNode)) or ((node.depth+1)<in_list)):
+    if (in_list>0) and ((not isinstance(node,nodes.UlliNode)) or ((node.depth+1)<in_list)):
         _r=_bb_out(node,in_list-1,flags=flags)
         if len(_r)==2 and type(_r)==type(()):
             _r,in_list=_r
             in_list+=1
-        return "[/list]\n"+_r,in_list-1
+        if ("htmllists" not in flags):
+            return "[/list]\n"+_r,in_list-1
+        else:
+            return "[/ul]\n"+_r,in_list-1
+    if (in_list<0) and ((not isinstance(node,nodes.OlliNode)) or ((-node.depth-1)<in_list)):
+        _r=_bb_out(node,in_list+1,flags=flags)
+        if len(_r)==2 and type(_r)==type(()):
+            _r,in_list=_r
+            in_list-=1
+        if ("htmllists" not in flags):
+            return "[/list]\n"+_r,in_list+1
+        else:
+            return "[/ol]\n"+_r,in_list+1
     if not isinstance(node,nodes.Node): #i.e. is a string
         return node
     elif isinstance(node,nodes.TitleNode):
@@ -48,9 +69,28 @@ def _bb_out(node,in_list,flags):
     elif isinstance(node,nodes.UlliNode):
         r=""
         while (node.depth+1)>in_list:
-            r+="\n[list]" if in_list==0 else "[list]"
+            if ("htmllists" not in flags):
+                r+="\n[list]" if in_list==0 else "[list]"
+            else:
+                r+="\n[ul]" if in_list==0 else "[ul]"
             in_list+=1
-        r+="[*]"+bb_out_body(node.content,flags=flags)+"\n"
+        if ("htmllists" not in flags):
+            r+="[*]"+bb_out_body(node.content,flags=flags)+"\n"
+        else:
+            r+="[li]"+bb_out_body(node.content,flags=flags)+"[/li]\n"
+        return r,in_list
+    elif isinstance(node,nodes.OlliNode):
+        r=""
+        while (node.depth+1)>(-in_list):
+            if ("htmllists" not in flags):
+                r+="\n[list]" if in_list==0 else "[list]"
+            else:
+                r+="\n[ol]" if in_list==0 else "[ol]"
+            in_list-=1
+        if ("htmllists" not in flags):
+            r+=("[*][%d]"%node.fence)+bb_out_body(node.content,flags=flags)+"\n"
+        else:
+            r+=("[li value=%d]"%node.fence)+bb_out_body(node.content,flags=flags)+"[/li]\n"
         return r,in_list
     elif isinstance(node,nodes.BoldNode):
         return "[b]"+bb_out_body(node.content,flags=flags)+"[/b]"

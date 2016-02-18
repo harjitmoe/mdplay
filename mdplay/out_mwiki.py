@@ -27,6 +27,8 @@ def _mwiki_out_body(node,flags=()):
         return "<code>"+mwiki_out_body(node.content)+"</code>"
     elif isinstance(node,nodes.UlliNode):
         return ("*"*node.depth)+"* "+mwiki_out_body(node.content).strip("\r\n")+"\n"
+    elif isinstance(node,nodes.OlliNode):
+        return ("#"*node.depth)+"# "+mwiki_out_body(node.content).strip("\r\n")+"\n"
     elif isinstance(node,nodes.BoldNode):
         return "'''"+mwiki_out_body(node.content)+"'''"
     elif isinstance(node,nodes.ItalicNode):
@@ -69,7 +71,7 @@ def _mwiki_out_body(node,flags=()):
                 r+="|"+mwiki_out_body(list(cell)).strip("\r\n")+"\n"
         return r+"|}\n"
     elif isinstance(node,nodes.EmptyInterrupterNode):
-        return ""
+        return "\n"
     else:
         return "ERROR"+repr(node)
 

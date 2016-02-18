@@ -39,6 +39,8 @@ def _md_out_body(node,flags=()):
         return fence+rcontent+fence
     elif isinstance(node,nodes.UlliNode):
         return ("\x20\x20"*node.depth)+"* "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n"+("\x20\x20"*(node.depth+1)))+"\n"
+    elif isinstance(node,nodes.OlliNode):
+        return ("\x20\x20"*node.depth)+str(node.fence)+") "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n"+("\x20\x20"*(node.depth+1))+(" "*+len(str(node.fence))))+"\n"
     elif isinstance(node,nodes.BoldNode):
         if node.emphatic or ("nobackslashspace" in flags) or ("noemphunderscore" in flags):
             return "**"+md_out_body(node.content,flags)+"**"

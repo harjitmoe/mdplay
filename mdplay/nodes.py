@@ -46,6 +46,9 @@ class SpoilerNode(BlockNode):
 class UlliNode(BlockNode):
     pass
 
+class OlliNode(BlockNode):
+    pass
+
 class CodeSpanNode(InlineNode):
     pass
 

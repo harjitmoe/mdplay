@@ -100,6 +100,10 @@ def _parse_inline(content,levs=("root",),flags=()):
             if c in htmlentitydefs.html5.keys():
                 out.append(htmlentitydefs.html5[c].encode("utf-8"))
                 content=content[n:]
+            elif (c[:-1] in htmlentitydefs.html5.keys()) and ("nohtmlsloppyentity" not in flags):
+                n -= 1; c = c[:-1]
+                out.append(htmlentitydefs.html5[c].encode("utf-8"))
+                content=content[n:]
             else:
                 out.append("&")
         ### Newlines (there are only true newlines by this point) ###

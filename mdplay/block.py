@@ -64,6 +64,8 @@ def _parse_block(f,titlelevels,flags):
         issp=lambda line:0
     iscb=lambda line:len(line)>=4 and all_same(line[:4])==" "
     isul=lambda line:line.strip() and re.match(r"\s*[*+-](\s.*)?$",line)
+    #isol=lambda line:line.strip() and re.match(r"\s*(\d+[).:]|[#])(\s.*)?$",line)
+    isol=lambda line:line.strip() and re.match(r"\s*(\d+[).:])(\s.*)?$",line)
     isalign=lambda line:(line!=None) and line.strip() and re.match(r"((:--|:-:|-_:)\|)+(:--|:-:|-_:)",line)
 
     for line in f:
@@ -105,6 +107,10 @@ def _parse_block(f,titlelevels,flags):
                 continue
             elif isul(line):
                 within="ul"
+                f.rtpma()
+                continue
+            elif isol(line):
+                within="ol"
                 f.rtpma()
                 continue
             elif isbq(line):
@@ -254,6 +260,40 @@ def _parse_block(f,titlelevels,flags):
                     depth=depths.index(deep)
                     depths=depths[:depth+1]
                 minibuf+=line.lstrip()[1:].lstrip()
+            else:
+                minibuf+=line.lstrip()+"\n"
+        elif within=="ol":
+            if not fence:
+                yield (nodes.EmptyInterrupterNode())
+            if ( (not line.strip()) and ( (f.peek_ahead()==None) or (not f.peek_ahead().strip()) or (f.peek_ahead()[0] not in (" ",fence)) or ("breaklists" in flags) ) ) or isrule(line):
+                yield (nodes.OlliNode(parse_block(minibuf,titlelevels,flags),depth,fence=int(fence,10)))
+                minibuf=""
+                depth=0
+                depths=[]
+                fence=None
+                within="root"
+                f.rtpma()
+                continue
+            elif isol(line):
+                if minibuf:
+                    yield (nodes.OlliNode(parse_block(minibuf,titlelevels,flags),depth,fence=int(fence,10)))
+                    minibuf=""
+                fence=""
+                for char in line.lstrip():
+                    if char not in "0123456789":
+                        break
+                    fence+=char
+                deep=len(line.replace("\t"," "*4))-len(line.replace("\t"," "*4).lstrip())
+                if not depths:
+                    depths.append(deep)
+                    depth=0
+                elif deep>depths[-1]:
+                    depths.append(deep)
+                    depth+=1
+                elif deep in depths:
+                    depth=depths.index(deep)
+                    depths=depths[:depth+1]
+                minibuf+=line.lstrip()[len(fence)+1:].lstrip()
             else:
                 minibuf+=line.lstrip()+"\n"
         elif within=="rule":

@@ -6,6 +6,7 @@
 == Overcast ==
 
 Paragraphs are very nice.<br />I think so too. 
+
 * Knives 
 ** Forks 
 ** Spoons 
@@ -106,10 +107,20 @@ CH<sub>3</sub>COOH
 Back<sup>(not Backside)</sup> 
 
 (^Not a superscript.^) (^Not a superscript either.^) ^(Nor this.) ^(Or this.) 
-<span class="mw-customtoggle-3072847852" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-3072847852" class="mw-collapsible mw-collapsed" style="display:none;">The lie is a muffin. </div><span class="mw-customtoggle-3072847820" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-3072847820" class="mw-collapsible mw-collapsed" style="display:none;">
+<span class="mw-customtoggle-3072432748" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-3072432748" class="mw-collapsible mw-collapsed" style="display:none;">The lie is a muffin. </div><span class="mw-customtoggle-3072433036" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-3072433036" class="mw-collapsible mw-collapsed" style="display:none;">
 Expand the below for a spoiler: 
-<span class="mw-customtoggle-3072344428" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-3072344428" class="mw-collapsible mw-collapsed" style="display:none;">(Insert picture of the back of a racing car here.) </div></div>
+<span class="mw-customtoggle-3071849196" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-3071849196" class="mw-collapsible mw-collapsed" style="display:none;">(Insert picture of the back of a racing car here.) </div></div>
 :Un &gt; Deux &gt;&gt; Trois &gt;&gt;&gt; Quatre 
+
+<hr />
+
+:Un 
+:
+::Deux 
+::
+:::Trois 
+:::
+::::Quatre 
 
 Parse_this_text stu''pen''dously, ''mate'', do you ''he''ar me? 
 
@@ -297,18 +308,23 @@ the news (also).
 [[The King's (The Cathedral) School|KSP ''(again)'']] 
 
 [[Try ''to'' br{'e}ak ``this``...|Hmm...]] 
+
 * one 
 * list 
+
 * another 
 * list 
 
 And 
+
 * one 
 * list 
+
 * another 
 * list 
 
 And 
+
 * one 
 * list 
 * <code>*sa`me*</code> 
@@ -324,6 +340,24 @@ Tōkyō.  Literal &amp;omacr; or &amp;omacr;.
 
 &amp;unescaped behaviour. 
 
-&#91;This is not a link.&#93;([http://egscomics.com http://egscomics.com]) 
+&#91;This is not a piped link.&#93;([http://egscomics.com http://egscomics.com]) 
+
+&lt;omitting semicolons&gt;, &amp;amoled. 
+
+Testing ordered lists: 
+
+# The spirit of God, like a fire, is burning; 
+# the latter day glory begins to come forth. 
+# The visions and blessings of old are returning, 
+# and angels are coming to visit the earth. 
+
+* We'll sing and we'll shout with the armies of Heaven, 
+* "Hosanna!  Hosanna to God and the Lamb! 
+* Let glory to them in the highest be given 
+* henceforth and forever, Amen and Amen!" 
+
+# The Lord is extending the Saints' understanding... 
+
+(note that the above may come out as 1 or 5, depending on renderer and flags) 
 
 

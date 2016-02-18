@@ -116,6 +116,16 @@ Back[sup](not Backside)[/sup]
 
 [quote]Un > Deux >> Trois >>> Quatre [/quote]
 
+[rule]
+
+[quote]Un 
+
+[quote]Deux 
+
+[quote]Trois 
+
+[quote]Quatre [/quote][/quote][/quote][/quote]
+
 Parse_this_text stu[i]pen[/i]dously, [i]mate[/i], do you [i]he[/i]ar me? 
 
 [rule]
@@ -269,4 +279,25 @@ Tōkyō.  Literal &omacr; or &omacr;.
 
 &unescaped behaviour. 
 
-[This is not a link.]([url="http://egscomics.com"]http://egscomics.com[/url]) 
+[This is not a piped link.]([url="http://egscomics.com"]http://egscomics.com[/url]) 
+
+<omitting semicolons>, &amoled. 
+
+Testing ordered lists: 
+
+[list][*][1]The spirit of God, like a fire, is burning; 
+[*][2]the latter day glory begins to come forth. 
+[*][3]The visions and blessings of old are returning, 
+[*][4]and angels are coming to visit the earth. 
+[/list]
+
+[list][*]We'll sing and we'll shout with the armies of Heaven, 
+[*]"Hosanna!  Hosanna to God and the Lamb! 
+[*]Let glory to them in the highest be given 
+[*]henceforth and forever, Amen and Amen!" 
+[/list]
+
+[list][*][5]The Lord is extending the Saints' understanding... 
+[/list]
+
+(note that the above may come out as 1 or 5, depending on renderer and flags) 

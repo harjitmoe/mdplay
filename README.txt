@@ -7,10 +7,12 @@ no special support is included for ordered lists, paralleling the absence of
 such in BBCode.  unordered lists are converted, though.  this may be changed
 in a future release, or it may not.
 
-version 5.0
+version 5.1
 
 change-log:
 
+5.1: correct TVTropes heading syntax.  further work on list processing,
+     especially on the BBcode side, adding several flags.  other tweaks.
 5.0: work on lists, including rudimentary ordered list support at long
      length.  allow (but make disablable) un-escaping of sloppy (no 
      semicolon) html entities listed as accepted thusly in the Python html5

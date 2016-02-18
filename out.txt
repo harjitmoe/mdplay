@@ -94,7 +94,7 @@ C:\WINDOWS\--hello--
 
 [rule]
 
-[u]Useful Notes: UNIX[/u][sup][url="http://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/UNIX"](TVTropes)[/url][/sup] 
+[url="http://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/UNIX"]Useful Notes: UNIX[/url] 
 
 [size=6][b]Superscripts and subscripts [/b][/size]
 

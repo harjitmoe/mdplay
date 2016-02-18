@@ -87,12 +87,17 @@ def _html_out_body(node,in_list,flags):
         return r,in_list
     elif isinstance(node,nodes.OlliNode):
         r=""
+        def gen_liopen(fence, flags):
+            if ("autonumberonly" not in flags):
+                return "<li value=%s>"%_strquote(str(fence))
+            else:
+                return "<li>"
         if (node.depth+1)>in_list:
             while (node.depth+1)>in_list:
-                r+="<ol><li value=%s>"%_strquote(str(node.fence))
+                r+="<ol>"+gen_liopen(node.fence, flags)
                 in_list+=1
         else:
-            r+="</li><li value=%s>"%_strquote(str(node.fence))
+            r+="</li>"+gen_liopen(node.fence, flags)
         r+=html_out_body(node.content,flags=flags)
         return r,in_list
     elif isinstance(node,nodes.BoldNode):

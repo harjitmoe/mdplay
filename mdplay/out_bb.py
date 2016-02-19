@@ -10,54 +10,85 @@ def bb_out(nodes,titl_ignored=None,flags=()):
     return bb_out_body(nodes,flags=flags)
 
 def bb_out_body(nodes,flags=()):
-    in_list=0
+    in_list=()
     r=""
     for node in nodes:
         _r=_bb_out(node,in_list,flags=flags)
         if len(_r)==2 and type(_r)==type(()):
             _r,in_list=_r
         r+=_r
-    while in_list>0:
-        if ("htmllists" not in flags):
-            r+="[/li][/ul]"
-        elif ("semihtmllists" not in flags):
+    while len(in_list)>0:
+        if ("htmllists" in flags):
+            if in_list[0]=="ul":
+                r+="[/li][/ul]"
+            else:
+                r+="[/li][/ol]"
+        elif ("semihtmllists" in flags):
             r+="[/li][/list]"
         else:
             r+="[/list]"
-        in_list-=1
-    while in_list<0:
-        if ("htmllists" not in flags):
-            r+="[/li][/ol]"
-        elif ("semihtmllists" not in flags):
-            r+="[/li][/list]"
-        else:
-            r+="[/list]"
-        in_list+=1
+        in_list=in_list[1:]
     return r.strip("\r\n")
 
+def gen_liopen(bullet, flags):
+    if ("autonumberonly" not in flags):
+        return "[li value=%s]"%json.dumps(str(bullet))
+    else:
+        return "[li]"
+
 def _bb_out(node,in_list,flags):
-    if (in_list>0) and ((not isinstance(node,nodes.UlliNode)) or ((node.depth+1)<in_list)):
-        _r=_bb_out(node,in_list-1,flags=flags)
-        if len(_r)==2 and type(_r)==type(()):
-            _r,in_list=_r
-            in_list+=1
-        if ("htmllists" in flags):
-            return "[/li][/ul]\n"+_r,in_list-1
-        elif ("semihtmllists" in flags):
-            return "[/li][/list]\n"+_r,in_list-1
-        else:
-            return "[/list]\n"+_r,in_list-1
-    if (in_list<0) and ((not isinstance(node,nodes.OlliNode)) or ((-node.depth-1)<in_list)):
-        _r=_bb_out(node,in_list+1,flags=flags)
-        if len(_r)==2 and type(_r)==type(()):
-            _r,in_list=_r
-            in_list-=1
-        if ("htmllists" in flags):
-            return "[/li][/ol]\n"+_r,in_list+1
-        elif ("semihtmllists" in flags):
-            return "[/li][/list]\n"+_r,in_list+1
-        else:
-            return "[/list]\n"+_r,in_list+1
+    if in_list and (in_list[0]=="ul"):
+        if (not isinstance(node,nodes.LiNode)) or ((node.depth+1)<len(in_list)):
+            _r=_bb_out(node,in_list[1:],flags=flags)
+            if len(_r)==2 and type(_r)==type(()):
+                _r,in_list=_r
+                if isinstance(node,nodes.UlliNode):
+                    in_list=("ul",)+in_list
+                else:
+                    in_list=("ol",)+in_list
+            if ("htmllists" in flags):
+                return "[/li][/ul]\n"+_r,in_list[1:]
+            elif ("semihtmllists" in flags):
+                return "[/li][/list]\n"+_r,in_list[1:]
+            else:
+                return "[/list]\n"+_r,in_list[1:]
+        elif isinstance(node,nodes.OlliNode) and ((node.depth+1)==len(in_list)):
+            in_list=in_list[1:]
+            _r=_bb_out(node,in_list,flags=flags)
+            if len(_r)==2 and type(_r)==type(()):
+                _r,in_list=_r
+            if ("htmllists" in flags):
+                return "[/li][/ul]\n"+_r,in_list
+            elif ("semihtmllists" in flags):
+                return "[/li][/list]\n"+_r,in_list
+            else:
+                return "[/list]\n"+_r,in_list
+    if in_list and (in_list[0]=="ol"):
+        if (not isinstance(node,nodes.LiNode)) or ((node.depth+1)<len(in_list)):
+            _r=_bb_out(node,in_list[1:],flags=flags)
+            if len(_r)==2 and type(_r)==type(()):
+                _r,in_list=_r
+                if isinstance(node,nodes.UlliNode):
+                    in_list=("ul",)+in_list
+                else:
+                    in_list=("ol",)+in_list
+            if ("htmllists" in flags):
+                return "[/li][/ol]\n"+_r,in_list[1:]
+            elif ("semihtmllists" in flags):
+                return "[/li][/list]\n"+_r,in_list[1:]
+            else:
+                return "[/list]\n"+_r,in_list[1:]
+        elif isinstance(node,nodes.UlliNode) and ((node.depth+1)==len(in_list)):
+            in_list=in_list[1:]
+            _r=_bb_out(node,in_list,flags=flags)
+            if len(_r)==2 and type(_r)==type(()):
+                _r,in_list=_r
+            if ("htmllists" in flags):
+                return "[/li][/ul]\n"+_r,in_list
+            elif ("semihtmllists" in flags):
+                return "[/li][/list]\n"+_r,in_list
+            else:
+                return "[/list]\n"+_r,in_list
     if not isinstance(node,nodes.Node): #i.e. is a string
         return node
     elif isinstance(node,nodes.TitleNode):
@@ -76,15 +107,15 @@ def _bb_out(node,in_list,flags):
         return "[font=monospace]"+bb_out_body(node.content,flags=flags)+"[/font]"
     elif isinstance(node,nodes.UlliNode):
         r=""
-        if (node.depth+1)>in_list:
-            while (node.depth+1)>in_list:
+        if (node.depth+1)>len(in_list):
+            while (node.depth+1)>len(in_list):
                 if ("htmllists" in flags):
-                    r+="\n[ul][li]" if in_list==0 else "[ul][li]"
+                    r+="\n[ul][li]" if not in_list else "[ul][li]"
                 elif ("semihtmllists" in flags):
-                    r+="\n[list][li]" if in_list==0 else "[list][li]"
+                    r+="\n[list][li]" if not in_list else "[list][li]"
                 else:
-                    r+="\n[list][*]" if in_list==0 else "[list][*]"
-                in_list+=1
+                    r+="\n[list][*]" if not in_list else "[list][*]"
+                in_list=("ul",)+in_list
         elif ("htmllists" in flags) or ("semihtmllists" in flags):
             r+="[/li]\n[li]"
         else:
@@ -93,26 +124,21 @@ def _bb_out(node,in_list,flags):
         return r,in_list
     elif isinstance(node,nodes.OlliNode):
         r=""
-        def gen_liopen(fence, flags):
-            if ("autonumberonly" not in flags):
-                return "[li value=%s]"%json.dumps(str(fence))
-            else:
-                return "[li]"
-        if (node.depth+1)>(-in_list):
-            while (node.depth+1)>(-in_list):
+        if (node.depth+1)>len(in_list):
+            while (node.depth+1)>len(in_list):
                 if ("htmllists" in flags):
-                    r+=("\n[ol]" if in_list==0 else "[ol]")+gen_liopen(node.fence, flags)
+                    r+=("\n[ol]" if not in_list else "[ol]")+gen_liopen(node.bullet, flags)
                 elif ("semihtmllists" in flags):
-                    r+=("\n[list][li]" if in_list==0 else "[list][li]")+("[%d]"%node.fence)
+                    r+=("\n[list][li]" if not in_list else "[list][li]")+("[%d]"%node.bullet)
                 else:
-                    r+=("\n[list][*]" if in_list==0 else "[list][*]")+("[%d]"%node.fence)
-                in_list-=1
+                    r+=("\n[list][*]" if not in_list else "[list][*]")+("[%d]"%node.bullet)
+                in_list=("ol",)+in_list
         elif ("htmllists" in flags):
-            r+="[/li]\n"+gen_liopen(node.fence, flags)
+            r+="[/li]\n"+gen_liopen(node.bullet, flags)
         elif ("semihtmllists" in flags):
-            r+="[/li]\n[li][%d]"%node.fence
+            r+="[/li]\n[li][%d]"%node.bullet
         else:
-            r+="[*][%d]"%node.fence
+            r+="[*][%d]"%node.bullet
         r+=bb_out_body(node.content,flags=flags)+"\n"
         return r,in_list
     elif isinstance(node,nodes.BoldNode):

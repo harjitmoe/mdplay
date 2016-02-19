@@ -317,4 +317,23 @@ Testing ordered lists:
 [list][li][5]The Lord is extending the Saints' understanding... 
 [/li][/list]
 
-(note that the above may come out as 1 or 5, depending on renderer and flags) 
+(note that the above may come out as 1 or 5, depending on mdplay renderer, flags and targeted system) 
+
+[list][li][1]An ol containing an 
+[list][li]Ul containing an 
+[list][li][1]Ol containing 
+[list][li][1]Another ol containing 
+[list][li]An ul containing 
+[list][li]Another ul 
+[/li][/list]
+[/li][/list]
+[/li]
+[li][2]Coming back to this level. 
+[/li][/list]
+[/li][/list]
+[/li]
+[li]Similarly 
+[/li][/list]
+[/li][/list]
+
+This is just a paragraph. 

@@ -1,16 +1,15 @@
-convert a derivative of Markdown to BBCode or HTML.
+convert Markdown to BBCode or HTML.
 
 flags can turn features and extensions off, the obvious one being the strict
 flag.
 
-no special support is included for ordered lists, paralleling the absence of
-such in BBCode.  unordered lists are converted, though.  this may be changed
-in a future release, or it may not.
-
-version 5.1
+version 5.2
 
 change-log:
 
+5.2: fix issues with nested ol lists, including ul/ol combinations.
+     ordered lists are, at length, altogether supported (subject to output
+     limitations).
 5.1: correct TVTropes heading syntax.  further work on list processing,
      especially on the BBcode side, adding several flags.  other tweaks.
 5.0: work on lists, including rudimentary ordered list support at long

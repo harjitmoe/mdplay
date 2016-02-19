@@ -300,4 +300,21 @@ Testing ordered lists:
 [list][*][5]The Lord is extending the Saints' understanding... 
 [/list]
 
-(note that the above may come out as 1 or 5, depending on renderer and flags) 
+(note that the above may come out as 1 or 5, depending on mdplay renderer, flags and targeted system) 
+
+[list][*][1]An ol containing an 
+[list][*]Ul containing an 
+[list][*][1]Ol containing 
+[list][*][1]Another ol containing 
+[list][*]An ul containing 
+[list][*]Another ul 
+[/list]
+[/list]
+[*][2]Coming back to this level. 
+[/list]
+[/list]
+[*]Similarly 
+[/list]
+[/list]
+
+This is just a paragraph. 

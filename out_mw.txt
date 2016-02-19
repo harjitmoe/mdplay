@@ -107,9 +107,9 @@ CH<sub>3</sub>COOH
 Back<sup>(not Backside)</sup> 
 
 (^Not a superscript.^) (^Not a superscript either.^) ^(Nor this.) ^(Or this.) 
-<span class="mw-customtoggle-3071994476" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-3071994476" class="mw-collapsible mw-collapsed" style="display:none;">The lie is a muffin. </div><span class="mw-customtoggle-3071994252" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-3071994252" class="mw-collapsible mw-collapsed" style="display:none;">
+<span class="mw-customtoggle-3072895340" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-3072895340" class="mw-collapsible mw-collapsed" style="display:none;">The lie is a muffin. </div><span class="mw-customtoggle-3072895756" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-3072895756" class="mw-collapsible mw-collapsed" style="display:none;">
 Expand the below for a spoiler: 
-<span class="mw-customtoggle-3071415500" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-3071415500" class="mw-collapsible mw-collapsed" style="display:none;">(Insert picture of the back of a racing car here.) </div></div>
+<span class="mw-customtoggle-3072316204" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-3072316204" class="mw-collapsible mw-collapsed" style="display:none;">(Insert picture of the back of a racing car here.) </div></div>
 :Un &gt; Deux &gt;&gt; Trois &gt;&gt;&gt; Quatre 
 
 <hr />
@@ -355,9 +355,19 @@ Testing ordered lists:
 * "Hosanna!  Hosanna to God and the Lamb! 
 * Let glory to them in the highest be given 
 * henceforth and forever, Amen and Amen!" 
-
 # The Lord is extending the Saints' understanding... 
 
-(note that the above may come out as 1 or 5, depending on renderer and flags) 
+(note that the above may come out as 1 or 5, depending on mdplay renderer, flags and targeted system) 
+
+# An ol containing an 
+** Ul containing an 
+### Ol containing 
+#### Another ol containing 
+***** An ul containing 
+****** Another ul 
+#### Coming back to this level. 
+** Similarly 
+
+This is just a paragraph. 
 
 

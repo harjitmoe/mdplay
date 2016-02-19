@@ -5,11 +5,10 @@ class NonContainerNode(Node):
     pass
 
 class BlockNode(Node):
-    def __init__(self,content,depth=-1,number=None,fence=None):
+    def __init__(self,content,depth=-1,bullet=None):
         self.content=filter_paratags(list(content))
         self.depth=depth
-        self.number=number
-        self.fence=fence
+        self.bullet=bullet
 
 class TableNode(Node):
     def __init__(self,content,aligns=None):
@@ -25,10 +24,9 @@ class InlineNode(Node):
         self.label=label
 
 class CodeBlockNode(Node):
-    def __init__(self,content,depth=-1,number=None,clas=None):
+    def __init__(self,content,depth=-1,clas=None):
         self.content=content
         self.depth=depth
-        self.number=number
         self.clas=clas
 
 class TitleNode(BlockNode):
@@ -43,10 +41,13 @@ class BlockQuoteNode(BlockNode):
 class SpoilerNode(BlockNode):
     pass
 
-class UlliNode(BlockNode):
+class LiNode(BlockNode):
     pass
 
-class OlliNode(BlockNode):
+class UlliNode(LiNode):
+    pass
+
+class OlliNode(LiNode):
     pass
 
 class CodeSpanNode(InlineNode):

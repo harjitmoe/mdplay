@@ -351,9 +351,19 @@ Testing ordered lists:
 * "Hosanna!  Hosanna to God and the Lamb! 
 * Let glory to them in the highest be given 
 * henceforth and forever, Amen and Amen!" 
-
-
 5) The Lord is extending the Saints\' understanding... 
 
-(note that the above may come out as 1 or 5, depending on renderer and flags)
+(note that the above may come out as 1 or 5, depending on mdplay renderer, flags and targeted system)
+
+
+1) An ol containing an 
+  * Ul containing an 
+    1) Ol containing 
+      1) Another ol containing 
+        * An ul containing 
+          * Another ul 
+      2) Coming back to this level. 
+  * Similarly 
+
+This is just a paragraph.
 

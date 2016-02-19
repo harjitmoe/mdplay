@@ -12,19 +12,19 @@ except:
 from mdplay import nodes
 
 def html_out_body(nodes,flags=()):
-    in_list=0
+    in_list=()
     r=""
     for node in nodes:
         _r=_html_out_body(node,in_list,flags=flags)
         if len(_r)==2 and type(_r)==type(()):
             _r,in_list=_r
         r+=_r
-    while in_list>0:
-        r+="</li></ul>"
-        in_list-=1
-    while in_list<0:
-        r+="</li></ol>"
-        in_list+=1
+    while len(in_list)>0:
+        if in_list[0]=="ul":
+            r+="</li></ul>"
+        else:
+            r+="</li></ol>"
+        in_list=in_list[1:]
     return r.strip("\r\n")
 
 #import htmlentitydefs
@@ -48,18 +48,38 @@ def _escape(text,html5=0):
 
 def _html_out_body(node,in_list,flags):
     html5=("html5" in flags)
-    if (in_list>0) and ( (not isinstance(node,nodes.UlliNode)) or ((node.depth+1)<in_list) ):
-        _r=_html_out_body(node,in_list-1,flags=flags)
-        if len(_r)==2 and type(_r)==type(()):
-            _r,in_list=_r
-            in_list+=1
-        return "</li></ul>"+_r,in_list-1
-    if (in_list<0) and ( (not isinstance(node,nodes.OlliNode)) or ((-node.depth-1)<in_list) ):
-        _r=_html_out_body(node,in_list+1,flags=flags)
-        if len(_r)==2 and type(_r)==type(()):
-            _r,in_list=_r
-            in_list-=1
-        return "</li></ol>"+_r,in_list+1
+    if in_list and (in_list[0]=="ul"):
+        if (not isinstance(node,nodes.LiNode)) or ((node.depth+1)<len(in_list)):
+            _r=_html_out_body(node,in_list[1:],flags=flags)
+            if len(_r)==2 and type(_r)==type(()):
+                _r,in_list=_r
+                if isinstance(node,nodes.UlliNode):
+                    in_list=("ul",)+in_list
+                else:
+                    in_list=("ol",)+in_list
+            return "</li></ul>"+_r,in_list[1:]
+        elif isinstance(node,nodes.OlliNode) and ((node.depth+1)==len(in_list)):
+            in_list=in_list[1:]
+            _r=_html_out_body(node,in_list,flags=flags)
+            if len(_r)==2 and type(_r)==type(()):
+                _r,in_list=_r
+            return "</li></ul>"+_r,in_list
+    if in_list and (in_list[0]=="ol"):
+        if (not isinstance(node,nodes.LiNode)) or ((node.depth+1)<len(in_list)):
+            _r=_html_out_body(node,in_list[1:],flags=flags)
+            if len(_r)==2 and type(_r)==type(()):
+                _r,in_list=_r
+                if isinstance(node,nodes.UlliNode):
+                    in_list=("ul",)+in_list
+                else:
+                    in_list=("ol",)+in_list
+            return "</li></ol>"+_r,in_list[1:]
+        elif isinstance(node,nodes.UlliNode) and ((node.depth+1)==len(in_list)):
+            in_list=in_list[1:]
+            _r=_html_out_body(node,in_list,flags=flags)
+            if len(_r)==2 and type(_r)==type(()):
+                _r,in_list=_r
+            return "</li></ul>"+_r,in_list
     if not isinstance(node,nodes.Node): #i.e. is a string
         return _escape(node,html5)
     elif isinstance(node,nodes.TitleNode):
@@ -77,27 +97,27 @@ def _html_out_body(node,in_list,flags):
         return "<code>"+html_out_body(node.content,flags=flags)+"</code>"
     elif isinstance(node,nodes.UlliNode):
         r=""
-        if (node.depth+1)>in_list:
-            while (node.depth+1)>in_list:
+        if (node.depth+1)>len(in_list):
+            while (node.depth+1)>len(in_list):
                 r+="<ul><li>"
-                in_list+=1
+                in_list=("ul",)+in_list
         else:
             r+="</li><li>"
         r+=html_out_body(node.content,flags=flags)
         return r,in_list
     elif isinstance(node,nodes.OlliNode):
         r=""
-        def gen_liopen(fence, flags):
+        def gen_liopen(bullet, flags):
             if ("autonumberonly" not in flags):
-                return "<li value=%s>"%_strquote(str(fence))
+                return "<li value=%s>"%_strquote(str(bullet))
             else:
                 return "<li>"
-        if (node.depth+1)>in_list:
-            while (node.depth+1)>in_list:
-                r+="<ol>"+gen_liopen(node.fence, flags)
-                in_list+=1
+        if (node.depth+1)>len(in_list):
+            while (node.depth+1)>len(in_list):
+                r+="<ol>"+gen_liopen(node.bullet, flags)
+                in_list=("ol",)+in_list
         else:
-            r+="</li>"+gen_liopen(node.fence, flags)
+            r+="</li>"+gen_liopen(node.bullet, flags)
         r+=html_out_body(node.content,flags=flags)
         return r,in_list
     elif isinstance(node,nodes.BoldNode):

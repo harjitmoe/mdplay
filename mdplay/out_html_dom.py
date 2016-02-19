@@ -3,20 +3,20 @@ from xml.dom import minidom
 
 from mdplay import nodes
 
-def html_out_part(nodem,document,in_list=0,flags=()):
+def html_out_part(nodem,document,in_list=(),flags=()):
     return list(_html_out_part(nodem,document,in_list,flags=flags))
 
-def _html_out_part(nodem,document,in_list=0,flags=()):
+def _html_out_part(nodem,document,in_list=(),flags=()):
     while nodem:
         node=nodem.pop(0)
         if isinstance(node,nodes.UlliNode):
-            if (node.depth+1)>in_list:
+            if (node.depth+1)>len(in_list):
                 r=document.createElement("ul")
                 r2=document.createElement("li")
                 r.appendChild(r2)
                 for domn in html_out_part(node.content,document,flags=flags):
                     r2.appendChild(domn)
-                for domn in html_out_part(nodem,document,in_list+1):
+                for domn in html_out_part(nodem,document,("ul",)+in_list):
                     if domn.tagName not in ("ul","ol"):
                         r.appendChild(domn)
                     elif not len(r2.childNodes):
@@ -26,7 +26,7 @@ def _html_out_part(nodem,document,in_list=0,flags=()):
                     else:
                         r.lastChild.appendChild(domn)
                 yield r
-            elif (node.depth+1)<in_list:
+            elif ((node.depth+1)<len(in_list)) or (in_list[0]=="ol"):
                 nodem.insert(0,node)
                 return
             else:
@@ -35,15 +35,15 @@ def _html_out_part(nodem,document,in_list=0,flags=()):
                     r.appendChild(domn)
                 yield r
         elif isinstance(node,nodes.OlliNode):
-            if (node.depth+1)>in_list:
+            if (node.depth+1)>len(in_list):
                 r=document.createElement("ol")
                 r2=document.createElement("li")
                 if ("autonumberonly" not in flags):
-                    r2.setAttribute("value",str(node.fence))
+                    r2.setAttribute("value",str(node.bullet))
                 r.appendChild(r2)
                 for domn in html_out_part(node.content,document,flags=flags):
                     r2.appendChild(domn)
-                for domn in html_out_part(nodem,document,in_list+1):
+                for domn in html_out_part(nodem,document,("ol",)+in_list):
                     if domn.tagName not in ("ul","ol"):
                         r.appendChild(domn)
                     elif not len(r2.childNodes):
@@ -53,13 +53,13 @@ def _html_out_part(nodem,document,in_list=0,flags=()):
                     else:
                         r.lastChild.appendChild(domn)
                 yield r
-            elif (node.depth+1)<in_list:
+            elif ((node.depth+1)<len(in_list)) or (in_list[0]=="ul"):
                 nodem.insert(0,node)
                 return
             else:
                 r=document.createElement("li")
                 if ("autonumberonly" not in flags):
-                    r.setAttribute("value",str(node.fence))
+                    r.setAttribute("value",str(node.bullet))
                 for domn in html_out_part(node.content,document,flags=flags):
                     r.appendChild(domn)
                 yield r

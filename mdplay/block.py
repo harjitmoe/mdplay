@@ -40,7 +40,6 @@ def _parse_block(f,titlelevels,flags):
     within="root"
     minibuf=""
     depth=0
-    number=0
     depths=[]
     fence=None
     fenceinfo=None
@@ -230,11 +229,21 @@ def _parse_block(f,titlelevels,flags):
                 #NO rtpma
                 continue
         elif within=="ul":
-            if not fence:
+            if fence == {}:
+                fence=line.lstrip()[0]
+            elif not fence:
                 fence=line.lstrip()[0]
                 yield (nodes.EmptyInterrupterNode())
-            if ( (not line.strip()) and ( (f.peek_ahead()==None) or (not f.peek_ahead().strip()) or (f.peek_ahead()[0] not in (" ",fence)) or ("breaklists" in flags) ) ) or isrule(line):
-                yield (nodes.UlliNode(parse_block(minibuf,titlelevels,flags),depth,fence=fence))
+            if isol(line):
+                yield (nodes.UlliNode(parse_block(minibuf,titlelevels,flags),depth,bullet=fence))
+                minibuf=""
+                #Don't reset depths
+                within="ol"
+                fence={}
+                f.rtpma()
+                continue
+            elif ( (not line.strip()) and ( (f.peek_ahead()==None) or (not f.peek_ahead().strip()) or (f.peek_ahead()[0] not in (" ",fence)) or ("breaklists" in flags) ) ) or isrule(line):
+                yield (nodes.UlliNode(parse_block(minibuf,titlelevels,flags),depth,bullet=fence))
                 minibuf=""
                 depth=0
                 depths=[]
@@ -244,7 +253,7 @@ def _parse_block(f,titlelevels,flags):
                 continue
             elif isul(line):
                 if minibuf:
-                    yield (nodes.UlliNode(parse_block(minibuf,titlelevels,flags),depth,fence=fence))
+                    yield (nodes.UlliNode(parse_block(minibuf,titlelevels,flags),depth,bullet=fence))
                     minibuf=""
                 if fence!=line.lstrip()[0]:
                     yield (nodes.EmptyInterrupterNode())
@@ -263,10 +272,19 @@ def _parse_block(f,titlelevels,flags):
             else:
                 minibuf+=line.lstrip()+"\n"
         elif within=="ol":
-            if not fence:
+            if (fence!={}) and not fence:
                 yield (nodes.EmptyInterrupterNode())
-            if ( (not line.strip()) and ( (f.peek_ahead()==None) or (not f.peek_ahead().strip()) or (f.peek_ahead()[0] not in (" ",fence)) or ("breaklists" in flags) ) ) or isrule(line):
-                yield (nodes.OlliNode(parse_block(minibuf,titlelevels,flags),depth,fence=int(fence,10)))
+            if isul(line):
+                yield (nodes.OlliNode(parse_block(minibuf,titlelevels,flags),depth,bullet=int(fence,10)))
+                minibuf=""
+                #Don't reset depths
+                within="ul"
+                fence={}
+                f.rtpma()
+                continue
+            #XXX fence usage not the appropriate thing here
+            elif ( (not line.strip()) and ( (f.peek_ahead()==None) or (not f.peek_ahead().strip()) or (f.peek_ahead()[0] not in (" ",fence)) or ("breaklists" in flags) ) ) or isrule(line):
+                yield (nodes.OlliNode(parse_block(minibuf,titlelevels,flags),depth,bullet=int(fence,10)))
                 minibuf=""
                 depth=0
                 depths=[]
@@ -276,7 +294,7 @@ def _parse_block(f,titlelevels,flags):
                 continue
             elif isol(line):
                 if minibuf:
-                    yield (nodes.OlliNode(parse_block(minibuf,titlelevels,flags),depth,fence=int(fence,10)))
+                    yield (nodes.OlliNode(parse_block(minibuf,titlelevels,flags),depth,bullet=int(fence,10)))
                     minibuf=""
                 fence=""
                 for char in line.lstrip():

@@ -28,20 +28,20 @@ def _md_out_body(node,flags=()):
         return "\n>! "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n>! ")+"\n"
     elif isinstance(node,nodes.CodeBlockNode):
         rcontent="".join(node.content)
-        fence="~~~~~~"
-        while fence in rcontent:
-            fence+="~"
-        return "\n"+fence+" "+node.clas+"\n"+rcontent+fence+"\n"
+        bullet="~~~~~~"
+        while bullet in rcontent:
+            bullet+="~"
+        return "\n"+bullet+" "+node.clas+"\n"+rcontent+bullet+"\n"
     elif isinstance(node,nodes.CodeSpanNode):
         rcontent="".join(node.content)
-        fence="`"
-        while fence in rcontent:
-            fence+="`"
-        return fence+rcontent+fence
+        bullet="`"
+        while bullet in rcontent:
+            bullet+="`"
+        return bullet+rcontent+bullet
     elif isinstance(node,nodes.UlliNode):
         return ("\x20\x20"*node.depth)+"* "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n"+("\x20\x20"*(node.depth+1)))+"\n"
     elif isinstance(node,nodes.OlliNode):
-        return ("\x20\x20"*node.depth)+str(node.fence)+") "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n"+("\x20\x20"*(node.depth+1))+(" "*+len(str(node.fence))))+"\n"
+        return ("\x20\x20"*node.depth)+str(node.bullet)+") "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n"+("\x20\x20"*(node.depth+1))+(" "*+len(str(node.bullet))))+"\n"
     elif isinstance(node,nodes.BoldNode):
         if node.emphatic or ("nobackslashspace" in flags) or ("noemphunderscore" in flags):
             return "**"+md_out_body(node.content,flags)+"**"

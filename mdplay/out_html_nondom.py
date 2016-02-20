@@ -81,7 +81,7 @@ def _html_out_body(node,in_list,flags):
                 _r,in_list=_r
             return "</li></ul>"+_r,in_list
     if not isinstance(node,nodes.Node): #i.e. is a string
-        return _escape(node,html5)
+        return _escape(node,html5).replace("\x20\x20","&nbsp; ")
     elif isinstance(node,nodes.TitleNode):
         if node.depth>6: node.depth=6
         return ("<h%d>"%node.depth)+html_out_body(node.content,flags=flags)+("</h%d>"%node.depth)

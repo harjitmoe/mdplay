@@ -94,6 +94,13 @@ def agglomerate(nodelist):
             outlist.append(i)
     return outlist
 
+def agglomerate_inplace(nodelist):
+    """The way the DOM renderer works with lists necessitates this."""
+    agglo=agglomerate(nodelist)
+    del nodelist[:]
+    nodelist.extend(agglo)
+    return nodelist
+
 # Give more deterministic IDs to expandable spoiler nodes in HTML/MWiki.
 _curid = 1
 _idded={}
@@ -116,7 +123,7 @@ def flatten_flags_parser(flags):
         elif flag=="noredditstyle":
             out.extend(flatten_flags_parser(["noredditstyletable","noredditstylesuper"]))
         elif flag=="nosetexthead":
-            out.extend(["nosetexthead","noredditstylesuper"])
+            out.extend(flatten_flags_parser(["noplainsetexthead","noresthead"]))
         elif flag=="notable":
             out.extend(flatten_flags_parser(["noresttable","noredditstyletable"]))
         elif flag=="nosupersubscript":

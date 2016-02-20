@@ -4,7 +4,7 @@ from xml.dom import minidom
 from mdplay import nodes
 
 def html_out_part(nodem,document,in_list=(),flags=()):
-    return list(_html_out_part(nodem,document,in_list,flags=flags))
+    return list(_html_out_part(nodes.agglomerate_inplace(nodem),document,in_list,flags=flags))
 
 def _html_out_part(nodem,document,in_list=(),flags=()):
     while nodem:
@@ -67,7 +67,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
             nodem.insert(0,node)
             return
         elif not isinstance(node,nodes.Node): #i.e. is a string
-            yield document.createTextNode(node.decode("utf-8"))
+            yield document.createTextNode(node.decode("utf-8").replace(u"\x20\x20",u"\xa0\x20"))
         elif isinstance(node,nodes.TitleNode):
             if node.depth>6: node.depth=6
             r=document.createElement("h%d"%node.depth)

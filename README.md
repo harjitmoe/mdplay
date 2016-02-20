@@ -1,35 +1,44 @@
-convert Markdown to BBCode or HTML.
+# MDPlay by HarJIT #
+
+converts a (extended by default) Markdown to other Web-based markup formats.
 
 flags can turn features and extensions off, the obvious one being the strict
-flag.
+flag.  see flag_chart.md for the full list.
 
-version 5.3
+version 5.4
 
 change-log:
 
+==== ==============================================================================
+ver  changes
+==== ==============================================================================
+5.4: fixed mistake causing altogether wrong behaviour of nosetexthead flag.  \
+     convert the readme and flag chart to be mdplay input themselves.  make
+     double-spaces in input pass through to the HTML output.  fix bug splitting
+     list items into two paragraphs between the second and third markdown line.
 5.3: fix some glitches with escaping in output by means of new
-     "agglomerate" function fusing adjacent text nodes in the mdplay tree.
+     "agglomerate" function fusing adjacent text nodes in the mdplay tree.  \
      make IDs given to spoiler tags by renderers which have to assign
      their own such IDs more deterministic, so as to facilitate diffing
      html output before and after changes.  re-organise flags system,
      ironing out some faults in the process.
-5.2: fix issues with nested ol lists, including ul/ol combinations.
+5.2: fix issues with nested ol lists, including ul/ol combinations.  \
      ordered lists are, at length, altogether supported (subject to output
      limitations).
 5.1: correct TVTropes heading syntax.  further work on list processing,
-     especially on the BBcode side, adding several flags.  other tweaks.
+     especially on the BBcode side, adding several flags.  other tweaks.  \
 5.0: work on lists, including rudimentary ordered list support at long
      length.  allow (but make disablable) un-escaping of sloppy (no 
      semicolon) html entities listed as accepted thusly in the Python html5
      entity table.
-4:13:entity un-escape input during, not before, parsing so as to allow
-     syntax features to be escaped using entities, as well as other tweaks.
-4:12:add TVTropes-style-syntax renderer.  fix serious entity un-escaping bug
-     of decoding &amp; at the wrong time (and not predictably either).  add
-     escaping to the MediaWiki-syntax renderer.
-4.11:fix to htmlalt and bbcode: terminate list even if last node in document
-     or snippet.  actually use Reddit-style table alignments in HTML output.
-4:10:stop always outputting debug output to mega.txt.  process bare URLs as
+4:13 entity un-escape input during, not before, parsing so as to allow
+     syntax features to be escaped using entities, as well as other tweaks.  \
+4:12 add TVTropes-style-syntax renderer.  fix serious entity un-escaping bug
+     of decoding ampersand entity at the wrong time (and not predictably
+     either).  add escaping to the MediaWiki-syntax renderer.
+4:11 fix to htmlalt and bbcode: terminate list even if last node in document
+     or snippet.  actually use Reddit-style table alignments in HTML output.  \
+4:10 stop always outputting debug output to mega.txt.  process bare URLs as
      links (not needed by the BBCode/MediaWiki outputs but benefits the HTML
      output substantially).  html5 entity un-escaping in markdown sources.
      stop nowikitext discarding ReST tables (derp).
@@ -60,7 +69,7 @@ change-log:
      browser-condoned) HTML for nested lists (DOM-based renderer only).
 4.4: better indented code parsing.  flag system API for writers as well as
      the parser.  add table handling to BBCode writer (was only present in
-     HTML at first) - might work depending on targeted BBCode dialect.
+     HTML at first) - might work depending on targeted BBCode dialect.  \
      added snippet renderer API.  fix detecting headings as tables.
 4.3: added a subset of ReST simple table support, and add a flag system for
      enabling non-designated indented code blocks.  <ol> still pending.
@@ -86,13 +95,13 @@ change-log:
      problem of rules being swallowed (since 3.1), MediaWiki headings.
 3.2: fix the global variables problem properly this time.
 3.1: complete support for ReST headings, this has a slight risk of breaking 
-     compatibility with a given Markdown doc, but only slight.  Fix, in 
+     compatibility with a given Markdown doc, but only slight.  fix, in 
      theory, as stopgap, the more-than-one-doc problem.
 3.0: fix handling of underscore emphasis before (semi)colons, as in 2.1, and 
      split from a script into many modules and implement partial support for 
-     ReST-style extended Setext headings.  Note that this will not behave 
+     ReST-style extended Setext headings.  note that this will not behave 
      correctly if used to translate more than one document.
-[later 2.x revisions (2.1 through 2.4) back-ported fixes from 3.x]
+2.x: [later 2.x revisions (2.1 through 2.4) back-ported fixes from 3.x]
 2.0: code spans were not correctly implemented (they were merely implemented 
      as monospace format spans) and i have no intent of improving upon this so
      i removed it.  fixed middle-of-word underscore behaviour.
@@ -101,23 +110,21 @@ change-log:
      2.7.
 1.2: fixed some crashes.  added subscript, and alternate syntaxes for bold, 
      italic and superscript, and spoilers.
-1.1: bug-fix: handle "\\" correctly
-1.0: first "release"
+1.1: bug-fix: handle "\\" correctly.
+1.0: first "release".
+==== ==============================================================================
 
-i wrote this fairly recently, and i do not believe that i interpolated code 
-from anywhere else.  it is not impossible that i may have forgotten, albeit 
-unlikely as i nowadays tend to avoid doing that without noting in comments.
-
-with that in mind, this software is, unless otherwise specified:
+this software is, unless otherwise specified:
 
 Copyright (c) 2015, 2016 HarJIT.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
 are met:
-1. Redistributions of source code must retain the above copyright
+
+1. Redistributions of source code must retain the above copyright 
    notice, this list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright
+2. Redistributions in binary form must reproduce the above copyright 
    notice, this list of conditions and the following disclaimer in the
    documentation and/or other materials provided with the distribution.
 3. Neither the name of the copyright holder nor the names of its 
@@ -127,7 +134,7 @@ are met:
    original software.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR 
 A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT 
 HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 

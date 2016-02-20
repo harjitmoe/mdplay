@@ -165,7 +165,7 @@ def _parse_block(f,titlelevels,flags):
             within="root"
         elif within in ("para","sthead"):
             depth+=1
-            if isulin(line.rstrip()) and ((depth==2) or (within=="sthead")) and ("nosetexthead" not in flags):
+            if isulin(line.rstrip()) and (((depth==2) and ("noplainsetexthead" not in flags)) or (within=="sthead")):
                 # Combining vanilla-Setext and ATX headers is obvious.
                 # Combining ReST and ATX headers is not.
                 # For each new char, use the first level without a char.
@@ -270,7 +270,7 @@ def _parse_block(f,titlelevels,flags):
                     depths=depths[:depth+1]
                 minibuf+=line.lstrip()[1:].lstrip()
             else:
-                minibuf+=line.lstrip()+"\n"
+                minibuf+=line.lstrip().rstrip("\r\n")+"\n"
         elif within=="ol":
             if (fence!={}) and not fence:
                 yield (nodes.EmptyInterrupterNode())
@@ -313,7 +313,7 @@ def _parse_block(f,titlelevels,flags):
                     depths=depths[:depth+1]
                 minibuf+=line.lstrip()[len(fence)+1:].lstrip()
             else:
-                minibuf+=line.lstrip()+"\n"
+                minibuf+=line.lstrip().rstrip("\r\n")+"\n"
         elif within=="rule":
             yield (nodes.RuleNode())
             within="root"

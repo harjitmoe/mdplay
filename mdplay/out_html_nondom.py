@@ -11,10 +11,10 @@ except:
 
 from mdplay import nodes
 
-def html_out_body(nodes,flags=()):
+def html_out_body(nodel,flags=()):
     in_list=()
     r=""
-    for node in nodes:
+    for node in nodes.agglomerate(nodel):
         _r=_html_out_body(node,in_list,flags=flags)
         if len(_r)==2 and type(_r)==type(()):
             _r,in_list=_r
@@ -90,7 +90,7 @@ def _html_out_body(node,in_list,flags):
     elif isinstance(node,nodes.BlockQuoteNode):
         return "<blockquote>"+html_out_body(node.content,flags=flags)+"</blockquote>\n"
     elif isinstance(node,nodes.SpoilerNode):
-        return "<p><a href='javascript:void(0);' onclick=\"document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')\">Expand/Hide Spoiler</a></p><div class='spoiler' id='spoil%d' style='display:none;'>"%(id(node),id(node),id(node))+html_out_body(node.content,flags=flags)+"</div>"
+        return "<p><a href='javascript:void(0);' onclick=\"document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')\">Expand/Hide Spoiler</a></p><div class='spoiler' id='spoil%d' style='display:none;'>"%(nodes.newid(node),nodes.newid(node),nodes.newid(node))+html_out_body(node.content,flags=flags)+"</div>"
     elif isinstance(node,nodes.CodeBlockNode):
         return "<pre>"+"".join(node.content)+"</pre>"
     elif isinstance(node,nodes.CodeSpanNode):

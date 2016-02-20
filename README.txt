@@ -3,10 +3,16 @@ convert Markdown to BBCode or HTML.
 flags can turn features and extensions off, the obvious one being the strict
 flag.
 
-version 5.2
+version 5.3
 
 change-log:
 
+5.3: fix some glitches with escaping in output by means of new
+     "agglomerate" function fusing adjacent text nodes in the mdplay tree.
+     make IDs given to spoiler tags by renderers which have to assign
+     their own such IDs more deterministic, so as to facilitate diffing
+     html output before and after changes.  re-organise flags system,
+     ironing out some faults in the process.
 5.2: fix issues with nested ol lists, including ul/ol combinations.
      ordered lists are, at length, altogether supported (subject to output
      limitations).

@@ -81,7 +81,7 @@ Whereas this is: ![an embed](http://i.imgur.com/YW5So8y.jpg)
 
 \[This is not](a link).
 
-Th\[is isn\'t](either).
+Th\[is isn't](either).
 
 Th[is is.](http://egscomics.com)
 
@@ -139,7 +139,7 @@ Parse\_this\_text stu*pen*dously, \ _mate_\ , do you \ _he_\ ar me?
 
 = Not a heading ==
 
-\ _Italic_\ , \ __bold__\ , \ __\ _both_\ __\ , \'\'neither\'\'.
+\ _Italic_\ , \ __bold__\ , \ __\ _both_\ __\ , '\'neither'\'.
 
 *Italic*, **bold**, ***both***, \*neither\*.
 
@@ -216,7 +216,7 @@ Third paragraph
 
 Søren. Søren.
 
-J\'ai regardé.
+J'ai regardé.
 
 Watashi\-wa Tōmasu desu.
 
@@ -347,11 +347,11 @@ Testing ordered lists:
 4) and angels are coming to visit the earth. 
 
 
-* We\'ll sing and we\'ll shout with the armies of Heaven, 
+* We'll sing and we'll shout with the armies of Heaven, 
 * "Hosanna!  Hosanna to God and the Lamb! 
 * Let glory to them in the highest be given 
 * henceforth and forever, Amen and Amen!" 
-5) The Lord is extending the Saints\' understanding... 
+5) The Lord is extending the Saints' understanding... 
 
 (note that the above may come out as 1 or 5, depending on mdplay renderer, flags and targeted system)
 

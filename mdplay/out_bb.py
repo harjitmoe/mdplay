@@ -6,13 +6,13 @@ except:
 
 from mdplay import nodes
 
-def bb_out(nodes,titl_ignored=None,flags=()):
-    return bb_out_body(nodes,flags=flags)
+def bb_out(nodel,titl_ignored=None,flags=()):
+    return bb_out_body(nodel,flags=flags)
 
-def bb_out_body(nodes,flags=()):
+def bb_out_body(nodel,flags=()):
     in_list=()
     r=""
-    for node in nodes:
+    for node in nodes.agglomerate(nodel):
         _r=_bb_out(node,in_list,flags=flags)
         if len(_r)==2 and type(_r)==type(()):
             _r,in_list=_r

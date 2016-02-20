@@ -1,0 +1,48 @@
+# Parser:
+
+strict
+	norest
+		noresthead
+		nodicode
+		noresttable
+	nospoilertag
+	nowikitext
+		nowikihead
+		nowikiemph
+		nowikilinks
+	noredditstyle
+		noredditstyletable
+		(overlap with nosupersubscript) -> noredditstylesuper
+	nopandocstyle
+	nospecialhrefs
+	nodiacritic
+nouicode
+nofcode
+nosetexthead
+	(itself a leaf)
+	noresthead
+notable
+	noredditstyletable
+	noresttable
+breaklists
+noverifyurl
+nohtmlsloppyentity
+nohtmldeentity
+noembeds
+nolinkbareurl
+nosupersubscript
+	(overlap with noredditstyle) -> noredditstylesuper
+	nopandocstyle
+
+# Writer:
+
+htmllists (BB)
+semihtmllists (BB)
+autonumberonly (BB, HTML/DOM, HTML/ALT)
+showtropes (BB, HTML/DOM, HTML/ALT, MW)
+html5 (HTML/DOM, HTML/ALT)
+nobackslashspace (MD)
+noemphunderscore (MD)
+pandoc (MD)
+forum (TV)
+

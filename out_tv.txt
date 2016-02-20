@@ -136,7 +136,7 @@ Parse_this_text stu''pen''dously, ''mate'', do you ''he''ar me?
 
 = Not a heading == 
 
-''Italic'', '''bold''', '''''both''''', ''neither''. 
+''Italic'', '''bold''', '''''both''''', &#39;&#39;neither&#39;&#39;. 
 
 ''Italic'', '''bold''', '''''both''''', *neither*. 
 

@@ -1,11 +1,10 @@
-import block
+import block,nodes
 from LinestackIter import LinestackIter
 
 def parse_string(s,flags=()):
-    block.reinit()
     return block.parse_block(s,block.TitleLevels(),flags)
 def parse_file(f,flags=()):
-    return block._parse_block(LinestackIter(f),block.TitleLevels(),flags)
+    return block._parse_block(LinestackIter(f),block.TitleLevels(),nodes.flatten_flags_parser(flags))
 
 class MdplayError(ValueError):pass
 class NoSuchRendererError(MdplayError):pass

@@ -50,12 +50,12 @@ def _parse_block(f,titlelevels,flags):
     istable=lambda line:re.match(r"(=+ )+=+\s*$",line)
     isheadatx=lambda line:line.strip() and re.match(r"(#+) .*(\S#|[^#]|\\#)( \1)?$",line)
     isheadmw=lambda line:line.strip() and re.match(r"\s*(=+)([^=](.*[^=])?)\1\s*$",line)
-    if ("strict" not in flags) and ("norest" not in flags) and ("noresthead" not in flags):
+    if ("noresthead" not in flags):
         isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple(string.punctuation))
     else:
         isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple("=-"))
     isfence=lambda line:line.strip() and re.match(r"\s*(```+[^`]*$|~~~+.*$)",line)
-    if ("strict" not in flags) and ("nospoilertag" not in flags):
+    if ("nospoilertag" not in flags):
         isbq=lambda line:line.strip() and re.match(r"\s*>([^!].*)?$",line)
         issp=lambda line:line.strip() and line.lstrip().startswith(">!")
     else:
@@ -80,15 +80,15 @@ def _parse_block(f,titlelevels,flags):
                 within="atxhead"
                 f.rtpma()
                 continue
-            elif (line.strip() == "::") and ("strict" not in flags) and ("norest" not in flags) and ("nodicode" not in flags):
+            elif (line.strip() == "::") and ("nodicode" not in flags):
                 within="icode"
                 #NO rtpma
                 continue
-            elif isheadmw(line) and ("strict" not in flags) and ("nowikitext" not in flags) and ("nowikihead" not in flags):
+            elif isheadmw(line) and ("nowikihead" not in flags):
                 within="mwhead"
                 f.rtpma()
                 continue
-            elif istable(line) and ("notable" not in flags) and ("strict" not in flags) and ("norest" not in flags) and ("noresttable" not in flags):
+            elif istable(line) and ("noresttable" not in flags):
                 within="table"
                 f.rtpma()
                 continue
@@ -100,7 +100,7 @@ def _parse_block(f,titlelevels,flags):
                 within="fence"
                 f.rtpma()
                 continue
-            elif isulin(line) and ("nosetexthead" not in flags) and ("strict" not in flags) and ("norest" not in flags) and ("noresthead" not in flags):
+            elif isulin(line) and ("noresthead" not in flags):
                 within="sthead"
                 #NO rtpma
                 continue
@@ -116,11 +116,11 @@ def _parse_block(f,titlelevels,flags):
                 within="quote"
                 f.rtpma()
                 continue
-            elif issp(line) and ("strict" not in flags) and ("nospoilertag" not in flags):
+            elif issp(line) and ("nospoilertag" not in flags):
                 within="spoiler"
                 f.rtpma()
                 continue
-            elif ("|" in line) and isalign(f.peek_ahead()) and ("notable" not in flags) and ("strict" not in flags) and ("noredditstyle" not in flags) and ("noredditstyletable" not in flags):
+            elif ("|" in line) and isalign(f.peek_ahead()) and ("noredditstyletable" not in flags):
                 within="tablered"
                 f.rtpma()
                 continue
@@ -207,12 +207,12 @@ def _parse_block(f,titlelevels,flags):
                 within="rule"
                 f.rtpma()
                 continue
-            if (line.rstrip()[-3:]==" ::") and ("strict" not in flags) and ("nodicode" not in flags):
+            if (line.rstrip()[-3:]==" ::") and ("nodicode" not in flags):
                 if line.rstrip("\r\n").endswith("  "):
                     minibuf+=line.rstrip()[:-2].rstrip()+"\n"
                 else:
                     minibuf+=line.rstrip()[:-2].rstrip()
-            elif (line.rstrip()[-2:]=="::") and ("strict" not in flags) and ("nodicode" not in flags):
+            elif (line.rstrip()[-2:]=="::") and ("nodicode" not in flags):
                 if line.rstrip("\r\n").endswith("  "):
                     minibuf+=line.rstrip()[:-1].rstrip()+"\n"
                 else:
@@ -490,5 +490,5 @@ def _parse_block(f,titlelevels,flags):
             within="root"
 
 def parse_block(content,titlelevels,flags=()):
-    return _parse_block(LinestackIter(StringIO(content)),titlelevels,flags)
+    return _parse_block(LinestackIter(StringIO(content)),titlelevels,nodes.flatten_flags_parser(flags))
 

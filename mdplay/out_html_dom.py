@@ -92,12 +92,12 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
             r2=document.createElement("a")
             r.appendChild(r2)
             r2.setAttribute("href",'javascript:void(0);')
-            r2.setAttribute("onclick","document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')"%(id(node),id(node)))
+            r2.setAttribute("onclick","document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')"%(nodes.newid(node),nodes.newid(node)))
             r2.appendChild(document.createTextNode("Expand/Hide Spoiler"))
             r3=document.createElement("div")
             metar.appendChild(r3)
             r3.setAttribute("class",'spoiler')
-            r3.setAttribute("id",'spoil%d'%id(node))
+            r3.setAttribute("id",'spoil%d'%nodes.newid(node))
             r3.setAttribute("style",'display:none;')
             for domn in html_out_part(node.content,document,flags=flags):
                 r3.appendChild(domn)
@@ -230,7 +230,7 @@ def _escape(text,html5=0):
             text=text.replace(codept,("&"+name.rstrip(";")+";").decode("ascii"))
     return text.encode("utf-8")
 
-def html_out(nodes,titl="",flags=()):
+def html_out(nodem,titl="",flags=()):
     html5=("html5" in flags)
     mdi=minidom.getDOMImplementation() #minidom: other xml.dom imps don't necessarily support toxml
     if not html5:
@@ -255,20 +255,20 @@ def html_out(nodes,titl="",flags=()):
     else:
         charset.setAttribute("charset","UTF-8")
     #Body
-    nodes=list(nodes)
-    for domn in html_out_part(nodes,document,flags=flags):
+    nodem=list(nodem)
+    for domn in html_out_part(nodem,document,flags=flags):
         body.appendChild(domn)
     retval=_escape(document.toxml("utf-8"),html5)
     document.unlink()
     return retval
 
-def html_out_body(nodes,titl="",flags=()):
+def html_out_body(nodem,titl="",flags=()):
     html5=("html5" in flags)
     mdi=minidom.getDOMImplementation() #minidom: other xml.dom imps don't necessarily support toxml
     document=mdi.createDocument("http://www.w3.org/1999/xhtml","html",mdi.createDocumentType("html","-//W3C//DTD XHTML 1.1//EN","http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd")) #never actually seen.
     ret=""
-    nodes=list(nodes)
-    for domn in html_out_part(nodes,document,flags=flags):
+    nodem=list(nodem)
+    for domn in html_out_part(nodem,document,flags=flags):
         ret+=domn.toxml("utf-8")
     document.unlink()
     return _escape(ret,html5)

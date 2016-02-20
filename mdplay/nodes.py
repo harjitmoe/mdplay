@@ -81,3 +81,47 @@ def filter_paratags(content):
     if len(content)==1 and isinstance(content[0],ParagraphNode):
         return content[0].content
     return content
+
+def agglomerate(nodelist):
+    outlist=[]
+    for i in nodelist:
+        #NOTE: assumes 2k
+        if isinstance(i,type(u"")):
+            i=i.encode("utf-8")
+        if isinstance(i,type("")) and outlist and isinstance(outlist[-1],type("")): #NOT elif
+            outlist[-1]+=i
+        else:
+            outlist.append(i)
+    return outlist
+
+# Give more deterministic IDs to expandable spoiler nodes in HTML/MWiki.
+_curid = 1
+_idded={}
+def newid(node):
+    global _curid
+    if id(node) not in _idded:
+        _idded[id(node)]=_curid
+        _curid+=1
+    return _idded[id(node)]
+
+def flatten_flags_parser(flags):
+    out=[]
+    for flag in flags:
+        if flag=="strict":
+            out.extend(flatten_flags_parser(["norest","nospoilertag","nowikitext","noredditstyle","nopandocstyle","nospecialhrefs","nodiacritic"]))
+        elif flag=="norest":
+            out.extend(flatten_flags_parser(["noresthead","nodicode","noresttable"]))
+        elif flag=="nowikitext":
+            out.extend(flatten_flags_parser(["nowikihead","nowikiemph","nowikilinks"]))
+        elif flag=="noredditstyle":
+            out.extend(flatten_flags_parser(["noredditstyletable","noredditstylesuper"]))
+        elif flag=="nosetexthead":
+            out.extend(["nosetexthead","noredditstylesuper"])
+        elif flag=="notable":
+            out.extend(flatten_flags_parser(["noresttable","noredditstyletable"]))
+        elif flag=="nosupersubscript":
+            out.extend(flatten_flags_parser(["noredditstylesuper","nopandocstyle"]))
+        else:
+            out.append(flag)
+    return list(set(out))
+

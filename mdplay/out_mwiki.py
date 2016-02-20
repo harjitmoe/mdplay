@@ -4,9 +4,9 @@ from mdplay import nodes
 def mwiki_out(nodes,titl_ignored=None,flags=()):
     return mwiki_out_body(nodes,flags=flags)
 
-def mwiki_out_body(nodes,flags=()):
+def mwiki_out_body(nodel,flags=()):
     r=""
-    for node in nodes:
+    for node in nodes.agglomerate(nodel):
         r+=_mwiki_out_body(node,flags=flags)
     return r
 
@@ -20,7 +20,7 @@ def _mwiki_out_body(node,flags=()):
     elif isinstance(node,nodes.BlockQuoteNode):
         return "\n:"+mwiki_out_body(node.content).strip("\r\n").replace("\n","\n:")+"\n"
     elif isinstance(node,nodes.SpoilerNode):
-        return '<span class="mw-customtoggle-%s" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-%s" class="mw-collapsible mw-collapsed" style="display:none;">'%(id(node),id(node))+mwiki_out_body(node.content)+"</div>"
+        return '<span class="mw-customtoggle-%s" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-%s" class="mw-collapsible mw-collapsed" style="display:none;">'%(nodes.newid(node),nodes.newid(node))+mwiki_out_body(node.content)+"</div>"
     elif isinstance(node,nodes.CodeBlockNode):
         return "\n<pre>"+mwiki_out_body(node.content)+"</pre>\n"
     elif isinstance(node,nodes.CodeSpanNode):

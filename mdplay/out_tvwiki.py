@@ -4,9 +4,9 @@ from mdplay import nodes
 def tvwiki_out(nodes,titl_ignored=None,flags=()):
     return tvwiki_out_body(nodes,flags=flags)
 
-def tvwiki_out_body(nodes,flags=()):
+def tvwiki_out_body(nodel,flags=()):
     r=""
-    for node in nodes:
+    for node in nodes.agglomerate(nodel):
         r+=_tvwiki_out_body(node,flags=flags)
     return r
 

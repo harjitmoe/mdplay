@@ -1,17 +1,19 @@
 # MDPlay by HarJIT #
 
-converts a (extended by default) Markdown to other Web-based markup formats.
+converts an (extended by default) Markdown to other Web-based markup formats.
 
 flags can turn features and extensions off, the obvious one being the strict
 flag.  see flag_chart.md for the full list.
 
-version 5.4
+version 5.5
 
 change-log:
 
 ==== ==============================================================================
 ver  changes
 ==== ==============================================================================
+5.5: emoji, degdegs, native bbcode ols compatible with 910CMX, Reddit-style
+     spoilers, 
 5.4: fixed mistake causing altogether wrong behaviour of nosetexthead flag.  \
      convert the readme and flag chart to be mdplay input themselves.  make
      double-spaces in input pass through to the HTML output.  fix bug splitting
@@ -26,21 +28,21 @@ ver  changes
      ordered lists are, at length, altogether supported (subject to output
      limitations).
 5.1: correct TVTropes heading syntax.  further work on list processing,
-     especially on the BBcode side, adding several flags.  other tweaks.  \
+     especially on the BBcode side, adding several flags.  other tweaks.
 5.0: work on lists, including rudimentary ordered list support at long
      length.  allow (but make disablable) un-escaping of sloppy (no 
      semicolon) html entities listed as accepted thusly in the Python html5
      entity table.
 4:13 entity un-escape input during, not before, parsing so as to allow
-     syntax features to be escaped using entities, as well as other tweaks.  \
+     syntax features to be escaped using entities, as well as other tweaks.
 4:12 add TVTropes-style-syntax renderer.  fix serious entity un-escaping bug
      of decoding ampersand entity at the wrong time (and not predictably
      either).  add escaping to the MediaWiki-syntax renderer.
 4:11 fix to htmlalt and bbcode: terminate list even if last node in document
-     or snippet.  actually use Reddit-style table alignments in HTML output.  \
+     or snippet.  actually use Reddit-style table alignments in HTML output.
 4:10 stop always outputting debug output to mega.txt.  process bare URLs as
      links (not needed by the BBCode/MediaWiki outputs but benefits the HTML
-     output substantially).  html5 entity un-escaping in markdown sources.
+     output substantially).  html5 entity un-escaping in markdown sources.  \
      stop nowikitext discarding ReST tables (derp).
 4.9: don't utterly bork on markup within alt text.  iron out some old quirks
      which i put into the parser, including enabling non-designated indented

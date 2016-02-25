@@ -175,6 +175,8 @@ def _html_out_body(node,in_list,flags):
         return r+"</tbody></table>"
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return ""
+    elif isinstance(node,nodes.EmojiNode):
+        return _escape(node.content,html5)
     else:
         return "ERROR"+repr(node)
 

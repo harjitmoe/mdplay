@@ -99,8 +99,10 @@ def _bb_out(node,in_list,flags):
         return "\n"+bb_out_body(node.content,flags=flags)+"\n"
     elif isinstance(node,nodes.BlockQuoteNode):
         return "\n[quote]"+bb_out_body(node.content,flags=flags)+"[/quote]\n"
-    elif isinstance(node,nodes.SpoilerNode):
+    elif isinstance(node,nodes.BlockSpoilerNode):
         return "\n[spoiler]"+bb_out_body(node.content,flags=flags)+"[/spoiler]\n"
+    elif isinstance(node,nodes.InlineSpoilerNode):
+        return "[spoiler]"+bb_out_body(node.content,flags=flags)+"[/spoiler]"
     elif isinstance(node,nodes.CodeBlockNode):
         return "\n[code]"+bb_out_body(node.content,flags=flags)+"[/code]\n"
     elif isinstance(node,nodes.CodeSpanNode):
@@ -130,6 +132,8 @@ def _bb_out(node,in_list,flags):
                     r+=("\n[ol]" if not in_list else "[ol]")+gen_liopen(node.bullet, flags)
                 elif ("semihtmllists" in flags):
                     r+=("\n[list][li]" if not in_list else "[list][li]")+("[%d]"%node.bullet)
+                elif ("nativeautonumlists" in flags):
+                    r+=("\n[list=1][*]" if not in_list else "[list=1][*]")
                 else:
                     r+=("\n[list][*]" if not in_list else "[list][*]")+("[%d]"%node.bullet)
                 in_list=("ol",)+in_list
@@ -137,6 +141,8 @@ def _bb_out(node,in_list,flags):
             r+="[/li]\n"+gen_liopen(node.bullet, flags)
         elif ("semihtmllists" in flags):
             r+="[/li]\n[li][%d]"%node.bullet
+        elif ("nativeautonumlists" in flags):
+            r+="[*]"
         else:
             r+="[*][%d]"%node.bullet
         r+=bb_out_body(node.content,flags=flags)+"\n"
@@ -186,6 +192,11 @@ def _bb_out(node,in_list,flags):
         return r+"[/table]\n"
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return ""
+    elif isinstance(node,nodes.EmojiNode):
+        if "nouseemoji" not in flags:
+            return node.content
+        else:
+            return ":"+node.label+":"
     else:
         return "ERROR"+repr(node)
 

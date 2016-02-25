@@ -55,7 +55,7 @@ def _parse_block(f,titlelevels,flags):
     else:
         isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple("=-"))
     isfence=lambda line:line.strip() and re.match(r"\s*(```+[^`]*$|~~~+.*$)",line)
-    if ("nospoilertag" not in flags):
+    if ("noblockspoiler" not in flags):
         isbq=lambda line:line.strip() and re.match(r"\s*>([^!].*)?$",line)
         issp=lambda line:line.strip() and line.lstrip().startswith(">!")
     else:
@@ -116,7 +116,7 @@ def _parse_block(f,titlelevels,flags):
                 within="quote"
                 f.rtpma()
                 continue
-            elif issp(line) and ("nospoilertag" not in flags):
+            elif issp(line) and ("noblockspoiler" not in flags):
                 within="spoiler"
                 f.rtpma()
                 continue
@@ -380,7 +380,7 @@ def _parse_block(f,titlelevels,flags):
                 if line[:1]==" ":line=line[1:]
                 minibuf+=line.rstrip("\r\n")+"\n"
             else:
-                yield (nodes.SpoilerNode(parse_block(minibuf,titlelevels,flags)))
+                yield (nodes.BlockSpoilerNode(parse_block(minibuf,titlelevels,flags)))
                 minibuf=""
                 within="root"
                 f.rtpma()

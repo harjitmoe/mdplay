@@ -30,7 +30,9 @@ def _tvwiki_out_body(node,flags=()):
                         data[i]="->"+data[i]
                 return "\n".join(data)
             return "\n"+incrindent(tvwiki_out_body(node.content).strip("\r\n"))+"\n"
-    elif isinstance(node,nodes.SpoilerNode):
+    elif isinstance(node,nodes.InlineSpoilerNode):
+        return '[[spoiler:'+tvwiki_out_body(node.content)+"]]"
+    elif isinstance(node,nodes.BlockSpoilerNode):
         return '\n[[spoiler:'+tvwiki_out_body(node.content)+"]]\n"
     elif isinstance(node,nodes.CodeBlockNode):
         return "\n@@[="+("".join(node.content)).replace("=]","=]=[=]").replace("\n","=]@@\n@@[=")+"=]@@\n"
@@ -90,6 +92,8 @@ def _tvwiki_out_body(node,flags=()):
         return r+"\n"
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return "\n"
+    elif isinstance(node,nodes.EmojiNode):
+        return node.content
     else:
         return "ERROR"+repr(node)
 

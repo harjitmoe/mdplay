@@ -8,6 +8,8 @@
     * nodicode
     * noresttable
   * nospoilertag
+    * noblockspoiler
+    * noredditspoiler
   * nowikitext, which activates
     * nowikihead
     * nowikiemph
@@ -15,9 +17,11 @@
   * noredditstyle, which activates
     * noredditstyletable
     * noredditstylesuper
+    * noredditspoiler
   * nopandocstyle
   * nospecialhrefs
   * nodiacritic
+  * noemoticon
 * nouicode
 * nofcode
 * nosetexthead, which activates
@@ -47,3 +51,4 @@
 * noemphunderscore (MD)
 * pandoc (MD)
 * forum (TV)
+* nouseemoji (BB, MD)

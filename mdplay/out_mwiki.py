@@ -72,6 +72,8 @@ def _mwiki_out_body(node,flags=()):
         return r+"|}\n"
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return "\n"
+    elif isinstance(node,nodes.EmojiNode):
+        return node.content
     else:
         return "ERROR"+repr(node)
 

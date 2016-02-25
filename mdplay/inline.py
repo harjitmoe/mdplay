@@ -1,8 +1,19 @@
+# -*- mode: python; coding: utf-8 -*-
 import re,string
 
 from mdplay import nodes, umlaut
 from mdplay.uriregex import uriregex
 from mdplay import htmlentitydefs_latest as htmlentitydefs
+from mdplay.eac import eac
+
+_eacd={"lenny":u"( ͡° ͜ʖ ͡° )","degdeg":u"( ͡° ͜ʖ ͡° )","darkmoon":u"🌚","thefinger":u"🖕","ntr":u"🤘","blush":u"😳","wink":u"😉","happy":u"😊","rolleyes":u"🙄","angry":u"😠","biggrin":u"😁","aw_yeah":u"😏","bigcry":u"😭","evil":u"👿","twisted":u"😈","sasmile":u"😈","tongue":u"😝","sleep":u"😴","conf":u"😕","confused":u"😕","eek":u"😲","cry":u"😢","sweat1":u"😅","worshippy":u"🙇","wub":u"😍","mellow":u"😐","shifty":u"👀","eyes":u"👀"}
+for _euc in eac.keys():
+    _ec=u""
+    for _eucs in _euc.split("-"):
+        _ec+=unichr(int(_eucs,16))
+    _eacd[eac[_euc]["alpha_code"].strip(":")]=_ec
+    for _alias in eac[_euc]["aliases"]:
+        _eacd[_alias.strip(":")]=_ec
 
 punct=string.punctuation+string.whitespace
 
@@ -11,7 +22,7 @@ def _parse_inline(content,levs=("root",),flags=()):
     # mutable, "passed by reference" as it were
     lastchar=" "
     if ("noverifyurl" not in flags):
-        urireg=uriregex
+        urireg="("+uriregex+"|/spoiler)"
     else:
         urireg=".*"
     if ("nospecialhrefs" not in flags):
@@ -179,7 +190,10 @@ def _parse_inline(content,levs=("root",),flags=()):
                 hreftype="url"
             else:
                 hreftype=hreftype[1:] #Minus the leading !
-            out.append(nodes.HrefNode(href,label,hreftype))
+            if (href == "/spoiler") and (hreftype == "url") and ("noredditspoiler" not in flags):
+                out.append(nodes.InlineSpoilerNode(label))
+            else:
+                out.append(nodes.HrefNode(href,label,hreftype))
         elif c=="]" and lev=="label":
             return out
         elif c=="[" and content[0]=="[" and (lev!="wikilink" or out2) and ("nowikilinks" not in flags):
@@ -211,6 +225,24 @@ def _parse_inline(content,levs=("root",),flags=()):
         elif c=="~" and content[0]==")" and lev=="sub" and ("nopandocstyle" not in flags):
             del content[0]
             return out
+        ### Emoticons ###
+        elif re.match(r":(\w|_|-)+:",c+("".join(content))) and ("noemoticon" not in flags):
+            kwontenti=""
+            c=content.pop(0)
+            while c!=":":
+                kwontenti+=c
+                c=content.pop(0)
+            kwontent=kwontenti
+            if kwontent.startswith("icon_"): #Is this one always okay?
+                kwontent=kwontent[5:]
+            elif kwontent.startswith("eusa_"):
+                kwontent=kwontent[5:]
+            elif kwontent.startswith("dan_"):
+                kwontent=kwontent[4:]
+            if kwontent in _eacd:
+                out.append(nodes.EmojiNode(_eacd[kwontent.decode("utf-8")].encode("utf-8"),kwontenti))
+            else:
+                out.append(":"+kwontenti+":")
         #
         elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):
             out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags))
@@ -220,9 +252,7 @@ def _parse_inline(content,levs=("root",),flags=()):
     return out
 
 def cautious_replace(strn,frm,to):
-    """Replace string provided not backslash-escaped.
-    
-    Not needed (&amp;omacr; suffices) but nice."""
+    """Replace string provided not backslash-escaped."""
     def count_yen(s):
         n=0
         while s.endswith(u"\\"):

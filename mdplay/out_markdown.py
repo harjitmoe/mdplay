@@ -23,8 +23,10 @@ def _md_out_body(node,flags=()):
         return "\n"+md_out_body(node.content,flags).rstrip(" ")+"\n"
     elif isinstance(node,nodes.BlockQuoteNode):
         return "\n> "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n> ")+"\n"
-    elif isinstance(node,nodes.SpoilerNode):
+    elif isinstance(node,nodes.BlockSpoilerNode):
         return "\n>! "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n>! ")+"\n"
+    elif isinstance(node,nodes.InlineSpoilerNode):
+        return "["+md_out_body(node.content,flags)+"](/spoiler)"
     elif isinstance(node,nodes.CodeBlockNode):
         rcontent="".join(node.content)
         bullet="~~~~~~"
@@ -117,6 +119,11 @@ def _md_out_body(node,flags=()):
         return r
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return "\n\n"
+    elif isinstance(node,nodes.EmojiNode):
+        if "nouseemoji" not in flags:
+            return node.content
+        else:
+            return ":"+node.label+":"
     else:
         return "ERROR"+repr(node)
 

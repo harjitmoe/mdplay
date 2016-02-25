@@ -1,6 +1,9 @@
 class Node(object):
     pass
 
+class SpoilerNode(Node):
+    pass
+
 class NonContainerNode(Node):
     pass
 
@@ -29,6 +32,9 @@ class CodeBlockNode(Node):
         self.depth=depth
         self.clas=clas
 
+class EmojiNode(InlineNode):
+    pass
+
 class TitleNode(BlockNode):
     pass
 
@@ -38,7 +44,10 @@ class ParagraphNode(BlockNode):
 class BlockQuoteNode(BlockNode):
     pass
 
-class SpoilerNode(BlockNode):
+class BlockSpoilerNode(BlockNode,SpoilerNode):
+    pass
+
+class InlineSpoilerNode(InlineNode,SpoilerNode):
     pass
 
 class LiNode(BlockNode):
@@ -115,13 +124,15 @@ def flatten_flags_parser(flags):
     out=[]
     for flag in flags:
         if flag=="strict":
-            out.extend(flatten_flags_parser(["norest","nospoilertag","nowikitext","noredditstyle","nopandocstyle","nospecialhrefs","nodiacritic"]))
+            out.extend(flatten_flags_parser(["norest","nospoilertag","nowikitext","noredditstyle","nopandocstyle","nospecialhrefs","nodiacritic","noemoticon"]))
         elif flag=="norest":
             out.extend(flatten_flags_parser(["noresthead","nodicode","noresttable"]))
         elif flag=="nowikitext":
             out.extend(flatten_flags_parser(["nowikihead","nowikiemph","nowikilinks"]))
         elif flag=="noredditstyle":
-            out.extend(flatten_flags_parser(["noredditstyletable","noredditstylesuper"]))
+            out.extend(flatten_flags_parser(["noredditstyletable","noredditstylesuper","noredditspoiler"]))
+        elif flag=="nospoilertag":
+            out.extend(flatten_flags_parser(["noblockspoiler","noredditspoiler"]))
         elif flag=="nosetexthead":
             out.extend(flatten_flags_parser(["noplainsetexthead","noresthead"]))
         elif flag=="notable":

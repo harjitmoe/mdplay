@@ -18,4 +18,4 @@ python pymdplay.py -o my_output_cmark.html -P strict -W nobackslashspace -f html
 python pymdplay.py -o my_output_cmark_alt.html -P strict -W nobackslashspace -f htmlalt input_cmark.md
 #python c:/python27/Scripts/cmark.py input_cmark.md > output_cmark.html
 
-python pymdplay.py -o readme.html -f htmlalt README.md
+python pymdplay.py -o readme.html -f htmlalt README

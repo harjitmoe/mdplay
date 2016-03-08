@@ -10,7 +10,11 @@ _eacd={"lenny":u"( ͡° ͜ʖ ͡° )","degdeg":u"( ͡° ͜ʖ ͡° )","darkmoon":u
 for _euc in eac.keys():
     _ec=u""
     for _eucs in _euc.split("-"):
-        _ec+=unichr(int(_eucs,16))
+        try:
+            _ec+=unichr(int(_eucs,16))
+        except ValueError:
+            #Note: this yields CESU UTF-8.  Better than breaking, of course.
+            _ec+=unichr(int(_eucs,16)%65536)+unichr(int(_eucs,16)//65536)
     _eacd[eac[_euc]["alpha_code"].strip(":")]=_ec
     for _alias in eac[_euc]["aliases"]:
         _eacd[_alias.strip(":")]=_ec

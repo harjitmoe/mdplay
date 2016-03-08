@@ -1,4 +1,6 @@
 python pymdplay.py -o out.txt -f bbcode test.md
+python pymdplay.py -o out_new.txt -f html -W fragment,ipsspoilers test.md
+python pymdplay.py -o out_newalt.txt -f htmlalt -W fragment,ipsspoilers test.md
 python pymdplay.py -o out_htl.txt -f bbcode -W htmllists test.md
 python pymdplay.py -o out_shtl.txt -f bbcode -W semihtmllists,autonumberonly test.md
 python pymdplay.py -o out_nouicode.txt -P nouicode -f bbcode test.md
@@ -9,7 +11,7 @@ python pymdplay.py -o out_5tropes.html -f html -W showtropes,html5 test.md
 python pymdplay.py -o out_alt.html -f htmlalt test.md
 python pymdplay.py -o out_mw.txt -f mwiki test.md
 python pymdplay.py -o out_tv.txt -f tvwiki test.md
-python pymdplay.py -o json.txt -f json test.md
+#python pymdplay.py -o json.txt -f json test.md
 python pymdplay.py -o roundtrip.md -f md test.md
 python pymdplay.py -o roundtrip2.md -f md roundtrip.md
 python pymdplay.py -o roundtrip.html -f html roundtrip2.md

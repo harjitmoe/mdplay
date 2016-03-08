@@ -90,7 +90,10 @@ def _html_out_body(node,in_list,flags):
     elif isinstance(node,nodes.BlockQuoteNode):
         return "<blockquote>"+html_out_body(node.content,flags=flags)+"</blockquote>\n"
     elif isinstance(node,nodes.SpoilerNode):
-        return "<p><a href='javascript:void(0);' onclick=\"document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')\">Expand/Hide Spoiler</a></p><div class='spoiler' id='spoil%d' style='display:none;'>"%(nodes.newid(node),nodes.newid(node),nodes.newid(node))+html_out_body(node.content,flags=flags)+"</div>"
+        if "ipsspoilers" in flags:
+            return '<blockquote class="ipsStyle_spoiler" data-ipsspoiler="" tabindex="0"><div class="ipsSpoiler_header"><span>Spoiler</span></div><div class="ipsSpoiler_contents">'+html_out_body(node.content,flags=flags)+"</div></blockquote>"
+        else:
+            return "<p><a href='javascript:void(0);' onclick=\"document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')\">Expand/Hide Spoiler</a></p><div class='spoiler' id='spoil%d' style='display:none;'>"%(nodes.newid(node),nodes.newid(node),nodes.newid(node))+html_out_body(node.content,flags=flags)+"</div>"
     elif isinstance(node,nodes.CodeBlockNode):
         return "<pre>"+"".join(node.content)+"</pre>"
     elif isinstance(node,nodes.CodeSpanNode):
@@ -181,6 +184,8 @@ def _html_out_body(node,in_list,flags):
         return "ERROR"+repr(node)
 
 def html_out(nodes,titl="",flags=()):
+    if "fragment" in flags:
+        return html_out_body(nodes,flags)
     html5=("html5" in flags)
     if not html5:
         return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml"><head><title>'+_escape(titl,html5)+'</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head><body>'+html_out_body(nodes,flags)+"</body></html>"

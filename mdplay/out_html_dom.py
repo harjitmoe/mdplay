@@ -87,23 +87,41 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.SpoilerNode):
-            metar=document.createElement("div")
-            metar.setAttribute("class",'spoilerwrapper')
-            r=document.createElement("p")
-            metar.appendChild(r)
-            r2=document.createElement("a")
-            r.appendChild(r2)
-            r2.setAttribute("href",'javascript:void(0);')
-            r2.setAttribute("onclick","document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')"%(nodes.newid(node),nodes.newid(node)))
-            r2.appendChild(document.createTextNode("Expand/Hide Spoiler"))
-            r3=document.createElement("div")
-            metar.appendChild(r3)
-            r3.setAttribute("class",'spoiler')
-            r3.setAttribute("id",'spoil%d'%nodes.newid(node))
-            r3.setAttribute("style",'display:none;')
-            for domn in html_out_part(node.content,document,flags=flags):
-                r3.appendChild(domn)
-            yield metar
+            if "ipsspoilers" in flags:
+                metar=document.createElement("blockquote")
+                metar.setAttribute("class",'ipsStyle_spoiler')
+                metar.setAttribute("data-ipsspoiler",'')
+                metar.setAttribute("tabindex",'0')
+                r=document.createElement("div")
+                metar.appendChild(r)
+                r.setAttribute("class",'ipsSpoiler_header')
+                r2=document.createElement("span")
+                r.appendChild(r2)
+                r2.appendChild(document.createTextNode("Spoiler"))
+                r3=document.createElement("div")
+                metar.appendChild(r3)
+                r3.setAttribute("class",'ipsSpoiler_contents')
+                for domn in html_out_part(node.content,document,flags=flags):
+                    r3.appendChild(domn)
+                yield metar
+            else:
+                metar=document.createElement("div")
+                metar.setAttribute("class",'spoilerwrapper')
+                r=document.createElement("p")
+                metar.appendChild(r)
+                r2=document.createElement("a")
+                r.appendChild(r2)
+                r2.setAttribute("href",'javascript:void(0);')
+                r2.setAttribute("onclick","document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')"%(nodes.newid(node),nodes.newid(node)))
+                r2.appendChild(document.createTextNode("Expand/Hide Spoiler"))
+                r3=document.createElement("div")
+                metar.appendChild(r3)
+                r3.setAttribute("class",'spoiler')
+                r3.setAttribute("id",'spoil%d'%nodes.newid(node))
+                r3.setAttribute("style",'display:none;')
+                for domn in html_out_part(node.content,document,flags=flags):
+                    r3.appendChild(domn)
+                yield metar
         elif isinstance(node,nodes.CodeBlockNode):
             r=document.createElement("pre")
             r.appendChild(document.createTextNode("".join(node.content)))
@@ -233,6 +251,8 @@ def _escape(text,html5=0):
     return text.encode("utf-8")
 
 def html_out(nodem,titl="",flags=()):
+    if "fragment" in flags:
+        return html_out_body(nodem,flags)
     html5=("html5" in flags)
     mdi=minidom.getDOMImplementation() #minidom: other xml.dom imps don't necessarily support toxml
     if not html5:
@@ -264,7 +284,7 @@ def html_out(nodem,titl="",flags=()):
     document.unlink()
     return retval
 
-def html_out_body(nodem,titl="",flags=()):
+def html_out_body(nodem,flags=()):
     html5=("html5" in flags)
     mdi=minidom.getDOMImplementation() #minidom: other xml.dom imps don't necessarily support toxml
     document=mdi.createDocument("http://www.w3.org/1999/xhtml","html",mdi.createDocumentType("html","-//W3C//DTD XHTML 1.1//EN","http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd")) #never actually seen.

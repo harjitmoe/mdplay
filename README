@@ -5,13 +5,15 @@ converts an (extended by default) Markdown to other Web-based markup formats.
 flags can turn features and extensions off, the obvious one being the strict
 flag.  see flag_chart.md for the full list.
 
-version 5.5
+version 5.6
 
 change-log:
 
 ==== ==============================================================================
 ver  changes
 ==== ==============================================================================
+5.6: repair Windows support.  HTML output can now target new 910 forum.  disable
+     broken JSON debug-output target.
 5.5: emoji, degdegs, native bbcode ols compatible with 910CMX, Reddit-style
      spoilers, 
 5.4: fixed mistake causing altogether wrong behaviour of nosetexthead flag.  \

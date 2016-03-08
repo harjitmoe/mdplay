@@ -52,3 +52,6 @@
 * pandoc (MD)
 * forum (TV)
 * nouseemoji (BB, MD)
+* fragment (HTML/DOM, HTML/ALT)
+* ipsspoilers (HTML/DOM, HTML/ALT)
+

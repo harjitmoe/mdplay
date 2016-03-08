@@ -10,7 +10,7 @@ class MdplayError(ValueError):pass
 class NoSuchRendererError(MdplayError):pass
 class NoSnippetRendererError(MdplayError):pass
 
-writers={"bbcode":"out_bb","html":"out_html_dom","htmlalt":"out_html_nondom","mwiki":"out_mwiki","json":"out_json","md":"out_markdown","tvwiki":"out_tvwiki"}
+writers={"bbcode":"out_bb","html":"out_html_dom","htmlalt":"out_html_nondom","mwiki":"out_mwiki","md":"out_markdown","tvwiki":"out_tvwiki"}
 
 def _load_renderer(modname):
     renderer_module=getattr(__import__("mdplay."+modname),modname)
@@ -30,4 +30,4 @@ def load_snippet_renderer(codename):
     if codename in writers:
         r=_load_snippet_renderer(writers[codename])
     else:
-        raise NoSuchRendererrError(codename)
+        raise NoSuchRendererError(codename)

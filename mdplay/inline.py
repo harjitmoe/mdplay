@@ -10,7 +10,11 @@ _eacd={"lenny":u"( ͡° ͜ʖ ͡° )","degdeg":u"( ͡° ͜ʖ ͡° )","darkmoon":u
 for _euc in eac.keys():
     _ec=u""
     for _eucs in _euc.split("-"):
-        _ec+=unichr(int(_eucs,16))
+        try:
+            _ec+=unichr(int(_eucs,16))
+        except ValueError:
+            main=int(_eucs,16)-0x010000
+            _ec+=unichr(0xD800+(main//1024))+unichr(0xDC00+(main%1024))
     _eacd[eac[_euc]["alpha_code"].strip(":")]=_ec
     for _alias in eac[_euc]["aliases"]:
         _eacd[_alias.strip(":")]=_ec

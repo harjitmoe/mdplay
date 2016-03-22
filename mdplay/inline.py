@@ -14,9 +14,9 @@ for _euc in eac.keys():
             _ec+=unichr(int(_eucs,16))
         except ValueError:
             # For 16-bit wchar_t (i.e. Windows) compatibility.
-            # Probably produces CESU sequences in eventual UTF-8, but
+            # One might expect CESU sequences in eventual UTF-8;
             # they are actually a fairly common phenomenon, possibly
-            # for this reason.
+            # for this reason.  Python handles this properly, though.
             main=int(_eucs,16)-0x010000
             _ec+=unichr(0xD800+(main//1024))+unichr(0xDC00+(main%1024))
     _eacd[eac[_euc]["alpha_code"].strip(":")]=_ec

@@ -47,7 +47,7 @@ def _parse_block(f,titlelevels,flags):
     cellrows=[]
 
     isrule=lambda line:re.match(r"\s*((?P<c>\*|_|-)\s?)\s*(?P=c)+\s*((?P=c)+\s+)*$",line+" ")
-    istable=lambda line:re.match(r"(=+ )+=+\s*$",line)
+    istablerest=lambda line:re.match(r"(=+ )+=+\s*$",line)
     isheadatx=lambda line:line.strip() and re.match(r"(#+) .*(\S#|[^#]|\\#)( \1)?$",line)
     isheadmw=lambda line:line.strip() and re.match(r"\s*(=+)([^=](.*[^=])?)\1\s*$",line)
     if ("noresthead" not in flags):
@@ -88,8 +88,8 @@ def _parse_block(f,titlelevels,flags):
                 within="mwhead"
                 f.rtpma()
                 continue
-            elif istable(line) and ("noresttable" not in flags):
-                within="table"
+            elif istablerest(line) and ("noresttable" not in flags):
+                within="tablerest"
                 f.rtpma()
                 continue
             elif isrule(line):
@@ -120,8 +120,8 @@ def _parse_block(f,titlelevels,flags):
                 within="spoiler"
                 f.rtpma()
                 continue
-            elif ("|" in line) and isalign(f.peek_ahead()) and ("noredditstyletable" not in flags):
-                within="tablered"
+            elif ("|" in line) and isalign(f.peek_ahead()) and ("nomdtable" not in flags):
+                within="table"
                 f.rtpma()
                 continue
             elif line.strip():
@@ -385,7 +385,7 @@ def _parse_block(f,titlelevels,flags):
                 within="root"
                 f.rtpma()
                 continue
-        elif within=="table":
+        elif within=="tablerest":
             def validly(line,cellwid):
                 for cell in cellwid:
                     line=line[cell:]
@@ -400,14 +400,14 @@ def _parse_block(f,titlelevels,flags):
                     line=line[cell:]
                     line=line[1:] #Assume validity already tested
                 return lines
-            if (not cellwid) and (istable(line)):
+            if (not cellwid) and (istablerest(line)):
                 cellwid=map(len,line.strip().split(" "))
                 cellrows=[[],[]]
-            elif (depth==0) and (not istable(line)) and validly(line,cellwid):
+            elif (depth==0) and (not istablerest(line)) and validly(line,cellwid):
                 cellrows[0].append(splice(line,cellwid))
-            elif (depth==0) and (istable(line)):
+            elif (depth==0) and (istablerest(line)):
                 depth=1
-            elif (depth==1) and (not istable(line)) and validly(line,cellwid):
+            elif (depth==1) and (not istablerest(line)) and validly(line,cellwid):
                 cellrows[1].append(splice(line,cellwid))
             else:
                 cellrows2=[[],[]]
@@ -440,10 +440,10 @@ def _parse_block(f,titlelevels,flags):
                 cellwid=[]
                 cellrows=[]
                 depth=0
-                if (not istable(line)) or (not validly(line,cellwid)):
+                if (not istablerest(line)) or (not validly(line,cellwid)):
                     f.rtpma()
                 continue
-        elif within=="tablered":
+        elif within=="table":
             def splitcols(line):
                 cols=[""]
                 esc=0

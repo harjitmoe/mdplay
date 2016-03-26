@@ -5,12 +5,13 @@ converts an (extended by default) Markdown to other Web-based markup formats.
 flags can turn features and extensions off, the obvious one being the strict
 flag.  see flag_chart.md for the full list.
 
-version 5.7.2
+version 5.7.3
 
 change-log:
 
 |ver|changes|
 |---|---|
+|5.7.3:|output tables in roundtrip in Markdown, not ReST, syntax, and treat MD tables as if they are standard MD (might add properly thought-through flags at some point) considering that Github understands Reddit-style syntax (unsure about vice-versa).|
 |5.7.2:|fix being less lenient than Github itself over table syntax.  also fix readme typo which brought this to light.|
 |5.7.1:|improve handling of hypothetical non-sensible Reddit-Github fusion syntaxes.  better form the Github-targeting Readme.|
 |5.7:|fix error in Reddit-style table parser, and extend it to handle Github-style tables.|

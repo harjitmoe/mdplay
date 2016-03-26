@@ -130,13 +130,13 @@ def flatten_flags_parser(flags):
         elif flag=="nowikitext":
             out.extend(flatten_flags_parser(["nowikihead","nowikiemph","nowikilinks"]))
         elif flag=="noredditstyle":
-            out.extend(flatten_flags_parser(["noredditstyletable","noredditstylesuper","noredditspoiler"]))
+            out.extend(flatten_flags_parser(["noredditstylesuper","noredditspoiler"]))
         elif flag=="nospoilertag":
             out.extend(flatten_flags_parser(["noblockspoiler","noredditspoiler"]))
         elif flag=="nosetexthead":
             out.extend(flatten_flags_parser(["noplainsetexthead","noresthead"]))
         elif flag=="notable":
-            out.extend(flatten_flags_parser(["noresttable","noredditstyletable"]))
+            out.extend(flatten_flags_parser(["noresttable","nomdtable"]))
         elif flag=="nosupersubscript":
             out.extend(flatten_flags_parser(["noredditstylesuper","nopandocstyle"]))
         else:

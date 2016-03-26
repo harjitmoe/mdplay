@@ -67,7 +67,7 @@ change-log:
 |    |lists in the non-DOM writer also.  make existing renderers implement|
 |    |the flag system properly.  allow escaping of close-brackets in link|
 |    |targets (including wikilinks).  fix fusing of separate lists.  STILL|
-|    |NO <OL>S, and seems more trouble than worth anyway (MD list syntax|
+|    |NO OL TAGS, and seems more trouble than worth anyway (MD list syntax|
 |    |seems disputed at best).|
 |4.5:|added experimental MediaWiki-dialect wikitext renderer.  fixed handling|
 |    |of two-space line breaks in list items.  use valid (rather than merely|
@@ -77,7 +77,7 @@ change-log:
 |    |HTML at first) - might work depending on targeted BBCode dialect.|
 |    |added snippet renderer API.  fix detecting headings as tables.|
 |4.3:|added a subset of ReST simple table support, and add a flag system for|
-|    |enabling non-designated indented code blocks.  <ol> still pending.|
+|    |enabling non-designated indented code blocks.  ol still pending.|
 |4.2:|added polish.  now functions as an importable Python package.  added|
 |    |load_renderer mechanism.  added HTML5 mode.  proper entity escaping.|
 |4.1:|spanking new HTML export code using minidom.  no added syntax |

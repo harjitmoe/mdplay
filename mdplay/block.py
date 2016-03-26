@@ -460,8 +460,12 @@ def _parse_block(f,titlelevels,flags):
                         cols[-1]+=char
                 if not cols[-1].strip(): cols[-1]=""
                 return cols
-            if depth and line.strip().startswith("|") and line.strip().endswith("|"):
-                line=line.strip()[1:-1]
+            if depth:
+                line=line.strip()
+                if line.strip().startswith("|"):
+                    line=line[1:]
+                if line.strip().endswith("|"):
+                    line=line[:-1]
             if (not cellwid) and (cellrows):
                 cellwid=[( (((i.strip()[0]+i.strip()[-1])=="::") and "center") or ((i.strip()[0]==":") and "left") or ((i.strip()[-1]==":") and "right") or None ) for i in splitcols(line.strip())]
             elif not cellwid:

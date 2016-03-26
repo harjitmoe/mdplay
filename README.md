@@ -5,14 +5,15 @@ converts an (extended by default) Markdown to other Web-based markup formats.
 flags can turn features and extensions off, the obvious one being the strict
 flag.  see flag_chart.md for the full list.
 
-version 5.7.1
+version 5.7.2
 
 change-log:
 
 |ver|changes|
 |---|---|
+|5.7.2:|fix being less lenient than Github itself over table syntax.  also fix readme typo which brought this to light.|
 |5.7.1:|improve handling of hypothetical non-sensible Reddit-Github fusion syntaxes.  better form the Github-targeting Readme.|
-|5.7:|fix error in Reddit-style table parser, and extend it to handle Github-style tables.
+|5.7:|fix error in Reddit-style table parser, and extend it to handle Github-style tables.|
 |5.6:|repair Windows support.  HTML output can now target new 910 forum.  disable broken JSON debug-output target.|
 |5.5:|emoji, degdegs, native bbcode ols compatible with 910CMX, Reddit-style spoilers, |
 |5.4:|fixed mistake causing altogether wrong behaviour of nosetexthead flag.  convert the readme and flag chart to be mdplay input themselves.  make double-spaces in input pass through to the HTML output.  fix bug splitting list items into two paragraphs between the second and third markdown line.|

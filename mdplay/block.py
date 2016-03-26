@@ -65,7 +65,7 @@ def _parse_block(f,titlelevels,flags):
     isul=lambda line:line.strip() and re.match(r"\s*[*+-](\s.*)?$",line)
     #isol=lambda line:line.strip() and re.match(r"\s*(\d+[).:]|[#])(\s.*)?$",line)
     isol=lambda line:line.strip() and re.match(r"\s*(\d+[).:])(\s.*)?$",line)
-    isalign=lambda line:(line!=None) and line.strip() and re.match(r"((:--|:-:|-_:)\|)+(:--|:-:|-_:)",line)
+    isalign=lambda line:(line!=None) and line.strip() and re.match(r"(?P<c>\|?)((:--+|:-+:|--+:|---+)\|)+(:--+|:-+:|--+:|---+)(?P=c)",line)
 
     for line in f:
         line=line.replace("\0","\xef\xbf\xbd").replace("\t"," "*4)
@@ -460,9 +460,14 @@ def _parse_block(f,titlelevels,flags):
                         cols[-1]+=char
                 if not cols[-1].strip(): cols[-1]=""
                 return cols
+            if depth:
+                line=line.strip()[1:-1]
             if (not cellwid) and (cellrows):
-                cellwid=[{":--":"left",":-:":"center","--:":"right"}[i.strip()] for i in splitcols(line.strip())]
+                cellwid=[( (((i.strip()[0]+i.strip()[-1])=="::") and "center") or ((i.strip()[0]==":") and "left") or ((i.strip()[-1]==":") and "right") or None ) for i in splitcols(line.strip())]
             elif not cellwid:
+                depth=line.strip().startswith("|") and line.strip().endswith("|")
+                if depth:
+                    line=line.strip()[1:-1]
                 cellrows=[[splitcols(line)],[]]
             elif len(splitcols(line))==len(cellwid):
                 cellrows[1].append(splitcols(line))

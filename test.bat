@@ -1,5 +1,5 @@
-set PYTHON=..\python.exe
-rem set PYTHON=python.exe
+rem set PYTHON=..\python.exe
+set PYTHON=python.exe
 
 %PYTHON% pymdplay.py -o out.txt -f bbcode test.md
 %PYTHON% pymdplay.py -o out_htl.txt -f bbcode -W htmllists test.md

@@ -159,7 +159,7 @@ def _html_out_body(node,in_list,flags):
         for row in node.table_head:
             r+="<tr>"
             for colno,cell in enumerate(row):
-                if node.aligns and (len(node.aligns)>colno):
+                if node.aligns and node.aligns[colno] and (len(node.aligns)>colno):
                     r+='<th style="text-align:'+_escape(node.aligns[colno])+'">'
                 else:
                     r+="<th>"
@@ -169,7 +169,7 @@ def _html_out_body(node,in_list,flags):
         for row in node.table_body:
             r+="<tr>"
             for colno,cell in enumerate(row):
-                if node.aligns and (len(node.aligns)>colno):
+                if node.aligns and node.aligns[colno] and (len(node.aligns)>colno):
                     r+='<td style="text-align:'+_escape(node.aligns[colno])+'">'
                 else:
                     r+="<td>"

@@ -75,6 +75,19 @@ def _md_out_body(node,flags=()):
     elif isinstance(node,nodes.RuleNode):
         return "\n- - -\n"
     elif isinstance(node,nodes.TableNode):
+        r=""
+        for row in node.table_head[:1]:
+            r+="\n|"
+            for cell in row:
+                r+=md_out_body(list(cell)).strip().replace("|","\\|").replace("\n","&#10;")+"|"
+        r+="\n"+("|:--"*len(node.table_head[0]))+"|"
+        for row in node.table_head[1:]+node.table_body:
+            r+="\n|"
+            for cell in row:
+                r+=md_out_body(list(cell)).strip().replace("|","\\|").replace("\n","&#10;")+"|"
+        return r+"\n"
+    elif 0: #isinstance(node,nodes.TableNode):
+        #Old code for generating ReST-style tables.
         r="\n"
         rows_header=[]
         rows_body=[]

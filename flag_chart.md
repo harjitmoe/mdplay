@@ -15,7 +15,6 @@
     * nowikiemph
     * nowikilinks
   * noredditstyle, which activates
-    * noredditstyletable
     * noredditstylesuper
     * noredditspoiler
   * nopandocstyle
@@ -28,7 +27,7 @@
   * noplainsetexthead
   * noresthead
 * notable, which activates
-  * noredditstyletable
+  * nomdtable
   * noresttable
 * breaklists
 * noverifyurl

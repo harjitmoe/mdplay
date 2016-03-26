@@ -352,4 +352,14 @@ This is just a paragraph.  :lenny:  [It actually is.](/spoiler) :vulcan: :dan_sh
 
 Squirt :aries: Squirt :aries: Squirt :aries: 
 
+|Why|What|
+|:---:|:---|
+|123|4567 8 9|
+|a|bcde|
+|fgh|ijkl|
+| |mnop|
+|123| |
+|456|789|
+|UUU|Dwelt|
+
 \

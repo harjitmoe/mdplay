@@ -209,7 +209,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 for colno,cell in enumerate(row):
                     th=document.createElement("th")
                     tr.appendChild(th)
-                    if node.aligns and node.aligns[colno] and (len(node.aligns)>colno):
+                    if node.aligns and (len(node.aligns)>colno) and node.aligns[colno]:
                         th.setAttribute("style","text-align:"+node.aligns[colno])
                     for domn in html_out_part(list(cell),document):
                         th.appendChild(domn)
@@ -221,7 +221,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 for colno,cell in enumerate(row):
                     td=document.createElement("td")
                     tr.appendChild(td)
-                    if node.aligns and node.aligns[colno] and (len(node.aligns)>colno):
+                    if node.aligns and (len(node.aligns)>colno) and node.aligns[colno]:
                         td.setAttribute("style","text-align:"+node.aligns[colno])
                     for domn in html_out_part(list(cell),document):
                         td.appendChild(domn)

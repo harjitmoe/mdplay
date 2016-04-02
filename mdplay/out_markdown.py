@@ -80,7 +80,13 @@ def _md_out_body(node,flags=()):
             r+="\n|"
             for cell in row:
                 r+=md_out_body(list(cell)).strip().replace("|","\\|").replace("\n","&#10;")+"|"
-        r+="\n"+("|:--"*len(node.table_head[0]))+"|"
+        r+="\n"
+        for colno in range(len(node.table_head[0])):
+            if node.aligns and node.aligns[colno] and (len(node.aligns)>colno) and (node.aligns[colno] in ("left","center","right")):
+                r+={"left":"|:--","center":"|:-:","right":"|--:"}[node.aligns[colno]]
+            else:
+                r+="|---"
+        r+="|"
         for row in node.table_head[1:]+node.table_body:
             r+="\n|"
             for cell in row:

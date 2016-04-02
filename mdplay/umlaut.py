@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- mode: python; coding: utf-8 -*-
 """
 Derived from part of "Python documentation conversion utils".
 Original filename util.py
@@ -6,6 +6,7 @@ Original filename util.py
 HarJIT added many, many more accented (et cetara) characters, 
 including adding circumflexes and macrons full stop, 
 and integrated with mdplay3.
+Also added Unicode combining-diacritic support.
  -- May be distributed under same terms as original.
 
 Copyright (c) 2007-2008 by Georg Brandl.
@@ -43,129 +44,162 @@ import re, sys
 
 def umlaut(cmd, c):
     try:
-        if cmd == '"': #Umlauts and diereses.
-            return {'a': u'ä',
-                    'i': u'ï',
-                    'u': u'ü',
-                    'e': u'ë',
-                    'o': u'ö',
-                    'A': u'Ä',
-                    'I': u'Ï',
-                    'U': u'Ü',
-                    'E': u'Ë',
-                    'O': u'Ö'}[c]
+        if cmd == '"': #Umlauts and diaereses.
+            if c.lower() in "aiueo":
+                return {'a': u'ä',
+                        'i': u'ï',
+                        'u': u'ü',
+                        'e': u'ë',
+                        'o': u'ö',
+                        'A': u'Ä',
+                        'I': u'Ï',
+                        'U': u'Ü',
+                        'E': u'Ë',
+                        'O': u'Ö'}[c]
+            else:
+                return c.decode("utf-8")+u"\u0308"
         elif cmd == 'r': #Rings.
-            return {'a': u'å',
-                    'u': u'ů',
-                    'A': u'Å',
-                    'U': u'Ů'}[c]
+            if c.lower() in "au":
+                return {'a': u'å',
+                        'u': u'ů',
+                        'A': u'Å',
+                        'U': u'Ů'}[c]
+            else:
+                return c.decode("utf-8")+u"\u030b"
         elif cmd == 'H': #Double acutes.
-            return {'o': u'ő',
-                    'u': u'ű',
-                    'O': u'Ő',
-                    'U': u'Ű'}[c]
+            if c.lower() in "ou":
+                return {'o': u'ő',
+                        'u': u'ű',
+                        'O': u'Ő',
+                        'U': u'Ű'}[c]
+            else:
+                return c.decode("utf-8")+u"\u030a"
         elif cmd == "^": #Circumflexes.
-            return {'a': u'â',
-                    'i': u'î',
-                    'u': u'û',
-                    'e': u'ê',
-                    'o': u'ô',
-                    'A': u'Â',
-                    'I': u'Î',
-                    'U': u'Û',
-                    'E': u'Ê',
-                    'O': u'Ô'}[c]
+            if c.lower() in "aiueo":
+                return {'a': u'â',
+                        'i': u'î',
+                        'u': u'û',
+                        'e': u'ê',
+                        'o': u'ô',
+                        'A': u'Â',
+                        'I': u'Î',
+                        'U': u'Û',
+                        'E': u'Ê',
+                        'O': u'Ô'}[c]
+            else:
+                return c.decode("utf-8")+u"\u0302"
         elif cmd == "'": #Acutes.
-            return {'a': u'á',
-                    'i': u'í',
-                    'u': u'ú',
-                    'e': u'é',
-                    'o': u'ó',
-                    's': u'ś',
-                    'z': u'ź',
-                    'n': u'ń',
-                    'y': u'ý',
-                    'r': u'ŕ',
-                    'A': u'Á',
-                    'I': u'Í',
-                    'U': u'Ú',
-                    'E': u'É',
-                    'O': u'Ó',
-                    'S': u'Ś',
-                    'Z': u'Ź',
-                    'N': u'Ń',
-                    'Y': U'Ý',
-                    'R': u'Ŕ'}[c]
+            if c.lower() in "aiueosznyr":
+                return {'a': u'á',
+                        'i': u'í',
+                        'u': u'ú',
+                        'e': u'é',
+                        'o': u'ó',
+                        's': u'ś',
+                        'z': u'ź',
+                        'n': u'ń',
+                        'y': u'ý',
+                        'r': u'ŕ',
+                        'A': u'Á',
+                        'I': u'Í',
+                        'U': u'Ú',
+                        'E': u'É',
+                        'O': u'Ó',
+                        'S': u'Ś',
+                        'Z': u'Ź',
+                        'N': u'Ń',
+                        'Y': U'Ý',
+                        'R': u'Ŕ'}[c]
+            else:
+                return c.decode("utf-8")+u"\u0301"
         elif cmd == "=": #Macrons.
-            return {'a': u'ā',
-                    'i': u'ī',
-                    'u': u'ū',
-                    'e': u'ē',
-                    'o': u'ō',
-                    'A': u'Ā',
-                    'I': u'Ī',
-                    'U': u'Ū',
-                    'E': u'Ē',
-                    'O': u'Ō'}[c]
+            if c.lower() in "aiueo":
+                return {'a': u'ā',
+                        'i': u'ī',
+                        'u': u'ū',
+                        'e': u'ē',
+                        'o': u'ō',
+                        'A': u'Ā',
+                        'I': u'Ī',
+                        'U': u'Ū',
+                        'E': u'Ē',
+                        'O': u'Ō'}[c]
+            else:
+                return c.decode("utf-8")+u"\u0304"
         elif cmd == '~': #Tildes.
-            return {'o': u'õ',
-                    'n': u'ñ',
-                    'O': u'Õ',
-                    'N': u'Ñ'}[c]
+            if c.lower() in "on":
+                return {'o': u'õ',
+                        'n': u'ñ',
+                        'O': u'Õ',
+                        'N': u'Ñ'}[c]
+            else:
+                return c.decode("utf-8")+u"\u0303"
         elif cmd in 'ck': #Vowel ogoneks and consonant cedillas.
-            return {'a': u'ą',
-                    'e': u'ę',
-                    'c': u'ç',
-                    's': u'ş',
-                    't': u'ţ',
-                    'A': u'Ą',
-                    'E': u'Ę',
-                    'C': u'Ç',
-                    'S': u'Ş',
-                    'T': u'Ţ'}[c]
+            if c.lower() in "aecst":
+                return {'a': u'ą',
+                        'e': u'ę',
+                        'c': u'ç',
+                        's': u'ş',
+                        't': u'ţ',
+                        'A': u'Ą',
+                        'E': u'Ę',
+                        'C': u'Ç',
+                        'S': u'Ş',
+                        'T': u'Ţ'}[c]
+            else:
+                return c.decode("utf-8")+u"\u0326"
         elif cmd == '`': #Graves.
-            return {'a': u'à',
-                    'i': u'ì',
-                    'u': u'ù',
-                    'e': u'è',
-                    'o': u'ò',
-                    'A': u'À',
-                    'I': u'Ì',
-                    'U': u'Ù',
-                    'E': u'È',
-                    'O': u'Ò'}[c]
+            if c.lower() in "aiueo":
+                return {'a': u'à',
+                        'i': u'ì',
+                        'u': u'ù',
+                        'e': u'è',
+                        'o': u'ò',
+                        'A': u'À',
+                        'I': u'Ì',
+                        'U': u'Ù',
+                        'E': u'È',
+                        'O': u'Ò'}[c]
+            else:
+                return c.decode("utf-8")+u"\u0300"
         elif cmd == 'v': #Carons.
-            return {'a': u'ǎ',
-                    'i': u'ǐ',
-                    'u': u'ǔ',
-                    'e': u'ě',
-                    'o': u'ǒ',
-                    'c': u'č',
-                    's': u'š',
-                    'z': u'ž',
-                    't': u'ť',
-                    'd': u'ď',
-                    'n': u'ň',
-                    'r': u'ř',
-                    'l': u'ľ',
-                    'A': u'Ǎ',
-                    'I': u'Ǐ',
-                    'U': u'Ǔ',
-                    'E': u'Ě',
-                    'O': u'Ǒ',
-                    'C': u'Č',
-                    'S': u'Š',
-                    'Z': u'Ž',
-                    'T': u'Ť',
-                    'D': u'Ď',
-                    'N': u'Ň',
-                    'R': u'Ř',
-                    'L': u'Ľ'}[c]
+            if c.lower() in "aiueocsztdnrl":
+                return {'a': u'ǎ',
+                        'i': u'ǐ',
+                        'u': u'ǔ',
+                        'e': u'ě',
+                        'o': u'ǒ',
+                        'c': u'č',
+                        's': u'š',
+                        'z': u'ž',
+                        't': u'ť',
+                        'd': u'ď',
+                        'n': u'ň',
+                        'r': u'ř',
+                        'l': u'ľ',
+                        'A': u'Ǎ',
+                        'I': u'Ǐ',
+                        'U': u'Ǔ',
+                        'E': u'Ě',
+                        'O': u'Ǒ',
+                        'C': u'Č',
+                        'S': u'Š',
+                        'Z': u'Ž',
+                        'T': u'Ť',
+                        'D': u'Ď',
+                        'N': u'Ň',
+                        'R': u'Ř',
+                        'L': u'Ľ'}[c]
+            else:
+                return c.decode("utf-8")+u"\u030c"
         elif cmd == 'u': #Breves
-            return {'a': u'ă',
-                    'ŏ': u'ŏ',
-                    'A': u'Ă',
-                    'Ŏ': u'Ŏ'}[c]
+            if c.lower() in "ao":
+                return {'a': u'ă',
+                        'ŏ': u'ŏ',
+                        'A': u'Ă',
+                        'Ŏ': u'Ŏ'}[c]
+            else:
+                return c.decode("utf-8")+u"\u0306"
         elif cmd == 'B': #Slashes
             return {'o': u'ø',
                     'd': u'đ', #XXX get ð in somewhere
@@ -205,7 +239,7 @@ def umlaut(cmd, c):
             raise ValueError('invalid umlaut \\%s' % cmd)#, 0)
     except KeyError:
         #from .latexparser import ParserError
-        raise ValueError('unsupported umlaut \\%s%s' % (cmd, c))#, 0)
+        raise ValueError('unsupported umlaut \\%s{%s}' % (cmd, c))#, 0)
 
 ## The following has nothing to do with mdplay. -- HarJIT
 #

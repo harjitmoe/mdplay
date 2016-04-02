@@ -233,7 +233,7 @@ Watashi\-wa Tōmasu desu.
 {Nothing} \^(Spe{cial}). *h*
 
 |Why|What|
-|:--|:--|
+|---|---|
 |123|4567 8 9|
 |a|bcde|
 |fgh|ijkl|
@@ -243,7 +243,7 @@ Watashi\-wa Tōmasu desu.
 |UUU|Dwelt|
 
 |Why|What|
-|:--|:--|
+|:-:|:--|
 |123|4567 8 9|
 |a|bcde|
 |fgh|ijkl|
@@ -366,7 +366,7 @@ This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [It actually is.](/spoiler) 🖖 
 Squirt ♈ Squirt ♈ Squirt ♈
 
 |Why|What|
-|:--|:--|
+|:-:|:--|
 |123|4567 8 9|
 |a|bcde|
 |fgh|ijkl|
@@ -374,3 +374,5 @@ Squirt ♈ Squirt ♈ Squirt ♈
 |123||
 |456|789|
 |UUU|Dwelt|
+
+m̈ëẗälë

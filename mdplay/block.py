@@ -476,6 +476,7 @@ def _parse_block(f,titlelevels,flags):
             elif len(splitcols(line))==len(cellwid):
                 cellrows[1].append(splitcols(line))
             else:
+                cellrows=[[[inline.parse_inline(k) for k in j] for j in i] for i in cellrows]
                 yield nodes.TableNode(cellrows,cellwid)
                 within="root"
                 cellwid=[]

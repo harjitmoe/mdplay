@@ -248,28 +248,28 @@ Watashi-wa Tōmasu desu.
 {|border="1"
 |-
 !Why
-!What
+!What<br />
 |-
 |123
-|4567 8 9
+|4567 8 9<br />
 |-
 |a
-|bcde
+|bcde<br />
 |-
 |fgh
-|ijkl
+|ijkl<br />
 |-
 | 
-|mnop
+|mnop<br />
 |-
 |123
 |
 |-
 |456
-|789
+|789<br />
 |-
 |UUU
-|Dwelt
+|Dwelt<br />
 |}
 
 Hi. 

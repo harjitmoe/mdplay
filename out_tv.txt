@@ -235,14 +235,14 @@ Watashi-wa Tōmasu desu.
 ||UUU||Dwelt||
 
 ||border=1"
-||Why||What||
-||123||4567 8 9||
-||a||bcde||
-||fgh||ijkl||
-||||mnop||
+||Why||What[softreturn]||
+||123||4567 8 9[softreturn]||
+||a||bcde[softreturn]||
+||fgh||ijkl[softreturn]||
+||||mnop[softreturn]||
 ||123||||
-||456||789||
-||UUU||Dwelt||
+||456||789[softreturn]||
+||UUU||Dwelt[softreturn]||
 
 Hi. 
 

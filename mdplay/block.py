@@ -326,7 +326,10 @@ def _parse_block(f,titlelevels,flags):
                 minibuf=""
                 depth=0
                 fence=None
-                within="root"
+                if ("noatxcode" not in flags):
+                    within="atxcode"
+                else:
+                    within="root"
                 f.rtpma()
                 continue
             if line.strip() and (not line.startswith(" "*depth)):
@@ -339,6 +342,17 @@ def _parse_block(f,titlelevels,flags):
                 continue
             else:
                 minibuf+=line[depth:].rstrip("\r\n")+"\n"
+        elif within=="atxcode":
+            if not line.strip():
+                yield (nodes.CodeBlockNode(minibuf,clas="::"))
+                minibuf=""
+                depth=0
+                fence=None
+                within="root"
+                f.rtpma()
+                continue
+            else:
+                minibuf+=line.rstrip("\r\n")+"\n"
         elif within=="fence":
             if fence==None:
                 fence=0
@@ -493,7 +507,7 @@ def _parse_block(f,titlelevels,flags):
             depth=0
             fence=None
             within="root"
-        elif within=="icode":
+        elif within in ("icode","atxcode"):
             yield (nodes.CodeBlockNode(minibuf,clas="::"))
             minibuf=""
             depth=0

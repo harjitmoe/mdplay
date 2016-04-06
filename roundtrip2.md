@@ -165,9 +165,11 @@ What does this do?
 
 - - -
 
-Faking:
+ATX code block syntax:
 
+~~~~~~ ::
 Thusly.
+~~~~~~
 
 Indented code block:
 

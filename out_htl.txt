@@ -164,9 +164,9 @@ What does this do?
 
 [rule]
 
-Faking:
+ATX code block syntax:
 
-Thusly. 
+[code]Thusly.[/code]
 
 Indented code block:
 

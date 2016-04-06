@@ -156,9 +156,10 @@ What does this do?
 
 <hr />
 
-Faking:
+ATX code block syntax:
 
-Thusly. 
+<pre>Thusly.
+</pre>
 
 Indented code block:
 

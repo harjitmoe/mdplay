@@ -162,9 +162,10 @@ What does this do?
 
 ----
 
-Faking:
+ATX code block syntax:
 
-Thusly. 
+@@[=Thusly.=]@@
+@@[==]@@
 
 Indented code block:
 

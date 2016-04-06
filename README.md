@@ -5,12 +5,13 @@ converts an (extended by default) Markdown to other Web-based markup formats.
 flags can turn features and extensions off, the obvious one being the strict
 flag.  see flag_chart.md for the full list.
 
-version 5.8.1
+version 5.8.2
 
 change-log:
 
 |ver|changes|
 |---|---|
+|5.8.2|add support for the (rather limited) ATX-style designated code blocks.|
 |5.8.1|add support for inline markup within tables.|
 |5.8|add support for falling back to use of combining-diacritic codepoints.  round-trip table alignments properly.|
 |5.7.3:|output tables in roundtrip in Markdown, not ReST, syntax, and treat MD tables as if they are standard MD (might add properly thought-through flags at some point) considering that Github understands Reddit-style syntax (unsure about vice-versa).|

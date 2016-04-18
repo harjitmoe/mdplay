@@ -193,10 +193,22 @@ def _bb_out(node,in_list,flags):
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return ""
     elif isinstance(node,nodes.EmojiNode):
-        if "nouseemoji" not in flags:
+        # Presently, impossible for no shortcode *and* no asciimote.
+        # This may change if I expand detection in inline.py
+        force_shortcode=("shortcodes" in flags) and node.label[1]
+        if ("notwemoji" not in flags) and (not force_shortcode):
+            if node.content.decode("utf-8") == u"\U000FDECD":
+                return "[img]http://i.imgur.com/SfHfed9.png[/img]"
+            else:
+                try:
+                    return "[img alt=%s]https://twemoji.maxcdn.com/36x36/%x.png[/img]"%(json.dumps(node.content),nodes.utf16_ord(node.content.decode("utf-8")))
+                except ValueError: pass
+        if ("nouseemoji" not in flags) and (not force_shortcode) and (node.content.decode("utf-8")!=u"\U000FDECD"):
             return node.content
+        elif ((node.hreftype=="ascii") or ("asciimotes" in flags)) and (not force_shortcode):
+            return node.label[0]
         else:
-            return ":"+node.label+":"
+            return ":"+node.label[1]+":"
     else:
         return "ERROR"+repr(node)
 

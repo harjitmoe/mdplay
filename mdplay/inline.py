@@ -1,25 +1,32 @@
-# -*- mode: python; coding: utf-8 -*-
+﻿# -*- mode: python; coding: utf-8 -*-
 import re,string
 
 from mdplay import nodes, umlaut
 from mdplay.uriregex import uriregex
 from mdplay import htmlentitydefs_latest as htmlentitydefs
 from mdplay.eac import eac
+from mdplay.pickups_util import SMILEYS
+from mdplay.utfsupport import unichr4all
 
-_eacd={"lenny":u"( ͡° ͜ʖ ͡° )","degdeg":u"( ͡° ͜ʖ ͡° )","darkmoon":u"🌚","thefinger":u"🖕","ntr":u"🤘","blush":u"😳","wink":u"😉","happy":u"😊","rolleyes":u"🙄","angry":u"😠","biggrin":u"😁","aw_yeah":u"😏","bigcry":u"😭","evil":u"👿","twisted":u"😈","sasmile":u"😈","tongue":u"😝","sleep":u"😴","conf":u"😕","confused":u"😕","eek":u"😲","cry":u"😢","sweat1":u"😅","worshippy":u"🙇","wub":u"😍","mellow":u"😐","shifty":u"👀","eyes":u"👀"}
+SMILEYA=dict(zip(SMILEYS.values(),SMILEYS.keys()))
+
+def is_emotic(s):
+    for i in SMILEYA.keys():
+        if s.startswith(i):
+            return i
+    return False
+
+del SMILEYS[SMILEYA[":/"]]
+del SMILEYA[":/"] # https://
+
+_eacd={"lenny":u"( ͡° ͜ʖ ͡° )","degdeg":u"( ͡° ͜ʖ ͡° )", "darkmoon":u"🌚","thefinger":u"🖕","ntr":u"🤘","blush":u"😳","wink":u"😉","happy":u"😊", "rolleyes":u"🙄","angry":u"😠","biggrin":u"😁","aw_yeah":u"😏","bigcry":u"😭","evil":u"👿", "twisted":u"😈","sasmile":u"😈","tongue":u"😝","sleep":u"😴","conf":u"😕","confused":u"😕", "eek":u"😲","cry":u"😢","sweat1":u"😅","worshippy":u"🙇","wub":u"😍","mellow":u"😐", "shifty":u"👀","eyes":u"👀","demonicduck":u"󽻍","shruggie":u"¯\_(ツ)_/¯"}
+_eacdr=dict(zip(_eacd.values(),_eacd.keys()))
 for _euc in eac.keys():
     _ec=u""
     for _eucs in _euc.split("-"):
-        try:
-            _ec+=unichr(int(_eucs,16))
-        except ValueError:
-            # For 16-bit wchar_t (i.e. Windows) compatibility.
-            # One might expect CESU sequences in eventual UTF-8;
-            # they are actually a fairly common phenomenon, possibly
-            # for this reason.  Python handles this properly, though.
-            main=int(_eucs,16)-0x010000
-            _ec+=unichr(0xD800+(main//1024))+unichr(0xDC00+(main%1024))
-    _eacd[eac[_euc]["alpha_code"].strip(":")]=_ec
+        _ec+=unichr4all(int(_eucs,16))
+    _eacd[eac[_euc]["alpha_code"].strip(":").encode("utf-8")]=_ec
+    _eacdr[_ec]=eac[_euc]["alpha_code"].strip(":").encode("utf-8")
     for _alias in eac[_euc]["aliases"]:
         _eacd[_alias.strip(":")]=_ec
 
@@ -44,6 +51,10 @@ def _parse_inline(content,levs=("root",),flags=()):
     lev=levs[0]
     while content:
         c=content.pop(0)
+        if content and (0xD800<=ord(c.decode("utf-8"))<0xDC00) and (0xDC00<=ord(content[0].decode("utf-8"))<0xE000): 
+            #UTF-16 surrogates (cat in UCS form, not UTF-8, to avoid CESU)
+            c=c.decode("utf-8")+content.pop(0).decode("utf-8")
+            c=c.encode("utf-8")
         isurl=re.match(uriregex,c+("".join(content))) #NOT urireg
         ### BibTeX diacritics
         if c=="\\" and ("bibuml" in levs) and ("nodiacritic" not in flags):
@@ -188,6 +199,9 @@ def _parse_inline(content,levs=("root",),flags=()):
                 del content[0]
                 c=content.pop(0)
                 while c!=")":
+                    if not content:
+                        href+=c
+                        break
                     if (c=="\\") and (content[0] in "\\)"):
                         c=content.pop(0)
                     href+=c
@@ -233,11 +247,11 @@ def _parse_inline(content,levs=("root",),flags=()):
         elif c=="~" and content[0]==")" and lev=="sub" and ("nopandocstyle" not in flags):
             del content[0]
             return out
-        ### Emoticons ###
-        elif re.match(r":(\w|_|-)+:",c+("".join(content))) and ("noemoticon" not in flags):
+        ### Emoticons and Emoji ###
+        elif re.match(r":(\w|_|-)+:",c+("".join(content))) and ("noshortcodeemoji" not in flags):
             kwontenti=""
             c=content.pop(0)
-            while c!=":":
+            while (c!=":"):
                 kwontenti+=c
                 c=content.pop(0)
             kwontent=kwontenti
@@ -247,13 +261,35 @@ def _parse_inline(content,levs=("root",),flags=()):
                 kwontent=kwontent[5:]
             elif kwontent.startswith("dan_"):
                 kwontent=kwontent[4:]
+            emoji=_eacd[kwontent.decode("utf-8")]
+            if emoji in SMILEYS:
+                emote=SMILEYS[emoji]
+            else:
+                emote=":"+kwontenti+":"
             if kwontent in _eacd:
-                out.append(nodes.EmojiNode(_eacd[kwontent.decode("utf-8")].encode("utf-8"),kwontenti))
+                out.append(nodes.EmojiNode(emoji.encode("utf-8"), (emote, kwontenti), "shortcode"))
             else:
                 out.append(":"+kwontenti+":")
+        elif is_emotic(c+("".join(content))) and ("noasciiemoticon" not in flags):
+            emote=is_emotic(c+("".join(content)))
+            for iii in range(len(emote)-1): #Already popped the first (to c)!
+                content.pop(0)
+            emoji=SMILEYA[emote].encode("utf-8")
+            shortcode=None
+            if emoji in _eacdr:
+                shortcode=_eacdr[emoji]
+            out.append(nodes.EmojiNode(emoji, (emote, shortcode), "ascii"))
         #
         elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):
             out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags))
+        elif (c.decode("utf-8") in _eacdr.keys()) and ("label" not in levs):
+            emoji=c.decode("utf-8")
+            shortcode=_eacdr[emoji]
+            if emoji in SMILEYS:
+                emote=SMILEYS[emoji]
+            else:
+                emote=":"+shortcode+":"
+            out.append(nodes.EmojiNode(c, (emote, shortcode), "verbatim"))
         else:
             lastchar=c
             out.append(c)

@@ -336,10 +336,14 @@ Testing ordered lists:
 [/li][/list]
 [/li][/list]
 
-This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [spoiler]It actually is.[/spoiler] 🖖 👀 👀 
+This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [spoiler]It actually is.[/spoiler] [img alt="\ud83d\udd96"]https://twemoji.maxcdn.com/36x36/1f596.png[/img] [img alt="\ud83d\udc40"]https://twemoji.maxcdn.com/36x36/1f440.png[/img] [img alt="\ud83d\udc40"]https://twemoji.maxcdn.com/36x36/1f440.png[/img] 
 
-Squirt ♈ Squirt ♈ Squirt ♈ 
+Squirt [img alt="\u2648"]https://twemoji.maxcdn.com/36x36/2648.png[/img] Squirt [img alt="\u2648"]https://twemoji.maxcdn.com/36x36/2648.png[/img] Squirt [img alt="\u2648"]https://twemoji.maxcdn.com/36x36/2648.png[/img] 
+
+[img alt="\ud83d\ude04"]https://twemoji.maxcdn.com/36x36/1f604.png[/img] [img alt="\ud83d\ude00"]https://twemoji.maxcdn.com/36x36/1f600.png[/img] [img alt="\ud83d\ude06"]https://twemoji.maxcdn.com/36x36/1f606.png[/img] [img alt="\u263a"]https://twemoji.maxcdn.com/36x36/263a.png[/img] 
+
+[img]http://i.imgur.com/SfHfed9.png[/img] 
 
 [table][tr][th]Why[/th][th]What[/th][/tr][tr][td]123[/td][td]4567 8 9[/td][/tr][tr][td]a[/td][td]bcde[/td][/tr][tr][td]fgh[/td][td]ijkl[/td][/tr][tr][td] [/td][td]mnop[/td][/tr][tr][td]123[/td][td][/td][/tr][tr][td]456[/td][td]789[/td][/tr][tr][td]UUU[/td][td]Dwelt[/td][/tr][/table]
 
-m̈ëẗälë 
+m̈ëẗälë Ë 

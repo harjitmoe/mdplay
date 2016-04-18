@@ -21,6 +21,8 @@
   * nospecialhrefs
   * nodiacritic
   * noemoticon
+    * noasciiemoticon
+    * noshortcodeemoji
 * nouicode
 * nofcode
 * nosetexthead, which activates
@@ -51,6 +53,8 @@
 * pandoc (MD)
 * forum (TV)
 * nouseemoji (BB, MD)
+* shortcodes (BB, MD)
+* asciimotes (BB, MD)
 * fragment (HTML/DOM, HTML/ALT)
 * ipsspoilers (HTML/DOM, HTML/ALT)
 

@@ -1,4 +1,6 @@
 python pymdplay.py -o out.txt -f bbcode test.md
+python pymdplay.py -o out_noemo.txt -f bbcode -W nouseemoji,asciimotes test.md
+python pymdplay.py -o out_shortc.txt -f bbcode -W shortcodes test.md
 python pymdplay.py -o out_new.txt -f html -W fragment,ipsspoilers test.md
 python pymdplay.py -o out_newalt.txt -f htmlalt -W fragment,ipsspoilers test.md
 python pymdplay.py -o out_htl.txt -f bbcode -W htmllists test.md

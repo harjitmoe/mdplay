@@ -5,6 +5,7 @@ import mdplay
 def help():
     sys.stderr.write("\nUsage: pymdplay -f ["+("|".join(mdplay.writers.keys()))+"] [-o out_file] [-t title] [-P parserflag,parserflag...] [-W writerflag,writerflag...] [-5] in_file\n\n")
     sys.stderr.write("""\
+You put %s.
 
 html generates XHTML, which may cause IE to bork if it parses empty 
 <a> tags etc as HTML, htmlalt generates HTML which is hopefully valid
@@ -20,7 +21,7 @@ shared by other implementations.
 Parser flag notable isn't "notable", it's "no table".
 
 Writer flag html5 enables HTML5 output.  -5 is a shorthand.
-""")
+"""%sys.argv)
     sys.exit()
 
 try:

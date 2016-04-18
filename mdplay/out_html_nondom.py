@@ -179,6 +179,13 @@ def _html_out_body(node,in_list,flags):
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return ""
     elif isinstance(node,nodes.EmojiNode):
+        if ("notwemoji" not in flags):
+            if node.content.decode("utf-8") == u"\U000FDECD":
+                return "<img src='http://i.imgur.com/SfHfed9.png'></img>"
+            else:
+                try:
+                    return "<img alt='%s' src='https://twemoji.maxcdn.com/72x72/%x.png' style='max-width:2em;max-height:2em;'></img>"%(node.content,nodes.utf16_ord(node.content.decode("utf-8")))
+                except ValueError: pass
         return _escape(node.content,html5)
     else:
         return "ERROR"+repr(node)

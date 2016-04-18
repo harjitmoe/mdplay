@@ -1,0 +1,4 @@
+UTF-32: \U000fdecd
+UTF-16: \udbb7\udecd
+UTF-8: \xf3\xbd\xbb\x8d
+CESU-8: \xed\xae\xb7\xed\xbb\x8d

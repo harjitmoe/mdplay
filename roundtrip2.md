@@ -363,9 +363,13 @@ Testing ordered lists:
       2) Coming back to this level. 
   * Similarly 
 
-This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [It actually is.](/spoiler) 🖖 👀 👀
+This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [It actually is.](/spoiler) ![🖖](https://twemoji.maxcdn.com/36x36/1f596.png) ![👀](https://twemoji.maxcdn.com/36x36/1f440.png) ![👀](https://twemoji.maxcdn.com/36x36/1f440.png)
 
-Squirt ♈ Squirt ♈ Squirt ♈
+Squirt ![♈](https://twemoji.maxcdn.com/36x36/2648.png) Squirt ![♈](https://twemoji.maxcdn.com/36x36/2648.png) Squirt ![♈](https://twemoji.maxcdn.com/36x36/2648.png)
+
+![😄](https://twemoji.maxcdn.com/36x36/1f604.png) ![😀](https://twemoji.maxcdn.com/36x36/1f600.png) ![😆](https://twemoji.maxcdn.com/36x36/1f606.png) ![☺](https://twemoji.maxcdn.com/36x36/263a.png)
+
+![](http://i.imgur.com/SfHfed9.png)
 
 |Why|What|
 |:-:|:--|
@@ -377,4 +381,4 @@ Squirt ♈ Squirt ♈ Squirt ♈
 |456|789|
 |UUU|Dwelt|
 
-m̈ëẗälë
+m̈ëẗälë Ë

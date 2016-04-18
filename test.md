@@ -350,7 +350,11 @@ on mdplay renderer, flags and targeted system)
 
 This is just a paragraph.  :lenny:  [It actually is.](/spoiler) :vulcan: :dan_shifty: :eyes:
 
-Squirt :aries: Squirt :aries: Squirt :aries: 
+Squirt :aries: Squirt :aries: Squirt ♈ 
+
+:smile: :grinning: :D :)
+
+󽻍
 
 |Why|What|
 |:---:|:---|
@@ -362,6 +366,6 @@ Squirt :aries: Squirt :aries: Squirt :aries:
 |456|789|
 |UUU|Dwelt|
 
-{\"m}{\"e}{\"t}{\"a}l{\"e}
+{\"m}{\"e}{\"t}{\"a}l{\"e} {\"E}
 
 \

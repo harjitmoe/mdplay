@@ -139,7 +139,22 @@ def flatten_flags_parser(flags):
             out.extend(flatten_flags_parser(["noresttable","nomdtable"]))
         elif flag=="nosupersubscript":
             out.extend(flatten_flags_parser(["noredditstylesuper","nopandocstyle"]))
+        elif flag=="noemoticon":
+            out.extend(flatten_flags_parser(["noasciiemoticon","noshortcodeemoji"]))
         else:
             out.append(flag)
     return list(set(out))
+
+def utf16_ord(s):
+    s=list(s)
+    c=s.pop(0)
+    if (0xD800<=ord(c)<0xDC00) and (0xDC00<=ord(s[0])<0xE000):
+        k=s.pop(0)
+        index_from_smp=((ord(c)-0xD800)*1024)+(ord(k)-0xDC00)
+        codepoint=0x010000+index_from_smp
+        if s: raise ValueError
+        return codepoint
+    else:
+        if s: raise ValueError
+        return ord(c)
 

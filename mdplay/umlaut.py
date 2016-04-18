@@ -38,11 +38,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import re, sys
+from unicodedata import normalize
 
 #from docutils.nodes import make_id
 #from .docnodes import TextNode, EmptyNode, NodeList
 
-def umlaut(cmd, c):
+def _umlaut(cmd, c):
     try:
         if cmd == '"': #Umlauts and diaereses.
             if c.lower() in "aiueo":
@@ -240,6 +241,7 @@ def umlaut(cmd, c):
     except KeyError:
         #from .latexparser import ParserError
         raise ValueError('unsupported umlaut \\%s{%s}' % (cmd, c))#, 0)
+umlaut = lambda cmd, c: normalize("NFC", _umlaut(cmd, c))
 
 ## The following has nothing to do with mdplay. -- HarJIT
 #

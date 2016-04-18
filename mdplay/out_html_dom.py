@@ -124,11 +124,11 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 yield metar
         elif isinstance(node,nodes.CodeBlockNode):
             r=document.createElement("pre")
-            r.appendChild(document.createTextNode("".join(node.content)))
+            r.appendChild(document.createTextNode("".join(node.content).decode("utf-8")))
             yield r
         elif isinstance(node,nodes.CodeSpanNode):
             r=document.createElement("code")
-            r.appendChild(document.createTextNode("".join(node.content)))
+            r.appendChild(document.createTextNode("".join(node.content).decode("utf-8")))
             yield r
         elif isinstance(node,nodes.BoldNode):
             if node.emphatic:
@@ -171,12 +171,12 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                     metar.appendChild(r2)
                     r3=document.createElement("a")
                     r2.appendChild(r3)
-                    r3.setAttribute("href",content)
+                    r3.setAttribute("href",content.decode("utf-8"))
                     r3.appendChild(document.createTextNode("(TVTropes)"))
                     yield metar
                     continue
                 r=document.createElement("a")
-                r.setAttribute("href",content)
+                r.setAttribute("href",content.decode("utf-8"))
                 for domn in label:
                     r.appendChild(domn)
                 yield r
@@ -188,9 +188,9 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 except TypeError:
                     label=html_out_body(node.label) #_body, not _part
                 r=document.createElement(ht)
-                r.setAttribute("src",content)
+                r.setAttribute("src",content.decode("utf-8"))
                 if label:
-                    r.setAttribute("alt",label)
+                    r.setAttribute("alt",label.decode("utf-8"))
                 yield r
         elif isinstance(node,nodes.NewlineNode):
             r=document.createElement("br")
@@ -268,7 +268,7 @@ def html_out(nodem,titl="",flags=()):
     if titl:
         titlebar=document.createElement("title")
         head.appendChild(titlebar)
-        titlebar.appendChild(document.createTextNode(titl))
+        titlebar.appendChild(document.createTextNode(titl.decode("utf-8")))
     charset=document.createElement("meta")
     head.appendChild(charset)
     if not html5:

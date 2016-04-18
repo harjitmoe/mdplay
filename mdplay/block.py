@@ -65,7 +65,7 @@ def _parse_block(f,titlelevels,flags):
     isul=lambda line:line.strip() and re.match(r"\s*[*+-](\s.*)?$",line)
     #isol=lambda line:line.strip() and re.match(r"\s*(\d+[).:]|[#])(\s.*)?$",line)
     isol=lambda line:line.strip() and re.match(r"\s*(\d+[).:])(\s.*)?$",line)
-    isalign=lambda line:(line!=None) and line.strip() and re.match(r"(?P<c>\|?)((:--+|:-+:|--+:|---+)\|)+(:--+|:-+:|--+:|---+)(?P=c)",line)
+    isalign=lambda line:(line!=None) and line.strip() and re.match(r"\|?((:--+|:-+:|--+:|---+)\|)+(:--+|:-+:|--+:|---+)\|?",line)
 
     for line in f:
         line=line.replace("\0","\xef\xbf\xbd").replace("\t"," "*4)

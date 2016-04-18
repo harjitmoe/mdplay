@@ -52,6 +52,7 @@
 * noemphunderscore (MD)
 * pandoc (MD)
 * forum (TV)
+* notwemoji (BB, MD, HTML/ALT)
 * nouseemoji (BB, MD)
 * shortcodes (BB, MD)
 * asciimotes (BB, MD)

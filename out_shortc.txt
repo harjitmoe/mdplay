@@ -321,9 +321,9 @@ This is just a paragraph.  :lenny:  [spoiler]It actually is.[/spoiler] :vulcan: 
 
 Squirt :aries: Squirt :aries: Squirt :aries: 
 
-:smile: :grinning: [img width="32" height="32" alt="\ud83d\ude06"]https://twemoji.maxcdn.com/2/72x72/1f606.png[/img] [img width="32" height="32" alt="\u263a"]https://twemoji.maxcdn.com/2/72x72/263a.png[/img] 
+:smile: :grinning: [img width="32" height="32" alt="\ud83d\ude03"]https://twemoji.maxcdn.com/2/72x72/1f603.png[/img] [img width="32" height="32" alt="\u263a"]https://twemoji.maxcdn.com/2/72x72/263a.png[/img] 
 
-󽻍 
+:demonicduck: 
 
 [table][tr][th]Why[/th][th]What[/th][/tr][tr][td]123[/td][td]4567 8 9[/td][/tr][tr][td]a[/td][td]bcde[/td][/tr][tr][td]fgh[/td][td]ijkl[/td][/tr][tr][td] [/td][td]mnop[/td][/tr][tr][td]123[/td][td][/td][/tr][tr][td]456[/td][td]789[/td][/tr][tr][td]UUU[/td][td]Dwelt[/td][/tr][/table]
 

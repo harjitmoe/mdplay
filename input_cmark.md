@@ -363,13 +363,13 @@ Testing ordered lists:
       2) Coming back to this level. 
   * Similarly 
 
-This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [It actually is.](/spoiler) ![🖖](https://twemoji.maxcdn.com/36x36/1f596.png) ![👀](https://twemoji.maxcdn.com/36x36/1f440.png) ![👀](https://twemoji.maxcdn.com/36x36/1f440.png)
+This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [It actually is.](/spoiler) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32)
 
-Squirt ![♈](https://twemoji.maxcdn.com/36x36/2648.png) Squirt ![♈](https://twemoji.maxcdn.com/36x36/2648.png) Squirt ![♈](https://twemoji.maxcdn.com/36x36/2648.png)
+Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)
 
-![😄](https://twemoji.maxcdn.com/36x36/1f604.png) ![😀](https://twemoji.maxcdn.com/36x36/1f600.png) ![😆](https://twemoji.maxcdn.com/36x36/1f606.png) ![☺](https://twemoji.maxcdn.com/36x36/263a.png)
+![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) ![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32) ![☺](https://twemoji.maxcdn.com/2/72x72/263a.png =32x32)
 
-![](http://i.imgur.com/SfHfed9.png)
+󽻍
 
 |Why|What|
 |:-:|:--|
@@ -382,4 +382,10 @@ Squirt ![♈](https://twemoji.maxcdn.com/36x36/2648.png) Squirt ![♈](https://t
 |UUU|Dwelt|
 
 m̈ëẗälë Ë
+
+ẍ=\-ω^(2)x
+
+![🙆🏽](https://twemoji.maxcdn.com/2/72x72/1f646-1f3fd.png =32x32)
+
+![small image](http://i.imgur.com/YW5So8y.jpg =32x32) ![small image](http://i.imgur.com/YW5So8y.jpg =32x)
 

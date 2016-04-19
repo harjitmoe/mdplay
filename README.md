@@ -5,12 +5,13 @@ converts an (extended by default) Markdown to other Web-based markup formats.
 flags can turn features and extensions off, the obvious one being the strict
 flag.  see flag_chart.md for the full list.
 
-version 5.9
+version 5.9.1
 
 change-log:
 
 |ver|changes|
 |---|---|
+|5.9.1|improved twemoji support.|
 |5.9|muchly improved emoji support, including twemoji.  slightly more lenient table detection.  combining the combining diacritical marks using the unicodedata module.|
 |5.8.2|add support for the (rather limited) ATX-style designated code blocks.|
 |5.8.1|add support for inline markup within tables.|

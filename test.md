@@ -368,4 +368,11 @@ Squirt :aries: Squirt :aries: Squirt ♈
 
 {\"m}{\"e}{\"t}{\"a}l{\"e} {\"E}
 
+{\"x}=-ω^(2)x
+
+🙆🏽
+
+![small image](http://i.imgur.com/YW5So8y.jpg =32x32)
+![small image](http://i.imgur.com/YW5So8y.jpg =32x)
+
 \

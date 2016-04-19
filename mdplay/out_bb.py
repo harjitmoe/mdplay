@@ -170,9 +170,14 @@ def _bb_out(node,in_list,flags):
                 return "[wiki=%s title=%s]"%(json.dumps(content),json.dumps(label))
         else: #Including img
             label=label.strip()
+            opener=ht
             if label:
-                return ("[%s alt=%s]"%(ht,json.dumps(label)))+content+"[/"+ht+"]"
-            return "["+ht+"]"+content+"[/"+ht+"]"
+                opener += "\x20alt="+json.dumps(label)
+            if node.width:
+                opener += '\x20width="'+str(node.width)+'"'
+            if node.height:
+                opener += '\x20height="'+str(node.height)+'"'
+            return "["+opener+"]"+content+"[/"+ht+"]"
     elif isinstance(node,nodes.NewlineNode):
         return "[br]"
     elif isinstance(node,nodes.RuleNode):
@@ -196,12 +201,22 @@ def _bb_out(node,in_list,flags):
         # Presently, impossible for no shortcode *and* no asciimote.
         # This may change if I expand detection in inline.py
         force_shortcode=("shortcodes" in flags) and node.label[1]
+        if node.completed: return ""
         if ("notwemoji" not in flags) and (not force_shortcode):
             if node.content.decode("utf-8") == u"\U000FDECD":
                 return "[img]http://i.imgur.com/SfHfed9.png[/img]"
             else:
                 try:
-                    return "[img alt=%s]https://twemoji.maxcdn.com/36x36/%x.png[/img]"%(json.dumps(node.content),nodes.utf16_ord(node.content.decode("utf-8")))
+                    hexcode="%x"%nodes.utf16_ord(node.content.decode("utf-8"))
+                    altcode=node.content
+                    if node.fuse!=None:
+                        hexcode+="-%x"%nodes.utf16_ord(node.fuse.content.decode("utf-8"))
+                        altcode+=node.fuse.content
+                        node.fuse.completed=1
+                    if "oldtwemoji" in flags:
+                        return "[img alt=%s]https://twemoji.maxcdn.com/36x36/%s.png[/img]"%(json.dumps(altcode),hexcode)
+                    else:
+                        return '[img width="32" height="32" alt=%s]https://twemoji.maxcdn.com/2/72x72/%s.png[/img]'%(json.dumps(altcode),hexcode)
                 except ValueError: pass
         if ("nouseemoji" not in flags) and (not force_shortcode) and (node.content.decode("utf-8")!=u"\U000FDECD"):
             return node.content

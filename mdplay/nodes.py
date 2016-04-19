@@ -20,11 +20,15 @@ class TableNode(Node):
         self.aligns=aligns
 
 class InlineNode(Node):
-    def __init__(self,content,label="",hreftype="",emphatic=False):
+    def __init__(self,content,label="",hreftype="",emphatic=False,width=None,height=None):
         self.content=content
         self.hreftype=hreftype
         self.emphatic=emphatic
         self.label=label
+        self.width=width
+        self.height=height
+        self.fuse=None
+        self.completed=0
 
 class CodeBlockNode(Node):
     def __init__(self,content,depth=-1,clas=None):

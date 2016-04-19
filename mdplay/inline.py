@@ -300,7 +300,7 @@ def _parse_inline(content,levs=("root",),flags=()):
         #
         elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):
             out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags))
-        elif ((c.decode("utf-8"),) in TWEM2) and ("label" not in levs):
+        elif (((c.decode("utf-8"),) in TWEM2) or (c.decode("utf-8")==u"\U000FDECD")) and ("label" not in levs):
             emoji=c.decode("utf-8")
             shortcode=_eacdr[emoji]
             if emoji in SMILEYS:

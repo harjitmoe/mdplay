@@ -69,7 +69,29 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
         elif not isinstance(node,nodes.Node): #i.e. is a string
             yield document.createTextNode(node.decode("utf-8").replace(u"\x20\x20",u"\xa0\x20"))
         elif isinstance(node,nodes.EmojiNode):
-            yield document.createTextNode(node.content.decode("utf-8"))
+            if node.completed: pass #Inserted via a node.fuse already
+            elif ("notwemoji" not in flags):
+                if node.content.decode("utf-8") == u"\U000FDECD":
+                    r=document.createElement("img")
+                    r.setAttribute("src","http://i.imgur.com/SfHfed9.png")
+                    yield r
+                else:
+                    try:
+                        hexcode="%x"%nodes.utf16_ord(node.content.decode("utf-8"))
+                        altcode=node.content.decode("utf-8")
+                        if node.fuse!=None:
+                            hexcode+="-%x"%nodes.utf16_ord(node.fuse.content.decode("utf-8"))
+                            altcode+=node.fuse.content.decode("utf-8")
+                            node.fuse.completed=1
+                        r=document.createElement("img")
+                        r.setAttribute("src","https://twemoji.maxcdn.com/2/72x72/%s.png"%hexcode)
+                        r.setAttribute("alt",altcode)
+                        r.setAttribute("style","max-width:2em;max-height:2em;")
+                        yield r
+                    except ValueError:
+                        yield document.createTextNode(node.content.decode("utf-8"))
+            else:
+                yield document.createTextNode(node.content.decode("utf-8"))
         elif isinstance(node,nodes.TitleNode):
             if node.depth>6: node.depth=6
             r=document.createElement("h%d"%node.depth)
@@ -191,6 +213,13 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 r.setAttribute("src",content.decode("utf-8"))
                 if label:
                     r.setAttribute("alt",label.decode("utf-8"))
+                styl=""
+                if node.width:
+                    styl+="width:%dpx;"%node.width
+                if node.height:
+                    styl+="height:%dpx;"%node.height
+                if styl:
+                    r.setAttribute("style",styl)
                 yield r
         elif isinstance(node,nodes.NewlineNode):
             r=document.createElement("br")

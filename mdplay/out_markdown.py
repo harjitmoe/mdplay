@@ -67,7 +67,13 @@ def _md_out_body(node,flags=()):
         if ht=="url":
             return "["+label+"]("+content.replace("\\","\\\\").replace(")","\\)")+")"
         elif ht=="img":
-            return "!["+label+"]("+content.replace("\\","\\\\").replace(")","\\)")+")"
+            siz="x"
+            if node.width: siz = str(node.width) + siz
+            if node.height: siz += str(node.height)
+            if siz=="x": siz = ""
+            else: siz = "\x20=" + siz
+            if "nosizes" in flags: siz = ""
+            return "!["+label+"]("+content.replace("\\","\\\\").replace(")","\\)")+siz+")"
         else:
             return "!"+ht+"["+label+"]("+content.replace("\\","\\\\").replace(")","\\)")+")"
     elif isinstance(node,nodes.NewlineNode):
@@ -139,22 +145,34 @@ def _md_out_body(node,flags=()):
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return "\n\n"
     elif isinstance(node,nodes.EmojiNode):
-        # Presently, impossible for no shortcode *and* no asciimote.
-        # This may change if I expand detection in inline.py
         force_shortcode=("shortcodes" in flags) and node.label[1]
+        if node.completed: return ""
         if ("notwemoji" not in flags) and (not force_shortcode):
             if node.content.decode("utf-8") == u"\U000FDECD":
                 return "![](http://i.imgur.com/SfHfed9.png)"
             else:
                 try:
-                    return "![%s](https://twemoji.maxcdn.com/36x36/%x.png)"%(node.content,nodes.utf16_ord(node.content.decode("utf-8")))
+                    hexcode="%x"%nodes.utf16_ord(node.content.decode("utf-8"))
+                    altcode=node.content
+                    if node.fuse!=None:
+                        hexcode+="-%x"%nodes.utf16_ord(node.fuse.content.decode("utf-8"))
+                        altcode+=node.fuse.content
+                        node.fuse.completed=1
+                    if "oldtwemoji" in flags:
+                        return "![%s](https://twemoji.maxcdn.com/36x36/%s.png)"%(altcode, hexcode)
+                    else:
+                        if "nosizes" not in flags:
+                            siz = "\x20=32x32"
+                        else:
+                            siz = ""
+                        return "![%s](https://twemoji.maxcdn.com/2/72x72/%s.png%s)"%(altcode, hexcode, siz)
                 except ValueError: pass
         if ("nouseemoji" not in flags) and (not force_shortcode):
             return node.content
         elif ((node.hreftype=="ascii") or ("asciimotes" in flags)) and (not force_shortcode):
             return node.label[0]
         else:
-            return ":"+node.label[1]+":"
+            return ":"+(node.label[1] or "unnamed")+":"
     else:
         return "ERROR"+repr(node)
 

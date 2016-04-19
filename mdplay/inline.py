@@ -7,7 +7,11 @@ from mdplay import htmlentitydefs_latest as htmlentitydefs
 from mdplay.eac import eac
 from mdplay.pickups_util import SMILEYS
 from mdplay.utfsupport import unichr4all
+from mdplay.twem2support import TWEM2
 
+#Note that :D may come out as several things depending on
+#Python's arbitrary dict ordering; not sure what is best
+#option here.
 SMILEYA=dict(zip(SMILEYS.values(),SMILEYS.keys()))
 
 def is_emotic(s):
@@ -32,6 +36,16 @@ for _euc in eac.keys():
 
 punct=string.punctuation+string.whitespace
 
+def _group_surrogates(content):
+    #Because Windows uses UTF-16, not UTF-32, that's why!
+    while content:
+        c=content.pop(0)
+        if content and (0xD800<=ord(c.decode("utf-8"))<0xDC00) and (0xDC00<=ord(content[0].decode("utf-8"))<0xE000): 
+            #UTF-16 surrogates (cat in UCS form, not UTF-8, to avoid CESU)
+            c=c.decode("utf-8")+content.pop(0).decode("utf-8")
+            c=c.encode("utf-8")
+        yield c
+
 def _parse_inline(content,levs=("root",),flags=()):
     # Note: the recursion works by the list being a Python
     # mutable, "passed by reference" as it were
@@ -41,20 +55,17 @@ def _parse_inline(content,levs=("root",),flags=()):
     else:
         urireg=".*"
     if ("nospecialhrefs" not in flags):
-        hrefre="(!?\[.*\]\("+urireg+"\))|((!\w+)\[.*\]\(.*\))"
+        hrefre="(!?\[.*\]\("+urireg+"( =\d*x\d*)?\))|((!\w+)\[.*\]\(.*\))"
     elif ("noembeds" not in flags):
-        hrefre="!?\[.*\]\("+urireg+"\)"
+        hrefre="!?\[.*\]\("+urireg+"( =\d*x\d*)?\)"
     else:
         hrefre="\[.*\]\("+urireg+"\)"
     out=[]
     out2=[]
     lev=levs[0]
+    do_fuse=None
     while content:
         c=content.pop(0)
-        if content and (0xD800<=ord(c.decode("utf-8"))<0xDC00) and (0xDC00<=ord(content[0].decode("utf-8"))<0xE000): 
-            #UTF-16 surrogates (cat in UCS form, not UTF-8, to avoid CESU)
-            c=c.decode("utf-8")+content.pop(0).decode("utf-8")
-            c=c.encode("utf-8")
         isurl=re.match(uriregex,c+("".join(content))) #NOT urireg
         ### BibTeX diacritics
         if c=="\\" and ("bibuml" in levs) and ("nodiacritic" not in flags):
@@ -212,10 +223,17 @@ def _parse_inline(content,levs=("root",),flags=()):
                 hreftype="url"
             else:
                 hreftype=hreftype[1:] #Minus the leading !
+            width = height = ""
+            def gogo(s):
+                if not s: return None
+                return int(s, 10)
+            if (hreftype=="img") and (" =" in href):
+                href, size = href.split(" =",1)
+                width, height = size.split("x")
             if (href == "/spoiler") and (hreftype == "url") and ("noredditspoiler" not in flags):
                 out.append(nodes.InlineSpoilerNode(label))
             else:
-                out.append(nodes.HrefNode(href,label,hreftype))
+                out.append(nodes.HrefNode(href,label,hreftype,width=gogo(width),height=gogo(height)))
         elif c=="]" and lev=="label":
             return out
         elif c=="[" and content[0]=="[" and (lev!="wikilink" or out2) and ("nowikilinks" not in flags):
@@ -282,14 +300,20 @@ def _parse_inline(content,levs=("root",),flags=()):
         #
         elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):
             out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags))
-        elif (c.decode("utf-8") in _eacdr.keys()) and ("label" not in levs):
+        elif ((c.decode("utf-8"),) in TWEM2) and ("label" not in levs):
             emoji=c.decode("utf-8")
             shortcode=_eacdr[emoji]
             if emoji in SMILEYS:
                 emote=SMILEYS[emoji]
             else:
                 emote=":"+shortcode+":"
-            out.append(nodes.EmojiNode(c, (emote, shortcode), "verbatim"))
+            nodo=nodes.EmojiNode(c, (emote, shortcode), "verbatim")
+            out.append(nodo)
+            if do_fuse!=None:
+                do_fuse.fuse=nodo
+                do_fuse=None
+            elif (c.decode("utf-8"), content[0].decode("utf-8")) in TWEM2:
+                do_fuse=nodo
         else:
             lastchar=c
             out.append(c)
@@ -323,4 +347,4 @@ for _entity in htmlentitydefs.html5.keys():
 
 def parse_inline(content,flags=()):
     d=content.decode("utf-8")
-    return _parse_inline([i.encode("utf-8") for i in list(d)]+[""],flags=flags)
+    return _parse_inline(list(_group_surrogates([i.encode("utf-8") for i in list(d)]+[""])),flags=flags)

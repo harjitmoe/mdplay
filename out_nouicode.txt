@@ -19,6 +19,8 @@ rule.
 
 Another paragraph. 
 
+(The following page makes use of Twemoji, by Twitter, Inc.  [url="http://creativecommons.org/licenses/by/4.0/"]CC-BY 4.0[/url], [url="https://github.com/twitter/twemoji"]origin[/url].) 
+
 I can use [i]italic[/i], [b]bold[/b], [font=monospace]monospace[/font], [b]bold[/b].  I can [url="http://egscomics.com"]link[/url], or include [img]http://i.imgur.com/YW5So8y.jpg[/img] images and [media alt="embeds with site-specific tags"]http://i.imgur.com/YW5So8y.jpg[/media], or even [url="http://egscomics.com"]link images [img alt="like this"]http://i.imgur.com/YW5So8y.jpg[/img][/url]! 
 
 [code]#!/usr/bin/env python

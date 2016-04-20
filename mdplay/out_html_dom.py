@@ -88,6 +88,8 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                         r.setAttribute("src","https://twemoji.maxcdn.com/2/72x72/%s.png"%hexcode)
                         r.setAttribute("alt",altcode)
                         r.setAttribute("style","max-width:2em;max-height:2em;")
+                        # Acceptable attribution per https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
+                        yield document.createComment(" twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/ ")
                         yield r
                     except ValueError:
                         yield document.createTextNode(node.content.decode("utf-8"))

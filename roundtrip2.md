@@ -20,6 +20,8 @@ I think so too.
 
 Another paragraph.
 
+(The following page makes use of Twemoji, by Twitter, Inc.  [CC\-BY 4.0](http://creativecommons.org/licenses/by/4.0/), [origin](https://github.com/twitter/twemoji).)
+
 I can use *italic*, **bold**, `monospace`, \ __bold__\ .  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/YW5So8y.jpg) images and !media[embeds with site\-specific tags](http://i.imgur.com/YW5So8y.jpg), or even [link images ![like this](http://i.imgur.com/YW5So8y.jpg)](http://egscomics.com)!
 
 ~~~~~~~~ python

@@ -18,6 +18,8 @@ rule.
 
 Another paragraph. 
 
+(The following page makes use of Twemoji, by Twitter, Inc.  [http://creativecommons.org/licenses/by/4.0/ CC-BY 4.0], [https://github.com/twitter/twemoji origin].) 
+
 I can use ''italic'', '''bold''', <code>monospace</code>, '''bold'''.  I can [http://egscomics.com link], or include http://i.imgur.com/YW5So8y.jpg images and [http://i.imgur.com/YW5So8y.jpg embeds with site-specific tags], or even [http://egscomics.com link images [http://i.imgur.com/YW5So8y.jpg like this]]! 
 
 <pre>#!/usr/bin/env python

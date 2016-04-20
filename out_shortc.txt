@@ -321,9 +321,7 @@ This is just a paragraph.  :lenny:  [spoiler]It actually is.[/spoiler] :vulcan: 
 
 Squirt :aries: Squirt :aries: Squirt :aries: 
 
-:smile: :grinning: [img width="32" height="32" alt="\ud83d\ude03"]https://twemoji.maxcdn.com/2/72x72/1f603.png[/img] [img width="32" height="32" alt="\u263a"]https://twemoji.maxcdn.com/2/72x72/263a.png[/img] 
-
-:demonicduck: 
+:smile: :grinning: [img width="32" height="32" alt="\ud83d\ude06"]https://twemoji.maxcdn.com/2/72x72/1f606.png[/img] [img width="32" height="32" alt="\u263a"]https://twemoji.maxcdn.com/2/72x72/263a.png[/img] :demonicduck: 
 
 [table][tr][th]Why[/th][th]What[/th][/tr][tr][td]123[/td][td]4567 8 9[/td][/tr][tr][td]a[/td][td]bcde[/td][/tr][tr][td]fgh[/td][td]ijkl[/td][/tr][tr][td] [/td][td]mnop[/td][/tr][tr][td]123[/td][td][/td][/tr][tr][td]456[/td][td]789[/td][/tr][tr][td]UUU[/td][td]Dwelt[/td][/tr][/table]
 
@@ -331,6 +329,12 @@ m̈ëẗälë Ë
 
 ẍ=-ω[sup]2[/sup]x 
 
-:ok_woman::tone3: 
+:ok_woman: :ok_woman::tone3: :ok_woman::tone5: 
 
-[img alt="small image" width="32" height="32"]http://i.imgur.com/YW5So8y.jpg[/img] [img alt="small image" width="32"]http://i.imgur.com/YW5So8y.jpg[/img] 
+:aries: [img alt="small image" width="32" height="32"]http://i.imgur.com/YW5So8y.jpg[/img] [img alt="small image" width="32"]http://i.imgur.com/YW5So8y.jpg[/img] 
+
+:vulcan::tone5: :vulcan:‌:tone5:[br]:vulcan::tone2: :vulcan:‌:tone2:[br]:vulcan::tone3: :vulcan:‌:tone3: 
+
+:undiefined: 
+
+[img width="32" height="32" alt="\ud83c\uddef\ud83c\uddf5"]https://twemoji.maxcdn.com/2/72x72/1f1ef-1f1f5.png[/img] [img width="32" height="32" alt="\ud83c\uddef"]https://twemoji.maxcdn.com/2/72x72/1f1ef.png[/img]‌[img width="32" height="32" alt="\ud83c\uddf5"]https://twemoji.maxcdn.com/2/72x72/1f1f5.png[/img] 

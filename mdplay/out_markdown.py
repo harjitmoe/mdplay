@@ -149,7 +149,7 @@ def _md_out_body(node,flags=()):
         if node.completed: return ""
         if ("notwemoji" not in flags) and (not force_shortcode):
             if node.content.decode("utf-8") == u"\U000FDECD":
-                return "![](http://i.imgur.com/SfHfed9.png)"
+                return "![:demonicduck:](http://i.imgur.com/SfHfed9.png)"
             else:
                 try:
                     hexcode="%x"%nodes.utf16_ord(node.content.decode("utf-8"))

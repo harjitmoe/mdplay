@@ -182,7 +182,7 @@ def _html_out_body(node,in_list,flags):
         if node.completed: return ""
         if ("notwemoji" not in flags):
             if node.content.decode("utf-8") == u"\U000FDECD":
-                return "<img src='http://i.imgur.com/SfHfed9.png'></img>"
+                return "<img src='http://i.imgur.com/SfHfed9.png' alt=':demonicduck:'></img>"
             else:
                 try:
                     hexcode="%x"%nodes.utf16_ord(node.content.decode("utf-8"))
@@ -204,7 +204,7 @@ def html_out(nodes,titl="",flags=()):
     if not html5:
         return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml"><head><title>'+_escape(titl,html5)+'</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head><body>'+html_out_body(nodes,flags)+"</body></html>"
     else:
-        return '<!DOCTYPE html SYSTEM "about:legacy-compat">\n<html xmlns="http://www.w3.org/1999/xhtml"><head><title>'+_escape(titl,html5)+'</title><meta charset="UTF-8" /></head><body>'+html_out_body(nodes,flags)+"</body></html>"
+        return '<!DOCTYPE html SYSTEM "about:legacy-compat">\n<html xmlns="http://www.w3.org/1999/xhtml"><head><title>'+_escape(titl,html5)+'</title><meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1" /><meta charset="UTF-8" /></head><body>'+html_out_body(nodes,flags)+"</body></html>"
 
 __mdplay_renderer__="html_out"
 __mdplay_snippet_renderer__="html_out_body"

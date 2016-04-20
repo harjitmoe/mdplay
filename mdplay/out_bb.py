@@ -204,7 +204,7 @@ def _bb_out(node,in_list,flags):
         if node.completed: return ""
         if ("notwemoji" not in flags) and (not force_shortcode):
             if node.content.decode("utf-8") == u"\U000FDECD":
-                return "[img]http://i.imgur.com/SfHfed9.png[/img]"
+                return '[img alt=":demonicduck:"]http://i.imgur.com/SfHfed9.png[/img]'
             else:
                 try:
                     hexcode="%x"%nodes.utf16_ord(node.content.decode("utf-8"))

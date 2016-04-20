@@ -1,5 +1,5 @@
-rem set PYTHON=..\python.exe
-set PYTHON=Z:\mnt\c\Python27\python.exe
+set PYTHON=..\python.exe
+rem set PYTHON=Z:\mnt\c\Python27\python.exe
 
 %PYTHON% pymdplay.py -o out.txt -f bbcode test.md
 %PYTHON% pymdplay.py -o out_noemo.txt -f bbcode -W nouseemoji,asciimotes test.md

@@ -64,7 +64,13 @@ def _parse_inline(content,levs=("root",),flags=()):
     out2=[]
     lev=levs[0]
     do_fuse=None
+    dfstate=0
     while content:
+        if dfstate==1:
+            dfstate=2
+        elif dfstate==2:
+            do_fuse=None
+            dfstate=0
         c=content.pop(0)
         isurl=re.match(uriregex,c+("".join(content))) #NOT urireg
         ### BibTeX diacritics
@@ -278,14 +284,20 @@ def _parse_inline(content,levs=("root",),flags=()):
             elif kwontent.startswith("eusa_"):
                 kwontent=kwontent[5:]
             elif kwontent.startswith("dan_"):
-                kwontent=kwontent[4:]
-            emoji=_eacd[kwontent.decode("utf-8")]
-            if emoji in SMILEYS:
-                emote=SMILEYS[emoji]
-            else:
-                emote=":"+kwontenti+":"
-            if kwontent in _eacd:
-                out.append(nodes.EmojiNode(emoji.encode("utf-8"), (emote, kwontenti), "shortcode"))
+                kwontent=kwontent[4:] 
+            if kwontent in _eacd: 
+                emoji=_eacd[kwontent.decode("utf-8")]
+                if emoji in SMILEYS:
+                    emote=SMILEYS[emoji]
+                else:
+                    emote=":"+kwontenti+":"
+                nodo=nodes.EmojiNode(emoji.encode("utf-8"), (emote, kwontenti), "shortcode")
+                out.append(nodo)
+                if do_fuse!=None and ((do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2):
+                    do_fuse.fuse=nodo
+                    do_fuse=None
+                do_fuse=nodo
+                dfstate=1
             else:
                 out.append(":"+kwontenti+":")
         elif is_emotic(c+("".join(content))) and ("noasciiemoticon" not in flags):
@@ -296,24 +308,34 @@ def _parse_inline(content,levs=("root",),flags=()):
             shortcode=None
             if emoji in _eacdr:
                 shortcode=_eacdr[emoji]
-            out.append(nodes.EmojiNode(emoji, (emote, shortcode), "ascii"))
+            nodo=nodes.EmojiNode(emoji, (emote, shortcode), "ascii")
+            out.append(nodo) 
+            if do_fuse!=None and ((do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2):
+                do_fuse.fuse=nodo
+                do_fuse=None
+            do_fuse=nodo
+            dfstate=1
         #
         elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):
             out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags))
         elif (((c.decode("utf-8"),) in TWEM2) or (c.decode("utf-8")==u"\U000FDECD")) and ("label" not in levs):
             emoji=c.decode("utf-8")
-            shortcode=_eacdr[emoji]
+            if emoji in _eacdr:
+                shortcode=_eacdr[emoji]
+            else:
+                shortcode=None
+            emote=":unnamed:"
             if emoji in SMILEYS:
                 emote=SMILEYS[emoji]
-            else:
+            elif shortcode:
                 emote=":"+shortcode+":"
             nodo=nodes.EmojiNode(c, (emote, shortcode), "verbatim")
-            out.append(nodo)
-            if do_fuse!=None:
+            out.append(nodo) 
+            if do_fuse!=None and ((do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2):
                 do_fuse.fuse=nodo
                 do_fuse=None
-            elif (c.decode("utf-8"), content[0].decode("utf-8")) in TWEM2:
-                do_fuse=nodo
+            do_fuse=nodo
+            dfstate=1
         else:
             lastchar=c
             out.append(c)

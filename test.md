@@ -352,9 +352,7 @@ This is just a paragraph.  :lenny:  [It actually is.](/spoiler) :vulcan: :dan_sh
 
 Squirt :aries: Squirt :aries: Squirt ♈ 
 
-:smile: :grinning: :D :)
-
-󽻍
+:smile: :grinning: :D :) 󽻍
 
 |Why|What|
 |:---:|:---|
@@ -370,9 +368,17 @@ Squirt :aries: Squirt :aries: Squirt ♈
 
 {\"x}=-ω^(2)x
 
-🙆🏽
+🙆 🙆🏽 🙆:tone5:
 
-![small image](http://i.imgur.com/YW5So8y.jpg =32x32)
+:aries: ![small image](http://i.imgur.com/YW5So8y.jpg =32x32)
 ![small image](http://i.imgur.com/YW5So8y.jpg =32x)
+
+:vulcan::tone5: :vulcan:&zwnj;:tone5:  
+:vulcan::tone2: :vulcan:&zwnj;:tone2:  
+:vulcan:🏽 :vulcan:&zwnj;🏽
+
+:undiefined:
+
+🇯🇵 🇯&zwnj;🇵
 
 \

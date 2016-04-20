@@ -367,9 +367,7 @@ This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [It actually is.](/spoiler) ![�
 
 Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)
 
-![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) ![😃](https://twemoji.maxcdn.com/2/72x72/1f603.png =32x32) ![☺](https://twemoji.maxcdn.com/2/72x72/263a.png =32x32)
-
-![](http://i.imgur.com/SfHfed9.png)
+![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) ![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32) ![☺](https://twemoji.maxcdn.com/2/72x72/263a.png =32x32) ![:demonicduck:](http://i.imgur.com/SfHfed9.png)
 
 |Why|What|
 |:-:|:--|
@@ -385,7 +383,15 @@ m̈ëẗälë Ë
 
 ẍ=\-ω^(2)x
 
-![🙆🏽](https://twemoji.maxcdn.com/2/72x72/1f646-1f3fd.png =32x32)
+![🙆](https://twemoji.maxcdn.com/2/72x72/1f646.png =32x32) ![🙆🏽](https://twemoji.maxcdn.com/2/72x72/1f646-1f3fd.png =32x32) ![🙆🏿](https://twemoji.maxcdn.com/2/72x72/1f646-1f3ff.png =32x32)
 
-![small image](http://i.imgur.com/YW5So8y.jpg =32x32) ![small image](http://i.imgur.com/YW5So8y.jpg =32x)
+![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) ![small image](http://i.imgur.com/YW5So8y.jpg =32x32) ![small image](http://i.imgur.com/YW5So8y.jpg =32x)
+
+![🖖🏿](https://twemoji.maxcdn.com/2/72x72/1f596-1f3ff.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)  
+![🖖🏼](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fc.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏼](https://twemoji.maxcdn.com/2/72x72/1f3fc.png =32x32)  
+![🖖🏽](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fd.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏽](https://twemoji.maxcdn.com/2/72x72/1f3fd.png =32x32)
+
+:undiefined:
+
+![🇯🇵](https://twemoji.maxcdn.com/2/72x72/1f1ef-1f1f5.png =32x32) ![🇯](https://twemoji.maxcdn.com/2/72x72/1f1ef.png =32x32)‌![🇵](https://twemoji.maxcdn.com/2/72x72/1f1f5.png =32x32)
 

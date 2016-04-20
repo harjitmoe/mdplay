@@ -74,6 +74,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 if node.content.decode("utf-8") == u"\U000FDECD":
                     r=document.createElement("img")
                     r.setAttribute("src","http://i.imgur.com/SfHfed9.png")
+                    r.setAttribute("alt",":demonicduck:")
                     yield r
                 else:
                     try:
@@ -305,6 +306,10 @@ def html_out(nodem,titl="",flags=()):
         charset.setAttribute("content","text/html; charset=UTF-8")
     else:
         charset.setAttribute("charset","UTF-8")
+        xua=document.createElement("meta")
+        head.appendChild(xua)
+        xua.setAttribute("http-equiv","X-UA-Compatible")
+        xua.setAttribute("content","IE=10,chrome=1")
     #Body
     nodem=list(nodem)
     for domn in html_out_part(nodem,document,flags=flags):

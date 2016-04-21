@@ -147,9 +147,13 @@ def _html_out_body(node,in_list,flags):
             return ("<a href=%s>"%_strquote(content))+label+"</a>"
         else: #Including img
             label=label.strip()
+            attar=""
+            if "//twemoji.maxcdn.com" in content:
+                # Acceptable attribution per https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
+                attar="<!-- twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/ -->"
             if label:
-                return "<%s alt=%s src=%s />"%(ht,_strquote(_escape(label,html5)),_strquote(content))
-            return "<%s src=%s />"%(ht,_strquote(content))
+                return attar+"<%s alt=%s src=%s />"%(ht,_strquote(_escape(label,html5)),_strquote(content))
+            return attar+"<%s src=%s />"%(ht,_strquote(content))
     elif isinstance(node,nodes.NewlineNode):
         return "<br />"
     elif isinstance(node,nodes.RuleNode):

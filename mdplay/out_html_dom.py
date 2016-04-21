@@ -223,6 +223,9 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                     styl+="height:%dpx;"%node.height
                 if styl:
                     r.setAttribute("style",styl)
+                if "//twemoji.maxcdn.com" in content:
+                    # Acceptable attribution per https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
+                    yield document.createComment(" twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/ ")
                 yield r
         elif isinstance(node,nodes.NewlineNode):
             r=document.createElement("br")

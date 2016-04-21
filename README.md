@@ -5,12 +5,13 @@ converts an (extended by default) Markdown to other Web-based markup formats.
 flags can turn features and extensions off, the obvious one being the strict
 flag.  see flag_chart.md for the full list.
 
-version 5.9.4
+version 5.9.5
 
 change-log:
 
 |ver|changes|
 |---|---|
+|5.9.5|attempt source Twemoji attribution for BBCode, and add source attribution even if starting from roundtripped Markdown.|
 |5.9.4|Twitter consider attribution in HTML source adequate, so do this automatically.  also, add an express attribution to test.md.|
 |5.9.3|allow fusion of emoji flag or ethnicity sequences for emoji given by shortcodes as well as those given verbatim (as usual, use the zwnj; character (ampersand-code) to prevent fusion).  misc improvements.|
 |5.9.2|restore the Demonic Duck.|

@@ -177,6 +177,9 @@ def _bb_out(node,in_list,flags):
                 opener += '\x20width="'+str(node.width)+'"'
             if node.height:
                 opener += '\x20height="'+str(node.height)+'"'
+            if "//twemoji.maxcdn.com" in content:
+                # Acceptable attribution per https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
+                opener += '\x20title = "twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"'
             return "["+opener+"]"+content+"[/"+ht+"]"
     elif isinstance(node,nodes.NewlineNode):
         return "[br]"
@@ -214,9 +217,9 @@ def _bb_out(node,in_list,flags):
                         altcode+=node.fuse.content
                         node.fuse.completed=1
                     if "oldtwemoji" in flags:
-                        return "[img alt=%s]https://twemoji.maxcdn.com/36x36/%s.png[/img]"%(json.dumps(altcode),hexcode)
+                        return '[img alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/36x36/%s.png[/img]'%(json.dumps(altcode),hexcode)
                     else:
-                        return '[img width="32" height="32" alt=%s]https://twemoji.maxcdn.com/2/72x72/%s.png[/img]'%(json.dumps(altcode),hexcode)
+                        return '[img width="32" height="32" alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/%s.png[/img]'%(json.dumps(altcode),hexcode)
                 except ValueError: pass
         if ("nouseemoji" not in flags) and (not force_shortcode) and (node.content.decode("utf-8")!=u"\U000FDECD"):
             return node.content

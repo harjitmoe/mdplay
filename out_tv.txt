@@ -41,6 +41,13 @@ I can use ''italic'', '''bold''', @@[=monospace=]@@, '''bold'''.  I can [[http:/
 @@[=useless="""=]@@
 @@[=~~~~~~~=]@@
 @@[="""=]@@
+@@[=#Of note, this is where GitHub's own parser goes wrong.=]@@
+@@[=#A seven-tilde sequence should embed in an eight-tilde fence.=]@@
+@@[=#This is still in the code-block.=]@@
+@@[=#Repeating to humour GitHub:=]@@
+@@[=useless="""=]@@
+@@[=~~~~~~~=]@@
+@@[="""=]@@
 @@[==]@@
 @@[=def handle_line(line):=]@@
 @@[=    atitl,ltitl=line["Title"].split(": ",1)=]@@

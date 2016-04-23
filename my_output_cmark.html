@@ -17,6 +17,13 @@ curatitl=&quot;&quot;
 useless=&quot;&quot;&quot;
 ~~~~~~~
 &quot;&quot;&quot;
+#Of note, this is where GitHub's own parser goes wrong.
+#A seven-tilde sequence should embed in an eight-tilde fence.
+#This is still in the code-block.
+#Repeating to humour GitHub:
+useless=&quot;&quot;&quot;
+~~~~~~~
+&quot;&quot;&quot;
 
 def handle_line(line):
     atitl,ltitl=line[&quot;Title&quot;].split(&quot;: &quot;,1)

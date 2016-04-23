@@ -1,11 +1,14 @@
 # MDPlay by Thomas Hori #
 
-converts an (extended by default) Markdown to other Web-based markup formats.
+a command-line Markdown suite targeting web destinations such as forums or wikis, as well as HTML.  with support for emoji, including Twemoji integration.
 
-flags can turn features and extensions off, the obvious one being the strict
-flag.  see flag_chart.md for the full list.
+if you have any improvements (such as extensions or adding any yet-unimplemented standard markdown), feel free.  HTML tag pass-through is deliberately not done, though (it isn't practical for multi-targeting unless they are actually parsed, and i'm writing a Markdown parser, not an HTML parser).
 
-version 5.9.5
+flags can turn features and extensions off and configure exporters, the obvious one being the "strict" flag.  see flag_chart.md for the full list.
+
+(this readme and changelog, barring the licence, is written with lowercase at the beginning of sentences, except for proper nouns, and with double spacing after sentences (in the Markdown, at any rate).  this is a deliberate stylistic decision and, as this is my project, my decisions.)
+
+code version 5.9.5
 
 change-log:
 
@@ -16,7 +19,7 @@ change-log:
 |5.9.3|allow fusion of emoji flag or ethnicity sequences for emoji given by shortcodes as well as those given verbatim (as usual, use the zwnj; character (ampersand-code) to prevent fusion).  misc improvements.|
 |5.9.2|restore the Demonic Duck.|
 |5.9.1|improved twemoji support.|
-|5.9|muchly improved emoji support, including twemoji.  slightly more lenient table detection.  combining the combining diacritical marks using the unicodedata module.|
+|5.9|muchly improved emoji support, including Twemoji.  slightly more lenient table detection.  combining the combining diacritical marks using the unicodedata module.|
 |5.8.2|add support for the (rather limited) ATX-style designated code blocks.|
 |5.8.1|add support for inline markup within tables.|
 |5.8|add support for falling back to use of combining-diacritic codepoints.  round-trip table alignments properly.|
@@ -25,7 +28,7 @@ change-log:
 |5.7.1:|improve handling of hypothetical non-sensible Reddit-Github fusion syntaxes.  better form the Github-targeting Readme.|
 |5.7:|fix error in Reddit-style table parser, and extend it to handle Github-style tables.|
 |5.6:|repair Windows support.  HTML output can now target new 910 forum.  disable broken JSON debug-output target.|
-|5.5:|emoji, degdegs, native bbcode ols compatible with 910CMX, Reddit-style spoilers, |
+|5.5:|emoji, degdegs, native BBCode ols compatible with 910CMX, Reddit-style spoilers, |
 |5.4:|fixed mistake causing altogether wrong behaviour of nosetexthead flag.  convert the readme and flag chart to be mdplay input themselves.  make double-spaces in input pass through to the HTML output.  fix bug splitting list items into two paragraphs between the second and third markdown line.|
 |5.3:|fix some glitches with escaping in output by means of new "agglomerate" function fusing adjacent text nodes in the mdplay tree.  make IDs given to spoiler tags by renderers which have to assign their own such IDs more deterministic, so as to facilitate diffing html output before and after changes.  re-organise flags system, ironing out some faults in the process.|
 |5.2:|fix issues with nested ol lists, including ul/ol combinations.  ordered lists are, at length, altogether supported (subject to output limitations).|
@@ -46,7 +49,7 @@ change-log:
 |4.1:|spanking new HTML export code using minidom.  no added syntax  features.  command-line interface.|
 |4.0:|added HTML output support, sorted out handling of instances where braces do not contain a BibTeX diacritic.|
 |3.9:|much better BibTeX diacritic support.|
-|3.8:|added partial BibTeX umlaut support, including code derived from the Python Documentation LaTeX-to-ReST converter (under a "BSD" licence, almost certainly the same one as Sphinx itself, hence that is what I attached to the file so as to satisfy its terms).  to my own licence for the rest of the program, added a non-misrepresentation clause.|
+|3.8:|added partial BibTeX umlaut support, including code derived from the Python Documentation LaTeX-to-ReST converter (under a "BSD" licence, almost certainly the same one as Sphinx itself, hence that is what i attached to the file so as to satisfy its terms).  to my own licence for the rest of the program, added a non-misrepresentation clause.|
 |3.7:|ReST indented code block support, fixing a nasty residual bug in the process.|
 |3.6:|fix paras disappearing etc if followed by rules without empty line.|
 |3.5:|fix ReST heading over-lines being detected/parsed as MW headings.|

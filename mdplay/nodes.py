@@ -133,7 +133,7 @@ def flatten_flags_parser(flags):
     out=[]
     for flag in flags:
         if flag=="strict":
-            out.extend(flatten_flags_parser(["norest","nospoilertag","nowikitext","noredditstyle","nopandocstyle","nospecialhrefs","nodiacritic","noemoticon","noembedspoiler","nocangjie"]))
+            out.extend(flatten_flags_parser(["norest","nospoilertag","nowikitext","noredditstyle","nopandocstyle","nospecialhrefs","nodiacritic","noemoticon","noembedspoiler","nocjk"]))
         elif flag=="norest":
             out.extend(flatten_flags_parser(["noresthead","nodicode","noresttable"]))
         elif flag=="nowikitext":
@@ -150,6 +150,8 @@ def flatten_flags_parser(flags):
             out.extend(flatten_flags_parser(["noredditstylesuper","nopandocstyle"]))
         elif flag=="noemoticon":
             out.extend(flatten_flags_parser(["noasciiemoticon","noshortcodeemoji"]))
+        elif flag=="nocjk":
+            out.extend(flatten_flags_parser(["noromkan","nocangjie"]))
         else:
             out.append(flag)
     return list(set(out))

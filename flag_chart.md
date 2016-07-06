@@ -24,7 +24,9 @@
     * noasciiemoticon
     * noshortcodeemoji
   * noembedspoiler
-  * nocangjie
+  * nocjk
+    * nocangjie
+    * noromkan
 * nouicode
 * nofcode
 * nosetexthead, which activates

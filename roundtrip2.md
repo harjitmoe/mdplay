@@ -408,7 +408,7 @@ Testing a URN: [x\-wikipedia:Tree](x-wikipedia:Tree)
 
 x̄ and ȳ
 
-日本語
+日本語 (にほんご)
 
 日日日曰曰曰
 
@@ -417,3 +417,5 @@ x̄ and ȳ
 円㓀㓀丹丹
 
 円
+
+これわ なん ですか?

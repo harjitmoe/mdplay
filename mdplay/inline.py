@@ -9,6 +9,7 @@ from mdplay.pickups_util import SMILEYS
 from mdplay.utfsupport import unichr4all
 from mdplay.twem2support import TWEM2
 from mdplay.cangjie import proc_cang
+from mdplay.romkan import to_hiragana, to_katakana
 
 #Note that :D may come out as several things depending on
 #Python's arbitrary dict ordering; not sure what is best
@@ -245,6 +246,10 @@ def _parse_inline(content,levs=("root",),flags=()):
                 out.append(proc_cang(href, 3))
             elif (hreftype.lower() == "cang5") and ("nocangjie" not in flags):
                 out.append(proc_cang(href, 5))
+            elif (hreftype.lower() in ("kana","kkana")) and ("noromkan" not in flags):
+                out.append(to_katakana(href))
+            elif (hreftype.lower() in ("hkana","hgana")) and ("noromkan" not in flags):
+                out.append(to_hiragana(href))
             else:
                 out.append(nodes.HrefNode(href,label,hreftype,width=gogo(width),height=gogo(height)))
         elif c=="]" and lev=="label":

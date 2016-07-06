@@ -347,3 +347,17 @@ m̈ëẗälë Ë
 :undiefined: 
 
 [img width="32" height="32" alt="\ud83c\uddef\ud83c\uddf5" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f1ef-1f1f5.png[/img] [img width="32" height="32" alt="\ud83c\uddef" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f1ef.png[/img]‌[img width="32" height="32" alt="\ud83c\uddf5" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f1f5.png[/img] 
+
+Testing a URN: [url="x-wikipedia:Tree"]x-wikipedia:Tree[/url] 
+
+x̄ and ȳ 
+
+日本語 
+
+日日日曰曰曰 
+
+<blm>丹丹円円 
+
+円㓀㓀丹丹 
+
+円 

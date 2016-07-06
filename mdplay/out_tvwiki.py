@@ -46,6 +46,8 @@ def _tvwiki_out_body(node,flags=()):
         return "'''"+tvwiki_out_body(node.content)+"'''"
     elif isinstance(node,nodes.ItalicNode):
         return "''"+tvwiki_out_body(node.content)+"''"
+    elif isinstance(node,nodes.BadassEchoNode):
+        return "((([[https://www.youtube.com/watch?v=SQoA_wjmE9w "+mwiki_out_body(node.content,flags=flags)+"]])))"
     elif isinstance(node,nodes.SuperNode):
         return "[[superscript:"+tvwiki_out_body(node.content)+"]]"
     elif isinstance(node,nodes.SubscrNode):

@@ -390,4 +390,18 @@ Squirt :aries: Squirt :aries: Squirt ♈
 
 🇯🇵 🇯&zwnj;🇵
 
+Testing a URN: x-wikipedia:Tree
+
+{\=x} and {\=y}
+
+!cang[](a-dm yrmmr)
+
+!cang[](a a1 a01 az a2 a02)
+
+!cang3[](blm by by1 byz by2)
+
+!cang5[](blm by by1 byz by2)
+
+!cang5[](blm65535)
+
 \

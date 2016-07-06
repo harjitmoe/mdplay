@@ -23,6 +23,8 @@
   * noemoticon
     * noasciiemoticon
     * noshortcodeemoji
+  * noembedspoiler
+  * nocangjie
 * nouicode
 * nofcode
 * nosetexthead, which activates

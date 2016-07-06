@@ -98,6 +98,8 @@ def _html_out_body(node,in_list,flags):
         return "<pre>"+"".join(node.content)+"</pre>"
     elif isinstance(node,nodes.CodeSpanNode):
         return "<code>"+html_out_body(node.content,flags=flags)+"</code>"
+    elif isinstance(node,nodes.BadassEchoNode):
+        return "(((<a href='https://www.youtube.com/watch?v=SQoA_wjmE9w'>"+html_out_body(node.content,flags=flags)+"</a>)))"
     elif isinstance(node,nodes.UlliNode):
         r=""
         if (node.depth+1)>len(in_list):

@@ -8,6 +8,7 @@ from mdplay.eac import eac
 from mdplay.pickups_util import SMILEYS
 from mdplay.utfsupport import unichr4all
 from mdplay.twem2support import TWEM2
+from mdplay.cangjie import proc_cang
 
 #Note that :D may come out as several things depending on
 #Python's arbitrary dict ordering; not sure what is best
@@ -238,6 +239,12 @@ def _parse_inline(content,levs=("root",),flags=()):
                 width, height = size.split("x")
             if (href == "/spoiler") and (hreftype == "url") and ("noredditspoiler" not in flags):
                 out.append(nodes.InlineSpoilerNode(label))
+            elif (hreftype.lower() == "spoiler") and ("noembedspoiler" not in flags):
+                out.append(nodes.InlineSpoilerNode(label))
+            elif (hreftype.lower() in ("cang","cang3")) and ("nocangjie" not in flags):
+                out.append(proc_cang(href, 3))
+            elif (hreftype.lower() == "cang5") and ("nocangjie" not in flags):
+                out.append(proc_cang(href, 5))
             else:
                 out.append(nodes.HrefNode(href,label,hreftype,width=gogo(width),height=gogo(height)))
         elif c=="]" and lev=="label":
@@ -271,6 +278,12 @@ def _parse_inline(content,levs=("root",),flags=()):
         elif c=="~" and content[0]==")" and lev=="sub" and ("nopandocstyle" not in flags):
             del content[0]
             return out
+        ### Badass echoes ###
+        #elif c=="^" and content[:2]=="((" and (lev!="wikilink" or out2) and ("nobadass" not in flags):
+        #    del content[0]
+        #    out.append(nodes.BadassEchoNode(_parse_inline(content,("badass",)+levs,flags=flags)))
+        #elif c==")" and content[:2]=="))" and lev=="badass" and ("nobadass" not in flags):
+        #    return out
         ### Emoticons and Emoji ###
         elif re.match(r":(\w|_|-)+:",c+("".join(content))) and ("noshortcodeemoji" not in flags):
             kwontenti=""

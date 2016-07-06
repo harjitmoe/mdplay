@@ -33,6 +33,8 @@ def _mwiki_out_body(node,flags=()):
         return "'''"+mwiki_out_body(node.content)+"'''"
     elif isinstance(node,nodes.ItalicNode):
         return "''"+mwiki_out_body(node.content)+"''"
+    elif isinstance(node,nodes.BadassEchoNode):
+        return "((([https://www.youtube.com/watch?v=SQoA_wjmE9w "+mwiki_out_body(node.content,flags=flags)+"])))"
     elif isinstance(node,nodes.SuperNode):
         return "<sup>"+mwiki_out_body(node.content)+"</sup>"
     elif isinstance(node,nodes.SubscrNode):

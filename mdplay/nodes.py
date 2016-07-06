@@ -1,3 +1,5 @@
+#Increasingly a misnomer.
+
 class Node(object):
     pass
 
@@ -61,6 +63,9 @@ class UlliNode(LiNode):
     pass
 
 class OlliNode(LiNode):
+    pass
+
+class BadassEchoNode(InlineNode):
     pass
 
 class CodeSpanNode(InlineNode):
@@ -128,7 +133,7 @@ def flatten_flags_parser(flags):
     out=[]
     for flag in flags:
         if flag=="strict":
-            out.extend(flatten_flags_parser(["norest","nospoilertag","nowikitext","noredditstyle","nopandocstyle","nospecialhrefs","nodiacritic","noemoticon"]))
+            out.extend(flatten_flags_parser(["norest","nospoilertag","nowikitext","noredditstyle","nopandocstyle","nospecialhrefs","nodiacritic","noemoticon","noembedspoiler","nocangjie"]))
         elif flag=="norest":
             out.extend(flatten_flags_parser(["noresthead","nodicode","noresttable"]))
         elif flag=="nowikitext":

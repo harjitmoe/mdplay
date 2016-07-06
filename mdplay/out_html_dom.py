@@ -171,6 +171,12 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
+        elif isinstance(node,nodes.BadassEchoNode):
+            r=document.createElement("i")
+            r.setAttribute("href","https://www.youtube.com/watch?v=SQoA_wjmE9w")
+            for domn in html_out_part(node.content,document,flags=flags):
+                r.appendChild(domn)
+            yield r
         elif isinstance(node,nodes.SuperNode):
             r=document.createElement("sup")
             for domn in html_out_part(node.content,document,flags=flags):

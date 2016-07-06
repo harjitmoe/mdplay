@@ -3,7 +3,7 @@ import sys, getopt
 import mdplay
 
 def help():
-    sys.stderr.write("\nUsage: pymdplay -f ["+("|".join(mdplay.writers.keys()))+"] [-o out_file] [-t title] [-P parserflag,parserflag...] [-W writerflag,writerflag...] [-5] in_file\n\n")
+    sys.stderr.write("\nUsage: pymdplay -f ["+("|".join(mdplay.writers.keys()))+"] [-o out_file] [-t title] [-P parserflag,parserflag...] [-W writerflag,writerflag...] [-5] [-s] in_file\n\n")
     sys.stderr.write("""\
 You put %s.
 
@@ -20,12 +20,12 @@ shared by other implementations.
 
 Parser flag notable isn't "notable", it's "no table".
 
-Writer flag html5 enables HTML5 output.  -5 is a shorthand.
+Writer flag html5 enables HTML5 output.  -5 (five) is a shorthand.
 """%sys.argv)
     sys.exit()
 
 try:
-    opts,args=getopt.gnu_getopt(sys.argv[1:],"5f:o:h?P:W:")
+    opts,args=getopt.gnu_getopt(sys.argv[1:],"5f:o:h?P:W:s")
 except getopt.GetoptError:
     help()
 
@@ -36,6 +36,7 @@ output="-"
 titl=args[0] #default title is input filename
 flags=[]
 oflags=[]
+nostart=0
 
 for opt,val in opts:
     if opt in ("-h","-?"):
@@ -52,8 +53,12 @@ for opt,val in opts:
         titl=val
     elif opt=="-5":
         oflags.append("html5")
+    elif opt=="-s":
+        nostart=1
     else:
         help()
+
+sys.stderr.write("\nMDPlay by Thomas Hori (use -s (lowercase S) to suppress this message)\n")
 
 f=open(args[0],"rU")
 try:

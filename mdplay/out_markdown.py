@@ -48,6 +48,8 @@ def _md_out_body(node,flags=()):
             return "**"+md_out_body(node.content,flags)+"**"
         else:
             return "\ __"+md_out_body(node.content,flags)+"__\ "
+    elif isinstance(node,nodes.BadassEchoNode):
+        return "(((["+md_out_body(node.content,flags=flags)+"](https://www.youtube.com/watch?v=SQoA_wjmE9w""))))"
     elif isinstance(node,nodes.ItalicNode):
         if node.emphatic or ("nobackslashspace" in flags) or ("noemphunderscore" in flags):
             return "*"+md_out_body(node.content,flags)+"*"

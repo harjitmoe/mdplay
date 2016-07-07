@@ -429,7 +429,13 @@ Testing a URN: [x-wikipedia:Tree x-wikipedia:Tree]
 
 x̄ and ȳ 
 
-日本語 (にほんご) 
+これわ なん ですか? 
+
+<ruby>日本語<rp> (</rp><rt>にほんご</rt><rp>) </rp></ruby> 
+
+<ruby>日本語<rp> (</rp><rt>Nihongo</rt><rp>) </rp></ruby> 
+
+<ruby>日<rp> (</rp><rt>に</rt><rp>) </rp></ruby><ruby>本<rp> (</rp><rt>ほん</rt><rp>) </rp></ruby><ruby>語<rp> (</rp><rt>ご</rt><rp>) </rp></ruby> 
 
 日日日曰曰曰 
 
@@ -440,5 +446,7 @@ x̄ and ȳ
 円 
 
 これわ なん ですか? 
+
+<ruby>Pinguinet<rp> (</rp><rt>PANG-win-ay</rt><rp>) </rp></ruby> 
 
 

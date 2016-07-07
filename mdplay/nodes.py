@@ -86,6 +86,9 @@ class SubscrNode(InlineNode):
 class HrefNode(InlineNode):
     pass
 
+class RubiNode(InlineNode):
+    pass
+
 class NewlineNode(NonContainerNode):
     pass
 
@@ -133,7 +136,7 @@ def flatten_flags_parser(flags):
     out=[]
     for flag in flags:
         if flag=="strict":
-            out.extend(flatten_flags_parser(["norest","nospoilertag","nowikitext","noredditstyle","nopandocstyle","nospecialhrefs","nodiacritic","noemoticon","noembedspoiler","nocjk"]))
+            out.extend(flatten_flags_parser(["norest","nospoilertag","nowikitext","noredditstyle","nopandocstyle","nospecialhrefs","nodiacritic","noemoticon","noembedspoiler","nocjk","norubi"]))
         elif flag=="norest":
             out.extend(flatten_flags_parser(["noresthead","nodicode","noresttable"]))
         elif flag=="nowikitext":

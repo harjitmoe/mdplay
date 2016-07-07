@@ -187,6 +187,22 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
+        elif isinstance(node,nodes.RubiNode):
+            content=node.content
+            r=document.createElement("ruby")
+            #r.setAttribute("lang","jp")
+            r.appendChild(document.createTextNode(content))
+            rp1=document.createElement("rp")
+            rp1.appendChild(document.createTextNode(" ("))
+            r.appendChild(rp1)
+            rt=document.createElement("rt")
+            for domn in html_out_part(node.label,document):
+                rt.appendChild(domn)
+            r.appendChild(rt)
+            rp2=document.createElement("rp")
+            rp2.appendChild(document.createTextNode(") "))
+            r.appendChild(rp2)
+            yield r
         elif isinstance(node,nodes.HrefNode):
             ht=node.hreftype
             content=node.content

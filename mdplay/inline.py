@@ -1,4 +1,4 @@
-﻿# -*- mode: python; coding: utf-8 -*-
+# -*- mode: python; coding: utf-8 -*-
 import re,string
 
 from mdplay import nodes, umlaut
@@ -241,15 +241,37 @@ def _parse_inline(content,levs=("root",),flags=()):
             if (href == "/spoiler") and (hreftype == "url") and ("noredditspoiler" not in flags):
                 out.append(nodes.InlineSpoilerNode(label))
             elif (hreftype.lower() == "spoiler") and ("noembedspoiler" not in flags):
-                out.append(nodes.InlineSpoilerNode(label))
+                if (not label) and (href.strip()):
+                    out.append(nodes.InlineSpoilerNode(list(href)))
+                else:
+                    out.append(nodes.InlineSpoilerNode(label))
             elif (hreftype.lower() in ("cang","cang3")) and ("nocangjie" not in flags):
-                out.append(proc_cang(href, 3))
+                kanji = proc_cang(href, 3)
+                #print `kanji`, `label`
+                if label and ("norubi" not in flags):
+                    out.append(nodes.RubiNode(kanji, label))
+                else:
+                    out.append(kanji)
             elif (hreftype.lower() == "cang5") and ("nocangjie" not in flags):
-                out.append(proc_cang(href, 5))
-            elif (hreftype.lower() in ("kana","kkana")) and ("noromkan" not in flags):
-                out.append(to_katakana(href))
-            elif (hreftype.lower() in ("hkana","hgana")) and ("noromkan" not in flags):
-                out.append(to_hiragana(href))
+                kanji = proc_cang(href, 5)
+                if label and ("norubi" not in flags):
+                    out.append(nodes.RubiNode(kanji, label))
+                else:
+                    out.append(kanji)
+            elif (hreftype.lower() in ("kana","kkana","katakana")) and ("noromkan" not in flags):
+                kana = to_katakana(href)
+                if label and ("norubi" not in flags):
+                    out.append(nodes.RubiNode(kana, label))
+                else:
+                    out.append(kana)
+            elif (hreftype.lower() in ("hkana","hgana","hiragana")) and ("noromkan" not in flags):
+                kana = to_hiragana(href)
+                if label and ("norubi" not in flags):
+                    out.append(nodes.RubiNode(kana, label))
+                else:
+                    out.append(kana)
+            elif (hreftype.lower() in ("rubi","ruby","furi")) and ("norubi" not in flags):
+                out.append(nodes.RubiNode(href, label))
             else:
                 out.append(nodes.HrefNode(href,label,hreftype,width=gogo(width),height=gogo(height)))
         elif c=="]" and lev=="label":

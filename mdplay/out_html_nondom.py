@@ -139,6 +139,10 @@ def _html_out_body(node,in_list,flags):
         return "<sup>"+html_out_body(node.content,flags=flags)+"</sup>"
     elif isinstance(node,nodes.SubscrNode):
         return "<sub>"+html_out_body(node.content,flags=flags)+"</sub>"
+    elif isinstance(node,nodes.RubiNode):
+        label=html_out_body(node.label)
+        content=node.content
+        return "<ruby>"+content.encode("utf-8")+"<rp> (</rp><rt>"+label+"</rt><rp>) </rp></ruby>" # lang='jp'
     elif isinstance(node,nodes.HrefNode):
         label=html_out_body(node.label)
         ht=node.hreftype

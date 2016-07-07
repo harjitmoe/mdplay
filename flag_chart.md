@@ -27,6 +27,7 @@
   * nocjk
     * nocangjie
     * noromkan
+  * norubi
 * nouicode
 * nofcode
 * nosetexthead, which activates

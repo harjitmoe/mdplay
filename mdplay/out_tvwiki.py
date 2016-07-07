@@ -52,6 +52,10 @@ def _tvwiki_out_body(node,flags=()):
         return "[[superscript:"+tvwiki_out_body(node.content)+"]]"
     elif isinstance(node,nodes.SubscrNode):
         return "[[subscript:"+tvwiki_out_body(node.content)+"]]"
+    elif isinstance(node,nodes.RubiNode):
+        label=tvwiki_out_body(node.label)
+        content=node.content
+        return content.encode("utf-8")+" ("+label+") "
     elif isinstance(node,nodes.HrefNode):
         label=tvwiki_out_body(node.label)
         ht=node.hreftype

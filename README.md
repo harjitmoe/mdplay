@@ -8,12 +8,13 @@ flags can turn features and extensions off and configure exporters, the obvious 
 
 (this readme and changelog, barring the licence, is written with lowercase at the beginning of sentences, except for proper nouns, and with double spacing after sentences (in the Markdown, at any rate).  this is a deliberate stylistic decision and, as this is my project, my decisions.)
 
-code version 6.0.1
+code version 6.0.2
 
 change-log:
 
 |ver|changes|
 |---|---|
+|6.0.2|bugfixing, improved rubi support.|
 |6.0.1|romkan support, potentially useful for !hkana[](Nihongo) input.|
 |6.0|experimental cangjie input support, potentially useful for !cang[](a dm yrmmr) input (sorts per priority in the source Ibus database, then per codepoint).|
 |5.9.5|attempt source Twemoji attribution for BBCode, and add source attribution even if starting from roundtripped Markdown.|

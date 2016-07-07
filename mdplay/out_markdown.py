@@ -62,6 +62,10 @@ def _md_out_body(node,flags=()):
             return "^("+md_out_body(node.content,flags).replace(")","\\)")+")"
     elif isinstance(node,nodes.SubscrNode):
         return "(~"+md_out_body(node.content,flags).replace(")","\\)")+"~)"
+    elif isinstance(node,nodes.RubiNode):
+        label=md_out_body(node.label)
+        content=node.content
+        return content.encode("utf-8")+" ("+label+") "
     elif isinstance(node,nodes.HrefNode):
         label=md_out_body(node.label,flags)
         ht=node.hreftype

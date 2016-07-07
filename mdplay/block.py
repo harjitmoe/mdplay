@@ -31,10 +31,13 @@ class TitleLevels(dict):
 def all_same(l):
     if len(l)==0:
         return False
-    elif (len(l)==1) or (l[0]==all_same(l[1:])):
+    elif len(l)==1:
         return l[0]
     else:
-        return False
+        for i in l:
+            if i!=l[0]:
+                return False
+        return l[0]
 
 def _parse_block(f,titlelevels,flags):
     within="root"

@@ -259,7 +259,7 @@ def _parse_inline(content,levs=("root",),flags=()):
                     out.append(nodes.RubiNode(kanji, label))
                 else:
                     out.append(kanji)
-            elif (hreftype.lower() == ("cang5","cangjie5","souketsu5","soketsu5")) and ("nocangjie" not in flags):
+            elif (hreftype.lower() in ("cang5","cangjie5","souketsu5","soketsu5")) and ("nocangjie" not in flags):
                 kanji = proc_cang(href, 5)
                 if label and ("norubi" not in flags):
                     out.append(nodes.RubiNode(kanji, label))

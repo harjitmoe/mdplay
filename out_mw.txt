@@ -443,11 +443,11 @@ x̄ and ȳ
 
 &lt;blm&gt;丹丹円円 
 
-blm%20by%20by1%20byz%20by2 
+円丹丹㓀㓀 
 
-blm65535 
+円 
 
-これわ なん ですか? 
+<ruby>これわ<rp> (</rp><rt>Kore wa</rt><rp>) </rp></ruby> <ruby>なん<rp> (</rp><rt>nan</rt><rp>) </rp></ruby> <ruby>ですか<rp> (</rp><rt>desu ka</rt><rp>) </rp></ruby>? 
 
 <ruby>Pinguinet<rp> (</rp><rt>PANG-win-ay</rt><rp>) </rp></ruby> 
 

@@ -429,3 +429,9 @@ x̄ and ȳ
 これわ (Kore wa)  なん (nan)  ですか (desu ka) ?
 
 Pinguinet (PANG\-win\-ay)
+
+チ チ ティ / ティ チ ティ
+
+グッチ グッチ グッチ
+
+サッポロ サッポロ

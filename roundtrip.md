@@ -422,11 +422,11 @@ x̄ and ȳ
 
 <blm>丹丹円円
 
-!cang5[](blm by by1 byz by2)
+円丹丹㓀㓀
 
-!cang5[](blm65535)
+円
 
-これわ なん ですか?
+これわ (Kore wa)  なん (nan)  ですか (desu ka) ?
 
 Pinguinet (PANG\-win\-ay)
 

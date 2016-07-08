@@ -412,7 +412,7 @@ Testing a URN: x-wikipedia:Tree
 
 !cang5[](blm65535)
 
-!hkana[](korewa nan desuka?)
+!hkana[Kore wa](korewa) !hkana[nan](nan) !hkana[desu ka](desuka)?
 
 !rubi[PANG-win-ay](Pinguinet)
 

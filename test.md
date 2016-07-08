@@ -396,13 +396,15 @@ Testing a URN: x-wikipedia:Tree
 
 !hkana[](korewa nan desuka?)
 
-!cang[!hkana[](Nihongo)](a-dm yrmmr)
+!souketsu[!hkana[](Nihongo)](a-dm yrmmr)
 
-!cang[Nihongo](a-dm yrmmr)
+!souketsu[Nihongo](a-dm yrmmr)
 
-!cang[!hkana[](Ni)](a)\ !cang[!hkana[](hon)](dm)\ !cang[!hkana[](go)](yrmmr)
+!souketsu[!hkana[](Ni)](a)\ !cang[!hkana[](hon)](dm)\ !cang[!hkana[](go)](yrmmr)
 
-!cang[](a a1 a01 az a2 a02)
+!souketsu[](a a1 a01 az a2 a02)
+
+!cang[](blm by by1 byz by2)
 
 !cang3[](blm by by1 byz by2)
 

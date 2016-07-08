@@ -245,14 +245,21 @@ def _parse_inline(content,levs=("root",),flags=()):
                     out.append(nodes.InlineSpoilerNode(list(href)))
                 else:
                     out.append(nodes.InlineSpoilerNode(label))
-            elif (hreftype.lower() in ("cang","cang3")) and ("nocangjie" not in flags):
+            elif (hreftype.lower() in ("cang","cangjie","souketsu","soketsu")) and ("nocangjie" not in flags):
+                kanji = proc_cang(href, -1)
+                #print `kanji`, `label`
+                if label and ("norubi" not in flags):
+                    out.append(nodes.RubiNode(kanji, label))
+                else:
+                    out.append(kanji)
+            elif (hreftype.lower() in ("cang3","cangjie3","souketsu3","soketsu3")) and ("nocangjie" not in flags):
                 kanji = proc_cang(href, 3)
                 #print `kanji`, `label`
                 if label and ("norubi" not in flags):
                     out.append(nodes.RubiNode(kanji, label))
                 else:
                     out.append(kanji)
-            elif (hreftype.lower() == "cang5") and ("nocangjie" not in flags):
+            elif (hreftype.lower() == ("cang5","cangjie5","souketsu5","soketsu5")) and ("nocangjie" not in flags):
                 kanji = proc_cang(href, 5)
                 if label and ("norubi" not in flags):
                     out.append(nodes.RubiNode(kanji, label))

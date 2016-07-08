@@ -9,7 +9,7 @@ from mdplay.pickups_util import SMILEYS
 from mdplay.utfsupport import unichr4all
 from mdplay.twem2support import TWEM2
 from mdplay.cangjie import proc_cang
-from mdplay.romkan import to_hiragana, to_katakana
+from mdplay.romkan import to_hiragana, to_katakana, HEPBURN
 
 #Note that :D may come out as several things depending on
 #Python's arbitrary dict ordering; not sure what is best
@@ -204,7 +204,7 @@ def _parse_inline(content,levs=("root",),flags=()):
         elif c=="'" and content[0]=="'" and lev=="italicmw" and ("nowikiemph" not in flags):
             del content[0]
             return out
-        ### HREFs (links and embeds) ###
+        ### HREFs (links and embeds, plus CJK extensions) ###
         elif re.match(hrefre,c+("".join(content))) and (lev!="wikilink" or out2):
             #(re.match, not re.search, i.e. looks only at start of string)
             hreftype=""
@@ -273,6 +273,18 @@ def _parse_inline(content,levs=("root",),flags=()):
                     out.append(kana)
             elif (hreftype.lower() in ("hkana","hgana","hiragana")) and ("noromkan" not in flags):
                 kana = to_hiragana(href)
+                if label and ("norubi" not in flags):
+                    out.append(nodes.RubiNode(kana, label))
+                else:
+                    out.append(kana)
+            elif (hreftype.lower() in ("kana_hbn","kkana_hbn","katakana_hepburn")) and ("noromkan" not in flags):
+                kana = to_katakana(href, HEPBURN)
+                if label and ("norubi" not in flags):
+                    out.append(nodes.RubiNode(kana, label))
+                else:
+                    out.append(kana)
+            elif (hreftype.lower() in ("hkana_hbn","hgana_hbn","hiragana_hepburn")) and ("noromkan" not in flags):
+                kana = to_hiragana(href, HEPBURN)
                 if label and ("norubi" not in flags):
                     out.append(nodes.RubiNode(kana, label))
                 else:

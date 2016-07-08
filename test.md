@@ -416,4 +416,11 @@ Testing a URN: x-wikipedia:Tree
 
 !rubi[PANG-win-ay](Pinguinet)
 
+!kana[](ti chi texi) /
+!kana_hbn[](ti chi texi)
+
+!kana[](gucchi) !kana[](gutchi) !kana[](gucchi)
+
+!kana[](Sapporo) !kana[](Satporo)
+
 \

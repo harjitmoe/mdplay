@@ -8,12 +8,13 @@ flags can turn features and extensions off and configure exporters, the obvious 
 
 (this readme and changelog, barring the licence, is written with lowercase at the beginning of sentences, except for proper nouns, and with double spacing after sentences (in the Markdown, at any rate).  this is a deliberate stylistic decision and, as this is my project, my decisions.)
 
-code version 6.0.2
+code version 6.0.3
 
 change-log:
 
 |ver|changes|
 |---|---|
+|6.0.3|adjustments to Sôketsu (Cangjie) support (the v5 DB prioritised punctuation but not Kanji, so use the v3 list for that - this naturally drops the priority of codes which changed.....), also, make the unversioned syntax accept both versions.)|
 |6.0.2|bugfixing, improved rubi support.|
 |6.0.1|romkan support, potentially useful for !hkana[](Nihongo) input.|
 |6.0|experimental cangjie input support, potentially useful for !cang[](a dm yrmmr) input (sorts per priority in the source Ibus database, then per codepoint).|

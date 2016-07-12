@@ -89,7 +89,7 @@ products or services of Licensee, or any third party.
 agrees to be bound by the terms and conditions of this License
 Agreement."""
 
-import re
+import re, unicodedata
 try:
     from functools import cmp_to_key
 except ImportError:
@@ -131,16 +131,96 @@ except ImportError:
 # You can redistribute it and/or modify it under the terms of 
 # the Ruby's licence.
 #
+# The above notice applies to the original library.  For
+# subsequent modifications, see romkan/LICENSE file.
+#
 
-# Original said: "This table is imported from KAKASI <http://kakasi.namazu.org/>
-# and modified."
-# Table in this MDPlay alteration has been processed to the extent that no content
-# remains other than the romanisation rules themselves, which are of course in 
-# any case prior art.
+class Firenze(list):
+    def push(self, id, elem):
+        """Push front if not id, back otherwise."""
+        if id: return self.append(elem)
+        return self.insert(0,elem)
 
-KATATAB=[('ッチ', ('tti', 'cchi')), ('ッチ', ('tti', 'tchi')), ('ヨ', ('yo', 'yo')), ('ル', ('ru', 'ru')), ('ォ', ('xo', 'xo')), ('ニャ', ('nya', 'nya')), ('ニュ', ('nyu', 'nyu')), ('ミョ', ('myo', 'myo')), ('ッリ', ('rri', 'rri')), ('ッリャ', ('rrya', 'rrya')), ('シ', ('si', 'shi')), ('ボ', ('bo', 'bo')), ('ヒョ', ('hyo', 'hyo')), ('オ', ('o', 'o')), ('ヴァ', ('va', 'va')), ('ック', ('kku', 'kku')), ('ジ', ('zi', 'ji')), ('ッコ', ('kko', 'kko')), ('ッチャ', ('ttya', 'ccha')), ('チャ', ('tya', 'cha')), ('ウ', ('u', 'u')), ('ヤ', ('ya', 'ya')), ('デ', ('de', 'de')), ('ッセ', ('sse', 'sse')), ('ッレ', ('rre', 'rre')), ('ッギャ', ('ggya', 'ggya')), ('ッジョ', ('zzyo', 'jjo')), ('ー', ('-', '-')), ('ヅ', ('du', 'du')), ('ド', ('do', 'do')), ('ヘ', ('he', 'he')), ('ッソ', ('sso', 'sso')), ('ミュ', ('myu', 'myu')), ('ッヂャ', ('ddya', 'ddya')), ('ヰ', ('wi', 'wi')), ('ョ', ('xyo', 'xyo')), ('ャ', ('xya', 'xya')), ('ジョ', ('zyo', 'jo')), ('ェ', ('xe', 'xe')), ('ベ', ('be', 'be')), ('ヒャ', ('hya', 'hya')), ('チョ', ('tyo', 'cho')), ('カ', ('ka', 'ka')), ('ショ', ('syo', 'sho')), ('ハ', ('ha', 'ha')), ('シュ', ('syu', 'shu')), ('ッヨ', ('yyo', 'yyo')), ('メ', ('me', 'me')), ('ッファ', ('ffa', 'ffa')), ('チェ', ('tye', 'che')), ('キョ', ('kyo', 'kyo')), ('ピュ', ('pyu', 'pyu')), ('ッホ', ('hho', 'hho')), ('ッタ', ('tta', 'tta')), ('チュ', ('tyu', 'chu')), ('ッビ', ('bbi', 'bbi')), ('ッピ', ('ppi', 'ppi')), ('ラ', ('ra', 'ra')), ('ヴ', ('vu', 'vu')), ('ポ', ('po', 'po')), ('ップ', ('ppu', 'ppu')), ('ヮ', ('xwa', 'xwa')), ('ウォ', ('wo', 'wo')), ('ミャ', ('mya', 'mya')), ('フ', ('hu', 'fu')), ('ホ', ('ho', 'ho')), ('ッザ', ('zza', 'zza')), ('ア', ('a', 'a')), ('ッゴ', ('ggo', 'ggo')), ('ム', ('mu', 'mu')), ('ァ', ('xa', 'xa')), ('ッヒャ', ('hhya', 'hhya')), ('ッヴ', ('vvu', 'vvu')), ('ッフェ', ('ffe', 'ffe')), ('エ', ('e', 'e')), ('ッダ', ('dda', 'dda')), ('ゴ', ('go', 'go')), ('ビョ', ('byo', 'byo')), ('チ', ('ti', 'chi')), ('ギャ', ('gya', 'gya')), ('ッロ', ('rro', 'rro')), ('ギョ', ('gyo', 'gyo')), ('シャ', ('sya', 'sha')), ('リュ', ('ryu', 'ryu')), ('ッキャ', ('kkya', 'kkya')), ('キュ', ('kyu', 'kyu')), ('ッペ', ('ppe', 'ppe')), ('キャ', ('kya', 'kya')), ('ッポ', ('ppo', 'ppo')), ('ッドゥ', ('ddu', 'ddu')), ('ッチュ', ('ttyu', 'cchu')), ('ッヒ', ('hhi', 'hhi')), ('ッジャ', ('zzya', 'jja')), ('ヒュ', ('hyu', 'hyu')), ('ワ', ('wa', 'wa')), ('サ', ('sa', 'sa')), ('ッチェ', ('ttye', 'cche')), ('ヲ', ('wo', 'wo')), ('ッフィ', ('ffi', 'ffi')), ('シェ', ('sye', 'she')), ('ウィ', ('wi', 'wi')), ('フォ', ('fo', 'fo')), ('ッビョ', ('bbyo', 'bbyo')), ('ッキョ', ('kkyo', 'kkyo')), ('ッベ', ('bbe', 'bbe')), ('ロ', ('ro', 'ro')), ('ッキ', ('kki', 'kki')), ('ッチョ', ('ttyo', 'ccho')), ('ティ', ('ti', 'ti')), ('バ', ('ba', 'ba')), ('リ', ('ri', 'ri')), ('ッズ', ('zzu', 'zzu')), ('ギ', ('gi', 'gi')), ('パ', ('pa', 'pa')), ('ヴィ', ('vi', 'vi')), ('ッパ', ('ppa', 'ppa')), ('ッゲ', ('gge', 'gge')), ('タ', ('ta', 'ta')), ('ヴォ', ('vo', 'vo')), ('ッヂ', ('ddi', 'ddi')), ('ッヅ', ('ddu', 'ddu')), ('ッキュ', ('kkyu', 'kkyu')), ('ッヂョ', ('ddyo', 'ddyo')), ('フュ', ('fu', 'fu')), ('ッシ', ('ssi', 'sshi')), ('ガ', ('ga', 'ga')), ('ッヴァ', ('vva', 'vva')), ('ビャ', ('bya', 'bya')), ('ニ', ('ni', 'ni')), ('ッバ', ('bba', 'bba')), ('ッピュ', ('ppyu', 'ppyu')), ('ッジ', ('zzi', 'jji')), ('ッゾ', ('zzo', 'zzo')), ('ュ', ('xyu', 'xyu')), ('ザ', ('za', 'za')), ('ッティ', ('tti', 'tti')), ('キ', ('ki', 'ki')), ('ッデ', ('dde', 'dde')), ('ヂュ', ('dyu', 'dyu')), ('ッヴォ', ('vvo', 'vvo')), ('ィ', ('xi', 'xi')), ('ッル', ('rru', 'rru')), ('コ', ('ko', 'ko')), ('ッユ', ('yyu', 'yyu')), ('レ', ('re', 're')), ('ッヴェ', ('vve', 'vve')), ('ヂャ', ('dya', 'dya')), ('ッゼ', ('zze', 'zze')), ('ゼ', ('ze', 'ze')), ('ドゥ', ('du', 'du')), ('グ', ('gu', 'gu')), ('ッリョ', ('rryo', 'rryo')), ('ユ', ('yu', 'yu')), ('ッヘ', ('hhe', 'hhe')), ('ン', ("n'", "n'")), ('ン', ('n', "n")), ('ッピョ', ('ppyo', 'ppyo')), ('ッシュ', ('ssyu', 'sshu')), ('フェ', ('fe', 'fe')), ('ツ', ('tu', 'tsu')), ('ファ', ('fa', 'fa')), ('ヂ', ('di', 'di')), ('ッショ', ('ssyo', 'ssho')), ('ッケ', ('kke', 'kke')), ('ビ', ('bi', 'bi')), ('ソ', ('so', 'so')), ('ッヴィ', ('vvi', 'vvi')), ('ッヒュ', ('hhyu', 'hhyu')), ('ピョ', ('pyo', 'pyo')), ('ヱ', ('we', 'we')), ('ッフォ', ('ffo', 'ffo')), ('ビュ', ('byu', 'byu')), ('ッガ', ('gga', 'gga')), ('ト', ('to', 'to')), ('ッビュ', ('bbyu', 'bbyu')), ('ッヒョ', ('hhyo', 'hhyo')), ('プ', ('pu', 'pu')), ('ッツ', ('ttu', 'ttsu')), ('ク', ('ku', 'ku')), ('ゾ', ('zo', 'zo')), ('ゥ', ('xu', 'xu')), ('ピャ', ('pya', 'pya')), ('ッジュ', ('zzyu', 'jju')), ('ッカ', ('kka', 'kka')), ('ペ', ('pe', 'pe')), ('ミ', ('mi', 'mi')), ('イ', ('i', 'i')), ('ッヂュ', ('ddyu', 'ddyu')), ('ゲ', ('ge', 'ge')), ('ッブ', ('bbu', 'bbu')), ('ピ', ('pi', 'pi')), ('ジャ', ('zya', 'ja')), ('ケ', ('ke', 'ke')), ('ッボ', ('bbo', 'bbo')), ('ギュ', ('gyu', 'gyu')), ('ッド', ('ddo', 'ddo')), ('ズ', ('zu', 'zu')), ('ッテ', ('tte', 'tte')), ('ッス', ('ssu', 'ssu')), ('モ', ('mo', 'mo')), ('ダ', ('da', 'da')), ('ジュ', ('zyu', 'ju')), ('ッフュ', ('ffu', 'ffu')), ('ウェ', ('we', 'we')), ('フィ', ('fi', 'fi')), ('ノ', ('no', 'no')), ('ッグ', ('ggu', 'ggu')), ('ッギョ', ('ggyo', 'ggyo')), ('ッハ', ('hha', 'hha')), ('ブ', ('bu', 'bu')), ('ッリュ', ('rryu', 'rryu')), ('リョ', ('ryo', 'ryo')), ('ッシェ', ('ssye', 'sshe')), ('ジェ', ('zye', 'je')), ('マ', ('ma', 'ma')), ('ナ', ('na', 'na')), ('ッビャ', ('bbya', 'bbya')), ('ヴェ', ('ve', 've')), ('ス', ('su', 'su')), ('ッ', ('xtu', 'xtsu')), ('ット', ('tto', 'tto')), ('ッギ', ('ggi', 'ggi')), ('ヌ', ('nu', 'nu')), ('セ', ('se', 'se')), ('ヒ', ('hi', 'hi')), ('ディ', ('dyi', 'di')), ('ッラ', ('rra', 'rra')), ('ッピャ', ('ppya', 'ppya')), ('ッギュ', ('ggyu', 'ggyu')), ('ニョ', ('nyo', 'nyo')), ('ネ', ('ne', 'ne')), ('ヂョ', ('dyo', 'dyo')), ('ッシャ', ('ssya', 'ssha')), ('ッヤ', ('yya', 'yya')), ('テ', ('te', 'te')), ('リャ', ('rya', 'rya')), ('ッサ', ('ssa', 'ssa')), ('ッフ', ('hhu', 'ffu'))]
+KATATAB=Firenze([('ㇰ',('xku','xku')), ('ㇱ',('xsi','xshi')), ('ㇲ',('xsu','xsu')), ('ㇳ',('xto','xto')), ('ㇴ',('xnu','xnu')), ('ㇵ',('xha','xha')), ('ㇶ',('xhi','xhi')), ('ㇷ',('xfu','xfu')), ('ㇸ',('xhe','xhe')), ('ㇹ',('xho','xho')), ('ㇺ',('xmu','xmu')), ('ㇻ',('xra','xra')), ('ㇼ',('xri','xri')), ('ㇽ',('xru','xru')), ('ㇾ',('xre','xre')), ('ㇿ',('xro','xro')), ('ヨ', ('yo', 'yo')), ('ル', ('ru', 'ru')), ('ォ', ('xo', 'xo')), ('シ', ('si', 'shi')), ('ボ', ('bo', 'bo')), ('オ', ('o', 'o')), ('ジ', ('zi', 'ji')), ('ウ', ('u', 'u')), ('ヤ', ('ya', 'ya')), ('デ', ('de', 'de')), ('ー', ('-', '-')), ('ヅ', ('du', 'dzu')), ('ド', ('do', 'do')), ('ヘ', ('he', 'he')), ('ヰ', ('wi', 'wi')), ('ョ', ('xyo', 'xyo')), ('ャ', ('xya', 'xya')), ('ェ', ('xe', 'xe')), ('ベ', ('be', 'be')), ('カ', ('ka', 'ka')), ('ハ', ('ha', 'ha')), ('メ', ('me', 'me')), ('ラ', ('ra', 'ra')), ('ヷ', ('va', 'va')), ('ヸ', ('vi', 'vi')), ('ヴ', ('vu', 'vu')), ('ヹ', ('ve', 've')), ('ヺ', ('vo', 'vo')), ('ポ', ('po', 'po')), ('ヮ', ('xwa', 'xwa')), ('フ', ('hu', 'fu')), ('ホ', ('ho', 'ho')), ('ア', ('a', 'a')), ('ム', ('mu', 'mu')), ('ァ', ('xa', 'xa')), ('エ', ('e', 'e')), ('ゴ', ('go', 'go')), ('チ', ('ti', 'chi')), ('ワ', ('wa', 'wa')), ('サ', ('sa', 'sa')), ('ヲ', ('wo', 'wo')), ('ロ', ('ro', 'ro')), ('バ', ('ba', 'ba')), ('リ', ('ri', 'ri')), ('ギ', ('gi', 'gi')), ('パ', ('pa', 'pa')), ('タ', ('ta', 'ta')), ('ガ', ('ga', 'ga')), ('ニ', ('ni', 'ni')), ('ュ', ('xyu', 'xyu')), ('ザ', ('za', 'za')), ('キ', ('ki', 'ki')), ('ィ', ('xi', 'xi')), ('コ', ('ko', 'ko')), ('レ', ('re', 're')), ('ゼ', ('ze', 'ze')), ('グ', ('gu', 'gu')), ('ユ', ('yu', 'yu')), ('ン', ("n'", "m'")), ('ン', ('n', 'm')), ('ン', ("n'", "n'")), ('ン', ('n', 'n')), ('ツ', ('tu', 'tsu')), ('ヂ', ('di', 'dji')), ('ビ', ('bi', 'bi')), ('ソ', ('so', 'so')), ('ヱ', ('we', 'we')), ('ト', ('to', 'to')), ('プ', ('pu', 'pu')), ('ク', ('ku', 'ku')), ('ゾ', ('zo', 'zo')), ('ゥ', ('xu', 'xu')), ('ペ', ('pe', 'pe')), ('ミ', ('mi', 'mi')), ('イ', ('i', 'i')), ('ゲ', ('ge', 'ge')), ('ピ', ('pi', 'pi')), ('ケ', ('ke', 'ke')), ('ズ', ('zu', 'zu')), ('モ', ('mo', 'mo')), ('ダ', ('da', 'da')), ('ノ', ('no', 'no')), ('ブ', ('bu', 'bu')), ('マ', ('ma', 'ma')), ('ナ', ('na', 'na')), ('ス', ('su', 'su')), ('ッ', ('t', 't')), ('ッ', ('xtu', 'xtsu')), ('ヌ', ('nu', 'nu')), ('セ', ('se', 'se')), ('ヒ', ('hi', 'hi')), ('ネ', ('ne', 'ne')), ('テ', ('te', 'te'))])
 
-HIRATAB = [('っほ', ('hho', 'hho')), ('ゆ', ('yu', 'yu')), ('っぢゅ', ('ddyu', 'ddyu')), ('っく', ('kku', 'kku')), ('ぃ', ('xi', 'xi')), ('う', ('u', 'u')), ('っしゃ', ('ssya', 'ssha')), ('ゎ', ('xwa', 'xwa')), ('っひゅ', ('hhyu', 'hhyu')), ('あ', ('a', 'a')), ('っびゅ', ('bbyu', 'bbyu')), ('っさ', ('ssa', 'ssa')), ('っきょ', ('kkyo', 'kkyo')), ('っりょ', ('rryo', 'rryo')), ('っぐ', ('ggu', 'ggu')), ('っゆ', ('yyu', 'yyu')), ('れ', ('re', 're')), ('せ', ('se', 'se')), ('ふぃ', ('fi', 'fi')), ('う゛ぃ', ('vi', 'vi')), ('っふぉ', ('ffo', 'ffo')), ('っしゅ', ('ssyu', 'sshu')), ('っふぁ', ('ffa', 'ffa')), ('っそ', ('sso', 'sso')), ('じゃ', ('zya', 'ja')), ('ー', ('-', '-')), ('っだ', ('dda', 'dda')), ('ま', ('ma', 'ma')), ('っひゃ', ('hhya', 'hhya')), ('っづ', ('ddu', 'ddu')), ('ょ', ('xyo', 'xyo')), ('っべ', ('bbe', 'bbe')), ('ろ', ('ro', 'ro')), ('ふぉ', ('fo', 'fo')), ('よ', ('yo', 'yo')), ('い', ('i', 'i')), ('っう゛ぃ', ('vvi', 'vvi')), ('じゅ', ('zyu', 'ju')), ('ぎ', ('gi', 'gi')), ('っ', ('xtu', 'xtsu')), ('け', ('ke', 'ke')), ('げ', ('ge', 'ge')), ('う゛ぇ', ('ve', 've')), ('び', ('bi', 'bi')), ('ず', ('zu', 'zu')), ('ば', ('ba', 'ba')), ('ちぇ', ('tye', 'che')), ('っが', ('gga', 'gga')), ('り', ('ri', 'ri')), ('う゛ぁ', ('va', 'va')), ('ちゅ', ('tyu', 'chu')), ('ぴょ', ('pyo', 'pyo')), ('っぜ', ('zze', 'zze')), ('ひゃ', ('hya', 'hya')), ('っせ', ('sse', 'sse')), ('っふぃ', ('ffi', 'ffi')), ('ご', ('go', 'go')), ('て', ('te', 'te')), ('う゛', ('vu', 'vu')), ('じ', ('zi', 'ji')), ('っつ', ('ttu', 'ttsu')), ('か', ('ka', 'ka')), ('と', ('to', 'to')), ('ちょ', ('tyo', 'cho')), ('そ', ('so', 'so')), ('っけ', ('kke', 'kke')), ('ぶ', ('bu', 'bu')), ('へ', ('he', 'he')), ('み', ('mi', 'mi')), ('っし', ('ssi', 'sshi')), ('みゃ', ('mya', 'mya')), ('みょ', ('myo', 'myo')), ('っひ', ('hhi', 'hhi')), ('っりゃ', ('rrya', 'rrya')), ('ん', ("n'", "n'")), ('ん', ('n', "n")), ('ぜ', ('ze', 'ze')), ('ぺ', ('pe', 'pe')), ('っず', ('zzu', 'zzu')), ('や', ('ya', 'ya')), ('っう゛ぁ', ('vva', 'vva')), ('でぃ', ('dyi', 'dyi')), ('ふぇ', ('fe', 'fe')), ('っぢょ', ('ddyo', 'ddyo')), ('にゅ', ('nyu', 'nyu')), ('ぇ', ('xe', 'xe')), ('ぱ', ('pa', 'pa')), ('ぎゅ', ('gyu', 'gyu')), ('みゅ', ('myu', 'myu')), ('ち', ('ti', 'chi')), ('しゃ', ('sya', 'sha')), ('って', ('tte', 'tte')), ('こ', ('ko', 'ko')), ('っび', ('bbi', 'bbi')), ('っきゅ', ('kkyu', 'kkyu')), ('ふぁ', ('fa', 'fa')), ('っれ', ('rre', 'rre')), ('じぇ', ('zye', 'je')), ('っぺ', ('ppe', 'ppe')), ('っげ', ('gge', 'gge')), ('お', ('o', 'o')), ('っじょ', ('zzyo', 'jjo')), ('ど', ('do', 'do')), ('た', ('ta', 'ta')), ('りゃ', ('rya', 'rya')), ('っぴ', ('ppi', 'ppi')), ('だ', ('da', 'da')), ('ひょ', ('hyo', 'hyo')), ('っふ', ('hhu', 'ffu')), ('っじゃ', ('zzya', 'jja')), ('にゃ', ('nya', 'nya')), ('が', ('ga', 'ga')), ('で', ('de', 'de')), ('め', ('me', 'me')), ('っぢ', ('ddi', 'ddi')), ('は', ('ha', 'ha')), ('ふ', ('hu', 'fu')), ('っう゛ぉ', ('vvo', 'vvo')), ('ざ', ('za', 'za')), ('す', ('su', 'su')), ('の', ('no', 'no')), ('っす', ('ssu', 'ssu')), ('っきゃ', ('kkya', 'kkya')), ('っご', ('ggo', 'ggo')), ('ね', ('ne', 'ne')), ('っや', ('yya', 'yya')), ('っと', ('tto', 'tto')), ('ぁ', ('xa', 'xa')), ('っじゅ', ('zzyu', 'jju')), ('さ', ('sa', 'sa')), ('ぷ', ('pu', 'pu')), ('しゅ', ('syu', 'shu')), ('ゃ', ('xya', 'xya')), ('っり', ('rri', 'rri')), ('っぎ', ('ggi', 'ggi')), ('っろ', ('rro', 'rro')), ('っびゃ', ('bbya', 'bbya')), ('びゅ', ('byu', 'byu')), ('ちゃ', ('tya', 'cha')), ('ぬ', ('nu', 'nu')), ('りゅ', ('ryu', 'ryu')), ('っぎゅ', ('ggyu', 'ggyu')), ('きょ', ('kyo', 'kyo')), ('っぽ', ('ppo', 'ppo')), ('ぢゃ', ('dya', 'dya')), ('ぉ', ('xo', 'xo')), ('ぎゃ', ('gya', 'gya')), ('きゅ', ('kyu', 'kyu')), ('りょ', ('ryo', 'ryo')), ('しょ', ('syo', 'sho')), ('っぎゃ', ('ggya', 'ggya')), ('った', ('tta', 'tta')), ('ぎょ', ('gyo', 'gyo')), ('っふぇ', ('ffe', 'ffe')), ('っぎょ', ('ggyo', 'ggyo')), ('っしょ', ('ssyo', 'ssho')), ('っば', ('bba', 'bba')), ('っで', ('dde', 'dde')), ('っぼ', ('bbo', 'bbo')), ('し', ('si', 'shi')), ('ぢょ', ('dyo', 'dyo')), ('っぱ', ('ppa', 'ppa')), ('ほ', ('ho', 'ho')), ('っちぇ', ('ttye', 'cche')), ('ぐ', ('gu', 'gu')), ('っら', ('rra', 'rra')), ('じょ', ('zyo', 'jo')), ('べ', ('be', 'be')), ('ぞ', ('zo', 'zo')), ('づ', ('du', 'du')), ('な', ('na', 'na')), ('っぞ', ('zzo', 'zzo')), ('ぢゅ', ('dyu', 'dyu')), ('も', ('mo', 'mo')), ('っへ', ('hhe', 'hhe')), ('っぴゅ', ('ppyu', 'ppyu')), ('ゐ', ('wi', 'wi')), ('っりゅ', ('rryu', 'rryu')), ('る', ('ru', 'ru')), ('ぽ', ('po', 'po')), ('ぼ', ('bo', 'bo')), ('っど', ('ddo', 'ddo')), ('を', ('wo', 'wo')), ('っびょ', ('bbyo', 'bbyo')), ('ゑ', ('we', 'we')), ('っぴゃ', ('ppya', 'ppya')), ('ぴゃ', ('pya', 'pya')), ('っち', ('tti', 'cchi')), ('っぷ', ('ppu', 'ppu')), ('っちゅ', ('ttyu', 'cchu')), ('く', ('ku', 'ku')), ('っぢゃ', ('ddya', 'ddya')), ('にょ', ('nyo', 'nyo')), ('に', ('ni', 'ni')), ('ぴ', ('pi', 'pi')), ('つ', ('tu', 'tsu')), ('っちょ', ('ttyo', 'ccho')), ('ひゅ', ('hyu', 'hyu')), ('っぴょ', ('ppyo', 'ppyo')), ('っざ', ('zza', 'zza')), ('ら', ('ra', 'ra')), ('き', ('ki', 'ki')), ('わ', ('wa', 'wa')), ('っひょ', ('hhyo', 'hhyo')), ('ぢ', ('di', 'di')), ('ゅ', ('xyu', 'xyu')), ('っは', ('hha', 'hha')), ('っじ', ('zzi', 'jji')), ('っう゛ぇ', ('vve', 'vve')), ('っよ', ('yyo', 'yyo')), ('ぴゅ', ('pyu', 'pyu')), ('っき', ('kki', 'kki')), ('っう゛', ('vvu', 'vvu')), ('びょ', ('byo', 'byo')), ('っちゃ', ('ttya', 'ccha')), ('ぅ', ('xu', 'xu')), ('ひ', ('hi', 'hi')), ('びゃ', ('bya', 'bya')), ('っこ', ('kko', 'kko')), ('う゛ぉ', ('vo', 'vo')), ('っる', ('rru', 'rru')), ('きゃ', ('kya', 'kya')), ('え', ('e', 'e')), ('っか', ('kka', 'kka')), ('む', ('mu', 'mu')), ('っぶ', ('bbu', 'bbu'))]
+TOHIRA = {'ィ': 'ぃ', 'ク': 'く', 'ヒ': 'ひ', 'ェ': 'ぇ', 'ブ': 'ぶ', 'ゾ': 'ぞ', 'ヮ': 'ゎ', 'ヲ': 'を', 'バ': 'ば', 'ォ': 'ぉ', 'ミ': 'み', 'ヅ': 'づ', 'ズ': 'ず', 'ヨ': 'よ', 'ダ': 'だ', 'ョ': 'ょ', 'ラ': 'ら', 'ュ': 'ゅ', 'ー': 'ー', 'ゲ': 'げ', 'プ': 'ぷ', 'ス': 'す', 'ド': 'ど', 'ヰ': 'ゐ', 'ヌ': 'ぬ', 'ジ': 'じ', 'ザ': 'ざ', 'セ': 'せ', 'コ': 'こ', 'ツ': 'つ', 'ネ': 'ね', 'テ': 'て', 'マ': 'ま', 'ワ': 'わ', 'ノ': 'の', 'チ': 'ち', 'シ': 'し', 'グ': 'ぐ', 'デ': 'で', 'エ': 'え', 'ロ': 'ろ', 'パ': 'ぱ', 'フ': 'ふ', 'ボ': 'ぼ', 'オ': 'お', 'ウ': 'う', 'ホ': 'ほ', 'ヱ': 'ゑ', 'ペ': 'ぺ', 'サ': 'さ', 'モ': 'も', 'タ': 'た', 'ハ': 'は', 'ッ': 'っ', 'ビ': 'び', 'ソ': 'そ', 'ヴ': 'う゛', 'ヂ': 'ぢ', 'ゼ': 'ぜ', 'ヘ': 'へ', 'ピ': 'ぴ', 'ゥ': 'ぅ', 'ム': 'む', 'ト': 'と', 'ル': 'る', 'カ': 'か', 'ユ': 'ゆ', 'ゴ': 'ご', 'ア': 'あ', 'キ': 'き', 'ガ': 'が', 'リ': 'り', 'ベ': 'べ', 'ァ': 'ぁ', 'ギ': 'ぎ', 'レ': 'れ', 'ン': 'ん', 'メ': 'め', 'ナ': 'な', 'ヤ': 'や', 'ポ': 'ぽ', 'イ': 'い', 'ケ': 'け', 'ャ': 'ゃ', 'ニ': 'に'}
+
+for ka,(ku,he) in KATATAB[:]:
+    if (len(ku) == 2) and ((ku[-1] == "i") or (ku in ("vu","hu"))):
+	apriori = 0
+        if ku == he:
+            hepstem = he[:-1]+"y"
+            if ku[0] == "h":
+                apriori = 1
+        elif ku[-1] != "i":
+            hepstem = he[:-1]+"y"
+        else:
+            hepstem = he[:-1]
+        KATATAB.push(apriori,(ka+"ャ",(ku[:-1]+"ya",hepstem+"a")))
+        KATATAB.push(apriori,(ka+"ュ",(ku[:-1]+"yu",hepstem+"u")))
+        KATATAB.push(apriori,(ka+"ェ",(ku[:-1]+"ye",hepstem+"e")))
+        KATATAB.push(apriori,(ka+"ョ",(ku[:-1]+"yo",hepstem+"o")))
+    if (len(ku)==2) and (ku in ("su","zu","te","de","to","do","ho")):
+        if ku[1]=="u":
+            KATATAB.push(0,(ka+"ィ",(ku[:-1]+"yi",ku[:-1]+"i")))
+            KATATAB.push(0,(ka+"ィ",(ku[:-1]+"i", ku[:-1]+"i")))
+        elif ku[1]=="e":
+            KATATAB.push(0,(ka+"ャ",(ku[:-1]+"ya", ku[:-1]+"ya")))
+            KATATAB.push(0,(ka+"ィ",(ku[:-1]+"i", ku[:-1]+"i")))
+            KATATAB.push(0,(ka+"ュ",(ku[:-1]+"yu", ku[:-1]+"yu")))
+            KATATAB.push(0,(ka+"ョ",(ku[:-1]+"yo", ku[:-1]+"yo")))
+            KATATAB.push(0,(ka+"ャ",(ku[:-1]+"ha", ku[:-1]+"ya")))
+            KATATAB.push(0,(ka+"ィ",(ku[:-1]+"hi", ku[:-1]+"i")))
+            KATATAB.push(0,(ka+"ュ",(ku[:-1]+"hu", ku[:-1]+"yu")))
+            KATATAB.push(0,(ka+"ョ",(ku[:-1]+"ho", ku[:-1]+"yo")))
+        elif ku[1]=="o":
+            KATATAB.push(0,(ka+"ゥ",(ku[:-1]+"u", ku[:-1]+"u")))
+    #NOT elif
+    if (len(ku)==2) and (ku[-1] == "u"):
+        KATATAB.push(0,(ka+"ヮ",(ku[:-1]+"wa",he[:-1]+"wa")))
+        KATATAB.push(0,(ka+"ァ",(ku[:-1]+"wa",he[:-1]+"wa")))
+        KATATAB.push(0,(ka+"ィ",(ku[:-1]+"wi",he[:-1]+"wi")))
+        KATATAB.push(0,(ka+"ゥ",(ku[:-1]+"wu",he[:-1]+"wu")))
+        KATATAB.push(0,(ka+"ェ",(ku[:-1]+"we",he[:-1]+"we")))
+        KATATAB.push(0,(ka+"ォ",(ku[:-1]+"wo",he[:-1]+"wo")))
+    if ku == "u":
+        KATATAB.push(1,(ka+"ィ",("wi","wi")))
+        KATATAB.push(0,(ka+"ゥ",("wu","wu")))
+        KATATAB.push(1,(ka+"ェ",("we","we")))
+        KATATAB.push(0,(ka+"ォ",("wo","wo")))
+    if ku in ("hu","vu"):
+	apriori = (ku[0]=="v")
+        KATATAB.push(apriori,(ka+"ァ",(ku[:-1]+"a",he[:-1]+"a")))
+        KATATAB.push(apriori,(ka+"ィ",(ku[:-1]+"i",he[:-1]+"i")))
+        KATATAB.push(apriori,(ka+"ェ",(ku[:-1]+"e",he[:-1]+"e")))
+        KATATAB.push(apriori,(ka+"ォ",(ku[:-1]+"o",he[:-1]+"o")))
+    if ku == "i":
+        KATATAB.push(0,(ka+"ィ",("yi","yi")))
+        KATATAB.push(0,(ka+"ェ",("ye","ye")))
+#Must be seperate to and after the previous:
+for ka,(ku,he) in KATATAB[:]:
+    if ku[0] not in "xaiueo":
+        #Including cch as is commonly used...
+        KATATAB.push(1,("ッ"+ka,(ku[0]+ku,he[0]+he)))
+        if ku[0]!=he[0]: #Strict Hepburn is tch, not cch
+            if ku[0]=="t":
+                KATATAB.push(1,("ッ"+ka,(ku[0]+ku,ku[0]+he)))
+
+def _to_hira(kata):
+    """For internal use only."""
+    o = ""
+    for i in kata:
+        if i not in TOHIRA:
+            return None
+        o += TOHIRA[i]
+    return o
+
+HIRATAB=Firenze()
+
+for ka,ro in KATATAB[:]:
+    hka = _to_hira(ka)
+    if hka != None:
+        HIRATAB.push(1,(hka,ro))
 
 KUNREITAB = [(a, b) for (a, (b, c)) in KATATAB]
 HEPBURNTAB = [(a, c) for (a, (b, c)) in KATATAB]
@@ -157,7 +237,7 @@ ROMKAN = {}
 ROMKAN_HBN = {}
 ROMKAN_KNR = {}
 
-for kana, roma in KUNREITAB + HEPBURNTAB:
+for kana, roma in HEPBURNTAB+KUNREITAB:
     KANROM[kana] = roma
     ROMKAN[roma] = kana
 for kana, roma in HEPBURNTAB:
@@ -169,17 +249,6 @@ for kana, roma in KUNREITAB:
 KANROM['ン']="n'"
 KANROM_HBN['ン']="n'"
 KANROM_KNR['ン']="n'"
-
-# special modification
-# wo -> ヲ, but ヲ/ウォ -> wo
-# du -> ヅ, but ヅ/ドゥ -> du
-# we -> ウェ, ウェ -> we
-ROMKAN.update( {"du": "ヅ", "di": "ヂ", "fu": "フ", "ti": "チ",
-                "wi": "ウィ", "we": "ウェ", "wo": "ヲ", "t": 'ッ' } )
-ROMKAN_HBN.update( {"du": "ヅ", "di": "ヂ", "fu": "フ", 
-                "wi": "ウィ", "we": "ウェ", "wo": "ヲ" } )
-ROMKAN_KNR.update( {"du": "ヅ", "di": "ヂ", "ti": "チ",
-                "wi": "ウィ", "we": "ウェ", "wo": "ヲ" } )
 
 # Sort in long order so that a longer Romaji sequence precedes.
 
@@ -200,16 +269,6 @@ HEPBURN_SEQS = [y for (x, y) in HEPBURNTAB]
 KUNPAT = re.compile("|".join(sorted(KUNREI_SEQS, key=_len_cmp)) )
 HEPPAT = re.compile("|".join(sorted(HEPBURN_SEQS, key=_len_cmp)) )
 
-TO_HEPBURN = {}
-TO_KUNREI = {}
-
-for kun, hep in zip(KUNREI_SEQS, HEPBURN_SEQS):
-    TO_HEPBURN[kun] = hep
-    TO_KUNREI[hep] = kun
-
-TO_HEPBURN.update( {'ti': 'chi' })
-
-
 
 # Use Hiragana
 
@@ -220,7 +279,7 @@ ROMKAN_H_HBN = {}
 KANROM_H_KNR = {}
 ROMKAN_H_KNR = {}
 
-for pair in KUNREITAB_H + HEPBURNTAB_H:
+for pair in HEPBURNTAB_H+KUNREITAB_H:
     kana, roma = pair
     KANROM_H[kana] = roma
     ROMKAN_H[roma] = kana
@@ -234,17 +293,6 @@ KANROM_H['ん']="n'"
 KANROM_H_HBN['ん']="n'"
 KANROM_H_KNR['ん']="n'"
 
-# special modification
-# wo -> ヲ, but ヲ/ウォ -> wo
-# du -> ヅ, but ヅ/ドゥ -> du
-# we -> ウェ, ウェ -> we
-ROMKAN_H.update( {"du": "づ", "di": "ぢ", "fu": "ふ", "ti": "ち",
-                "wi": "うぃ", "we": "うぇ", "wo": "を", "t": 'っ' } )
-ROMKAN_H_HBN.update( {"du": "づ", "di": "ぢ", "fu": "ふ",
-                "wi": "うぃ", "we": "うぇ", "wo": "を" } )
-ROMKAN_H_KNR.update( {"du": "づ", "di": "ぢ", "ti": "ち",
-                "wi": "うぃ", "we": "うぇ", "wo": "を" } )
-
 # Sort in long order so that a longer Romaji sequence precedes.
 
 ROMPAT_H = re.compile("|".join(sorted(ROMKAN_H.keys(), key=_len_cmp)) )
@@ -253,23 +301,13 @@ ROMPAT_H_KNR = re.compile("|".join(sorted(ROMKAN_H_KNR.keys(), key=_len_cmp)) )
 
 KANPAT_H = re.compile("|".join(sorted(KANROM_H.keys(), key=cmp_to_key(_kanpat_cmp(KANROM_H)))))
 KANPAT_H_HBN = re.compile("|".join(sorted(KANROM_H_HBN.keys(), key=cmp_to_key(_kanpat_cmp(KANROM_H_HBN)))))
-KANPAT_H_KRE = re.compile("|".join(sorted(KANROM_H_HBN.keys(), key=cmp_to_key(_kanpat_cmp(KANROM_H_HBN)))))
+KANPAT_H_KNR = re.compile("|".join(sorted(KANROM_H_KNR.keys(), key=cmp_to_key(_kanpat_cmp(KANROM_H_KNR)))))
 
 KUNREI_H = [y for (x, y) in KUNREITAB_H]
 HEPBURN_H = [y for (x, y) in HEPBURNTAB_H]
 
 KUNPAT_H = re.compile("|".join(sorted(KUNREI_H, key=_len_cmp)) )
 HEPPAT_H = re.compile("|".join(sorted(HEPBURN_H, key=_len_cmp)) )
-
-TO_HEPBURN_H = {}
-TO_KUNREI_H = {}
-
-for kun, hep in zip(KUNREI_H, HEPBURN_H):
-    TO_HEPBURN_H[kun] = hep
-    TO_KUNREI_H[hep] = kun
-
-TO_HEPBURN_H.update( {'ti': 'chi' })
-
 
 
 def normalize_double_n(str):
@@ -290,7 +328,7 @@ WAPURO = "wapuro"
 
 def to_katakana(str, scheme=WAPURO):
     """
-    Convert a Romaji (ローマ字) to a Katakana (片仮名).
+    Convert a Romaji string to Katakana.
     """
     
     str = str.lower()
@@ -308,7 +346,7 @@ def to_katakana(str, scheme=WAPURO):
 
 def to_hiragana(str, scheme=WAPURO):
     """
-    Convert a Romaji (ローマ字) to a Hiragana (平仮名).
+    Convert a Romaji string to Hiragana.
     """
     
     str = str.lower()
@@ -328,15 +366,15 @@ to_kana = to_katakana
 
 def to_hepburn(str):
     """
-    Convert a Kana (仮名) or a Kunrei-shiki Romaji (訓令式ローマ字) to a Hepburn Romaji (ヘボン式ローマ字).
+    Convert a Kana string or Kunrei-style Romaji string to roughly Hepburn-style Romaji.
     """
     tmp = str
     tmp = tmp.lower()
     tmp = normalize_double_n(tmp)
-    tmp = KUNPAT.sub(lambda x: TO_HEPBURN[x.group(0)], tmp)
+    tmp = unicodedata.normalize("NFC", to_kana(tmp, KUNREI))
     
-    tmp = KANPAT_HBN.sub(lambda x: KANROM[x.group(0)], tmp)
-    tmp = KANPAT_H_HBN.sub(lambda x: KANROM_H[x.group(0)], tmp)
+    tmp = KANPAT_HBN.sub(lambda x: KANROM_HBN[x.group(0)], tmp)
+    tmp = KANPAT_H_HBN.sub(lambda x: KANROM_H_HBN[x.group(0)], tmp)
     
     # Remove unnecessary apostrophes
     tmp = re.sub("n'(?=[^aeiuoyn]|$)", "n", tmp)
@@ -345,15 +383,15 @@ def to_hepburn(str):
 
 def to_kunrei(str):
     """
-    Convert a Kana (仮名) or a Hepburn Romaji (ヘボン式ローマ字) to a Kunrei-shiki Romaji (訓令式ローマ字).
+    Convert a Kana string or Hepburn-style Romaji string to roughly Kunrei-style Romaji.
     """
     tmp = str
     tmp = tmp.lower()
     tmp = normalize_double_n(tmp)
-    tmp = HEPPAT.sub(lambda x: TO_KUNREI[x.group(0)], tmp)
-    
-    tmp = KANPAT_KNR.sub(lambda x: KANROM[x.group(0)], tmp)
-    tmp = KANPAT_H_KNR.sub(lambda x: KANROM_H[x.group(0)], tmp)
+    tmp = unicodedata.normalize("NFC", to_kana(tmp, HEPBURN))
+
+    tmp = KANPAT_KNR.sub(lambda x: KANROM_KNR[x.group(0)], tmp)
+    tmp = KANPAT_H_KNR.sub(lambda x: KANROM_H_KNR[x.group(0)], tmp)
     
     # Remove unnecessary apostrophes
     tmp = re.sub("n'(?=[^aeiuoyn]|$)", "n", tmp)
@@ -362,12 +400,12 @@ def to_kunrei(str):
 
 def to_roma(str):
     """
-    Convert a Kana (仮名) to a Hepburn Romaji (ヘボン式ローマ字).
+    Convert a Kana string to (roughly Hepburn-style) Romaji.
     """
     
-    tmp = str
-    tmp = KANPAT.sub(lambda x: KANROM[x.group(0)], tmp)
-    tmp = KANPAT_H.sub(lambda x: KANROM_H[x.group(0)], tmp)
+    tmp = unicodedata.normalize("NFC", str)
+    tmp = KANPAT_HBN.sub(lambda x: KANROM_HBN[x.group(0)], tmp)
+    tmp = KANPAT_H_HBN.sub(lambda x: KANROM_H_HBN[x.group(0)], tmp)
     
     # Remove unnecessary apostrophes
     tmp = re.sub("n'(?=[^aeiuoyn]|$)", "n", tmp)

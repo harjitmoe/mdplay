@@ -53,7 +53,7 @@ def _parse_inline(content,levs=("root",),flags=()):
     # mutable, "passed by reference" as it were
     lastchar=" "
     if ("noverifyurl" not in flags):
-        urireg="("+uriregex+"|/spoiler)"
+        urireg="("+uriregex+"|/spoiler|[#]s)"
     else:
         urireg=".*"
     if ("nospecialhrefs" not in flags):
@@ -238,7 +238,7 @@ def _parse_inline(content,levs=("root",),flags=()):
             if (hreftype=="img") and (" =" in href):
                 href, size = href.split(" =",1)
                 width, height = size.split("x")
-            if (href == "/spoiler") and (hreftype == "url") and ("noredditspoiler" not in flags):
+            if (href in ("/spoiler","#s")) and (hreftype == "url") and ("noredditspoiler" not in flags):
                 out.append(nodes.InlineSpoilerNode(label))
             elif (hreftype.lower() == "spoiler") and ("noembedspoiler" not in flags):
                 if (not label) and (href.strip()):

@@ -8,12 +8,13 @@ flags can turn features and extensions off and configure exporters, the obvious 
 
 (this readme and changelog, barring the licence, is written with lowercase at the beginning of sentences, except for proper nouns, and with double spacing after sentences (in the Markdown, at any rate).  this is a deliberate stylistic decision and, as this is my project, my decisions.)
 
-code version 6.0.6
+code version 6.0.7
 
 change-log:
 
 |ver|changes|
 |---|---|
+|6.0.7|severely rework romkan backend, add an alternate Reddit-spoiler syntax.|
 |6.0.6|some romaji-kana improvements, including a Hepburn-only option (this branches off from the romkan package).|
 |6.0.5|more Sôketsu adjustments (completely disregard frequency "data" from v5 table)|
 |6.0.4|fix a late mistake in 6.0.3|

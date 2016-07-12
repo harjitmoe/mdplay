@@ -5,6 +5,9 @@ from __future__ import unicode_literals
 from .version import __version__
 
 __copying__ = """
+The original Python Romkan (which this is modified or derived from) is 
+subject to the following:
+
 Copyright (c) 2012, 2013 Mort Yao <mort.yao@gmail.com>
 Copyright (c) 2010 Masato Hagiwara <hagisan@gmail.com>
 Copyright (c) 2001 Satoru Takabayashi <satoru@namazu.org>
@@ -34,11 +37,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ---
 
-MDPlay alterations are under the same terms as MDPlay itself.
+MDPlay alterations by Thomas Hori are under the same terms as MDPlay itself.
 
 --- 
 
-cmp_to_key is Written by Nick Coghlan <ncoghlan at gmail.com>,
+cmp_to_key is from a module Written by Nick Coghlan <ncoghlan at gmail.com>,
 Raymond Hettinger <python at rcn.com>, and Łukasz Langa <lukasz at langa.pl>.
 Copyright (C) 2006-2013 Python Software Foundation.
 

@@ -1,0 +1,1 @@
+This is an agglomeration of relevant info.  With the exceptions of this readme, demduckpoint.txt and degdeg.txt, I did not create these files.

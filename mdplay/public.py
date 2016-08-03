@@ -10,7 +10,7 @@ class MdplayError(ValueError):pass
 class NoSuchRendererError(MdplayError):pass
 class NoSnippetRendererError(MdplayError):pass
 
-writers={"bbcode":"out_bb","html":"out_html_dom","htmlalt":"out_html_nondom","mwiki":"out_mwiki","md":"out_markdown","tvwiki":"out_tvwiki"}
+writers={"bbcode":"out_bb","html":"out_html_dom","htmlalt":"out_html_nondom","mwiki":"out_mwiki","md":"out_markdown","tvwiki":"out_tvwiki","enamel":"out_enamel"}
 
 def _load_renderer(modname):
     renderer_module=getattr(__import__("mdplay."+modname),modname)

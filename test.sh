@@ -14,6 +14,7 @@ python pymdplay.py -o out_alt.html -f htmlalt test.md
 python pymdplay.py -o out_mw.txt -f mwiki test.md
 python pymdplay.py -o out_tv.txt -f tvwiki test.md
 #python pymdplay.py -o json.txt -f json test.md
+python pymdplay.py -o out.nml -f enamel test.md
 python pymdplay.py -o roundtrip.md -f md test.md
 python pymdplay.py -o roundtrip2.md -f md roundtrip.md
 python pymdplay.py -o roundtrip.html -f html roundtrip2.md

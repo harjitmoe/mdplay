@@ -1,3 +1,5 @@
+"""This file part of MDPlay, not subject to COPYING.tables"""
+
 from mdplay.cangjie.tables import cang03, cang05
 
 class Agogo(dict):

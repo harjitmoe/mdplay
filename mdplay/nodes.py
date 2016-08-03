@@ -172,3 +172,11 @@ def utf16_ord(s):
         if s: raise ValueError
         return ord(c)
 
+def simul_replace(a, b, c, d, e):
+    r = []
+    for f in a.split(b):
+        r.append(f.replace(d, e))
+    return c.join(r)
+
+
+

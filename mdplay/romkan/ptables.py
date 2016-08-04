@@ -61,11 +61,20 @@ def gen_tabs():
                 KATATAB.push(0,(ka+"ゥ",(kku[:-1]+"hu",hhe[:-1]+"hu")))
                 KATATAB.push(0,(ka+"ェ",(kku[:-1]+"he",hhe[:-1]+"he")))
                 KATATAB.push(0,(ka+"ォ",(kku[:-1]+"ho",hhe[:-1]+"ho")))
+                KATATAB.push(0,(ka+"ャ",(kku[:-1]+"ya",hhe[:-1]+"ya")))
+                if kku[0]!="w":
+                    KATATAB.push(0,(ka+"ィ",(kku[:-1]+"yi",hhe[:-1]+"yi")))
+                KATATAB.push(0,(ka+"ュ",(kku[:-1]+"yu",hhe[:-1]+"yu")))
+                if kku[0]!="w":
+                    KATATAB.push(0,(ka+"ェ",(kku[:-1]+"ye",hhe[:-1]+"ye")))
+                KATATAB.push(0,(ka+"ョ",(kku[:-1]+"yo",hhe[:-1]+"yo")))
         if ku == "u":
             KATATAB.push(1,(ka+"ィ",("wi","wi")))
-            KATATAB.push(0,(ka+"ゥ",("wu","wu")))
+            KATATAB.push(1,(ka+"ゥ",("wu","wu"))) # wo is after u in tables.py
             KATATAB.push(1,(ka+"ェ",("we","we")))
             KATATAB.push(0,(ka+"ォ",("wo","wo")))
+        if ku == "wo":
+            KATATAB.push(1,(ka+"ゥ",("wu","wu")))
         if he in ("fu","vu"):
             apriori = (ku[0]=="v")
             if apriori:
@@ -82,6 +91,9 @@ def gen_tabs():
                 KATATAB.push(apriori,(ka+"ェ",(ku[:-1]+"he",he[:-1]+"e")))
                 KATATAB.push(apriori,(ka+"ォ",(ku[:-1]+"ho",he[:-1]+"o")))
         if ku == "i":
+            KATATAB.push(1,(ka+"ィ",("yi","yi")))
+            KATATAB.push(1,(ka+"ェ",("ye","ye")))
+        if ku == "yu":
             KATATAB.push(0,(ka+"ィ",("yi","yi")))
             KATATAB.push(0,(ka+"ェ",("ye","ye")))
     #Must be seperate to and after the previous:

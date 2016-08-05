@@ -26,6 +26,8 @@ def gen_tabs():
                 hepstem = he[:-1]
             KATATAB.push(apriori,(ka+"ャ",(ku[:-1]+"ya",hepstem+"a")))
             KATATAB.push(apriori,(ka+"ュ",(ku[:-1]+"yu",hepstem+"u")))
+            if ku=="hu":
+                KATATAB.push(apriori,(ka+"ュ",(ku[:-1]+"wyu",hepstem+"yu")))
             if ku not in ("wu", "vu"):
                 KATATAB.push(apriori,(ka+"ェ",(ku[:-1]+"ye",hepstem+"e")))
             KATATAB.push(apriori,(ka+"ョ",(ku[:-1]+"yo",hepstem+"o")))
@@ -35,11 +37,13 @@ def gen_tabs():
                 if ku not in ("wu", "vu"):
                     KATATAB.push(2,(ka+"ェ",(ku[:-1]+"ye",hepstem+"ye")))
                 KATATAB.push(2,(ka+"ョ",(ku[:-1]+"yo",hepstem+"yo")))
-            if ku=="tu": #XXX Kunrei is undefined, listing Kr same as Hb for now
-                KATATAB.push(0,(ka+"ァ",("tsa","tsa")))
-                KATATAB.push(0,(ka+"ィ",("tsi","tsi")))
-                KATATAB.push(0,(ka+"ェ",("tse","tse")))
-                KATATAB.push(0,(ka+"ォ",("tso","tso")))
+            if (ku!=he) and (ku[-1]=="u"):
+                hs = he[:-1]
+                ks = ku[:-1]
+                KATATAB.push(1,(ka+"ァ",(ks+"wa",hs+"a")))
+                KATATAB.push(1,(ka+"ィ",(ks+"wi",hs+"i")))
+                KATATAB.push(1,(ka+"ェ",(ks+"we",hs+"e")))
+                KATATAB.push(1,(ka+"ォ",(ks+"wo",hs+"o")))
         if (len(ku)==2) and (ku in ("su","zu","te","de","to","do","ho")):
             if ku[1]=="u":
                 KATATAB.push(0,(ka+"ィ",(ku[:-1]+"yi",ku[:-1]+"i")))
@@ -96,7 +100,7 @@ def gen_tabs():
             apriori = (ku[0]=="v")
             if apriori:
                 KATATAB.push(apriori,(ka+"ィ",(ku[:-1]+"hi",he[:-1]+"i")))
-                KATATAB.push(apriori,(ka+"ゥ",(ku[:-1]+"hu",he[:-1]+"u")))
+                KATATAB.push(0,(ka+"ゥ",(ku[:-1]+"hu",he[:-1]+"u")))
                 KATATAB.push(apriori,(ka+"ェ",(ku[:-1]+"he",he[:-1]+"e")))
             KATATAB.push(apriori,(ka+"ァ",(ku[:-1]+"a",he[:-1]+"a")))
             KATATAB.push(apriori,(ka+"ィ",(ku[:-1]+"i",he[:-1]+"i")))

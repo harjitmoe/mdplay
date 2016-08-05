@@ -14,7 +14,7 @@ def gen_tabs():
             KATATAB.push(0,(ka,(ku[0]+"y"+ku[1],ku[0]+"y"+ku[1])))
         if ku in ("va","vo"):
             KATATAB.push(0,(ka,(ku[0]+"h"+ku[1],ku[0]+"h"+ku[1]))) #For want of a better
-        if (len(ku) == 2) and ((ku[-1] == "i") or (ku in ("wu","vu","hu"))) and (ku not in ("wi", "vi")):
+        if (len(ku) == 2) and ((ku[-1] == "i") or (ku in ("wu","vu","hu","tu"))) and (ku not in ("wi", "vi")):
             apriori = 0
             if ku == he:
                 hepstem = he[:-1]+"y"
@@ -29,45 +29,62 @@ def gen_tabs():
             if ku not in ("wu", "vu"):
                 KATATAB.push(apriori,(ka+"ェ",(ku[:-1]+"ye",hepstem+"e")))
             KATATAB.push(apriori,(ka+"ョ",(ku[:-1]+"yo",hepstem+"o")))
+            if hepstem[-1]!="y":
+                KATATAB.push(apriori,(ka+"ャ",(ku[:-1]+"ya",hepstem+"ya")))
+                KATATAB.push(apriori,(ka+"ュ",(ku[:-1]+"yu",hepstem+"yu")))
+                if ku not in ("wu", "vu"):
+                    KATATAB.push(apriori,(ka+"ェ",(ku[:-1]+"ye",hepstem+"ye")))
+                KATATAB.push(apriori,(ka+"ョ",(ku[:-1]+"yo",hepstem+"yo")))
+            if ku=="tu": #XXX Kunrei is undefined, listing Kr same as Hb for now
+                KATATAB.push(0,(ka+"ァ",("tsa","tsa")))
+                KATATAB.push(0,(ka+"ィ",("tsi","tsi")))
+                KATATAB.push(0,(ka+"ェ",("tse","tse")))
+                KATATAB.push(0,(ka+"ォ",("tso","tso")))
         if (len(ku)==2) and (ku in ("su","zu","te","de","to","do","ho")):
             if ku[1]=="u":
                 KATATAB.push(0,(ka+"ィ",(ku[:-1]+"yi",ku[:-1]+"i")))
                 KATATAB.push(0,(ka+"ィ",(ku[:-1]+"i", ku[:-1]+"i")))
             elif ku[1]=="e":
-                KATATAB.push(0,(ka+"ャ",(ku[:-1]+"ya", ku[:-1]+"ya")))
-                KATATAB.push(0,(ka+"ィ",(ku[:-1]+"i", ku[:-1]+"i")))
-                KATATAB.push(0,(ka+"ュ",(ku[:-1]+"yu", ku[:-1]+"yu")))
-                KATATAB.push(0,(ka+"ョ",(ku[:-1]+"yo", ku[:-1]+"yo")))
+                KATATAB.push(0,(ka+"ィ",(ku[:-1]+"'i", ku[:-1]+"i")))
+                KATATAB.push(0,(ka+"ュ",(ku[:-1]+"'yu", ku[:-1]+"yu")))
                 KATATAB.push(0,(ka+"ャ",(ku[:-1]+"ha", ku[:-1]+"ya")))
                 KATATAB.push(0,(ka+"ィ",(ku[:-1]+"hi", ku[:-1]+"i")))
                 KATATAB.push(0,(ka+"ュ",(ku[:-1]+"hu", ku[:-1]+"yu")))
                 KATATAB.push(0,(ka+"ョ",(ku[:-1]+"ho", ku[:-1]+"yo")))
             elif ku[1]=="o":
                 KATATAB.push(0,(ka+"ゥ",(ku[:-1]+"u", ku[:-1]+"u")))
+        if (len(ku)==2) and (ku[1]=="o"):
+            KATATAB.push(1,(ka+"ゥ",(ku[:-1]+"'u", ku[:-1]+"wu")))
         #NOT elif
         if (len(ku)<=2) and (ku[-1] == "u"):
             kku = ku; hhe = he
             if kku == "u":
                 kku = hhe = "wu"
-            else:
-                KATATAB.push(0,(ka+"ヮ",(kku[:-1]+"wa",hhe[:-1]+"wa")))
+            else: 
+                # Not ヮ for some reason
+                # https://ja.wikipedia.org/wiki/%E3%83%AD%E3%83%BC%E3%83%9E%E5%AD%97%E5%85%A5%E5%8A%9B
+                KATATAB.push(0,(ka+"ァ",(kku[:-1]+"wa",hhe[:-1]+"wa")))
                 KATATAB.push(0,(ka+"ィ",(kku[:-1]+"wi",hhe[:-1]+"wi")))
-                KATATAB.push(0,(ka+"ゥ",(kku[:-1]+"wu",hhe[:-1]+"wu")))
                 KATATAB.push(0,(ka+"ェ",(kku[:-1]+"we",hhe[:-1]+"we")))
                 KATATAB.push(0,(ka+"ォ",(kku[:-1]+"wo",hhe[:-1]+"wo")))
+                KATATAB.push(0,(ka+"ャ",(kku[:-1]+"wya",hhe[:-1]+"wya")))
+                KATATAB.push(0,(ka+"ュ",(kku[:-1]+"wyu",hhe[:-1]+"wyu")))
+                KATATAB.push(0,(ka+"ョ",(kku[:-1]+"wyo",hhe[:-1]+"wyo")))
+                if kku[0]=="k":
+                    KATATAB.push(0,(ka+"ァ",(kku[:-1]+"wa","qa")))
+                    KATATAB.push(0,(ka+"ィ",(kku[:-1]+"wi","qi")))
+                    KATATAB.push(0,(ka+"ェ",(kku[:-1]+"we","qe")))
+                    KATATAB.push(0,(ka+"ォ",(kku[:-1]+"wo","qo")))
             if (ku[0] not in "sztdhv"):
                 KATATAB.push(0,(ka+"ァ",(kku[:-1]+"ha",hhe[:-1]+"ha")))
                 KATATAB.push(0,(ka+"ィ",(kku[:-1]+"hi",hhe[:-1]+"hi")))
                 KATATAB.push(0,(ka+"ゥ",(kku[:-1]+"hu",hhe[:-1]+"hu")))
                 KATATAB.push(0,(ka+"ェ",(kku[:-1]+"he",hhe[:-1]+"he")))
                 KATATAB.push(0,(ka+"ォ",(kku[:-1]+"ho",hhe[:-1]+"ho")))
-                KATATAB.push(0,(ka+"ャ",(kku[:-1]+"ya",hhe[:-1]+"ya")))
-                if kku[0]!="w":
-                    KATATAB.push(0,(ka+"ィ",(kku[:-1]+"yi",hhe[:-1]+"yi")))
-                KATATAB.push(0,(ka+"ュ",(kku[:-1]+"yu",hhe[:-1]+"yu")))
-                if kku[0]!="w":
-                    KATATAB.push(0,(ka+"ェ",(kku[:-1]+"ye",hhe[:-1]+"ye")))
-                KATATAB.push(0,(ka+"ョ",(kku[:-1]+"yo",hhe[:-1]+"yo")))
+                if kku[0]=="w":
+                    KATATAB.push(0,(ka+"ャ",(kku[:-1]+"ya",hhe[:-1]+"ya")))
+                    KATATAB.push(0,(ka+"ュ",(kku[:-1]+"yu",hhe[:-1]+"yu")))
+                    KATATAB.push(0,(ka+"ョ",(kku[:-1]+"yo",hhe[:-1]+"yo")))
         if ku == "u":
             KATATAB.push(1,(ka+"ィ",("wi","wi")))
             KATATAB.push(1,(ka+"ゥ",("wu","wu"))) # wo is after u in tables.py
@@ -110,7 +127,9 @@ def gen_tabs():
         o = ""
         for i in kata:
             if i not in TOHIRA:
-                return None
+                ## Unsure which is more elegant:
+                #return None
+                return i
             o += TOHIRA[i]
         return o
 
@@ -127,14 +146,4 @@ def gen_tabs():
     HEPBURNTAB_H = [(a, c) for (a, (b, c)) in HIRATAB]
     return KUNREITAB, HEPBURNTAB, KUNREITAB_H, HEPBURNTAB_H
 
-"""try:
-    from .ptables_cache import KUNREITAB, HEPBURNTAB, KUNREITAB_H, HEPBURNTAB_H
-except ImportError:
-    import os"""
 KUNREITAB, HEPBURNTAB, KUNREITAB_H, HEPBURNTAB_H = gen_tabs()
-'''    print>>open(os.path.join(os.path.dirname(__file__),"ptables_cache.py"),"w"),("""\
-# -*- mode: python; coding: utf-8 -*-
-KUNREITAB = %r
-HEPBURNTAB = %r
-KUNREITAB_H = %r
-HEPBURNTAB_H = %r"""%(KUNREITAB, HEPBURNTAB, KUNREITAB_H, HEPBURNTAB_H))'''

@@ -8,13 +8,14 @@ flags can turn features and extensions off and configure exporters, the obvious 
 
 (this readme and changelog, barring the licence, is written with lowercase at the beginning of sentences, except for proper nouns, and with double spacing after sentences (in the Markdown, at any rate).  this is a deliberate stylistic decision and, as this is my project, my decisions.)
 
-code version 6.1.1
+code version 6.1.2
 
 change-log:
 
 |ver|changes|
 |---|---|
-|6.1.1|more romkan improvemont.|
+|6.1.2|fix errors introduced into romkan, bring into conformance with jawikipedia page on JIS X 4063:2000.|
+|6.1.1|more romkan improvement.|
 |6.1|add enamel output.|
 |6.0.8|romkan improvements including precalculation (as it were).|
 |6.0.7|severely rework romkan backend, add an alternate Reddit-spoiler syntax.|

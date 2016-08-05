@@ -78,9 +78,9 @@ except (EnvironmentError,EOFError):
     # Sort in long order so that a longer Romaji sequence precedes.
 
     def _len_cmp(x): return -len(x)
-    RROMPAT = ("|".join(sorted(ROMKAN.keys(), key=_len_cmp)).replace(".","\\.") )
-    RROMPAT_HBN = ("|".join(sorted(ROMKAN_HBN.keys(), key=_len_cmp)).replace(".","\\.") )
-    RROMPAT_KNR = ("|".join(sorted(ROMKAN_KNR.keys(), key=_len_cmp)).replace(".","\\.") )
+    RROMPAT = ("|".join(sorted(ROMKAN.keys(), key=_len_cmp)).replace(".","\\.").replace("^","\\^") )
+    RROMPAT_HBN = ("|".join(sorted(ROMKAN_HBN.keys(), key=_len_cmp)).replace(".","\\.").replace("^","\\^") )
+    RROMPAT_KNR = ("|".join(sorted(ROMKAN_KNR.keys(), key=_len_cmp)).replace(".","\\.").replace("^","\\^") )
 
     def _kanpat_cmp(KANROM):
         return lambda x, y: (len(y) > len(x)) - (len(y) < len(x)) or (len(KANROM[x]) > len(KANROM[x])) - (len(KANROM[x]) < len(KANROM[x]))
@@ -91,8 +91,8 @@ except (EnvironmentError,EOFError):
     KUNREI_SEQS = [y for (x, y) in KUNREITAB]
     HEPBURN_SEQS = [y for (x, y) in HEPBURNTAB]
 
-    KKUNPAT = ("|".join(sorted(KUNREI_SEQS, key=_len_cmp)).replace(".","\\.") )
-    HHEPPAT = ("|".join(sorted(HEPBURN_SEQS, key=_len_cmp)).replace(".","\\.") )
+    KKUNPAT = ("|".join(sorted(KUNREI_SEQS, key=_len_cmp)).replace(".","\\.").replace("^","\\^") )
+    HHEPPAT = ("|".join(sorted(HEPBURN_SEQS, key=_len_cmp)).replace(".","\\.").replace("^","\\^") )
 
 
     # Use Hiragana
@@ -120,9 +120,9 @@ except (EnvironmentError,EOFError):
 
     # Sort in long order so that a longer Romaji sequence precedes.
 
-    RROMPAT_H = ("|".join(sorted(ROMKAN_H.keys(), key=_len_cmp)).replace(".","\\.") )
-    RROMPAT_H_HBN = ("|".join(sorted(ROMKAN_H_HBN.keys(), key=_len_cmp)).replace(".","\\.") )
-    RROMPAT_H_KNR = ("|".join(sorted(ROMKAN_H_KNR.keys(), key=_len_cmp)).replace(".","\\.") )
+    RROMPAT_H = ("|".join(sorted(ROMKAN_H.keys(), key=_len_cmp)).replace(".","\\.").replace("^","\\^") )
+    RROMPAT_H_HBN = ("|".join(sorted(ROMKAN_H_HBN.keys(), key=_len_cmp)).replace(".","\\.").replace("^","\\^") )
+    RROMPAT_H_KNR = ("|".join(sorted(ROMKAN_H_KNR.keys(), key=_len_cmp)).replace(".","\\.").replace("^","\\^") )
 
     KKANPAT_H = ("|".join(sorted(KANROM_H.keys(), key=cmp_to_key(_kanpat_cmp(KANROM_H)))))
     KKANPAT_H_HBN = ("|".join(sorted(KANROM_H_HBN.keys(), key=cmp_to_key(_kanpat_cmp(KANROM_H_HBN)))))
@@ -131,8 +131,8 @@ except (EnvironmentError,EOFError):
     KUNREI_H = [y for (x, y) in KUNREITAB_H]
     HEPBURN_H = [y for (x, y) in HEPBURNTAB_H]
 
-    KKUNPAT_H = ("|".join(sorted(KUNREI_H, key=_len_cmp)).replace(".","\\.") )
-    HHEPPAT_H = ("|".join(sorted(HEPBURN_H, key=_len_cmp)).replace(".","\\.") )
+    KKUNPAT_H = ("|".join(sorted(KUNREI_H, key=_len_cmp)).replace(".","\\.").replace("^","\\^") )
+    HHEPPAT_H = ("|".join(sorted(HEPBURN_H, key=_len_cmp)).replace(".","\\.").replace("^","\\^") )
     _fn = os.path.join(os.path.dirname(__file__),"data.pickle")
     def _dd(a, p=pickle): return p.dumps(a,2)
     del unicodedata

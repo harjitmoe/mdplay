@@ -30,11 +30,11 @@ def gen_tabs():
                 KATATAB.push(apriori,(ka+"ェ",(ku[:-1]+"ye",hepstem+"e")))
             KATATAB.push(apriori,(ka+"ョ",(ku[:-1]+"yo",hepstem+"o")))
             if hepstem[-1]!="y":
-                KATATAB.push(apriori,(ka+"ャ",(ku[:-1]+"ya",hepstem+"ya")))
-                KATATAB.push(apriori,(ka+"ュ",(ku[:-1]+"yu",hepstem+"yu")))
+                KATATAB.push(2,(ka+"ャ",(ku[:-1]+"ya",hepstem+"ya")))
+                KATATAB.push(2,(ka+"ュ",(ku[:-1]+"yu",hepstem+"yu")))
                 if ku not in ("wu", "vu"):
-                    KATATAB.push(apriori,(ka+"ェ",(ku[:-1]+"ye",hepstem+"ye")))
-                KATATAB.push(apriori,(ka+"ョ",(ku[:-1]+"yo",hepstem+"yo")))
+                    KATATAB.push(2,(ka+"ェ",(ku[:-1]+"ye",hepstem+"ye")))
+                KATATAB.push(2,(ka+"ョ",(ku[:-1]+"yo",hepstem+"yo")))
             if ku=="tu": #XXX Kunrei is undefined, listing Kr same as Hb for now
                 KATATAB.push(0,(ka+"ァ",("tsa","tsa")))
                 KATATAB.push(0,(ka+"ィ",("tsi","tsi")))
@@ -108,10 +108,9 @@ def gen_tabs():
                 KATATAB.push(apriori,(ka+"ェ",(ku[:-1]+"he",he[:-1]+"e")))
                 KATATAB.push(apriori,(ka+"ォ",(ku[:-1]+"ho",he[:-1]+"o")))
         if ku == "i":
-            KATATAB.push(1,(ka+"ィ",("yi","yi")))
             KATATAB.push(1,(ka+"ェ",("ye","ye")))
         if ku == "yu":
-            KATATAB.push(0,(ka+"ィ",("yi","yi")))
+            KATATAB.push(1,(ka+"ィ",("yi","yi")))
             KATATAB.push(0,(ka+"ェ",("ye","ye")))
     #Must be seperate to and after the previous:
     for ka,(ku,he) in KATATAB[:]:

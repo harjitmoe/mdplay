@@ -9,3 +9,8 @@ for i,j in b:
             print "Standard says:",i
             print "Library says:",to_hiragana(k)
             print
+    if to_roma(i) not in j:
+        print "Kana:",i
+        print "Standard says:", ",".join(j)
+        print "Library says:",to_roma(i)
+        print

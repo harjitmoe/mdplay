@@ -2,10 +2,14 @@
 from __future__ import unicode_literals
 
 class Firenze(list):
+    start = 0
     def push(self, id, elem):
-        """Push front if not id, back otherwise."""
-        if id: return self.append(elem)
-        return self.insert(0,elem)
+        """Push front if id==1, back if id==0, original front if id==2."""
+        if id==1: return self.append(elem)
+        self.start += 1
+        if id==2: return self.insert(self.start-1,elem)
+        if id==0: return self.insert(0,elem)
+        raise ValueError
 
 #Note - not a dict.  Order is important, and keys are not necessarily unique.
 KATATAB=Firenze([('ヵ',('xka','xka')), ('ㇰ',('xku','xku')), ('ヶ',('xke','xke')), ('ㇱ',('xsi','xshi')), ('ㇲ',('xsu','xsu')), ('ㇳ',('xto','xto')), ('ㇴ',('xnu','xnu')), ('ㇵ',('xha','xha')), ('ㇶ',('xhi','xhi')), ('ㇷ',('xhu','xfu')), ('ㇸ',('xhe','xhe')), ('ㇹ',('xho','xho')), ('ㇺ',('xmu','xmu')), ('ㇻ',('xra','xra')), ('ㇼ',('xri','xri')), ('ㇽ',('xru','xru')), ('ㇾ',('xre','xre')), ('ㇿ',('xro','xro')), ('ヨ', ('yo', 'yo')), ('ル', ('ru', 'ru')), ('ォ', ('xo', 'xo')), ('シ', ('si', 'shi')), ('ボ', ('bo', 'bo')), ('オ', ('o', 'o')), ('ジ', ('zi', 'ji')), ('ウ', ('u', 'u')), ('ヤ', ('ya', 'ya')), ('デ', ('de', 'de')), ("ー", ("^", "^")), ('ー', ('-', '-')), ('ヅ', ('du', 'dzu')), ('ド', ('do', 'do')), ('ヘ', ('he', 'he')), ('ヰ', ('wi', 'wi')), ('ョ', ('xyo', 'xyo')), ('ャ', ('xya', 'xya')), ('ェ', ('xe', 'xe')), ('ベ', ('be', 'be')), ('カ', ('ka', 'ka')), ('ハ', ('ha', 'ha')), ('メ', ('me', 'me')), ('ラ', ('ra', 'ra')), ('ヷ', ('va', 'va')), ('ヸ', ('vi', 'vi')), ('ヴ', ('vu', 'vu')), ('ヹ', ('ve', 've')), ('ヺ', ('vo', 'vo')), ('ポ', ('po', 'po')), ('ヮ', ('xwa', 'xwa')), 

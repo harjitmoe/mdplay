@@ -446,3 +446,5 @@ Pinguinet (PANG\-win\-ay)
 [Spojra](/spoiler)
 
 ヴァ ヴィ ヴ ヴェ ヴォ 〜 ヴャ ヸ ヴュ ヹ ヴョ 〜 ヷ ヴィ ヴゥ ヴェ ヺ
+
+テガみ てがみ テガミ

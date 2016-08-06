@@ -1,6 +1,7 @@
 # -*- mode: python; coding: utf-8 -*-
 
-#File by HarJIT - part of MDPlay.
+# File by HarJIT - part of MDPlay.
+# *** ATTENTION - IF YOU CHANGE THIS FILE, DELETE data.pickle PRECALC CACHE FILE ***
 
 from __future__ import unicode_literals
 
@@ -129,9 +130,10 @@ def gen_tabs():
         """For internal use only."""
         o = ""
         for i in kata:
-            if i not in TOHIRA:
-                ## Unsure which is more elegant:
-                #return None
+            if i not in TOHIRA: # No Hiragana Unicode representation.
+                # Punctuation and the "small ke" (and equiv. small ka)
+                # (both which should remain same in HG), as well as
+                # single-character v[aieo] and Ainu small kana.
                 return i
             o += TOHIRA[i]
         return o

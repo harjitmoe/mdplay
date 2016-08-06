@@ -433,4 +433,6 @@ Testing a URN: x-wikipedia:Tree
 
 !kana[](va vi vu ve vo ~ vya vyi vyu vye vyo ~ vha vhi vhu vhe vho)
 
+!kana[](teガみ) !hkana[](teガみ) !kkana[](teガみ)
+
 \

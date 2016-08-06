@@ -8,12 +8,13 @@ flags can turn features and extensions off and configure exporters, the obvious 
 
 (this readme and changelog, barring the licence, is written with lowercase at the beginning of sentences, except for proper nouns, and with double spacing after sentences (in the Markdown, at any rate).  this is a deliberate stylistic decision and, as this is my project, my decisions.)
 
-code version 6.1.4
+code version 6.1.5
 
 change-log:
 
 |ver|changes|
 |---|---|
+|6.1.5|conversion to hiragana now converts katakana where possible as well as romaji, and vice-versa.|
 |6.1.4|kanrom fixes (still unused).|
 |6.1.3|a fix to (unused, still very flawed) kanrom (prioritise chi over ci), and romkan tweak to undefined sequence yi with reference to https://en.wikipedia.org/wiki/Okinawan_scripts|
 |6.1.2|fix errors introduced into romkan, bring [romkan direction] into conformance with jawikipedia page on JIS X 4063:2000.|

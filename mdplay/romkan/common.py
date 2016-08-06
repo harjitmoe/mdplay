@@ -20,7 +20,6 @@ import re, unicodedata
 
 from .data import *
 
-
 def normalize_double_n(str):
     """
     Normalize double n.
@@ -37,7 +36,7 @@ HEPBURN = "hepburn"
 KUNREI = "kunrei"
 WAPURO = "wapuro"
 
-def to_katakana(str, scheme=WAPURO):
+def to_kana(str, scheme=WAPURO):
     """
     Convert a Romaji string to Katakana.
     """
@@ -55,9 +54,29 @@ def to_katakana(str, scheme=WAPURO):
         raise ValueError("invalid scheme= argument: %r"%scheme)
     return tmp
 
+def to_katakana(str, scheme=WAPURO):
+    """
+    Convert a Romaji or Hiragana string to Katakana.
+    """
+    
+    str = str.lower()
+    str = normalize_double_n(str)
+    for v,k in TOHIRA.items():
+        str = str.replace(k, v)
+    
+    if scheme==WAPURO:
+        tmp = ROMPAT.sub(lambda x: ROMKAN[x.group(0)], str)
+    elif scheme==HEPBURN:
+        tmp = ROMPAT_HBN.sub(lambda x: ROMKAN_HBN[x.group(0)], str)
+    elif scheme==KUNREI:
+        tmp = ROMPAT_KNR.sub(lambda x: ROMKAN_KNR[x.group(0)], str)
+    else:
+        raise ValueError("invalid scheme= argument: %r"%scheme)
+    return tmp
+
 def to_hiragana(str, scheme=WAPURO):
     """
-    Convert a Romaji string to Hiragana.
+    Convert a Romaji or Katakana string to Hiragana.
     """
     
     str = str.lower()
@@ -71,9 +90,9 @@ def to_hiragana(str, scheme=WAPURO):
         tmp = ROMPAT_H_KNR.sub(lambda x: ROMKAN_H_KNR[x.group(0)], str)
     else:
         raise ValueError("invalid scheme= argument: %r"%scheme)
+    for k,v in TOHIRA.items():
+        tmp = tmp.replace(k, v)
     return tmp
-
-to_kana = to_katakana
 
 def to_hepburn(str):
     """

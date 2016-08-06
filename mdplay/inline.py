@@ -9,7 +9,7 @@ from mdplay.pickups_util import SMILEYS
 from mdplay.utfsupport import unichr4all
 from mdplay.twem2support import TWEM2
 from mdplay.cangjie import proc_cang
-from mdplay.romkan import to_hiragana, to_katakana, HEPBURN
+from mdplay.romkan import to_kana, to_hiragana, to_katakana, HEPBURN
 
 #Note that :D may come out as several things depending on
 #Python's arbitrary dict ordering; not sure what is best
@@ -265,26 +265,32 @@ def _parse_inline(content,levs=("root",),flags=()):
                     out.append(nodes.RubiNode(kanji, label))
                 else:
                     out.append(kanji)
-            elif (hreftype.lower() in ("kana","kkana","katakana")) and ("noromkan" not in flags):
-                kana = to_katakana(href)
+            elif (hreftype.lower() in ("kana",)) and ("noromkan" not in flags):
+                kana = to_kana(href.decode("utf-8"))
+                if label and ("norubi" not in flags):
+                    out.append(nodes.RubiNode(kana, label))
+                else:
+                    out.append(kana)
+            elif (hreftype.lower() in ("kkana","katakana")) and ("noromkan" not in flags):
+                kana = to_katakana(href.decode("utf-8"))
                 if label and ("norubi" not in flags):
                     out.append(nodes.RubiNode(kana, label))
                 else:
                     out.append(kana)
             elif (hreftype.lower() in ("hkana","hgana","hiragana")) and ("noromkan" not in flags):
-                kana = to_hiragana(href)
+                kana = to_hiragana(href.decode("utf-8"))
                 if label and ("norubi" not in flags):
                     out.append(nodes.RubiNode(kana, label))
                 else:
                     out.append(kana)
             elif (hreftype.lower() in ("kana_hbn","kkana_hbn","katakana_hepburn")) and ("noromkan" not in flags):
-                kana = to_katakana(href, HEPBURN)
+                kana = to_katakana(href.decode("utf-8"), HEPBURN)
                 if label and ("norubi" not in flags):
                     out.append(nodes.RubiNode(kana, label))
                 else:
                     out.append(kana)
             elif (hreftype.lower() in ("hkana_hbn","hgana_hbn","hiragana_hepburn")) and ("noromkan" not in flags):
-                kana = to_hiragana(href, HEPBURN)
+                kana = to_hiragana(href.decode("utf-8"), HEPBURN)
                 if label and ("norubi" not in flags):
                     out.append(nodes.RubiNode(kana, label))
                 else:

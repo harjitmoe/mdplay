@@ -243,7 +243,7 @@ def _umlaut(cmd, c):
         raise ValueError('unsupported umlaut \\%s{%s}' % (cmd, c))#, 0)
 umlaut = lambda cmd, c: normalize("NFC", _umlaut(cmd, c))
 
-## The following has nothing to do with mdplay. -- HarJIT
+## The following has nothing to do with mdplay. -- Thomas Hori
 #
 #def fixup_text(text):
 #    return text.replace('``', '"').replace("''", '"').replace('`', "'").\

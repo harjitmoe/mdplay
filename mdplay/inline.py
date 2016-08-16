@@ -1,6 +1,12 @@
 # -*- mode: python; coding: utf-8 -*-
 import re,string
 
+__copying__ = """
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+"""
+
 from mdplay import nodes, umlaut
 from mdplay.uriregex import uriregex
 from mdplay import htmlentitydefs_latest as htmlentitydefs
@@ -9,7 +15,7 @@ from mdplay.pickups_util import SMILEYS
 from mdplay.utfsupport import unichr4all
 from mdplay.twem2support import TWEM2
 from mdplay.cangjie import proc_cang
-from mdplay.romkan import to_kana, to_hiragana, to_katakana, HEPBURN
+from mdplay.parse_roma import kanafy, hiraise, kataise
 
 #Note that :D may come out as several things depending on
 #Python's arbitrary dict ordering; not sure what is best
@@ -266,31 +272,37 @@ def _parse_inline(content,levs=("root",),flags=()):
                 else:
                     out.append(kanji)
             elif (hreftype.lower() in ("kana",)) and ("noromkan" not in flags):
-                kana = to_kana(href.decode("utf-8"))
+                kana = kanafy(href)
                 if label and ("norubi" not in flags):
                     out.append(nodes.RubiNode(kana, label))
                 else:
                     out.append(kana)
             elif (hreftype.lower() in ("kkana","katakana")) and ("noromkan" not in flags):
-                kana = to_katakana(href.decode("utf-8"))
+                kana = kataise(kanafy(href))
                 if label and ("norubi" not in flags):
                     out.append(nodes.RubiNode(kana, label))
                 else:
                     out.append(kana)
             elif (hreftype.lower() in ("hkana","hgana","hiragana")) and ("noromkan" not in flags):
-                kana = to_hiragana(href.decode("utf-8"))
+                kana = hiraise(kanafy(href))
                 if label and ("norubi" not in flags):
                     out.append(nodes.RubiNode(kana, label))
                 else:
                     out.append(kana)
-            elif (hreftype.lower() in ("kana_hbn","kkana_hbn","katakana_hepburn")) and ("noromkan" not in flags):
-                kana = to_katakana(href.decode("utf-8"), HEPBURN)
+            elif (hreftype.lower() in ("kana_hbn",)) and ("noromkan" not in flags):
+                kana = kanafy(href, "hepburn")
+                if label and ("norubi" not in flags):
+                    out.append(nodes.RubiNode(kana, label))
+                else:
+                    out.append(kana)
+            elif (hreftype.lower() in ("kkana_hbn","katakana_hepburn")) and ("noromkan" not in flags):
+                kana = kataise(kanafy(href, "hepburn"))
                 if label and ("norubi" not in flags):
                     out.append(nodes.RubiNode(kana, label))
                 else:
                     out.append(kana)
             elif (hreftype.lower() in ("hkana_hbn","hgana_hbn","hiragana_hepburn")) and ("noromkan" not in flags):
-                kana = to_hiragana(href.decode("utf-8"), HEPBURN)
+                kana = hiraise(kanafy(href, "hepburn"))
                 if label and ("norubi" not in flags):
                     out.append(nodes.RubiNode(kana, label))
                 else:

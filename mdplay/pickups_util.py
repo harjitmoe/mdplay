@@ -1,10 +1,11 @@
 """Isolated from "pickups", an IRC gateway for Google Hangouts.
 
-Antered for Python 2 / mdplay integration."""
+Altered for Python 2 / mdplay integration."""
 
 __orig_doc__="""Utility functions."""
 
-__copying__="""Copyright (c) 2014 Michael Tom-Wing
+__copying__="""
+Copyright (c) 2014 Michael Tom-Wing
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +23,8 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE."""
+SOFTWARE.
+"""
 
 #from hangups.ui.utils import get_conv_name
 import hashlib

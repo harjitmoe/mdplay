@@ -431,7 +431,7 @@ Testing a URN: x-wikipedia:Tree
 
 [Spojra](#s)
 
-!kana[](va vi vu ve vo ~ vya vyi vyu vye vyo ~ vha vhi vhu vhe vho)
+!kana[](va vi vu ve vo ~ vya vyi vyu vye vyo ~ vha vhi vhu vhe vho ~ vwa vwi vwu vwe vwo)
 
 !kana[](teガみ) !hkana[](teガみ) !kkana[](teガみ)
 

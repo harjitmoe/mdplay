@@ -8,12 +8,13 @@ flags can turn features and extensions off and configure exporters, the obvious 
 
 (this readme and changelog, barring the licence, is written with lowercase at the beginning of sentences, except for proper nouns, and with double spacing after sentences (in the Markdown, at any rate).  this is a deliberate stylistic decision and, as this is my project, my decisions.)
 
-code version 6.1.5
+code version 6.1.6
 
 change-log:
 
 |ver|changes|
 |---|---|
+|6.1.6|ditch my modified romkan in favour of my entirely new support module, which uses a rather different approach to conversion, and proves substantially faster albeit one-way.  also, switch to MPL.|
 |6.1.5|conversion to hiragana now converts katakana where possible as well as romaji, and vice-versa.|
 |6.1.4|kanrom fixes (still unused).|
 |6.1.3|a fix to (unused, still very flawed) kanrom (prioritise chi over ci), and romkan tweak to undefined sequence yi with reference to https://en.wikipedia.org/wiki/Okinawan_scripts|
@@ -85,29 +86,6 @@ this software is, unless otherwise specified:
 
 Copyright (c) 2015, 2016 Thomas Hori.  All rights reserved.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-
-1.  Redistributions of source code must retain the above copyright 
-   notice, this list of conditions and the following disclaimer.
-2.  Redistributions in binary form must reproduce the above copyright 
-   notice, this list of conditions and the following disclaimer in the
-   documentation and/or other materials provided with the distribution.
-3.  Neither the name of the copyright holder nor the names of its 
-   contributors may be used to endorse or promote products derived from
-   this software without specific prior written permission.
-4.  Altered versions in any form must not be misrepresented as being the
-   original software.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR 
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT 
-HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.

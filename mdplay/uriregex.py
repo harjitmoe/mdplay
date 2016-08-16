@@ -1,5 +1,6 @@
-# URI regexes derived from the Public-Domain-dedicated states.py from Docutils.
+# URI regexes derived, altered or copied from the Public-Domain-dedicated states.py from Docutils.
 # Docutils being by David Goodger.
+# May be used under same terms as the original.
 
 # Valid URI characters (see RFC 2396 & RFC 2732);
 # final \x00 allows backslash escapes in URIs:

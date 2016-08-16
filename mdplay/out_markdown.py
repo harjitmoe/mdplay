@@ -1,6 +1,12 @@
 import re
 from mdplay import nodes
 
+__copying__ = """
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+"""
+
 def md_out(nodes,titl_ignored=None,flags=()):
     r=md_out_body(nodes,flags=flags)
     if r and (r[0]==r[-1]=="\n"):

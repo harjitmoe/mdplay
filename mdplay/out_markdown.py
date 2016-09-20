@@ -170,7 +170,9 @@ def _md_out_body(node,flags=()):
                         hexcode+="-%x"%nodes.utf16_ord(node.fuse.content.decode("utf-8"))
                         altcode+=node.fuse.content
                         node.fuse.completed=1
-                    if "oldtwemoji" in flags:
+                    if node.force_text:
+                        return altcode+u"\ufe0e".encode("utf-8")
+                    elif "oldtwemoji" in flags:
                         return "![%s](https://twemoji.maxcdn.com/36x36/%s.png)"%(altcode, hexcode)
                     else:
                         if "nosizes" not in flags:

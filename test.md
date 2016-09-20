@@ -435,4 +435,8 @@ Testing a URN: x-wikipedia:Tree
 
 !kana[](teガみ) !hkana[](teガみ) !kkana[](teガみ)
 
+:darkmoon: :darkmoon::textstyle: :darkmoon::emojistyle: :darkmoon:&zwnj;:textstyle:
+
+:smile: :smile::textstyle: :smile::emojistyle: :smile:&zwnj;:textstyle:
+
 \

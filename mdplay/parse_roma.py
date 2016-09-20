@@ -170,7 +170,7 @@ def parse_roma(itr, force="none"):
             if c not in termina:
                 gagh.push_front(c)
             if force == "hepburn":
-                #Of attention: si, zi, ti, tu, di, du, hu
+                #Of attention: si, zi, ti, tu, di, du, debatably hu
                 if (con in t("sz")) and (not (gli1 or gli2)) and (vow == "i"):
                     gli1 = "w"
                 elif (con in t("sz")) and (gli1 == "y") and (not gli2):
@@ -181,9 +181,11 @@ def parse_roma(itr, force="none"):
                 elif (con in t("td")) and (gli1 == "y") and (not gli2):
                     gli1 = "h"
                     gli2 = "y"
-                elif (con in t("tdh")) and (not (gli1 or gli2)) and (vow == "u"):
+                #Below would be tdh not td, but "hu" was acknowleged by Hepburn and is used
+                #in at least one variant of Hepburn.
+                elif (con in t("td")) and (not (gli1 or gli2)) and (vow == "u"):
                     gli1 = "w"
-                elif (con in t("tdh")) and (gli1 == "w") and (not gli2) and (vow != "u"):
+                elif (con in t("td")) and (gli1 == "w") and (not gli2) and (vow != "u"):
                     force_o_as_w = 1
             #print siz , con , gli1 , gli2 , vow 
             if not vow:

@@ -228,7 +228,9 @@ def _bb_out(node,in_list,flags):
                         hexcode+="-%x"%nodes.utf16_ord(node.fuse.content.decode("utf-8"))
                         altcode+=node.fuse.content
                         node.fuse.completed=1
-                    if "oldtwemoji" in flags:
+                    if node.force_text:
+                        return altcode+u"\ufe0e".encode("utf-8")
+                    elif "oldtwemoji" in flags:
                         return '[img alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/36x36/%s.png[/img]'%(json.dumps(altcode),hexcode)
                     else:
                         return '[img width="32" height="32" alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/%s.png[/img]'%(json.dumps(altcode),hexcode)

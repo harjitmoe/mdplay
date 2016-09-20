@@ -31,7 +31,7 @@ def is_emotic(s):
 del SMILEYS[SMILEYA[":/"]]
 del SMILEYA[":/"] # https://
 
-_eacd={"lenny":u"( ͡° ͜ʖ ͡° )","degdeg":u"( ͡° ͜ʖ ͡° )", "darkmoon":u"🌚","thefinger":u"🖕","ntr":u"🤘","blush":u"😳","wink":u"😉","happy":u"😊", "rolleyes":u"🙄","angry":u"😠","biggrin":u"😁","aw_yeah":u"😏","bigcry":u"😭","evil":u"👿", "twisted":u"😈","sasmile":u"😈","tongue":u"😝","sleep":u"😴","conf":u"😕","confused":u"😕", "eek":u"😲","cry":u"😢","sweat1":u"😅","worshippy":u"🙇","wub":u"😍","mellow":u"😐", "shifty":u"👀","eyes":u"👀","demonicduck":u"󽻍","shruggie":u"¯\_(ツ)_/¯"}
+_eacd={"lenny":u"( ͡° ͜ʖ ͡° )","degdeg":u"( ͡° ͜ʖ ͡° )", "darkmoon":u"🌚","thefinger":u"🖕","ntr":u"🤘","blush":u"😳","wink":u"😉","happy":u"😊", "rolleyes":u"🙄","angry":u"😠","biggrin":u"😁","aw_yeah":u"😏","bigcry":u"😭","evil":u"👿", "twisted":u"😈","sasmile":u"😈","tongue":u"😝","sleep":u"😴","conf":u"😕","confused":u"😕", "eek":u"😲","cry":u"😢","sweat1":u"😅","worshippy":u"🙇","wub":u"😍","mellow":u"😐", "shifty":u"👀","eyes":u"👀","demonicduck":u"󽻍","shruggie":u"¯\_(ツ)_/¯", "textstyle":u"\ufe0e","emojistyle":u"\ufe0f"}
 _eacdr=dict(zip(_eacd.values(),_eacd.keys()))
 for _euc in eac.keys():
     _ec=u""
@@ -73,6 +73,7 @@ def _parse_inline(content,levs=("root",),flags=()):
     lev=levs[0]
     do_fuse=None
     dfstate=0
+    nomeemo=0
     while content:
         if dfstate==1:
             dfstate=2
@@ -153,11 +154,19 @@ def _parse_inline(content,levs=("root",),flags=()):
                 c+=content[n]
                 n+=1
             if c in htmlentitydefs.html5.keys():
-                out.append(htmlentitydefs.html5[c].encode("utf-8"))
+                hamayalawa = htmlentitydefs.html5[c]
+                if (((hamayalawa,) in TWEM2) or (hamayalawa in (u"\U000FDECD",u"\ufe0e"))):
+                    content.insert(0,hamayalawa.encode("utf-8"))
+                    continue
+                out.append(hamayalawa.encode("utf-8"))
                 content=content[n:]
             elif (c[:-1] in htmlentitydefs.html5.keys()) and ("nohtmlsloppyentity" not in flags):
                 n -= 1; c = c[:-1]
-                out.append(htmlentitydefs.html5[c].encode("utf-8"))
+                hamayalawa = htmlentitydefs.html5[c]
+                if (((hamayalawa,) in TWEM2) or (hamayalawa in (u"\U000FDECD",u"\ufe0e"))):
+                    content.insert(0,hamayalawa.encode("utf-8"))
+                    continue
+                out.append(hamayalawa.encode("utf-8"))
                 content=content[n:]
             else:
                 out.append("&")
@@ -370,9 +379,13 @@ def _parse_inline(content,levs=("root",),flags=()):
                     emote=":"+kwontenti+":"
                 nodo=nodes.EmojiNode(emoji.encode("utf-8"), (emote, kwontenti), "shortcode")
                 out.append(nodo)
-                if do_fuse!=None and ((do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2):
-                    do_fuse.fuse=nodo
-                    do_fuse=None
+                if do_fuse!=None:
+                    if (do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2:
+                        if not do_fuse.fyzi:
+                            do_fuse.fuse=nodo
+                            nodo.fyzi=1
+                    elif emoji == u"\ufe0e":
+                        do_fuse.force_text=1
                 do_fuse=nodo
                 dfstate=1
             else:
@@ -387,15 +400,19 @@ def _parse_inline(content,levs=("root",),flags=()):
                 shortcode=_eacdr[emoji]
             nodo=nodes.EmojiNode(emoji, (emote, shortcode), "ascii")
             out.append(nodo) 
-            if do_fuse!=None and ((do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2):
-                do_fuse.fuse=nodo
-                do_fuse=None
+            if do_fuse!=None:
+                if (do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2:
+                    if not do_fuse.fyzi:
+                        do_fuse.fuse=nodo
+                        nodo.fyzi=1
+                elif emoji.decode("utf-8") == u"\ufe0e":
+                    do_fuse.force_text=1
             do_fuse=nodo
             dfstate=1
         #
         elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):
             out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags))
-        elif (((c.decode("utf-8"),) in TWEM2) or (c.decode("utf-8")==u"\U000FDECD")) and ("label" not in levs):
+        elif (((c.decode("utf-8"),) in TWEM2) or (c.decode("utf-8") in (u"\U000FDECD",u"\ufe0e"))) and ("label" not in levs):
             emoji=c.decode("utf-8")
             if emoji in _eacdr:
                 shortcode=_eacdr[emoji]
@@ -408,9 +425,13 @@ def _parse_inline(content,levs=("root",),flags=()):
                 emote=":"+shortcode+":"
             nodo=nodes.EmojiNode(c, (emote, shortcode), "verbatim")
             out.append(nodo) 
-            if do_fuse!=None and ((do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2):
-                do_fuse.fuse=nodo
-                do_fuse=None
+            if do_fuse!=None:
+                if (do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2:
+                    if not do_fuse.fyzi:
+                        do_fuse.fuse=nodo
+                        nodo.fyzi=1
+                elif emoji == u"\ufe0e":
+                    do_fuse.force_text=1
             do_fuse=nodo
             dfstate=1
         else:

@@ -36,7 +36,9 @@ class InlineNode(Node):
         self.width=width
         self.height=height
         self.fuse=None
+        self.fyzi=0
         self.completed=0
+        self.force_text=0
 
 class CodeBlockNode(Node):
     def __init__(self,content,depth=-1,clas=None):

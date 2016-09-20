@@ -448,3 +448,7 @@ Pinguinet (PANG\-win\-ay)
 ヴァ ヴィ ヴ ヴェ ヴォ 〜 ヴャ ヸ ヴュ ヹ ヴョ 〜 ヴァ ヴィ ヴゥ ヴェ ヴォ 〜 ヷ ヸ ヺゥ ヹ ヺ
 
 テガみ てがみ テガミ
+
+![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32) 🌚︎![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32) ![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)![️](https://twemoji.maxcdn.com/2/72x72/fe0f.png =32x32) ![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)‌![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)
+
+![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) 😄︎![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32) ![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)![️](https://twemoji.maxcdn.com/2/72x72/fe0f.png =32x32) ![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)‌![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)

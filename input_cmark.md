@@ -449,3 +449,7 @@ Pinguinet (PANG\-win\-ay)
 
 テガみ てがみ テガミ
 
+![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32) 🌚︎![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32) ![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)![️](https://twemoji.maxcdn.com/2/72x72/fe0f.png =32x32) ![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)‌![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)
+
+![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) 😄︎![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32) ![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)![️](https://twemoji.maxcdn.com/2/72x72/fe0f.png =32x32) ![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)‌![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)
+

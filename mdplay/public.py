@@ -34,6 +34,6 @@ def _load_snippet_renderer(modname):
     return getattr(renderer_module,renderer_module.__mdplay_snippet_renderer__)
 def load_snippet_renderer(codename):
     if codename in writers:
-        r=_load_snippet_renderer(writers[codename])
+        return _load_snippet_renderer(writers[codename])
     else:
         raise NoSuchRendererError(codename)

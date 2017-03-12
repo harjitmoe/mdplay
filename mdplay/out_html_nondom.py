@@ -213,6 +213,13 @@ def _html_out_body(node,in_list,flags):
                     return "<!-- twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/ --><img alt='%s' src='https://twemoji.maxcdn.com/2/72x72/%s.png' style='max-width:2em;max-height:2em;'></img>"%(altcode,hexcode)
                 except ValueError: pass
         return _escape(node.content,html5)
+    elif isinstance(node,nodes.DirectiveNode) and node.type.startswith("html-") and ("directive" in flags):
+        r = "<"+node.type[len("html-"):]
+        for i,j in node.opts:
+            r += " "+i+"="+_strquote(j)
+        for i in node.args:
+            r += " "+i
+        return r + ">" + html_out_body(node.content) + "</"+node.type[len("html-"):]+">"
     else:
         return "ERROR"+repr(node)
 
@@ -227,4 +234,3 @@ def html_out(nodes,titl="",flags=()):
 
 __mdplay_renderer__="html_out"
 __mdplay_snippet_renderer__="html_out_body"
-

@@ -10,37 +10,10 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 from mdplay import nodes, umlaut
 from mdplay.uriregex import uriregex
 from mdplay import htmlentitydefs_latest as htmlentitydefs
-from mdplay.eac import eac
-from mdplay.pickups_util import SMILEYS
 from mdplay.utfsupport import unichr4all
 from mdplay.twem2support import TWEM2
-from mdplay.cangjie import proc_cang
-from mdplay.parse_roma import kanafy, hiraise, kataise
-
-#Note that :D may come out as several things depending on
-#Python's arbitrary dict ordering; not sure what is best
-#option here.
-SMILEYA=dict(zip(SMILEYS.values(),SMILEYS.keys()))
-
-def is_emotic(s):
-    for i in SMILEYA.keys():
-        if s.startswith(i):
-            return i
-    return False
-
-del SMILEYS[SMILEYA[":/"]]
-del SMILEYA[":/"] # https://
-
-_eacd={"lenny":u"( ͡° ͜ʖ ͡° )","degdeg":u"( ͡° ͜ʖ ͡° )", "darkmoon":u"🌚","thefinger":u"🖕","ntr":u"🤘","blush":u"😳","wink":u"😉","happy":u"😊", "rolleyes":u"🙄","angry":u"😠","biggrin":u"😁","aw_yeah":u"😏","bigcry":u"😭","evil":u"👿", "twisted":u"😈","sasmile":u"😈","tongue":u"😝","sleep":u"😴","conf":u"😕","confused":u"😕", "eek":u"😲","cry":u"😢","sweat1":u"😅","worshippy":u"🙇","wub":u"😍","mellow":u"😐", "shifty":u"👀","eyes":u"👀","demonicduck":u"󽻍","shruggie":u"¯\_(ツ)_/¯", "textstyle":u"\ufe0e","emojistyle":u"\ufe0f"}
-_eacdr=dict(zip(_eacd.values(),_eacd.keys()))
-for _euc in eac.keys():
-    _ec=u""
-    for _eucs in _euc.split("-"):
-        _ec+=unichr4all(int(_eucs,16))
-    _eacd[eac[_euc]["alpha_code"].strip(":").encode("utf-8")]=_ec
-    _eacdr[_ec]=eac[_euc]["alpha_code"].strip(":").encode("utf-8")
-    for _alias in eac[_euc]["aliases"]:
-        _eacd[_alias.strip(":")]=_ec
+from mdplay.inline_cjk import cjk_handler
+from mdplay.inline_emoji import emoji_handler
 
 punct=string.punctuation+string.whitespace
 
@@ -260,65 +233,7 @@ def _parse_inline(content,levs=("root",),flags=()):
                     out.append(nodes.InlineSpoilerNode(list(href)))
                 else:
                     out.append(nodes.InlineSpoilerNode(label))
-            elif (hreftype.lower() in ("cang","cangjie","souketsu","soketsu")) and ("nocangjie" not in flags):
-                kanji = proc_cang(href, -1)
-                #print `kanji`, `label`
-                if label and ("norubi" not in flags):
-                    out.append(nodes.RubiNode(kanji, label))
-                else:
-                    out.append(kanji)
-            elif (hreftype.lower() in ("cang3","cangjie3","souketsu3","soketsu3")) and ("nocangjie" not in flags):
-                kanji = proc_cang(href, 3)
-                #print `kanji`, `label`
-                if label and ("norubi" not in flags):
-                    out.append(nodes.RubiNode(kanji, label))
-                else:
-                    out.append(kanji)
-            elif (hreftype.lower() in ("cang5","cangjie5","souketsu5","soketsu5")) and ("nocangjie" not in flags):
-                kanji = proc_cang(href, 5)
-                if label and ("norubi" not in flags):
-                    out.append(nodes.RubiNode(kanji, label))
-                else:
-                    out.append(kanji)
-            elif (hreftype.lower() in ("kana",)) and ("noromkan" not in flags):
-                kana = kanafy(href)
-                if label and ("norubi" not in flags):
-                    out.append(nodes.RubiNode(kana, label))
-                else:
-                    out.append(kana)
-            elif (hreftype.lower() in ("kkana","katakana")) and ("noromkan" not in flags):
-                kana = kataise(kanafy(href))
-                if label and ("norubi" not in flags):
-                    out.append(nodes.RubiNode(kana, label))
-                else:
-                    out.append(kana)
-            elif (hreftype.lower() in ("hkana","hgana","hiragana")) and ("noromkan" not in flags):
-                kana = hiraise(kanafy(href))
-                if label and ("norubi" not in flags):
-                    out.append(nodes.RubiNode(kana, label))
-                else:
-                    out.append(kana)
-            elif (hreftype.lower() in ("kana_hbn",)) and ("noromkan" not in flags):
-                kana = kanafy(href, "hepburn")
-                if label and ("norubi" not in flags):
-                    out.append(nodes.RubiNode(kana, label))
-                else:
-                    out.append(kana)
-            elif (hreftype.lower() in ("kkana_hbn","katakana_hepburn")) and ("noromkan" not in flags):
-                kana = kataise(kanafy(href, "hepburn"))
-                if label and ("norubi" not in flags):
-                    out.append(nodes.RubiNode(kana, label))
-                else:
-                    out.append(kana)
-            elif (hreftype.lower() in ("hkana_hbn","hgana_hbn","hiragana_hepburn")) and ("noromkan" not in flags):
-                kana = hiraise(kanafy(href, "hepburn"))
-                if label and ("norubi" not in flags):
-                    out.append(nodes.RubiNode(kana, label))
-                else:
-                    out.append(kana)
-            elif (hreftype.lower() in ("rubi","ruby","furi")) and ("norubi" not in flags):
-                out.append(nodes.RubiNode(href, label))
-            else:
+            elif not cjk_handler(out, hreftype, href, label, flags):
                 out.append(nodes.HrefNode(href,label,hreftype,width=gogo(width),height=gogo(height)))
         elif c=="]" and lev=="label":
             return out
@@ -351,92 +266,17 @@ def _parse_inline(content,levs=("root",),flags=()):
         elif c=="~" and content[0]==")" and lev=="sub" and ("nopandocstyle" not in flags):
             del content[0]
             return out
-        ### Badass echoes ###
-        #elif c=="^" and content[:2]=="((" and (lev!="wikilink" or out2) and ("nobadass" not in flags):
-        #    del content[0]
-        #    out.append(nodes.BadassEchoNode(_parse_inline(content,("badass",)+levs,flags=flags)))
-        #elif c==")" and content[:2]=="))" and lev=="badass" and ("nobadass" not in flags):
-        #    return out
-        ### Emoticons and Emoji ###
-        elif re.match(r":(\w|_|-)+:",c+("".join(content))) and ("noshortcodeemoji" not in flags):
-            kwontenti=""
-            c=content.pop(0)
-            while (c!=":"):
-                kwontenti+=c
-                c=content.pop(0)
-            kwontent=kwontenti
-            if kwontent.startswith("icon_"): #Is this one always okay?
-                kwontent=kwontent[5:]
-            elif kwontent.startswith("eusa_"):
-                kwontent=kwontent[5:]
-            elif kwontent.startswith("dan_"):
-                kwontent=kwontent[4:] 
-            if kwontent in _eacd: 
-                emoji=_eacd[kwontent.decode("utf-8")]
-                if emoji in SMILEYS:
-                    emote=SMILEYS[emoji]
-                else:
-                    emote=":"+kwontenti+":"
-                nodo=nodes.EmojiNode(emoji.encode("utf-8"), (emote, kwontenti), "shortcode")
-                out.append(nodo)
-                if do_fuse!=None:
-                    if (do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2:
-                        if not do_fuse.fyzi:
-                            do_fuse.fuse=nodo
-                            nodo.fyzi=1
-                    elif emoji == u"\ufe0e":
-                        do_fuse.force_text=1
-                do_fuse=nodo
-                dfstate=1
-            else:
-                out.append(":"+kwontenti+":")
-        elif is_emotic(c+("".join(content))) and ("noasciiemoticon" not in flags):
-            emote=is_emotic(c+("".join(content)))
-            for iii in range(len(emote)-1): #Already popped the first (to c)!
-                content.pop(0)
-            emoji=SMILEYA[emote].encode("utf-8")
-            shortcode=None
-            if emoji in _eacdr:
-                shortcode=_eacdr[emoji]
-            nodo=nodes.EmojiNode(emoji, (emote, shortcode), "ascii")
-            out.append(nodo) 
-            if do_fuse!=None:
-                if (do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2:
-                    if not do_fuse.fyzi:
-                        do_fuse.fuse=nodo
-                        nodo.fyzi=1
-                elif emoji.decode("utf-8") == u"\ufe0e":
-                    do_fuse.force_text=1
-            do_fuse=nodo
-            dfstate=1
-        #
-        elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):
-            out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags))
-        elif (((c.decode("utf-8"),) in TWEM2) or (c.decode("utf-8") in (u"\U000FDECD",u"\ufe0e"))) and ("label" not in levs):
-            emoji=c.decode("utf-8")
-            if emoji in _eacdr:
-                shortcode=_eacdr[emoji]
-            else:
-                shortcode=None
-            emote=":unnamed:"
-            if emoji in SMILEYS:
-                emote=SMILEYS[emoji]
-            elif shortcode:
-                emote=":"+shortcode+":"
-            nodo=nodes.EmojiNode(c, (emote, shortcode), "verbatim")
-            out.append(nodo) 
-            if do_fuse!=None:
-                if (do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2:
-                    if not do_fuse.fyzi:
-                        do_fuse.fuse=nodo
-                        nodo.fyzi=1
-                elif emoji == u"\ufe0e":
-                    do_fuse.force_text=1
-            do_fuse=nodo
-            dfstate=1
+        ### Emoji ###
         else:
-            lastchar=c
-            out.append(c)
+            retemo = emoji_handler(out, c, content, levs, do_fuse, dfstate, flags)
+            if retemo:
+                do_fuse, dfstate = retemo
+            ### Other ###
+            elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):
+                out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags))
+            else:
+                lastchar=c
+                out.append(c)
     return out
 
 def cautious_replace(strn,frm,to):

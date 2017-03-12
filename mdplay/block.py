@@ -133,6 +133,13 @@ def _parse_block(f,titlelevels,flags):
                 within="table"
                 f.rtpma()
                 continue
+            elif line.startswith(".. ") and ("::" in line) and ("directive" in flags):
+                within="directive"
+                f.rtpma()
+                continue
+            elif line.startswith(".. ") and ("nocomment" not in flags):
+                #No rtpma or within change.
+                continue
             elif line.strip():
                 within="para"
                 f.rtpma()
@@ -179,7 +186,7 @@ def _parse_block(f,titlelevels,flags):
                 # Combining ReST and ATX headers is not.
                 # For each new char, use the first level without a char.
                 # Exception is "-" which is not assigned highest level,
-                # unless it is used for literally the first heading in 
+                # unless it is used for literally the first heading in
                 # the document.
                 # Thus implement ReST-style but mostly MD-compatible.
                 char=line.strip()[0]
@@ -408,6 +415,26 @@ def _parse_block(f,titlelevels,flags):
                 within="root"
                 f.rtpma()
                 continue
+        elif within=="directive":
+            if (not cellwid) and line.startswith(".. ") and ("::" in line):
+                direname, direargs = line[3:].split("::",1)
+                direfulfilled = 0
+                cellwid = [direargs]
+            elif line.strip() and (line.lstrip() == line):
+                yield (nodes.DirectiveNode(parse_block(minibuf,titlelevels,flags),direname,cellwid,cellrows))
+                cellwid = []; cellrows = []
+                minibuf=""
+                within="root"
+                f.rtpma()
+                continue
+            elif (not direfulfilled) and (not line.strip()):
+                direfulfilled = 1
+            elif (not direfulfilled) and line.lstrip().startswith(":") and (":" in line.lstrip()[1:]):
+                cellrows.append(map(str.strip, line.lstrip()[1:].split(":",1)))
+            elif not direfulfilled:
+                cellwid.append(line.strip())
+            else:
+                minibuf+=line.lstrip().rstrip("\r\n")+"\n"
         elif within=="tablerest":
             def validly(line,cellwid):
                 for cell in cellwid:
@@ -509,7 +536,13 @@ def _parse_block(f,titlelevels,flags):
                 continue
         else:
             raise AssertionError("Unknown syntax feature %r"%within)
-    if minibuf:
+    ####
+    if within=="directive":
+        yield (nodes.DirectiveNode(parse_block(minibuf,titlelevels,flags),direname,cellwid,cellrows))
+        cellwid = []; cellrows = []
+        minibuf=""
+        within="root"
+    elif minibuf:
         if within=="fence":
             yield (nodes.CodeBlockNode(minibuf,clas=fenceinfo))
             minibuf=""
@@ -524,4 +557,3 @@ def _parse_block(f,titlelevels,flags):
 
 def parse_block(content,titlelevels,flags=()):
     return _parse_block(LinestackIter(StringIO(content)),titlelevels,nodes.flatten_flags_parser(flags))
-

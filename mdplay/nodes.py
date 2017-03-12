@@ -46,6 +46,13 @@ class CodeBlockNode(Node):
         self.depth=depth
         self.clas=clas
 
+class DirectiveNode(Node):
+    def __init__(self,content,typ,args,opts):
+        self.content=content
+        self.type=typ
+        self.args=args
+        self.opts=opts
+
 class EmojiNode(InlineNode):
     pass
 
@@ -144,7 +151,10 @@ def flatten_flags_parser(flags):
     out=[]
     for flag in flags:
         if flag=="strict":
-            out.extend(flatten_flags_parser(["norest","nospoilertag","nowikitext","noredditstyle","nopandocstyle","nospecialhrefs","nodiacritic","noemoticon","noembedspoiler","nocjk","norubi"]))
+            out.extend(flatten_flags_parser(["norest","nospoilertag","nowikitext",
+                                  "noredditstyle","nopandocstyle","nospecialhrefs",
+                                  "nodiacritic","noemoticon","noembedspoiler",
+                                  "nocjk","norubi","nocomment"]))
         elif flag=="norest":
             out.extend(flatten_flags_parser(["noresthead","nodicode","noresttable"]))
         elif flag=="nowikitext":
@@ -185,6 +195,3 @@ def simul_replace(a, b, c, d, e):
     for f in a.split(b):
         r.append(f.replace(d, e))
     return c.join(r)
-
-
-

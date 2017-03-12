@@ -408,7 +408,7 @@ Testing a URN: [x\-wikipedia:Tree](x-wikipedia:Tree)
 
 x̄ and ȳ
 
-これわ なん ですか?
+これは なん ですか?
 
 日本語 (にほんご)
 
@@ -426,7 +426,7 @@ x̄ and ȳ
 
 円
 
-これわ (Kore wa)  なん (nan)  ですか (desu ka) ?
+これは (Kore wa)  なん (nan)  ですか (desu ka) ?
 
 Pinguinet (PANG\-win\-ay)
 

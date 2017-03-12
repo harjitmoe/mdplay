@@ -394,7 +394,7 @@ Testing a URN: x-wikipedia:Tree
 
 {\=x} and {\=y}
 
-!hkana[](korewa nan desuka?)
+!hkana[](koreha nan desuka?)
 
 !souketsu[!hkana[](Nihongo)](a-dm yrmmr)
 
@@ -412,7 +412,7 @@ Testing a URN: x-wikipedia:Tree
 
 !cang5[](blm65535)
 
-!hkana[Kore wa](korewa) !hkana[nan](nan) !hkana[desu ka](desuka)?
+!hkana[Kore wa](koreha) !hkana[nan](nan) !hkana[desu ka](desuka)?
 
 !rubi[PANG-win-ay](Pinguinet)
 

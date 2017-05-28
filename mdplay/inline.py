@@ -120,6 +120,15 @@ def _parse_inline(content,levs=("root",),flags=()):
             lastchar=c+c2
             out.append(c2)
             continue
+        elif do_fuse and (c+("".join(content))).startswith("&zwj"): # Must handle this (emoji) eventuality here.
+            # c is "&" atm
+            del content[:3] # z, w and j
+            if content and content[0] == ";":
+                del content[0]
+            c = htmlentitydefs.html5["zwj;"].encode("utf-8")
+            retemo = emoji_handler(out, c, content, levs, do_fuse, dfstate, flags)
+            if retemo:
+                do_fuse, dfstate = retemo
         elif c=="&" and (len(content)>1) and ((content[0]+content[1]) in approaching_entity) and ("nohtmldeentity" not in flags):
             c=content[0]+content[1] #NOT +=
             n=2

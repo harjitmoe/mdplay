@@ -166,10 +166,12 @@ def _md_out_body(node,flags=()):
                 try:
                     hexcode="%x"%nodes.utf16_ord(node.content.decode("utf-8"))
                     altcode=node.content
-                    if node.fuse!=None:
-                        hexcode+="-%x"%nodes.utf16_ord(node.fuse.content.decode("utf-8"))
-                        altcode+=node.fuse.content
-                        node.fuse.completed=1
+                    nnodf=node.fuse
+                    while nnodf!=None:
+                        hexcode+="-%x"%nodes.utf16_ord(nnodf.content.decode("utf-8"))
+                        altcode+=nnodf.content
+                        nnodf.completed=1
+                        nnodf=nnodf.fuse
                     if node.force_text:
                         return altcode+u"\ufe0e".encode("utf-8")
                     elif "oldtwemoji" in flags:

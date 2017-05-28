@@ -11,7 +11,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 from mdplay.eac import eac
 from mdplay.pickups_util import SMILEYS
 from mdplay.utfsupport import unichr4all
-from mdplay.twem2support import TWEM2
+from mdplay.twem2support import TWEM2, TWEM3, TWEM4
 from mdplay import nodes
 
 #Note that :D may come out as several things depending on
@@ -34,10 +34,18 @@ for _euc in eac.keys():
     _ec=u""
     for _eucs in _euc.split("-"):
         _ec+=unichr4all(int(_eucs,16))
-    eacd[eac[_euc]["alpha_code"].strip(":").encode("utf-8")]=_ec
-    eacdr[_ec]=eac[_euc]["alpha_code"].strip(":").encode("utf-8")
+    eacd[eac[_euc]["alpha code"].strip(":").encode("utf-8")]=_ec
+    eacdr[_ec]=eac[_euc]["alpha code"].strip(":").encode("utf-8")
     for _alias in eac[_euc]["aliases"]:
         eacd[_alias.strip(":")]=_ec
+
+def fusion_check(do_fuse, nodo):
+    # Note: this will probably bork on narrow (Windows)!
+    tupl = tuple(nodo.content.decode("utf-8"))
+    while do_fuse:
+        tupl = tuple(do_fuse.content.decode("utf-8")) + tupl
+        do_fuse = do_fuse.fyzi
+    return (tupl in TWEM4) or (tupl in TWEM2)
 
 def emoji_handler(out, c, content, levs, do_fuse, dfstate, flags):
     ### Emoticons and Emoji ###
@@ -63,10 +71,9 @@ def emoji_handler(out, c, content, levs, do_fuse, dfstate, flags):
             nodo=nodes.EmojiNode(emoji.encode("utf-8"), (emote, kwontenti), "shortcode")
             out.append(nodo)
             if do_fuse!=None:
-                if (do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2:
-                    if not do_fuse.fyzi:
-                        do_fuse.fuse=nodo
-                        nodo.fyzi=1
+                if fusion_check(do_fuse, nodo):
+                    do_fuse.fuse=nodo
+                    nodo.fyzi=do_fuse
                 elif emoji == u"\ufe0e":
                     do_fuse.force_text=1
             do_fuse=nodo
@@ -84,15 +91,14 @@ def emoji_handler(out, c, content, levs, do_fuse, dfstate, flags):
         nodo=nodes.EmojiNode(emoji, (emote, shortcode), "ascii")
         out.append(nodo) 
         if do_fuse!=None:
-            if (do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2:
-                if not do_fuse.fyzi:
-                    do_fuse.fuse=nodo
-                    nodo.fyzi=1
+            if fusion_check(do_fuse, nodo):
+                do_fuse.fuse=nodo
+                nodo.fyzi=do_fuse
             elif emoji.decode("utf-8") == u"\ufe0e":
                 do_fuse.force_text=1
         do_fuse=nodo
         dfstate=1
-    elif (((c.decode("utf-8"),) in TWEM2) or (c.decode("utf-8") in (u"\U000FDECD",u"\ufe0e"))) and ("label" not in levs):
+    elif ((c.decode("utf-8") in TWEM3) or (c.decode("utf-8") in (u"\U000FDECD",u"\ufe0e"))) and ("label" not in levs):
         emoji=c.decode("utf-8")
         if emoji in eacdr:
             shortcode=eacdr[emoji]
@@ -106,10 +112,9 @@ def emoji_handler(out, c, content, levs, do_fuse, dfstate, flags):
         nodo=nodes.EmojiNode(c, (emote, shortcode), "verbatim")
         out.append(nodo) 
         if do_fuse!=None:
-            if (do_fuse.content.decode("utf-8"), nodo.content.decode("utf-8")) in TWEM2:
-                if not do_fuse.fyzi:
-                    do_fuse.fuse=nodo
-                    nodo.fyzi=1
+            if fusion_check(do_fuse, nodo):
+                do_fuse.fuse=nodo
+                nodo.fyzi=do_fuse
             elif emoji == u"\ufe0e":
                 do_fuse.force_text=1
         do_fuse=nodo

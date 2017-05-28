@@ -3,3 +3,6 @@
 facey.md
 facey.html
 .fuse_hidden*
+__pycache__
+gen_twem2support.py
+

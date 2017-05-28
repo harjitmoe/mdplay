@@ -408,7 +408,7 @@ Testing a URN: [x\-wikipedia:Tree](x-wikipedia:Tree)
 
 x̄ and ȳ
 
-これは なん ですか?
+これわ なん ですか?
 
 日本語 (にほんご)
 
@@ -426,7 +426,7 @@ x̄ and ȳ
 
 円
 
-これは (Kore wa)  なん (nan)  ですか (desu ka) ?
+これわ (Kore wa)  なん (nan)  ですか (desu ka) ?
 
 Pinguinet (PANG\-win\-ay)
 
@@ -452,3 +452,7 @@ Pinguinet (PANG\-win\-ay)
 ![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32) 🌚︎![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32) ![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)![️](https://twemoji.maxcdn.com/2/72x72/fe0f.png =32x32) ![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)‌![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)
 
 ![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) 😄︎![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32) ![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)![️](https://twemoji.maxcdn.com/2/72x72/fe0f.png =32x32) ![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)‌![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)
+
+This should be a rainbow banner: ![🏳](https://twemoji.maxcdn.com/2/72x72/1f3f3.png =32x32)‍![🌈](https://twemoji.maxcdn.com/2/72x72/1f308.png =32x32) or ![🏳](https://twemoji.maxcdn.com/2/72x72/1f3f3.png =32x32)![🌈](https://twemoji.maxcdn.com/2/72x72/1f308.png =32x32)
+
+![⛹🏻](https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb.png =32x32)![‍](https://twemoji.maxcdn.com/2/72x72/200d.png =32x32)![♀](https://twemoji.maxcdn.com/2/72x72/2640.png =32x32)️

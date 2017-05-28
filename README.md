@@ -8,7 +8,7 @@ flags can turn features and extensions off and configure exporters, the obvious 
 
 (this readme and changelog, barring the licence, is written with lowercase at the beginning of sentences, except for proper nouns, and with double spacing after sentences (in the Markdown, at any rate).  this is a deliberate stylistic decision and, as this is my project, my decisions.)
 
-code version 7.x
+code version 6.1.7 modified
 
 change-log:
 

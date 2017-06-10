@@ -8,12 +8,13 @@ flags can turn features and extensions off and configure exporters, the obvious 
 
 (this readme and changelog, barring the licence, is written with lowercase at the beginning of sentences, except for proper nouns, and with double spacing after sentences (in the Markdown, at any rate).  this is a deliberate stylistic decision and, as this is my project, my decisions.)
 
-code version 6.1.7 modified
+code version 7 alpha
 
 change-log:
 
 |ver|changes|
 |---|---|
+|7 so far|tried to improve emoji support.  wound up ripping out much of the existing emoji parser code due to being broken beyond the possibility of repair, at least without creating an unreadable monster, and have consequently had to rethink my design decisions.  once all emoji is represented in Unicode, then I could just detect the Unicode emoji characters, as opposed to at the original inline parsing stage which may have entities (most of which are irrelevant), alphacodes, asciimotes, actual Unicode, the lot, hence the extremely confusing broken code that I just tore out.  hence it will now still convert alphacodes and asciimotes to Unicode, but will not attempt to wrap them in EmojiNode objects, as that should be a separate stage (as yet unimplemented but should be comparatively straightforward).|
 |6.1.7|slight adjustment to what is considered "hepburn" romaji (allow "hu" - see code comments).  text/graphical style specifiers for emoji.|
 |6.1.6|ditch my modified romkan in favour of my entirely new support module, which uses a rather different approach to conversion, and proves substantially faster albeit one-way.  also, switch to MPL.|
 |6.1.5|conversion to hiragana now converts katakana where possible as well as romaji, and vice-versa.|

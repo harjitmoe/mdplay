@@ -107,11 +107,11 @@ C:\WINDOWS\--hello--
 
 [size=6][b]Superscripts and subscripts [/b][/size]
 
-m=Ec[sup]-:digit_two:[/sup] 
+m=Ec[sup]-2[/sup] 
 
-E=(mv[sup]:digit_two:[/sup])/:digit_two: 
+E=(mv[sup]2[/sup])/2 
 
-CH[sub]:digit_three:[/sub]COOH 
+CH[sub]3[/sub]COOH 
 
 Back[sup](not Backside)[/sup] 
 
@@ -139,7 +139,7 @@ Parse_this_text stu[i]pen[/i]dously, [i]mate[/i], do you [i]he[/i]ar me?
 
 [rule]
 
-[size=6][b]Level :digit_two: Heading[/b][/size]
+[size=6][b]Level 2 Heading[/b][/size]
 
 = Not a heading == 
 
@@ -149,17 +149,17 @@ Parse_this_text stu[i]pen[/i]dously, [i]mate[/i], do you [i]he[/i]ar me?
 
 [i]Italic[/i], [b]bold[/b], [b][i]both[/i][/b], _neither_. 
 
-[size=7][b]Level :digit_one: [/b][/size]
+[size=7][b]Level 1 [/b][/size]
 
-:pound_symbol:Not heading 
+#Not heading 
 
-[size=7][b]Level :digit_one: [/b][/size]
+[size=7][b]Level 1 [/b][/size]
 
-[size=6][b]Level :digit_two: [/b][/size]
+[size=6][b]Level 2 [/b][/size]
 
 [size=4][b]Hi [/b][/size]
 
-[size=5][b]Level :digit_three: [/b][/size]
+[size=5][b]Level 3 [/b][/size]
 
 What does this do? 
 
@@ -221,9 +221,9 @@ Watashi-wa Tōmasu desu.
 
 {Nothing} ^(Spe{cial}). [i]h[/i] 
 
-[table][tr][th]Why [/th][th]What [/th][/tr][tr][td]:digit_one::digit_two::digit_three: [/td][td]:digit_four::digit_five::digit_six::digit_seven: :digit_eight: :digit_nine: [/td][/tr][tr][td]a [/td][td]bcde [/td][/tr][tr][td]fgh [/td][td]ijkl [/td][/tr][tr][td][/td][td]mnop [/td][/tr][tr][td]:digit_one::digit_two::digit_three: [/td][td][/td][/tr][tr][td]:digit_four::digit_five::digit_six: [/td][td]:digit_seven::digit_eight::digit_nine: [/td][/tr][tr][td]UUU [/td][td]Dwelt [/td][/tr][/table]
+[table][tr][th]Why [/th][th]What [/th][/tr][tr][td]123 [/td][td]4567 8 9 [/td][/tr][tr][td]a [/td][td]bcde [/td][/tr][tr][td]fgh [/td][td]ijkl [/td][/tr][tr][td][/td][td]mnop [/td][/tr][tr][td]123 [/td][td][/td][/tr][tr][td]456 [/td][td]789 [/td][/tr][tr][td]UUU [/td][td]Dwelt [/td][/tr][/table]
 
-[table][tr][th]Why[/th][th]What[br][/th][/tr][tr][td]:digit_one::digit_two::digit_three:[/td][td]:digit_four::digit_five::digit_six::digit_seven: :digit_eight: :digit_nine:[br][/td][/tr][tr][td]a[/td][td]bcde[br][/td][/tr][tr][td]fgh[/td][td]ijkl[br][/td][/tr][tr][td] [/td][td]mnop[br][/td][/tr][tr][td]:digit_one::digit_two::digit_three:[/td][td][/td][/tr][tr][td]:digit_four::digit_five::digit_six:[/td][td]:digit_seven::digit_eight::digit_nine:[br][/td][/tr][tr][td]UUU[/td][td]Dwelt[br][/td][/tr][/table]
+[table][tr][th]Why[/th][th]What[br][/th][/tr][tr][td]123[/td][td]4567 8 9[br][/td][/tr][tr][td]a[/td][td]bcde[br][/td][/tr][tr][td]fgh[/td][td]ijkl[br][/td][/tr][tr][td] [/td][td]mnop[br][/td][/tr][tr][td]123[/td][td][/td][/tr][tr][td]456[/td][td]789[br][/td][/tr][tr][td]UUU[/td][td]Dwelt[br][/td][/tr][/table]
 
 Hi. 
 
@@ -309,7 +309,7 @@ Testing ordered lists:
 [list][*][5]The Lord is extending the Saints' understanding... 
 [/list]
 
-(note that the above may come out as :digit_one: or :digit_five:, depending on mdplay renderer, flags and targeted system) 
+(note that the above may come out as 1 or 5, depending on mdplay renderer, flags and targeted system) 
 
 [list][*][1]An ol containing an 
 [list][*]Ul containing an 
@@ -326,27 +326,27 @@ Testing ordered lists:
 [/list]
 [/list]
 
-This is just a paragraph.  :lenny:  [spoiler]It actually is.[/spoiler] :vulcan: :dan_shifty: :eyes: 
+This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [spoiler]It actually is.[/spoiler] 🖖 👀 👀 
 
-Squirt :aries: Squirt :aries: Squirt :aries: 
+Squirt ♈ Squirt ♈ Squirt ♈ 
 
-:smile: :grinning: [img width="32" height="32" alt="\ud83d\ude06" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f606.png[/img] [img width="32" height="32" alt="\u263a" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/263a.png[/img] :demonicduck: 
+😄 😀 😆 ☺ 󽻍 
 
-[table][tr][th]Why[/th][th]What[/th][/tr][tr][td]:digit_one::digit_two::digit_three:[/td][td]:digit_four::digit_five::digit_six::digit_seven: :digit_eight: :digit_nine:[/td][/tr][tr][td]a[/td][td]bcde[/td][/tr][tr][td]fgh[/td][td]ijkl[/td][/tr][tr][td] [/td][td]mnop[/td][/tr][tr][td]:digit_one::digit_two::digit_three:[/td][td][/td][/tr][tr][td]:digit_four::digit_five::digit_six:[/td][td]:digit_seven::digit_eight::digit_nine:[/td][/tr][tr][td]UUU[/td][td]Dwelt[/td][/tr][/table]
+[table][tr][th]Why[/th][th]What[/th][/tr][tr][td]123[/td][td]4567 8 9[/td][/tr][tr][td]a[/td][td]bcde[/td][/tr][tr][td]fgh[/td][td]ijkl[/td][/tr][tr][td] [/td][td]mnop[/td][/tr][tr][td]123[/td][td][/td][/tr][tr][td]456[/td][td]789[/td][/tr][tr][td]UUU[/td][td]Dwelt[/td][/tr][/table]
 
 m̈ëẗälë Ë 
 
-ẍ=-ω[sup]:digit_two:[/sup]x 
+ẍ=-ω[sup]2[/sup]x 
 
-:ok_woman: :ok_woman::tone3: :ok_woman::tone5: 
+🙆 🙆🏽 🙆🏿 
 
-:aries: [img alt="small image" width="32" height="32"]http://i.imgur.com/YW5So8y.jpg[/img] [img alt="small image" width="32"]http://i.imgur.com/YW5So8y.jpg[/img] 
+♈ [img alt="small image" width="32" height="32"]http://i.imgur.com/YW5So8y.jpg[/img] [img alt="small image" width="32"]http://i.imgur.com/YW5So8y.jpg[/img] 
 
-:vulcan::tone5: :vulcan:‌:tone5:[br]:vulcan::tone2: :vulcan:‌:tone2:[br]:vulcan::tone3: :vulcan:‌:tone3: 
+🖖🏿 🖖‌🏿[br]🖖🏼 🖖‌🏼[br]🖖🏽 🖖‌🏽 
 
 :undiefined: 
 
-:regional_indicator_j::regional_indicator_p: :regional_indicator_j:‌:regional_indicator_p: 
+🇯🇵 🇯‌🇵 
 
 Testing a URN: [url="x-wikipedia:Tree"]x-wikipedia:Tree[/url] 
 
@@ -390,12 +390,12 @@ Pinguinet (PANG-win-ay)
 
 テガみ てがみ テガミ 
 
-:darkmoon: :darkmoon::textstyle: :darkmoon::emojistyle: :darkmoon:‌:textstyle: 
+🌚 🌚︎ 🌚️ 🌚‌︎ 
 
-:smile: :smile::textstyle: :smile::emojistyle: :smile:‌:textstyle: 
+😄 😄︎ 😄️ 😄‌︎ 
 
-This should be a rainbow banner: :flag_white::emojistyle:[img width="32" height="32" alt="\u200d\ud83c\udf08" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/200d-1f308.png[/img] or :rainbow_flag: 
+This should be a rainbow banner: 🏳️‍🌈 or 🏳🌈 
 
-:basketball_player::tone1:[img width="32" height="32" alt="\u200d\u2640" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/200d-2640.png[/img]:emojistyle: 
+⛹🏻‍♀️ 
 
-:basketball_player::tone1:[img width="32" height="32" alt="\u200d\u2640" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/200d-2640.png[/img]:emojistyle: 
+⛹🏻‍♀️ 

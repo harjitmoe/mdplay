@@ -372,11 +372,11 @@ Testing ordered lists:
       2) Coming back to this level. 
   * Similarly 
 
-This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [It actually is.](/spoiler) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32)
+This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [It actually is.](/spoiler) 🖖 👀 👀
 
-Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)
+Squirt ♈ Squirt ♈ Squirt ♈
 
-![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) ![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32) ![☺](https://twemoji.maxcdn.com/2/72x72/263a.png =32x32) ![![:demonicduck:](http://i.imgur.com/SfHfed9.png)](http://i.imgur.com/SfHfed9.png)
+😄 😀 😆 ☺ 󽻍
 
 |Why|What|
 |:-:|:--|
@@ -392,23 +392,23 @@ m̈ëẗälë Ë
 
 ẍ=\-ω^(2)x
 
-![🙆](https://twemoji.maxcdn.com/2/72x72/1f646.png =32x32) ![🙆🏽](https://twemoji.maxcdn.com/2/72x72/1f646-1f3fd.png =32x32) ![🙆🏿](https://twemoji.maxcdn.com/2/72x72/1f646-1f3ff.png =32x32)
+🙆 🙆🏽 🙆🏿
 
-![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) ![small image](http://i.imgur.com/YW5So8y.jpg =32x32) ![small image](http://i.imgur.com/YW5So8y.jpg =32x)
+♈ ![small image](http://i.imgur.com/YW5So8y.jpg =32x32) ![small image](http://i.imgur.com/YW5So8y.jpg =32x)
 
-![🖖🏿](https://twemoji.maxcdn.com/2/72x72/1f596-1f3ff.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)  
-![🖖🏼](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fc.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏼](https://twemoji.maxcdn.com/2/72x72/1f3fc.png =32x32)  
-![🖖🏽](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fd.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏽](https://twemoji.maxcdn.com/2/72x72/1f3fd.png =32x32)
+🖖🏿 🖖‌🏿  
+🖖🏼 🖖‌🏼  
+🖖🏽 🖖‌🏽
 
 :undiefined:
 
-![🇯🇵](https://twemoji.maxcdn.com/2/72x72/1f1ef-1f1f5.png =32x32) ![🇯](https://twemoji.maxcdn.com/2/72x72/1f1ef.png =32x32)‌![🇵](https://twemoji.maxcdn.com/2/72x72/1f1f5.png =32x32)
+🇯🇵 🇯‌🇵
 
 Testing a URN: [x\-wikipedia:Tree](x-wikipedia:Tree)
 
 x̄ and ȳ
 
-これわ なん ですか?
+これは なん ですか?
 
 日本語 (にほんご)
 
@@ -426,7 +426,7 @@ x̄ and ȳ
 
 円
 
-これわ (Kore wa)  なん (nan)  ですか (desu ka) ?
+これは (Kore wa)  なん (nan)  ですか (desu ka) ?
 
 Pinguinet (PANG\-win\-ay)
 
@@ -449,10 +449,12 @@ Pinguinet (PANG\-win\-ay)
 
 テガみ てがみ テガミ
 
-![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32) 🌚︎![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32) ![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)![️](https://twemoji.maxcdn.com/2/72x72/fe0f.png =32x32) ![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)‌![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)
+🌚 🌚︎ 🌚️ 🌚‌︎
 
-![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) 😄︎![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32) ![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)![️](https://twemoji.maxcdn.com/2/72x72/fe0f.png =32x32) ![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)‌![︎](https://twemoji.maxcdn.com/2/72x72/fe0e.png =32x32)
+😄 😄︎ 😄️ 😄‌︎
 
-This should be a rainbow banner: ![🏳](https://twemoji.maxcdn.com/2/72x72/1f3f3.png =32x32)‍![🌈](https://twemoji.maxcdn.com/2/72x72/1f308.png =32x32) or ![🏳](https://twemoji.maxcdn.com/2/72x72/1f3f3.png =32x32)![🌈](https://twemoji.maxcdn.com/2/72x72/1f308.png =32x32)
+This should be a rainbow banner: 🏳️‍🌈 or 🏳🌈
 
-![⛹🏻](https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb.png =32x32)![‍](https://twemoji.maxcdn.com/2/72x72/200d.png =32x32)![♀](https://twemoji.maxcdn.com/2/72x72/2640.png =32x32)️
+⛹🏻‍♀️
+
+⛹🏻‍♀️

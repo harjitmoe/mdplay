@@ -44,15 +44,7 @@ def _parse_inline(content,levs=("root",),flags=()):
     out=[]
     out2=[]
     lev=levs[0]
-    do_fuse=None
-    dfstate=0
-    nomeemo=0
     while content:
-        if dfstate==1:
-            dfstate=2
-        elif dfstate==2:
-            do_fuse=None
-            dfstate=0
         c=content.pop(0)
         isurl=re.match(uriregex,c+("".join(content))) #NOT urireg
         ### BibTeX diacritics
@@ -120,15 +112,6 @@ def _parse_inline(content,levs=("root",),flags=()):
             lastchar=c+c2
             out.append(c2)
             continue
-        elif do_fuse and (c+("".join(content))).startswith("&zwj"): # Must handle this (emoji) eventuality here.
-            # c is "&" atm
-            del content[:3] # z, w and j
-            if content and content[0] == ";":
-                del content[0]
-            c = htmlentitydefs.html5["zwj;"].encode("utf-8")
-            retemo = emoji_handler(out, c, content, levs, do_fuse, dfstate, flags)
-            if retemo:
-                do_fuse, dfstate = retemo
         elif c=="&" and (len(content)>1) and ((content[0]+content[1]) in approaching_entity) and ("nohtmldeentity" not in flags):
             c=content[0]+content[1] #NOT +=
             n=2
@@ -276,16 +259,14 @@ def _parse_inline(content,levs=("root",),flags=()):
             del content[0]
             return out
         ### Emoji ###
+        elif emoji_handler(out, c, content, levs, flags):
+            pass
+        ### Other ###
+        elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):
+            out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags))
         else:
-            retemo = emoji_handler(out, c, content, levs, do_fuse, dfstate, flags)
-            if retemo:
-                do_fuse, dfstate = retemo
-            ### Other ###
-            elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):
-                out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags))
-            else:
-                lastchar=c
-                out.append(c)
+            lastchar=c
+            out.append(c)
     return out
 
 def cautious_replace(strn,frm,to):

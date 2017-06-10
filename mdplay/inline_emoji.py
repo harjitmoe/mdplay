@@ -11,8 +11,6 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 from mdplay.eac import eac
 from mdplay.pickups_util import SMILEYS
 from mdplay.utfsupport import unichr4all
-from mdplay.twem2support import TWEM2, TWEM3, TWEM4
-from mdplay import nodes
 
 #Note that :D may come out as several things depending on
 #Python's arbitrary dict ordering; not sure what is best
@@ -39,15 +37,7 @@ for _euc in eac.keys():
     for _alias in eac[_euc]["aliases"]:
         eacd[_alias.strip(":")]=_ec
 
-def fusion_check(do_fuse, nodo):
-    # Note: this will probably bork on narrow (Windows)!
-    tupl = tuple(nodo.content.decode("utf-8"))
-    while do_fuse:
-        tupl = tuple(do_fuse.content.decode("utf-8")) + tupl
-        do_fuse = do_fuse.fyzi
-    return (tupl in TWEM4) or (tupl in TWEM2)
-
-def emoji_handler(out, c, content, levs, do_fuse, dfstate, flags):
+def emoji_handler(out, c, content, levs, flags):
     ### Emoticons and Emoji ###
     if re.match(r":(\w|_|-)+:",c+("".join(content))) and ("noshortcodeemoji" not in flags):
         kwontenti=""
@@ -64,61 +54,17 @@ def emoji_handler(out, c, content, levs, do_fuse, dfstate, flags):
             kwontent=kwontent[4:] 
         if kwontent in eacd: 
             emoji=eacd[kwontent.decode("utf-8")]
-            if emoji in SMILEYS:
-                emote=SMILEYS[emoji]
-            else:
-                emote=":"+kwontenti+":"
-            nodo=nodes.EmojiNode(emoji.encode("utf-8"), (emote, kwontenti), "shortcode")
-            out.append(nodo)
-            if do_fuse!=None:
-                if fusion_check(do_fuse, nodo):
-                    do_fuse.fuse=nodo
-                    nodo.fyzi=do_fuse
-                elif emoji == u"\ufe0e":
-                    do_fuse.force_text=1
-            do_fuse=nodo
-            dfstate=1
+            out.append(emoji)
         else:
             out.append(":"+kwontenti+":")
+        return True
     elif is_emotic(c+("".join(content))) and ("noasciiemoticon" not in flags):
         emote=is_emotic(c+("".join(content)))
         for iii in range(len(emote)-1): #Already popped the first (to c)!
             content.pop(0)
         emoji=SMILEYA[emote].encode("utf-8")
-        shortcode=None
-        if emoji in eacdr:
-            shortcode=eacdr[emoji]
-        nodo=nodes.EmojiNode(emoji, (emote, shortcode), "ascii")
-        out.append(nodo) 
-        if do_fuse!=None:
-            if fusion_check(do_fuse, nodo):
-                do_fuse.fuse=nodo
-                nodo.fyzi=do_fuse
-            elif emoji.decode("utf-8") == u"\ufe0e":
-                do_fuse.force_text=1
-        do_fuse=nodo
-        dfstate=1
-    elif ((c.decode("utf-8") in TWEM3) or (c.decode("utf-8") in (u"\U000FDECD",u"\ufe0e"))) and ("label" not in levs):
-        emoji=c.decode("utf-8")
-        if emoji in eacdr:
-            shortcode=eacdr[emoji]
-        else:
-            shortcode=None
-        emote=":unnamed:"
-        if emoji in SMILEYS:
-            emote=SMILEYS[emoji]
-        elif shortcode:
-            emote=":"+shortcode+":"
-        nodo=nodes.EmojiNode(c, (emote, shortcode), "verbatim")
-        out.append(nodo) 
-        if do_fuse!=None:
-            if fusion_check(do_fuse, nodo):
-                do_fuse.fuse=nodo
-                nodo.fyzi=do_fuse
-            elif emoji == u"\ufe0e":
-                do_fuse.force_text=1
-        do_fuse=nodo
-        dfstate=1
+        out.append(emoji)
+        return True
     else:
         return False
-    return (do_fuse, dfstate)
+

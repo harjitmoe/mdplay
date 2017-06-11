@@ -11,6 +11,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 from mdplay.eac import eac
 from mdplay.pickups_util import SMILEYS
 from mdplay.utfsupport import unichr4all
+from mdplay import nodes
 
 #Note that :D may come out as several things depending on
 #Python's arbitrary dict ordering; not sure what is best
@@ -67,4 +68,10 @@ def emoji_handler(out, c, content, levs, flags):
         return True
     else:
         return False
+
+
+
+
+
+
 

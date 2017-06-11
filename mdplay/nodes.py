@@ -118,17 +118,94 @@ def filter_paratags(content):
         return content[0].content
     return content
 
+def utf16_ord(s):
+    s=list(s)
+    c=s.pop(0)
+    if (0xD800<=ord(c)<0xDC00) and (0xDC00<=ord(s[0])<0xE000):
+        k=s.pop(0)
+        index_from_smp=((ord(c)-0xD800)*1024)+(ord(k)-0xDC00)
+        codepoint=0x010000+index_from_smp
+        if s: raise ValueError
+        return codepoint
+    else:
+        if s: raise ValueError
+        return ord(c)
+
+from mdplay import utfsupport
+from mdplay.twem2support import TWEM
+
+TWEM2 = {}
+for i2 in TWEM:
+    i = tuple([utfsupport.unichr4all(int(j,16)) for j in i2.split("-")])
+    if (len(i)>1) or (utf16_ord(i[0])>0xff): #No fancy copyright symbols here mate
+        TWEM2[i] = i2
+
+from collections import defaultdict
+
+_defaultdictception = lambda:defaultdict(_defaultdictception)
+
+TWEMD = _defaultdictception()
+TWEMD[u"\U000FDECD"] = ":demonicduck:"
+
+def _apply(lat, stack, fing):
+    if len(stack)>1:
+        return _apply(lat[stack[0]], stack[1:], fing)
+    lat[stack[0]]["\x00"] = fing
+
+for _twem in TWEM2.keys():
+    _apply(TWEMD, _twem, TWEM2[_twem])
+
+def emoji_scan(nodes):
+    nodesz2 = []
+    for node in nodes:
+        if type(node) == type(""):
+            node = list(node.decode("utf8"))
+            node2 = []
+            while node:
+                c = node.pop(0)
+                if (0xD800<=ord(c)<0xDC00) and node and (0xDC00<=ord(node[0])<0xE000):
+                    c += node.pop(0)
+                node2.append(c)
+            out = ""
+            while node2:
+                c = node2.pop(0)
+                node3 = node2[:]
+                d = []
+                td = TWEMD
+                while (node3) and (c in td):
+                    d.append(c)
+                    td = td[c]
+                    c = node3.pop(0)
+                if tuple(d) in TWEM2:
+                    if c != u"\ufe0e":
+                        nodesz2.append(out)
+                        out = ""
+                        node2 = node3
+                        node2.insert(0, c)
+                        nodesz2.append(EmojiNode(u"".join(d).encode("utf-8"), TWEM2[tuple(d)]))
+                    else:
+                        out += (u"".join(d) + c).encode("utf-8")
+                elif tuple(d) == (u"\U000FDECD",):
+                    nodesz2.append(EmojiNode(u"".join(d).encode("utf-8"), ":demonicduck:"))
+                else:
+                    out += c.encode("utf-8")
+            if out:
+                nodesz2.append(out)
+        else:
+            nodesz2.append(node)
+    return nodesz2
+
 def agglomerate(nodelist):
     outlist=[]
     for i in nodelist:
-        #NOTE: assumes 2k
+        #NOTE: assumes Python 2
         if isinstance(i,type(u"")):
             i=i.encode("utf-8")
         if isinstance(i,type("")) and outlist and isinstance(outlist[-1],type("")): #NOT elif
             outlist[-1]+=i
         else:
             outlist.append(i)
-    return outlist
+    return emoji_scan(outlist)
 
 def agglomerate_inplace(nodelist):
     """The way the DOM renderer works with lists necessitates this."""
@@ -176,19 +253,6 @@ def flatten_flags_parser(flags):
         else:
             out.append(flag)
     return list(set(out))
-
-def utf16_ord(s):
-    s=list(s)
-    c=s.pop(0)
-    if (0xD800<=ord(c)<0xDC00) and (0xDC00<=ord(s[0])<0xE000):
-        k=s.pop(0)
-        index_from_smp=((ord(c)-0xD800)*1024)+(ord(k)-0xDC00)
-        codepoint=0x010000+index_from_smp
-        if s: raise ValueError
-        return codepoint
-    else:
-        if s: raise ValueError
-        return ord(c)
 
 def simul_replace(a, b, c, d, e):
     r = []

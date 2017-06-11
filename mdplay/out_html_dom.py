@@ -8,7 +8,6 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
 from mdplay import nodes
-from mdplay.twem2support import TWEM6
 
 def html_out_part(nodem,document,in_list=(),flags=()):
     return list(_html_out_part(nodes.agglomerate_inplace(nodem),document,in_list,flags=flags))
@@ -84,31 +83,16 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                     r.setAttribute("alt",":demonicduck:")
                     yield r
                 else:
-                    try:
-                        hexcode="%x"%nodes.utf16_ord(node.content.decode("utf-8"))
-                    except ValueError:
-                        yield document.createTextNode(node.content.decode("utf-8"))
-                    else:
-                        altcode=node.content.decode("utf-8")
-                        nnodf=node.fuse
-                        while nnodf!=None:
-                            hexcode+="-%x"%nodes.utf16_ord(nnodf.content.decode("utf-8"))
-                            altcode+=nnodf.content.decode("utf-8")
-                            nnodf.completed=1
-                            nnodf=nnodf.fuse
-                        hexcode = TWEM6(hexcode)
-                        if node.force_text:
-                            yield document.createTextNode(altcode+u"\ufe0e")
-                        else:
-                            r=document.createElement("img")
-                            r.setAttribute("src","https://twemoji.maxcdn.com/2/72x72/%s.png"%hexcode)
-                            r.setAttribute("alt",altcode)
-                            r.setAttribute("style","max-width:2em;max-height:2em;")
-                            # Acceptable attribution per https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
-                            yield document.createComment(" twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/ ")
-                            yield r
+                    hexcode=node.label
+                    altcode=node.content.decode("utf-8")
+                    r=document.createElement("img")
+                    r.setAttribute("src","https://twemoji.maxcdn.com/2/72x72/%s.png"%hexcode)
+                    r.setAttribute("alt",altcode)
+                    r.setAttribute("style","max-width:2em;max-height:2em;")
+                    # Acceptable attribution per https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
+                    yield document.createComment(" twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/ ")
+                    yield r
             else:
-                raise RuntimeError("youuuuuuuuuuuuuuuuu moron")
                 yield document.createTextNode(node.content.decode("utf-8"))
         elif isinstance(node,nodes.TitleNode):
             if node.depth>6: node.depth=6

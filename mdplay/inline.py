@@ -11,7 +11,6 @@ from mdplay import nodes, umlaut
 from mdplay.uriregex import uriregex
 from mdplay import htmlentitydefs_latest as htmlentitydefs
 from mdplay.utfsupport import unichr4all
-from mdplay.twem2support import TWEM2
 from mdplay.inline_cjk import cjk_handler
 from mdplay.inline_emoji import emoji_handler
 
@@ -120,17 +119,11 @@ def _parse_inline(content,levs=("root",),flags=()):
                 n+=1
             if c in htmlentitydefs.html5.keys():
                 hamayalawa = htmlentitydefs.html5[c]
-                if (((hamayalawa,) in TWEM2) or (hamayalawa in (u"\U000FDECD",u"\ufe0e"))):
-                    content.insert(0,hamayalawa.encode("utf-8"))
-                    continue
                 out.append(hamayalawa.encode("utf-8"))
                 content=content[n:]
             elif (c[:-1] in htmlentitydefs.html5.keys()) and ("nohtmlsloppyentity" not in flags):
                 n -= 1; c = c[:-1]
                 hamayalawa = htmlentitydefs.html5[c]
-                if (((hamayalawa,) in TWEM2) or (hamayalawa in (u"\U000FDECD",u"\ufe0e"))):
-                    content.insert(0,hamayalawa.encode("utf-8"))
-                    continue
                 out.append(hamayalawa.encode("utf-8"))
                 content=content[n:]
             else:

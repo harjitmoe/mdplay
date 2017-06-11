@@ -195,22 +195,13 @@ def _html_out_body(node,in_list,flags):
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return ""
     elif isinstance(node,nodes.EmojiNode):
-        if node.completed: return ""
         if ("notwemoji" not in flags):
             if node.content.decode("utf-8") == u"\U000FDECD":
                 return "<img src='http://i.imgur.com/SfHfed9.png' alt=':demonicduck:'></img>"
             else:
                 try:
-                    hexcode="%x"%nodes.utf16_ord(node.content.decode("utf-8"))
-                    altcode=node.content
-                    nnodf = node.fuse
-                    while nnodf!=None:
-                        hexcode+="-%x"%nodes.utf16_ord(nnodf.content.decode("utf-8"))
-                        altcode+=nnodf.content
-                        nnodf.completed=1
-                        nnodf = nnodf.fuse
-                    if node.force_text:
-                        return altcode+u"\ufe0e".encode("utf-8")
+                    hexcode = node.label[2]
+                    altcode = node.content
                     # Acceptable attribution per https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
                     return "<!-- twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/ --><img alt='%s' src='https://twemoji.maxcdn.com/2/72x72/%s.png' style='max-width:2em;max-height:2em;'></img>"%(altcode,hexcode)
                 except ValueError: pass

@@ -75,15 +75,14 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
         elif not isinstance(node,nodes.Node): #i.e. is a string
             yield document.createTextNode(node.decode("utf-8").replace(u"\x20\x20",u"\xa0\x20"))
         elif isinstance(node,nodes.EmojiNode):
-            if node.completed: pass #Inserted via a node.fuse already
-            elif ("notwemoji" not in flags):
+            if ("notwemoji" not in flags):
                 if node.content.decode("utf-8") == u"\U000FDECD":
                     r=document.createElement("img")
                     r.setAttribute("src","http://i.imgur.com/SfHfed9.png")
                     r.setAttribute("alt",":demonicduck:")
                     yield r
                 else:
-                    hexcode=node.label
+                    hexcode=node.label[2]
                     altcode=node.content.decode("utf-8")
                     r=document.createElement("img")
                     r.setAttribute("src","https://twemoji.maxcdn.com/2/72x72/%s.png"%hexcode)

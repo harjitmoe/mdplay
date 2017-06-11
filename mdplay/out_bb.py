@@ -213,31 +213,22 @@ def _bb_out(node,in_list,flags):
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return ""
     elif isinstance(node,nodes.EmojiNode):
-        # Presently, impossible for no shortcode *and* no asciimote.
-        # This may change if I expand detection in inline.py
         force_shortcode=("shortcodes" in flags) and node.label[1]
-        if node.completed: return ""
         if ("notwemoji" not in flags) and (not force_shortcode):
             if node.content.decode("utf-8") == u"\U000FDECD":
                 return '[img alt=":demonicduck:"]http://i.imgur.com/SfHfed9.png[/img]'
             else:
                 try:
-                    hexcode="%x"%nodes.utf16_ord(node.content.decode("utf-8"))
+                    hexcode=node.label[2]
                     altcode=node.content
-                    if node.fuse!=None:
-                        hexcode+="-%x"%nodes.utf16_ord(node.fuse.content.decode("utf-8"))
-                        altcode+=node.fuse.content
-                        node.fuse.completed=1
-                    if node.force_text:
-                        return altcode+u"\ufe0e".encode("utf-8")
-                    elif "oldtwemoji" in flags:
+                    if "oldtwemoji" in flags:
                         return '[img alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/36x36/%s.png[/img]'%(json.dumps(altcode),hexcode)
                     else:
                         return '[img width="32" height="32" alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/%s.png[/img]'%(json.dumps(altcode),hexcode)
                 except ValueError: pass
         if ("nouseemoji" not in flags) and (not force_shortcode) and (node.content.decode("utf-8")!=u"\U000FDECD"):
             return node.content
-        elif ((node.hreftype=="ascii") or ("asciimotes" in flags)) and (not force_shortcode):
+        elif ("asciimotes" in flags) and (not force_shortcode):
             return node.label[0]
         else:
             return ":"+node.label[1]+":"

@@ -105,8 +105,6 @@ def _tvwiki_out_body(node,flags=()):
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return "\n"
     elif isinstance(node,nodes.EmojiNode):
-        if node.force_text:
-            return node.content+u"\ufe0e".encode("utf-8")
         return node.content
     else:
         return "ERROR"+repr(node)

@@ -133,6 +133,8 @@ def utf16_ord(s):
 
 from mdplay import utfsupport
 from mdplay.twem2support import TWEM
+from mdplay.eac import eac
+from mdplay.pickups_util import SMILEYS
 
 TWEM2 = {}
 for i2 in TWEM:
@@ -182,11 +184,15 @@ def emoji_scan(nodes):
                         out = ""
                         node2 = node3
                         node2.insert(0, c)
-                        nodesz2.append(EmojiNode(u"".join(d).encode("utf-8"), TWEM2[tuple(d)]))
+                        hexcode = TWEM2[tuple(d)]
+                        emoji = u"".join(d)
+                        shortcode = eac[hexcode.decode("latin1")]["alpha code"] if hexcode in eac else None
+                        asciimote = SMILEYS[emoji] if emoji in SMILEYS else None
+                        nodesz2.append(EmojiNode(emoji.encode("utf-8"), (asciimote, shortcode, hexcode)))
                     else:
                         out += (u"".join(d) + c).encode("utf-8")
                 elif tuple(d) == (u"\U000FDECD",):
-                    nodesz2.append(EmojiNode(u"".join(d).encode("utf-8"), ":demonicduck:"))
+                    nodesz2.append(EmojiNode(u"".join(d).encode("utf-8"), (None, ":demonicduck:", None)))
                 else:
                     out += c.encode("utf-8")
             if out:

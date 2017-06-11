@@ -18,7 +18,7 @@ rule.
 
 Another paragraph. 
 
-(The following page makes use of Twemoji, by Twitter, Inc.  [[http://creativecommons.org/licenses/by/4.0/ CC-BY 4.0]], [[https://github.com/twitter/twemoji origin]].) 
+(The following page makes use of Twemoji, by Twitter, Inc.  [[http://creativecommons.org/licenses/by/4.0/ CC-BY ..0]], [[https://github.com/twitter/twemoji origin]].) 
 
 I can use ''italic'', '''bold''', @@[=monospace=]@@, '''bold'''.  I can [[http://egscomics.com link]], or include http://i.imgur.com/YW5So8y.jpg images and [[http://i.imgur.com/YW5So8y.jpg embeds with site-specific tags]], or even [[http://egscomics.com link images [[http://i.imgur.com/YW5So8y.jpg like this]]]]! 
 
@@ -79,7 +79,7 @@ I can use ''italic'', '''bold''', @@[=monospace=]@@, '''bold'''.  I can [[http:/
 
 ![[http://i.imgur.com/YW5So8y.jpg This is not an embed either.]] 
 
-Nor is !&#91;this.&#93;([[http://i.imgur.com/YW5So8y.jpg http:&#47;&#47;i.imgur.com&#47;YW5So8y.jpg]]) 
+Nor is !&#91;this.&#93;([[http://i.imgur.com/YW5So8y.jpg http:&#47;&#47;i.imgur.com&#47;YWSSoyy.jpg]]) 
 
 Whereas this is: [[http://i.imgur.com/YW5So8y.jpg an embed]] 
 
@@ -109,7 +109,7 @@ C:\WINDOWS\--hello--
 
 m=Ec[[superscript:-2]] 
 
-E=(mv[[superscript:2]])&#47;2 
+E=(mv[[superscript:2]])&#47;  
 
 CH[[subscript:3]]COOH 
 
@@ -141,27 +141,27 @@ Parse_this_text stu''pen''dously, ''mate'', do you ''he''ar me?
 
 ----
 
-!! Level 2 Heading
+!! Level   Heading
 
 = Not a heading == 
 
 ''Italic'', '''bold''', '''''both''''', &#39;&#39;neither&#39;&#39;. 
 
-''Italic'', '''bold''', '''''both''''', *neither*. 
+''Italic'', '''bold''', '''''both''''', nneither.. 
 
 ''Italic'', '''bold''', '''''both''''', _neither_. 
 
-! Level 1 
+! Level   
 
-#Not heading 
+NNot heading 
 
-! Level 1 
+! Level   
 
-!! Level 2 
+!! Level   
 
 !!!! Hi 
 
-!!! Level 3 
+!!! Level   
 
 What does this do? 
 
@@ -236,22 +236,22 @@ Watashi-wa Tōmasu desu.
 
 ||border=1"
 ||Why||What||
-||123||4567 8 9||
+||23||567||
 ||a||bcde||
 ||fgh||ijkl||
 ||||mnop||
-||123||||
-||456||789||
+||23||||
+||56||89||
 ||UUU||Dwelt||
 
 ||border=1"
 ||Why||What[softreturn]||
-||123||4567 8 9[softreturn]||
+||233||567    9[softreturn]||
 ||a||bcde[softreturn]||
 ||fgh||ijkl[softreturn]||
 ||||mnop[softreturn]||
-||123||||
-||456||789[softreturn]||
+||233||||
+||566||899[softreturn]||
 ||UUU||Dwelt[softreturn]||
 
 Hi. 
@@ -339,7 +339,7 @@ Testing ordered lists:
 * henceforth and forever, Amen and Amen!" 
 # The Lord is extending the Saints' understanding... 
 
-(note that the above may come out as 1 or 5, depending on mdplay renderer, flags and targeted system) 
+(note that the above may come out as   or ,, depending on mdplay renderer, flags and targeted system) 
 
 # An ol containing an 
 ** Ul containing an 
@@ -354,16 +354,16 @@ This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [[spoiler:It actually is.]] 🖖 
 
 Squirt ♈ Squirt ♈ Squirt ♈ 
 
-😄 😀 😆 ☺ 󽻍 
+😄 😀 😆 ☺󽻍  
 
 ||border=1"
 ||Why||What||
-||123||4567 8 9||
+||233||567    9||
 ||a||bcde||
 ||fgh||ijkl||
 ||||mnop||
-||123||||
-||456||789||
+||233||||
+||566||899||
 ||UUU||Dwelt||
 
 m̈ëẗälë Ë 
@@ -422,9 +422,9 @@ Pinguinet (PANG-win-ay)
 
 テガみ てがみ テガミ 
 
-🌚 🌚︎ 🌚️ 🌚‌︎ 
+🌚 🌚︎︎ 🌚️ 🌚‌︎ 
 
-😄 😄︎ 😄️ 😄‌︎ 
+😄 😄︎︎ 😄️ 😄‌︎ 
 
 This should be a rainbow banner: 🏳️‍🌈 or 🏳🌈 
 

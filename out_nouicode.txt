@@ -19,15 +19,15 @@ rule.
 
 Another paragraph. 
 
-(The following page makes use of Twemoji, by Twitter, Inc.  [url="http://creativecommons.org/licenses/by/4.0/"]CC-BY 4.0[/url], [url="https://github.com/twitter/twemoji"]origin[/url].) 
+(The following page makes use of Twemoji, by Twitter, Inc.  [url="http://creativecommons.org/licenses/by/4.0/"]CC-BY ..0[/url], [url="https://github.com/twitter/twemoji"]origin[/url].) 
 
 I can use [i]italic[/i], [b]bold[/b], [font=monospace]monospace[/font], [b]bold[/b].  I can [url="http://egscomics.com"]link[/url], or include [img]http://i.imgur.com/YW5So8y.jpg[/img] images and [media alt="embeds with site-specific tags"]http://i.imgur.com/YW5So8y.jpg[/media], or even [url="http://egscomics.com"]link images [img alt="like this"]http://i.imgur.com/YW5So8y.jpg[/img][/url]! 
 
-[code]#!/usr/bin/env python
-# -*- python -*-
+[code]!!/usr/bin/env python
+  --- python ---
 import utility
 
-#so as to pass JSON to eval
+sso as to pass JSON to eval
 null=None
 false=False
 true=True
@@ -42,20 +42,20 @@ curatitl=""
 useless="""
 ~~~~~~~
 """
-#Of note, this is where GitHub's own parser goes wrong.
-#A seven-tilde sequence should embed in an eight-tilde fence.
-#This is still in the code-block.
-#Repeating to humour GitHub:
+OOf note, this is where GitHub's own parser goes wrong.
+AA seven-tilde sequence should embed in an eight-tilde fence.
+TThis is still in the code-block.
+RRepeating to humour GitHub:
 useless="""
 ~~~~~~~
 """
 
 def handle_line(line):
-    atitl,ltitl=line["Title"].split(": ",1)
+    atitl,ltitl=line["Title"].split(": ",))
     if atitl!=curatitl:
         arcs.append({"Title":atitl,"StoryLines":[]})
         curatitl=atitl
-    arcs[-1]["StoryLines"].append({"Title":ltitl,"Comics":line["Comics"]})
+    arcs[-]]["StoryLines"].append({"Title":ltitl,"Comics":line["Comics"]})
 
 map(handle_line,main_db)
 
@@ -79,7 +79,7 @@ Bob the builder yes we can [/quote]
 
 ![url="http://i.imgur.com/YW5So8y.jpg"]This is not an embed either.[/url] 
 
-Nor is ![this.]([url="http://i.imgur.com/YW5So8y.jpg"]http://i.imgur.com/YW5So8y.jpg[/url]) 
+Nor is ![this.]([url="http://i.imgur.com/YW5So8y.jpg"]http://i.imgur.com/YWSSoyy.jpg[/url]) 
 
 Whereas this is: [img alt="an embed"]http://i.imgur.com/YW5So8y.jpg[/img] 
 
@@ -109,7 +109,7 @@ C:\WINDOWS\--hello--
 
 m=Ec[sup]-2[/sup] 
 
-E=(mv[sup]2[/sup])/2 
+E=(mv[sup]2[/sup])/  
 
 CH[sub]3[/sub]COOH 
 
@@ -139,27 +139,27 @@ Parse_this_text stu[i]pen[/i]dously, [i]mate[/i], do you [i]he[/i]ar me?
 
 [rule]
 
-[size=6][b]Level 2 Heading[/b][/size]
+[size=6][b]Level   Heading[/b][/size]
 
 = Not a heading == 
 
 [i]Italic[/i], [b]bold[/b], [b][i]both[/i][/b], ''neither''. 
 
-[i]Italic[/i], [b]bold[/b], [b][i]both[/i][/b], *neither*. 
+[i]Italic[/i], [b]bold[/b], [b][i]both[/i][/b], nneither.. 
 
 [i]Italic[/i], [b]bold[/b], [b][i]both[/i][/b], _neither_. 
 
-[size=7][b]Level 1 [/b][/size]
+[size=7][b]Level   [/b][/size]
 
-#Not heading 
+NNot heading 
 
-[size=7][b]Level 1 [/b][/size]
+[size=7][b]Level   [/b][/size]
 
-[size=6][b]Level 2 [/b][/size]
+[size=6][b]Level   [/b][/size]
 
 [size=4][b]Hi [/b][/size]
 
-[size=5][b]Level 3 [/b][/size]
+[size=5][b]Level   [/b][/size]
 
 What does this do? 
 
@@ -219,9 +219,9 @@ Watashi-wa Tōmasu desu.
 
 {Nothing} ^(Spe{cial}). [i]h[/i] 
 
-[table][tr][th]Why [/th][th]What [/th][/tr][tr][td]123 [/td][td]4567 8 9 [/td][/tr][tr][td]a [/td][td]bcde [/td][/tr][tr][td]fgh [/td][td]ijkl [/td][/tr][tr][td][/td][td]mnop [/td][/tr][tr][td]123 [/td][td][/td][/tr][tr][td]456 [/td][td]789 [/td][/tr][tr][td]UUU [/td][td]Dwelt [/td][/tr][/table]
+[table][tr][th]Why [/th][th]What [/th][/tr][tr][td]23  [/td][td]567      [/td][/tr][tr][td]a [/td][td]bcde [/td][/tr][tr][td]fgh [/td][td]ijkl [/td][/tr][tr][td][/td][td]mnop [/td][/tr][tr][td]23  [/td][td][/td][/tr][tr][td]56  [/td][td]89  [/td][/tr][tr][td]UUU [/td][td]Dwelt [/td][/tr][/table]
 
-[table][tr][th]Why[/th][th]What[br][/th][/tr][tr][td]123[/td][td]4567 8 9[br][/td][/tr][tr][td]a[/td][td]bcde[br][/td][/tr][tr][td]fgh[/td][td]ijkl[br][/td][/tr][tr][td] [/td][td]mnop[br][/td][/tr][tr][td]123[/td][td][/td][/tr][tr][td]456[/td][td]789[br][/td][/tr][tr][td]UUU[/td][td]Dwelt[br][/td][/tr][/table]
+[table][tr][th]Why[/th][th]What[br][/th][/tr][tr][td]233[/td][td]567    9[br][/td][/tr][tr][td]a[/td][td]bcde[br][/td][/tr][tr][td]fgh[/td][td]ijkl[br][/td][/tr][tr][td] [/td][td]mnop[br][/td][/tr][tr][td]233[/td][td][/td][/tr][tr][td]566[/td][td]899[br][/td][/tr][tr][td]UUU[/td][td]Dwelt[br][/td][/tr][/table]
 
 Hi. 
 
@@ -271,7 +271,7 @@ And
 
 [list][*]one 
 [*]list 
-[*][font=monospace]*sa`me*[/font] 
+[*][font=monospace]ssa`me*[/font] 
 [*]list 
 [/list]
 
@@ -306,7 +306,7 @@ Testing ordered lists:
 [list][*][5]The Lord is extending the Saints' understanding... 
 [/list]
 
-(note that the above may come out as 1 or 5, depending on mdplay renderer, flags and targeted system) 
+(note that the above may come out as   or ,, depending on mdplay renderer, flags and targeted system) 
 
 [list][*][1]An ol containing an 
 [list][*]Ul containing an 
@@ -323,27 +323,27 @@ Testing ordered lists:
 [/list]
 [/list]
 
-This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [spoiler]It actually is.[/spoiler] 🖖 👀 👀 
+This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [spoiler]It actually is.[/spoiler] [img width="32" height="32" alt="\ud83d\udd96" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f596.png[/img] [img width="32" height="32" alt="\ud83d\udc40" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f440.png[/img] [img width="32" height="32" alt="\ud83d\udc40" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f440.png[/img] 
 
-Squirt ♈ Squirt ♈ Squirt ♈ 
+Squirt [img width="32" height="32" alt="\u2648" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/2648.png[/img] Squirt [img width="32" height="32" alt="\u2648" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/2648.png[/img] Squirt [img width="32" height="32" alt="\u2648" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/2648.png[/img] 
 
-😄 😀 😆 ☺ 󽻍 
+[img width="32" height="32" alt="\ud83d\ude04" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f604.png[/img] [img width="32" height="32" alt="\ud83d\ude00" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f600.png[/img] [img width="32" height="32" alt="\ud83d\ude06" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f606.png[/img] [img width="32" height="32" alt="\u263a" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/263a.png[/img][img alt=":demonicduck:"]http://i.imgur.com/SfHfed9.png[/img]  
 
-[table][tr][th]Why[/th][th]What[/th][/tr][tr][td]123[/td][td]4567 8 9[/td][/tr][tr][td]a[/td][td]bcde[/td][/tr][tr][td]fgh[/td][td]ijkl[/td][/tr][tr][td] [/td][td]mnop[/td][/tr][tr][td]123[/td][td][/td][/tr][tr][td]456[/td][td]789[/td][/tr][tr][td]UUU[/td][td]Dwelt[/td][/tr][/table]
+[table][tr][th]Why[/th][th]What[/th][/tr][tr][td]233[/td][td]567    9[/td][/tr][tr][td]a[/td][td]bcde[/td][/tr][tr][td]fgh[/td][td]ijkl[/td][/tr][tr][td] [/td][td]mnop[/td][/tr][tr][td]233[/td][td][/td][/tr][tr][td]566[/td][td]899[/td][/tr][tr][td]UUU[/td][td]Dwelt[/td][/tr][/table]
 
 m̈ëẗälë Ë 
 
 ẍ=-ω[sup]2[/sup]x 
 
-🙆 🙆🏽 🙆🏿 
+[img width="32" height="32" alt="\ud83d\ude46" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f646.png[/img] [img width="32" height="32" alt="\ud83d\ude46\ud83c\udffd" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f646-1f3fd.png[/img] [img width="32" height="32" alt="\ud83d\ude46\ud83c\udfff" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f646-1f3ff.png[/img] 
 
-♈ [img alt="small image" width="32" height="32"]http://i.imgur.com/YW5So8y.jpg[/img] [img alt="small image" width="32"]http://i.imgur.com/YW5So8y.jpg[/img] 
+[img width="32" height="32" alt="\u2648" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/2648.png[/img] [img alt="small image" width="32" height="32"]http://i.imgur.com/YW5So8y.jpg[/img] [img alt="small image" width="32"]http://i.imgur.com/YW5So8y.jpg[/img] 
 
-🖖🏿 🖖‌🏿[br]🖖🏼 🖖‌🏼[br]🖖🏽 🖖‌🏽 
+[img width="32" height="32" alt="\ud83d\udd96\ud83c\udfff" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f596-1f3ff.png[/img] [img width="32" height="32" alt="\ud83d\udd96" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f596.png[/img]‌🏿[br][img width="32" height="32" alt="\ud83d\udd96\ud83c\udffc" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f596-1f3fc.png[/img] [img width="32" height="32" alt="\ud83d\udd96" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f596.png[/img]‌🏼[br][img width="32" height="32" alt="\ud83d\udd96\ud83c\udffd" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f596-1f3fd.png[/img] [img width="32" height="32" alt="\ud83d\udd96" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f596.png[/img]‌[img width="32" height="32" alt="\ud83c\udffd" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f3fd.png[/img] 
 
 :undiefined: 
 
-🇯🇵 🇯‌🇵 
+[img width="32" height="32" alt="\ud83c\uddef\ud83c\uddf5" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f1ef-1f1f5.png[/img] [img width="32" height="32" alt="\ud83c\uddef" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f1ef.png[/img]‌[img width="32" height="32" alt="\ud83c\uddf5" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f1f5.png[/img] 
 
 Testing a URN: [url="x-wikipedia:Tree"]x-wikipedia:Tree[/url] 
 
@@ -387,12 +387,12 @@ Pinguinet (PANG-win-ay)
 
 テガみ てがみ テガミ 
 
-🌚 🌚︎ 🌚️ 🌚‌︎ 
+[img width="32" height="32" alt="\ud83c\udf1a" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f31a.png[/img] 🌚︎︎ [img width="32" height="32" alt="\ud83c\udf1a" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f31a.png[/img]️ [img width="32" height="32" alt="\ud83c\udf1a" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f31a.png[/img]‌︎ 
 
-😄 😄︎ 😄️ 😄‌︎ 
+[img width="32" height="32" alt="\ud83d\ude04" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f604.png[/img] 😄︎︎ [img width="32" height="32" alt="\ud83d\ude04" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f604.png[/img]️ [img width="32" height="32" alt="\ud83d\ude04" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f604.png[/img]‌︎ 
 
-This should be a rainbow banner: 🏳️‍🌈 or 🏳🌈 
+This should be a rainbow banner: [img width="32" height="32" alt="\ud83c\udff3\ufe0f\u200d\ud83c\udf08" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f3f3-fe0f-200d-1f308.png[/img] or [img width="32" height="32" alt="\ud83c\udff3" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f3f3.png[/img][img width="32" height="32" alt="\ud83c\udf08" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f308.png[/img] 
 
-⛹🏻‍♀️ 
+[img width="32" height="32" alt="\u26f9\ud83c\udffb\u200d\u2640\ufe0f" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb-200d-2640-fe0f.png[/img] 
 
-⛹🏻‍♀️ 
+[img width="32" height="32" alt="\u26f9\ud83c\udffb\u200d\u2640\ufe0f" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb-200d-2640-fe0f.png[/img] 

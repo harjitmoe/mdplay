@@ -22,6 +22,19 @@ def utf16_ord(s):
         if s: raise ValueError("trailing data in utf16_ord argument")
         return ord(c)
 
+# Converting eac hexcodes to twemoji hexcodes where needed.
+TWEMmap = {}
+for i2 in twem2support.TWEM:
+    if i2 not in eac.eac:
+        i = "-"+i2+"-"
+        i = i.replace("-200c-", "-")
+        i = i.replace("-200d-", "-")
+        i = i.replace("-fe0e-", "-")
+        i = i.replace("-fe0f-", "-")
+        i = i.strip("-")
+        if i in eac.eac:
+            TWEMmap[i] = i2
+
 TWEM2 = {}
 for i2 in twem2support.TWEM:
     i = tuple([utfsupport.unichr4all(int(j,16)) for j in i2.split("-")])
@@ -48,6 +61,7 @@ def emoji_scan(nodesz):
             node = list(node.decode("utf8"))
             node2 = []
             while node:
+                # Grumble grumble Windows grumble
                 c = node.pop(0)
                 if (0xD800<=ord(c)<0xDC00) and node and (0xDC00<=ord(node[0])<0xE000):
                     c += node.pop(0)
@@ -104,7 +118,10 @@ def emoji_scan(nodesz):
     return nodesz2
 
 def agglomerate(nodelist):
-    """Given a list of nodes, fuse adjacent text nodes, and split emoji off into emoji nodes."""
+    """Given a list of nodes, fuse adjacent text nodes, and split emoji off into emoji nodes.
+
+    TODO: disassociate from Emoji processing, and call from the parser, not from the renderer.
+    """
     outlist=[]
     for i in nodelist:
         #NOTE: assumes Python 2

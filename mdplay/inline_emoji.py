@@ -15,10 +15,10 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # "That one with all the verbatim unicode."
 # Yeeeeah, should I change all those to escapes for consistency?
 
-from mdplay import eac, utfsupport, pickups_util
+from mdplay import eac, utfsupport, pickups_util, mdputil
 import re
 
-SMILEYA = dict(zip(pickups_util.SMILEYS.values(),pickups_util.SMILEYS.keys()))
+SMILEYA = dict(zip(pickups_util.SMILEYS.values(), pickups_util.SMILEYS.keys()))
 del SMILEYA[":/"] # https://
 SMILEYA[":D"] = u"😆" # Make it non-implementation-defined behaviour at any rate.
 
@@ -35,14 +35,14 @@ eacd={"lenny": u"( ͡° ͜ʖ ͡° )", "degdeg": u"( ͡° ͜ʖ ͡° )", "darkmoon
 
 eacd2 = eacd.copy()
 
-eacdr = dict(zip(eacd.values(), eacd.keys()))
-
 for _euc in eac.eac.keys():
     _ec = u""
-    for _eucs in _euc.split("-"):
+    _euc2 = _euc
+    if _euc2 in mdputil.TWEMmap:
+        _euc2 = mdputil.TWEMmap[_euc2]
+    for _eucs in _euc2.split("-"):
         _ec += utfsupport.unichr4all(int(_eucs, 16))
     eacd[eac.eac[_euc]["alpha code"].strip(":").encode("utf-8")] = _ec
-    eacdr[_ec] = eac.eac[_euc]["alpha code"].strip(":").encode("utf-8")
     for _alias in eac.eac[_euc]["aliases"]:
         eacd[_alias.strip(":").encode("utf-8")] = _ec
 

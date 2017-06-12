@@ -10,7 +10,7 @@ try:
 except:
     import simplejson as json
 
-from mdplay import nodes
+from mdplay import nodes, mdputil
 
 def bb_out(nodel,titl_ignored=None,flags=()):
     return bb_out_body(nodel,flags=flags)
@@ -18,7 +18,7 @@ def bb_out(nodel,titl_ignored=None,flags=()):
 def bb_out_body(nodel,flags=()):
     in_list=()
     r=""
-    for node in nodes.agglomerate(nodel):
+    for node in mdputil.agglomerate(nodel): #FIXME should not be left to the renderer to invoke this
         _r=_bb_out(node,in_list,flags=flags)
         if len(_r)==2 and type(_r)==type(()):
             _r,in_list=_r
@@ -213,25 +213,23 @@ def _bb_out(node,in_list,flags):
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return ""
     elif isinstance(node,nodes.EmojiNode):
-        force_shortcode=("shortcodes" in flags) and node.label[1]
-        if ("notwemoji" not in flags) and (not force_shortcode):
+        force_shortcode = ("shortcodes" in flags) and node.label[1]
+        if ("notwemoji" not in flags) and node.emphatic and (not force_shortcode):
             if node.content.decode("utf-8") == u"\U000FDECD":
                 return '[img alt=":demonicduck:"]http://i.imgur.com/SfHfed9.png[/img]'
             else:
-                try:
-                    hexcode=node.label[2]
-                    altcode=node.content
-                    if "oldtwemoji" in flags:
-                        return '[img alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/36x36/%s.png[/img]'%(json.dumps(altcode),hexcode)
-                    else:
-                        return '[img width="32" height="32" alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/%s.png[/img]'%(json.dumps(altcode),hexcode)
-                except ValueError: pass
+                hexcode=node.label[2]
+                altcode=node.content
+                if "oldtwemoji" in flags:
+                    return '[img alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/36x36/%s.png[/img]'%(json.dumps(altcode),hexcode)
+                else:
+                    return '[img width="32" height="32" alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/%s.png[/img]'%(json.dumps(altcode),hexcode)
         if ("nouseemoji" not in flags) and (not force_shortcode) and (node.content.decode("utf-8")!=u"\U000FDECD"):
             return node.content
-        elif ("asciimotes" in flags) and (not force_shortcode):
+        elif ("asciimotes" in flags) and node.label[0] and (not force_shortcode):
             return node.label[0]
         else:
-            return ":"+node.label[1]+":"
+            return node.label[1]
     else:
         return "ERROR"+repr(node)
 

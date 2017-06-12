@@ -10,7 +10,6 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 from mdplay import nodes, umlaut
 from mdplay.uriregex import uriregex
 from mdplay import htmlentitydefs_latest as htmlentitydefs
-from mdplay.utfsupport import unichr4all
 from mdplay.inline_cjk import cjk_handler
 from mdplay.inline_emoji import emoji_handler
 

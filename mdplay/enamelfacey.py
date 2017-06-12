@@ -10,7 +10,7 @@ This file is a derivative work by HarJIT, may be used under same terms.
 
 import xml.dom.minidom as _d
 
-from mdplay.nodes import simul_replace
+from mdplay.mdputil import simul_replace
 
 def _write_data(writer, data):
     if data:

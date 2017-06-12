@@ -1,22 +1,19 @@
 # -*- mode: python; coding: utf-8 -*-
 
-import re
-
 __copying__ = """
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay.eac import eac
-from mdplay.pickups_util import SMILEYS
-from mdplay.utfsupport import unichr4all
-from mdplay import nodes
+from mdplay import eac, utfsupport, pickups_util
+import re
 
 #Note that :D may come out as several things depending on
 #Python's arbitrary dict ordering; not sure what is best
 #option here.
-SMILEYA=dict(zip(SMILEYS.values(),SMILEYS.keys()))
+SMILEYA=dict(zip(pickups_util.SMILEYS.values(),pickups_util.SMILEYS.keys()))
+del SMILEYA[":/"] # https://
 
 def is_emotic(s):
     for i in SMILEYA.keys():
@@ -24,18 +21,15 @@ def is_emotic(s):
             return i
     return False
 
-del SMILEYS[SMILEYA[":/"]]
-del SMILEYA[":/"] # https://
-
-eacd={"lenny":u"( ͡° ͜ʖ ͡° )","degdeg":u"( ͡° ͜ʖ ͡° )", "darkmoon":u"🌚","thefinger":u"🖕","ntr":u"🤘","blush":u"😳","wink":u"😉","happy":u"😊", "rolleyes":u"🙄","angry":u"😠","biggrin":u"😁","aw_yeah":u"😏","bigcry":u"😭","evil":u"👿", "twisted":u"😈","sasmile":u"😈","tongue":u"😝","sleep":u"😴","conf":u"😕","confused":u"😕", "eek":u"😲","cry":u"😢","sweat1":u"😅","worshippy":u"🙇","wub":u"😍","mellow":u"😐", "shifty":u"👀","eyes":u"👀","demonicduck":u"󽻍","shruggie":u"¯\_(ツ)_/¯", "textstyle":u"\ufe0e","emojistyle":u"\ufe0f"}
+eacd={"lenny":u"( ͡° ͜ʖ ͡° )","degdeg":u"( ͡° ͜ʖ ͡° )","darkmoon":u"🌚","thefinger":u"🖕","ntr":u"🤘","blush":u"😳","wink":u"😉","happy":u"😊", "rolleyes":u"🙄","angry":u"😠","biggrin":u"😁","aw_yeah":u"😏","bigcry":u"😭","evil":u"👿", "twisted":u"😈","sasmile":u"😈","tongue":u"😝","sleep":u"😴","conf":u"😕","confused":u"😕", "eek":u"😲","cry":u"😢","sweat1":u"😅","worshippy":u"🙇","wub":u"😍","mellow":u"😐", "shifty":u"👀","eyes":u"👀","demonicduck":u"󽻍","shruggie":u"¯\_(ツ)_/¯", "textstyle":u"\ufe0e","emojistyle":u"\ufe0f"}
 eacdr=dict(zip(eacd.values(),eacd.keys()))
-for _euc in eac.keys():
+for _euc in eac.eac.keys():
     _ec=u""
     for _eucs in _euc.split("-"):
-        _ec+=unichr4all(int(_eucs,16))
-    eacd[eac[_euc]["alpha code"].strip(":").encode("utf-8")]=_ec
-    eacdr[_ec]=eac[_euc]["alpha code"].strip(":").encode("utf-8")
-    for _alias in eac[_euc]["aliases"]:
+        _ec+=utfsupport.unichr4all(int(_eucs,16))
+    eacd[eac.eac[_euc]["alpha code"].strip(":").encode("utf-8")]=_ec
+    eacdr[_ec]=eac.eac[_euc]["alpha code"].strip(":").encode("utf-8")
+    for _alias in eac.eac[_euc]["aliases"]:
         eacd[_alias.strip(":")]=_ec
 
 def emoji_handler(out, c, content, levs, flags):
@@ -68,10 +62,6 @@ def emoji_handler(out, c, content, levs, flags):
         return True
     else:
         return False
-
-
-
-
 
 
 

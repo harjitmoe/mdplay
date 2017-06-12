@@ -20,7 +20,7 @@ I think so too.
 
 Another paragraph.
 
-(The following page makes use of Twemoji, by Twitter, Inc.  [CC\-BY ..0](http://creativecommons.org/licenses/by/4.0/), [origin](https://github.com/twitter/twemoji).)
+(The following page makes use of Twemoji, by Twitter, Inc.  [CC\-BY 4.0](http://creativecommons.org/licenses/by/4.0/), [origin](https://github.com/twitter/twemoji).)
 
 I can use *italic*, **bold**, `monospace`, **bold**.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/YW5So8y.jpg) images and !media[embeds with site\-specific tags](http://i.imgur.com/YW5So8y.jpg), or even [link images ![like this](http://i.imgur.com/YW5So8y.jpg)](http://egscomics.com)!
 
@@ -82,7 +82,7 @@ open(".build/MegaDb.txt","w").write(repr(arcs))
 
 ![This is not an embed either.](http://i.imgur.com/YW5So8y.jpg)
 
-Nor is !\[this.]([http://i.imgur.com/YWSSoyy.jpg](http://i.imgur.com/YW5So8y.jpg))
+Nor is !\[this.]([http://i.imgur.com/YW5So8y.jpg](http://i.imgur.com/YW5So8y.jpg))
 
 Whereas this is: ![an embed](http://i.imgur.com/YW5So8y.jpg)
 
@@ -114,7 +114,7 @@ C:\\WINDOWS\\\-\-hello\-\-
 
 m=Ec^(\-2)
 
-E=(mv^(2))/
+E=(mv^(2))/2
 
 CH(~3~)COOH
 
@@ -144,27 +144,27 @@ Parse\_this\_text stu*pen*dously, *mate*, do you *he*ar me?
 
 - - -
 
-## Level   Heading
+## Level 2 Heading
 
 = Not a heading ==
 
 *Italic*, **bold**, ***both***, '\'neither'\'.
 
-*Italic*, **bold**, ***both***, nneither..
+*Italic*, **bold**, ***both***, \*neither\*.
 
 *Italic*, **bold**, ***both***, \_neither\_.
 
-# Level
+# Level 1
 
-NNot heading
+#Not heading
 
-# Level
+# Level 1
 
-## Level
+## Level 2
 
 #### Hi
 
-### Level
+### Level 3
 
 What does this do?
 
@@ -245,22 +245,22 @@ Watashi\-wa Tōmasu desu.
 
 |Why|What|
 |---|---|
-|23|567|
+|123|4567 8 9|
 |a|bcde|
 |fgh|ijkl|
 ||mnop|
-|23||
-|56|89|
+|123||
+|456|789|
 |UUU|Dwelt|
 
 |Why|What|
 |:-:|:--|
-|233|567    9|
+|123|4567 8 9|
 |a|bcde|
 |fgh|ijkl|
 ||mnop|
-|233||
-|566|899|
+|123||
+|456|789|
 |UUU|Dwelt|
 
 Hi.
@@ -360,7 +360,7 @@ Testing ordered lists:
 * henceforth and forever, Amen and Amen!" 
 5) The Lord is extending the Saints' understanding... 
 
-(note that the above may come out as   or ,, depending on mdplay renderer, flags and targeted system)
+(note that the above may come out as 1 or 5, depending on mdplay renderer, flags and targeted system)
 
 
 1) An ol containing an 
@@ -380,12 +380,12 @@ Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](
 
 |Why|What|
 |:-:|:--|
-|233|567    9|
+|123|4567 8 9|
 |a|bcde|
 |fgh|ijkl|
 ||mnop|
-|233||
-|566|899|
+|123||
+|456|789|
 |UUU|Dwelt|
 
 m̈ëẗälë Ë

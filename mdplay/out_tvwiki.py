@@ -1,18 +1,18 @@
-import re
-from mdplay import nodes
-
 __copying__ = """
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
+from mdplay import nodes, mdputil
+import re
+
 def tvwiki_out(nodes,titl_ignored=None,flags=()):
     return tvwiki_out_body(nodes,flags=flags)
 
 def tvwiki_out_body(nodel,flags=()):
     r=""
-    for node in nodes.agglomerate(nodel):
+    for node in mdputil.agglomerate(nodel): #FIXME should not be left to the renderer to invoke agglomerate.
         r+=_tvwiki_out_body(node,flags=flags)
     return r
 

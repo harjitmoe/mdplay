@@ -10,8 +10,7 @@ try:
 except:
     from io import StringIO
 
-from mdplay import nodes
-from mdplay import inline
+from mdplay import nodes, mdputil, inline
 from mdplay.LinestackIter import LinestackIter
 
 class _TitleItem(object):
@@ -556,4 +555,4 @@ def _parse_block(f,titlelevels,flags):
             within="root"
 
 def parse_block(content,titlelevels,flags=()):
-    return _parse_block(LinestackIter(StringIO(content)),titlelevels,nodes.flatten_flags_parser(flags))
+    return _parse_block(LinestackIter(StringIO(content)),titlelevels,mdputil.flatten_flags_parser(flags))

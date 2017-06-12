@@ -458,3 +458,5 @@ This should be a rainbow banner: ![🏳️‍🌈](https://twemoji.maxcdn.com/2/
 ![⛹![🏻](https://twemoji.maxcdn.com/2/72x72/1f3fb.png =32x32)‍![♀](https://twemoji.maxcdn.com/2/72x72/2640.png =32x32)️](https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb-200d-2640-fe0f.png =32x32)
 
 ![⛹![🏻](https://twemoji.maxcdn.com/2/72x72/1f3fb.png =32x32)‍![♀](https://twemoji.maxcdn.com/2/72x72/2640.png =32x32)️](https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb-200d-2640-fe0f.png =32x32)
+
+![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32)

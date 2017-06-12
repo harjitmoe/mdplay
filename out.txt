@@ -399,3 +399,5 @@ This should be a rainbow banner: [img width="32" height="32" alt="\ud83c\udff3\u
 [img width="32" height="32" alt="\u26f9\ud83c\udffb\u200d\u2640\ufe0f" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb-200d-2640-fe0f.png[/img] 
 
 [img width="32" height="32" alt="\u26f9\ud83c\udffb\u200d\u2640\ufe0f" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb-200d-2640-fe0f.png[/img] 
+
+[img width="32" height="32" alt="\ud83d\ude06" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f606.png[/img] 

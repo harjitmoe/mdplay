@@ -5804,4 +5804,8 @@
               ' ',
               ''],
   'depth': -1},
+ {'NODE_TYPE': 'ParagraphNode',
+  'bullet': None,
+  'content': ['\xf0\x9f\x98\x86', ' ', ''],
+  'depth': -1},
  {'NODE_TYPE': 'ParagraphNode', 'bullet': None, 'content': [''], 'depth': -1}]

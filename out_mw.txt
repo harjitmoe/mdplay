@@ -479,6 +479,8 @@ This should be a rainbow banner: 🏳️‍🌈 or 🏳️‍🌈
 
 😆 
 
-''This should behave more or less as expected. However, I have reason to believe otherwise.'' 
+''This should behave more or less as expected. However, I have reason to believe otherwise.'' (Should be fixed now…) 
+
+<span class="mw-customtoggle-6" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-6" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
 
 

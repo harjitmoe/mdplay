@@ -402,4 +402,6 @@ This should be a rainbow banner: [img width="32" height="32" alt="\ud83c\udff3\u
 
 :laughing: 
 
-[i]This should behave more or less as expected. However, I have reason to believe otherwise.[/i] 
+[i]This should behave more or less as expected. However, I have reason to believe otherwise.[/i] (Should be fixed now…) 
+
+[spoiler=Labelled spoiler]Watch out, this is a spoiler![/spoiler] 

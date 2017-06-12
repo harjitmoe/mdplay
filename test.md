@@ -447,6 +447,8 @@ This should be a rainbow banner: :flag_white::emojistyle:&zwj;:rainbow: or :rain
 
 :D
 
-''This should behave more or less as expected.&ensp;However, I have reason to believe otherwise.''
+''This should behave more or less as expected.&ensp;However, I have reason to believe otherwise.'' (Should be fixed now…)
+
+[Labelled spoiler](/s Watch out, this is a spoiler!)
 
 \

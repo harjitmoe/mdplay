@@ -121,7 +121,12 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 r.setAttribute("class",'ipsSpoiler_header')
                 r2=document.createElement("span")
                 r.appendChild(r2)
-                r2.appendChild(document.createTextNode("Spoiler"))
+                # TODO: does this actually change the title or does IPBoard override it?
+                if not node.label:
+                    r2.appendChild(document.createTextNode("Spoiler"))
+                else:
+                    for domn in html_out_part(node.label,document,flags=flags):
+                        r2.appendChild(domn)
                 r3=document.createElement("div")
                 metar.appendChild(r3)
                 r3.setAttribute("class",'ipsSpoiler_contents')
@@ -137,7 +142,11 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 r.appendChild(r2)
                 r2.setAttribute("href",'javascript:void(0);')
                 r2.setAttribute("onclick","document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')"%(mdputil.newid(node),mdputil.newid(node)))
-                r2.appendChild(document.createTextNode("Expand/Hide Spoiler"))
+                if not node.label:
+                    r2.appendChild(document.createTextNode("Expand/Hide Spoiler"))
+                else:
+                    for domn in html_out_part(node.label,document,flags=flags):
+                        r2.appendChild(domn)
                 r3=document.createElement("div")
                 metar.appendChild(r3)
                 r3.setAttribute("class",'spoiler')

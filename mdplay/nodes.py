@@ -18,6 +18,7 @@ class BlockNode(Node):
         self.content=filter_paratags(list(content))
         self.depth=depth
         self.bullet=bullet
+        self.label=None # Spoiler kludge
 
 class TableNode(Node):
     def __init__(self,content,aligns=None):

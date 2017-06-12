@@ -21,37 +21,37 @@ def _mwiki_out_body(node,flags=()):
     if not isinstance(node,nodes.Node): #i.e. is a string
         return node.replace("&","&amp;").replace("[","&#91;").replace("]","&#93;").replace("{","&#123;").replace("}","&#125;").replace("<","&lt;").replace(">","&gt;").replace("''","&#39;&#39;")
     elif isinstance(node,nodes.TitleNode):
-        return "\n"+("="*node.depth)+" "+mwiki_out_body(node.content)+("="*node.depth)+"\n"
+        return "\n"+("="*node.depth)+" "+mwiki_out_body(node.content,flags=flags)+("="*node.depth)+"\n"
     elif isinstance(node,nodes.ParagraphNode):
-        return "\n"+mwiki_out_body(node.content)+"\n"
+        return "\n"+mwiki_out_body(node.content,flags=flags)+"\n"
     elif isinstance(node,nodes.BlockQuoteNode):
-        return "\n:"+mwiki_out_body(node.content).strip("\r\n").replace("\n","\n:")+"\n"
+        return "\n:"+mwiki_out_body(node.content,flags=flags).strip("\r\n").replace("\n","\n:")+"\n"
     elif isinstance(node,nodes.SpoilerNode):
-        return '<span class="mw-customtoggle-%s" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-%s" class="mw-collapsible mw-collapsed" style="display:none;">'%(mdputil.newid(node),mdputil.newid(node))+mwiki_out_body(node.content)+"</div>"
+        return '<span class="mw-customtoggle-%s" style="color:blue;cursor:pointer">'%(mdputil.newid(node))+("Expand/Hide Spoiler" if not node.label else mwiki_out_body(node.label,flags=flags))+'</span><div id="mw-customcollapsible-%s" class="mw-collapsible mw-collapsed" style="display:none;">'%(mdputil.newid(node))+mwiki_out_body(node.content,flags=flags)+"</div>"
     elif isinstance(node,nodes.CodeBlockNode):
-        return "\n<pre>"+mwiki_out_body(node.content)+"</pre>\n"
+        return "\n<pre>"+mwiki_out_body(node.content,flags=flags)+"</pre>\n"
     elif isinstance(node,nodes.CodeSpanNode):
-        return "<code>"+mwiki_out_body(node.content)+"</code>"
+        return "<code>"+mwiki_out_body(node.content,flags=flags)+"</code>"
     elif isinstance(node,nodes.UlliNode):
-        return ("*"*node.depth)+"* "+mwiki_out_body(node.content).strip("\r\n")+"\n"
+        return ("*"*node.depth)+"* "+mwiki_out_body(node.content,flags=flags).strip("\r\n")+"\n"
     elif isinstance(node,nodes.OlliNode):
-        return ("#"*node.depth)+"# "+mwiki_out_body(node.content).strip("\r\n")+"\n"
+        return ("#"*node.depth)+"# "+mwiki_out_body(node.content,flags=flags).strip("\r\n")+"\n"
     elif isinstance(node,nodes.BoldNode):
-        return "'''"+mwiki_out_body(node.content)+"'''"
+        return "'''"+mwiki_out_body(node.content,flags=flags)+"'''"
     elif isinstance(node,nodes.ItalicNode):
-        return "''"+mwiki_out_body(node.content)+"''"
+        return "''"+mwiki_out_body(node.content,flags=flags)+"''"
     elif isinstance(node,nodes.BadassEchoNode):
         return "((([https://www.youtube.com/watch?v=SQoA_wjmE9w "+mwiki_out_body(node.content,flags=flags)+"])))"
     elif isinstance(node,nodes.SuperNode):
-        return "<sup>"+mwiki_out_body(node.content)+"</sup>"
+        return "<sup>"+mwiki_out_body(node.content,flags=flags)+"</sup>"
     elif isinstance(node,nodes.SubscrNode):
-        return "<sub>"+mwiki_out_body(node.content)+"</sub>"
+        return "<sub>"+mwiki_out_body(node.content,flags=flags)+"</sub>"
     elif isinstance(node,nodes.RubiNode):
-        label=mwiki_out_body(node.label)
+        label=mwiki_out_body(node.label,flags=flags)
         content=node.content
         return "<ruby>"+content.encode("utf-8")+"<rp> (</rp><rt>"+label+"</rt><rp>) </rp></ruby>"
     elif isinstance(node,nodes.HrefNode):
-        label=mwiki_out_body(node.label)
+        label=mwiki_out_body(node.label,flags=flags)
         ht=node.hreftype
         content=node.content
         if ht in ("wiki","wikilink"):
@@ -77,11 +77,11 @@ def _mwiki_out_body(node,flags=()):
         for row in node.table_head:
             r+="|-\n"
             for cell in row:
-                r+="!"+mwiki_out_body(list(cell)).strip("\r\n")+"\n"
+                r+="!"+mwiki_out_body(list(cell),flags=flags).strip("\r\n")+"\n"
         for row in node.table_body:
             r+="|-\n"
             for cell in row:
-                r+="|"+mwiki_out_body(list(cell)).strip("\r\n")+"\n"
+                r+="|"+mwiki_out_body(list(cell),flags=flags).strip("\r\n")+"\n"
         return r+"|}\n"
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return "\n"

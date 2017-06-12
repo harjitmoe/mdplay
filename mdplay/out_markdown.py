@@ -33,7 +33,10 @@ def _md_out_body(node,flags=()):
     elif isinstance(node,nodes.BlockSpoilerNode):
         return "\n>! "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n>! ")+"\n"
     elif isinstance(node,nodes.InlineSpoilerNode):
-        return "["+md_out_body(node.content,flags)+"](/spoiler)"
+        if not node.label:
+            return "["+md_out_body(node.content,flags)+"](/spoiler)"
+        else:
+            return "["+md_out_body(node.label,flags)+"](/s "+md_out_body(node.content,flags)+")"
     elif isinstance(node,nodes.CodeBlockNode):
         rcontent="".join(node.content)
         bullet="~~~~~~"

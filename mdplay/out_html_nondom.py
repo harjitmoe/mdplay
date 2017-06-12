@@ -98,9 +98,10 @@ def _html_out_body(node,in_list,flags):
         return "<blockquote>"+html_out_body(node.content,flags=flags)+"</blockquote>\n"
     elif isinstance(node,nodes.SpoilerNode):
         if "ipsspoilers" in flags:
-            return '<blockquote class="ipsStyle_spoiler" data-ipsspoiler="" tabindex="0"><div class="ipsSpoiler_header"><span>Spoiler</span></div><div class="ipsSpoiler_contents">'+html_out_body(node.content,flags=flags)+"</div></blockquote>"
+            # TODO: Does this actually set the title or does IPBoard override it?
+            return '<blockquote class="ipsStyle_spoiler" data-ipsspoiler="" tabindex="0"><div class="ipsSpoiler_header"><span>'+("Spoiler" if not node.label else html_out_body(node.label,flags=flags))+'</span></div><div class="ipsSpoiler_contents">'+html_out_body(node.content,flags=flags)+"</div></blockquote>"
         else:
-            return "<p><a href='javascript:void(0);' onclick=\"document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')\">Expand/Hide Spoiler</a></p><div class='spoiler' id='spoil%d' style='display:none;'>"%(mdputil.newid(node),mdputil.newid(node),mdputil.newid(node))+html_out_body(node.content,flags=flags)+"</div>"
+            return "<p><a href='javascript:void(0);' onclick=\"document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')\">%s</a></p><div class='spoiler' id='spoil%d' style='display:none;'>"%(mdputil.newid(node),mdputil.newid(node),"Expand/Hide Spoiler" if not node.label else html_out_body(node.label,flags=flags),mdputil.newid(node))+html_out_body(node.content,flags=flags)+"</div>"
     elif isinstance(node,nodes.CodeBlockNode):
         return "<pre>"+"".join(node.content)+"</pre>"
     elif isinstance(node,nodes.CodeSpanNode):

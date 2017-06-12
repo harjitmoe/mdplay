@@ -106,9 +106,9 @@ def _bb_out(node,in_list,flags):
     elif isinstance(node,nodes.BlockQuoteNode):
         return "\n[quote]"+bb_out_body(node.content,flags=flags)+"[/quote]\n"
     elif isinstance(node,nodes.BlockSpoilerNode):
-        return "\n[spoiler]"+bb_out_body(node.content,flags=flags)+"[/spoiler]\n"
+        return "\n[spoiler"+("="+bb_out_body(node.label,flags=flags) if node.label else "")+"]"+bb_out_body(node.content,flags=flags)+"[/spoiler]\n"
     elif isinstance(node,nodes.InlineSpoilerNode):
-        return "[spoiler]"+bb_out_body(node.content,flags=flags)+"[/spoiler]"
+        return "[spoiler"+("="+bb_out_body(node.label,flags=flags) if node.label else "")+"]"+bb_out_body(node.content,flags=flags)+"[/spoiler]"
     elif isinstance(node,nodes.CodeBlockNode):
         return "\n[code]"+bb_out_body(node.content,flags=flags)+"[/code]\n"
     elif isinstance(node,nodes.CodeSpanNode):

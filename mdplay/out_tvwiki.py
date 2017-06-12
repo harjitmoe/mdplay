@@ -16,6 +16,9 @@ def tvwiki_out_body(nodel,flags=()):
         r+=_tvwiki_out_body(node,flags=flags)
     return r
 
+# Note: the following code tends to not propagate renderer-flags into lower recursion levels.
+# This would be an issue if it took any flags (it doesn't, yet).
+
 def _tvwiki_out_body(node,flags=()):
     if not isinstance(node,nodes.Node): #i.e. is a string
         return node.replace("&","&amp;").replace("[","&#91;").replace("]","&#93;").replace("{","&#123;").replace("}","&#125;").replace("<","&lt;").replace(">","&gt;").replace("''","&#39;&#39;").replace("/","&#47;")
@@ -37,9 +40,9 @@ def _tvwiki_out_body(node,flags=()):
                 return "\n".join(data)
             return "\n"+incrindent(tvwiki_out_body(node.content).strip("\r\n"))+"\n"
     elif isinstance(node,nodes.InlineSpoilerNode):
-        return '[[spoiler:'+tvwiki_out_body(node.content)+"]]"
+        return (tvwiki_out_body(node.label) if node.label else "")+'[[spoiler:'+tvwiki_out_body(node.content)+"]]"
     elif isinstance(node,nodes.BlockSpoilerNode):
-        return '\n[[spoiler:'+tvwiki_out_body(node.content)+"]]\n"
+        return "\n"+(tvwiki_out_body(node.label)+" " if node.label else "")+'[[spoiler:'+tvwiki_out_body(node.content)+"]]\n"
     elif isinstance(node,nodes.CodeBlockNode):
         return "\n@@[="+("".join(node.content)).replace("=]","=]=[=]").replace("\n","=]@@\n@@[=")+"=]@@\n"
     elif isinstance(node,nodes.CodeSpanNode):

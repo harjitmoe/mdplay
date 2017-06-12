@@ -211,6 +211,7 @@ def _parse_inline(content,levs=("root",),flags=()):
                 href, size = href.split(" =",1)
                 width, height = size.split("x")
             if (href in ("/spoiler","#s")) and (hreftype == "url") and ("noredditspoiler" not in flags):
+                # TODO: /r/konosuba style labelled spoilers
                 out.append(nodes.InlineSpoilerNode(label))
             elif (hreftype.lower() == "spoiler") and ("noembedspoiler" not in flags):
                 if (not label) and (href.strip()):

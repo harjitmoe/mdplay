@@ -1,11 +1,11 @@
-import re
-from mdplay import nodes
-
 __copying__ = """
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
+
+from mdplay import nodes, mdputil
+import re
 
 def md_out(nodes,titl_ignored=None,flags=()):
     r=md_out_body(nodes,flags=flags)
@@ -15,7 +15,8 @@ def md_out(nodes,titl_ignored=None,flags=()):
 
 def md_out_body(nodel,flags=()):
     r=""
-    for node in nodes.agglomerate(nodel):
+    #FIXME should not be left to the renderer to invoke aggolmerate
+    for node in mdputil.agglomerate(nodel):
         r+=_md_out_body(node,flags=flags)
     return r
 
@@ -158,7 +159,7 @@ def _md_out_body(node,flags=()):
         return "\n\n"
     elif isinstance(node,nodes.EmojiNode):
         force_shortcode=("shortcodes" in flags) and node.label[1]
-        if ("notwemoji" not in flags) and (not force_shortcode):
+        if ("notwemoji" not in flags) and node.emphatic and (not force_shortcode):
             if node.content.decode("utf-8") == u"\U000FDECD":
                 return "![:demonicduck:](http://i.imgur.com/SfHfed9.png)"
             else:

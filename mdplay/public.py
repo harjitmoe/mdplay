@@ -1,16 +1,16 @@
-import block,nodes
-from mdplay.LinestackIter import LinestackIter
-
 __copying__ = """
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
+from mdplay import block, nodes, mdputil
+from mdplay.LinestackIter import LinestackIter
+
 def parse_string(s,flags=()):
     return block.parse_block(s,block.TitleLevels(),flags)
 def parse_file(f,flags=()):
-    return block._parse_block(LinestackIter(f),block.TitleLevels(),nodes.flatten_flags_parser(flags))
+    return block._parse_block(LinestackIter(f),block.TitleLevels(),mdputil.flatten_flags_parser(flags))
 
 class MdplayError(ValueError):pass
 class NoSuchRendererError(MdplayError):pass

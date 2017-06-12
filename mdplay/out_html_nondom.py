@@ -15,12 +15,13 @@ except:
     except:
         _strquote=repr
 
-from mdplay import nodes
+from mdplay import nodes, mdputil
 
 def html_out_body(nodel,flags=()):
     in_list=()
     r=""
-    for node in nodes.agglomerate(nodel):
+    #FIXME should not be left to the renderer to invoke aggolmerate
+    for node in mdputil.agglomerate(nodel):
         _r=_html_out_body(node,in_list,flags=flags)
         if len(_r)==2 and type(_r)==type(()):
             _r,in_list=_r
@@ -99,7 +100,7 @@ def _html_out_body(node,in_list,flags):
         if "ipsspoilers" in flags:
             return '<blockquote class="ipsStyle_spoiler" data-ipsspoiler="" tabindex="0"><div class="ipsSpoiler_header"><span>Spoiler</span></div><div class="ipsSpoiler_contents">'+html_out_body(node.content,flags=flags)+"</div></blockquote>"
         else:
-            return "<p><a href='javascript:void(0);' onclick=\"document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')\">Expand/Hide Spoiler</a></p><div class='spoiler' id='spoil%d' style='display:none;'>"%(nodes.newid(node),nodes.newid(node),nodes.newid(node))+html_out_body(node.content,flags=flags)+"</div>"
+            return "<p><a href='javascript:void(0);' onclick=\"document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')\">Expand/Hide Spoiler</a></p><div class='spoiler' id='spoil%d' style='display:none;'>"%(mdputil.newid(node),mdputil.newid(node),mdputil.newid(node))+html_out_body(node.content,flags=flags)+"</div>"
     elif isinstance(node,nodes.CodeBlockNode):
         return "<pre>"+"".join(node.content)+"</pre>"
     elif isinstance(node,nodes.CodeSpanNode):
@@ -195,7 +196,7 @@ def _html_out_body(node,in_list,flags):
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return ""
     elif isinstance(node,nodes.EmojiNode):
-        if ("notwemoji" not in flags):
+        if ("notwemoji" not in flags) and node.emphatic:
             if node.content.decode("utf-8") == u"\U000FDECD":
                 return "<img src='http://i.imgur.com/SfHfed9.png' alt=':demonicduck:'></img>"
             else:

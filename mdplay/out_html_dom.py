@@ -7,10 +7,11 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay import nodes
+from mdplay import nodes, mdputil
 
 def html_out_part(nodem,document,in_list=(),flags=()):
-    return list(_html_out_part(nodes.agglomerate_inplace(nodem),document,in_list,flags=flags))
+    #FIXME should not be left to the renderer to invoke aggolmerate
+    return list(_html_out_part(mdputil.agglomerate_inplace(nodem),document,in_list,flags=flags))
 
 def _html_out_part(nodem,document,in_list=(),flags=()):
     while nodem:
@@ -75,7 +76,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
         elif not isinstance(node,nodes.Node): #i.e. is a string
             yield document.createTextNode(node.decode("utf-8").replace(u"\x20\x20",u"\xa0\x20"))
         elif isinstance(node,nodes.EmojiNode):
-            if ("notwemoji" not in flags):
+            if ("notwemoji" not in flags) and node.emphatic:
                 if node.content.decode("utf-8") == u"\U000FDECD":
                     r=document.createElement("img")
                     r.setAttribute("src","http://i.imgur.com/SfHfed9.png")
@@ -135,12 +136,12 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 r2=document.createElement("a")
                 r.appendChild(r2)
                 r2.setAttribute("href",'javascript:void(0);')
-                r2.setAttribute("onclick","document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')"%(nodes.newid(node),nodes.newid(node)))
+                r2.setAttribute("onclick","document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')"%(mdputil.newid(node),mdputil.newid(node)))
                 r2.appendChild(document.createTextNode("Expand/Hide Spoiler"))
                 r3=document.createElement("div")
                 metar.appendChild(r3)
                 r3.setAttribute("class",'spoiler')
-                r3.setAttribute("id",'spoil%d'%nodes.newid(node))
+                r3.setAttribute("id",'spoil%d'%mdputil.newid(node))
                 r3.setAttribute("style",'display:none;')
                 for domn in html_out_part(node.content,document,flags=flags):
                     r3.appendChild(domn)

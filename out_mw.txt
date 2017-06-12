@@ -18,15 +18,15 @@ rule.
 
 Another paragraph. 
 
-(The following page makes use of Twemoji, by Twitter, Inc.  [http://creativecommons.org/licenses/by/4.0/ CC-BY ..0], [https://github.com/twitter/twemoji origin].) 
+(The following page makes use of Twemoji, by Twitter, Inc.  [http://creativecommons.org/licenses/by/4.0/ CC-BY 4.0], [https://github.com/twitter/twemoji origin].) 
 
 I can use ''italic'', '''bold''', <code>monospace</code>, '''bold'''.  I can [http://egscomics.com link], or include http://i.imgur.com/YW5So8y.jpg images and [http://i.imgur.com/YW5So8y.jpg embeds with site-specific tags], or even [http://egscomics.com link images [http://i.imgur.com/YW5So8y.jpg like this]]! 
 
-<pre>!!/usr/bin/env python
-  --- python ---
+<pre>#!/usr/bin/env python
+# -*- python -*-
 import utility
 
-sso as to pass JSON to eval
+#so as to pass JSON to eval
 null=None
 false=False
 true=True
@@ -41,20 +41,20 @@ curatitl=""
 useless="""
 ~~~~~~~
 """
-OOf note, this is where GitHub's own parser goes wrong.
-AA seven-tilde sequence should embed in an eight-tilde fence.
-TThis is still in the code-block.
-RRepeating to humour GitHub:
+#Of note, this is where GitHub's own parser goes wrong.
+#A seven-tilde sequence should embed in an eight-tilde fence.
+#This is still in the code-block.
+#Repeating to humour GitHub:
 useless="""
 ~~~~~~~
 """
 
 def handle_line(line):
-    atitl,ltitl=line&#91;"Title"&#93;.split(": ",))
+    atitl,ltitl=line&#91;"Title"&#93;.split(": ",1)
     if atitl!=curatitl:
         arcs.append(&#123;"Title":atitl,"StoryLines":&#91;&#93;&#125;)
         curatitl=atitl
-    arcs&#91;-&#93;&#93;&#91;"StoryLines"&#93;.append(&#123;"Title":ltitl,"Comics":line&#91;"Comics"&#93;&#125;)
+    arcs&#91;-1&#93;&#91;"StoryLines"&#93;.append(&#123;"Title":ltitl,"Comics":line&#91;"Comics"&#93;&#125;)
 
 map(handle_line,main_db)
 
@@ -79,7 +79,7 @@ open(".build/MegaDb.txt","w").write(repr(arcs))
 
 ![http://i.imgur.com/YW5So8y.jpg This is not an embed either.] 
 
-Nor is !&#91;this.&#93;([http://i.imgur.com/YW5So8y.jpg http://i.imgur.com/YWSSoyy.jpg]) 
+Nor is !&#91;this.&#93;([http://i.imgur.com/YW5So8y.jpg http://i.imgur.com/YW5So8y.jpg]) 
 
 Whereas this is: [http://i.imgur.com/YW5So8y.jpg an embed] 
 
@@ -109,7 +109,7 @@ C:\WINDOWS\--hello--
 
 m=Ec<sup>-2</sup> 
 
-E=(mv<sup>2</sup>)/  
+E=(mv<sup>2</sup>)/2 
 
 CH<sub>3</sub>COOH 
 
@@ -135,27 +135,27 @@ Parse_this_text stu''pen''dously, ''mate'', do you ''he''ar me?
 
 <hr />
 
-== Level   Heading==
+== Level 2 Heading==
 
 = Not a heading == 
 
 ''Italic'', '''bold''', '''''both''''', &#39;&#39;neither&#39;&#39;. 
 
-''Italic'', '''bold''', '''''both''''', nneither.. 
+''Italic'', '''bold''', '''''both''''', *neither*. 
 
 ''Italic'', '''bold''', '''''both''''', _neither_. 
 
-= Level   =
+= Level 1 =
 
-NNot heading 
+#Not heading 
 
-= Level   =
+= Level 1 =
 
-== Level   ==
+== Level 2 ==
 
 ==== Hi ====
 
-=== Level   ===
+=== Level 3 ===
 
 What does this do? 
 
@@ -233,8 +233,8 @@ Watashi-wa Tōmasu desu.
 !Why 
 !What 
 |-
-|23  
-|567      
+|123 
+|4567 8 9 
 |-
 |a 
 |bcde 
@@ -245,11 +245,11 @@ Watashi-wa Tōmasu desu.
 |
 |mnop 
 |-
-|23  
+|123 
 |
 |-
-|56  
-|89  
+|456 
+|789 
 |-
 |UUU 
 |Dwelt 
@@ -260,8 +260,8 @@ Watashi-wa Tōmasu desu.
 !Why
 !What<br />
 |-
-|233
-|567    9<br />
+|123
+|4567 8 9<br />
 |-
 |a
 |bcde<br />
@@ -272,11 +272,11 @@ Watashi-wa Tōmasu desu.
 | 
 |mnop<br />
 |-
-|233
+|123
 |
 |-
-|566
-|899<br />
+|456
+|789<br />
 |-
 |UUU
 |Dwelt<br />
@@ -337,7 +337,7 @@ And
 
 * one 
 * list 
-* <code>ssa`me*</code> 
+* <code>*sa`me*</code> 
 * list 
 
 [http://i.imgur.com/YW5So8y.jpg#hash Testing hashes.] 
@@ -367,7 +367,7 @@ Testing ordered lists:
 * henceforth and forever, Amen and Amen!" 
 # The Lord is extending the Saints' understanding... 
 
-(note that the above may come out as   or ,, depending on mdplay renderer, flags and targeted system) 
+(note that the above may come out as 1 or 5, depending on mdplay renderer, flags and targeted system) 
 
 # An ol containing an 
 ** Ul containing an 
@@ -389,8 +389,8 @@ Squirt ♈ Squirt ♈ Squirt ♈
 !Why
 !What
 |-
-|233
-|567    9
+|123
+|4567 8 9
 |-
 |a
 |bcde
@@ -401,11 +401,11 @@ Squirt ♈ Squirt ♈ Squirt ♈
 | 
 |mnop
 |-
-|233
+|123
 |
 |-
-|566
-|899
+|456
+|789
 |-
 |UUU
 |Dwelt

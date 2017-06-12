@@ -326,11 +326,11 @@ Testing ordered lists:
 [/list]
 [/list]
 
-This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [spoiler]It actually is.[/spoiler] 🖖 👀 👀 
+This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [spoiler]It actually is.[/spoiler] :vulcan: :eyes: :eyes: 
 
-Squirt ♈ Squirt ♈ Squirt ♈ 
+Squirt :aries: Squirt :aries: Squirt :aries: 
 
-😄 😀 😆 ☺ 󽻍 
+:smile: :grinning: :laughing: :relaxed::demonicduck:  
 
 [table][tr][th]Why[/th][th]What[/th][/tr][tr][td]123[/td][td]4567 8 9[/td][/tr][tr][td]a[/td][td]bcde[/td][/tr][tr][td]fgh[/td][td]ijkl[/td][/tr][tr][td] [/td][td]mnop[/td][/tr][tr][td]123[/td][td][/td][/tr][tr][td]456[/td][td]789[/td][/tr][tr][td]UUU[/td][td]Dwelt[/td][/tr][/table]
 
@@ -338,15 +338,15 @@ m̈ëẗälë Ë
 
 ẍ=-ω[sup]2[/sup]x 
 
-🙆 🙆🏽 🙆🏿 
+:ok_woman: :ok_woman_tone3: :ok_woman_tone5: 
 
-♈ [img alt="small image" width="32" height="32"]http://i.imgur.com/YW5So8y.jpg[/img] [img alt="small image" width="32"]http://i.imgur.com/YW5So8y.jpg[/img] 
+:aries: [img alt="small image" width="32" height="32"]http://i.imgur.com/YW5So8y.jpg[/img] [img alt="small image" width="32"]http://i.imgur.com/YW5So8y.jpg[/img] 
 
-🖖🏿 🖖‌🏿[br]🖖🏼 🖖‌🏼[br]🖖🏽 🖖‌🏽 
+:vulcan_tone5: :vulcan:‌🏿[br]:vulcan_tone2: :vulcan:‌🏼[br]:vulcan_tone3: :vulcan:‌:tone3: 
 
 :undiefined: 
 
-🇯🇵 🇯‌🇵 
+:flag_jp: :regional_indicator_j:‌:regional_indicator_p: 
 
 Testing a URN: [url="x-wikipedia:Tree"]x-wikipedia:Tree[/url] 
 
@@ -390,12 +390,12 @@ Pinguinet (PANG-win-ay)
 
 テガみ てがみ テガミ 
 
-🌚 🌚︎ 🌚️ 🌚‌︎ 
+:new_moon_with_face: :new_moon_with_face:︎ :new_moon_with_face:️ :new_moon_with_face:‌︎ 
 
-😄 😄︎ 😄️ 😄‌︎ 
+:smile: :smile:︎ :smile:️ :smile:‌︎ 
 
-This should be a rainbow banner: 🏳️‍🌈 or 🏳🌈 
+This should be a rainbow banner: [img width="32" height="32" alt="\ud83c\udff3\ufe0f\u200d\ud83c\udf08" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f3f3-fe0f-200d-1f308.png[/img] or :flag_white::rainbow: 
 
-⛹🏻‍♀️ 
+[img width="32" height="32" alt="\u26f9\ud83c\udffb\u200d\u2640\ufe0f" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb-200d-2640-fe0f.png[/img] 
 
-⛹🏻‍♀️ 
+[img width="32" height="32" alt="\u26f9\ud83c\udffb\u200d\u2640\ufe0f" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb-200d-2640-fe0f.png[/img] 

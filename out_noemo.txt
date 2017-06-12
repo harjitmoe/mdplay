@@ -402,4 +402,4 @@ This should be a rainbow banner: 🏳️‍🌈 or :flag_white::rainbow:
 
 :D 
 
-[i]This should behave more or less as expected. However, I have reason to believe otherwise.[/i]ensp;However, I have reason to believe otherwise.[i] [/i]
+[i]This should behave more or less as expected. However, I have reason to believe otherwise.[/i] 

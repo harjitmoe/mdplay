@@ -119,12 +119,12 @@ def _parse_inline(content,levs=("root",),flags=()):
             if c in htmlentitydefs.html5.keys():
                 hamayalawa = htmlentitydefs.html5[c]
                 out.append(hamayalawa.encode("utf-8"))
-                content=content[n:]
+                del content[:n]
             elif (c[:-1] in htmlentitydefs.html5.keys()) and ("nohtmlsloppyentity" not in flags):
                 n -= 1; c = c[:-1]
                 hamayalawa = htmlentitydefs.html5[c]
                 out.append(hamayalawa.encode("utf-8"))
-                content=content[n:]
+                del content[:n]
             else:
                 out.append("&")
         ### Newlines (there are only true newlines by this point) ###

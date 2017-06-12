@@ -461,5 +461,5 @@ This should be a rainbow banner: ![🏳️‍🌈](https://twemoji.maxcdn.com/2/
 
 ![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32)
 
-*This should behave more or less as expected. However, I have reason to believe otherwise.*ensp;However, I have reason to believe otherwise.* *
+*This should behave more or less as expected. However, I have reason to believe otherwise.*
 

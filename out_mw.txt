@@ -479,6 +479,6 @@ This should be a rainbow banner: 🏳️‍🌈 or 🏳🌈
 
 😆 
 
-''This should behave more or less as expected. However, I have reason to believe otherwise.''ensp;However, I have reason to believe otherwise.'' ''
+''This should behave more or less as expected. However, I have reason to believe otherwise.'' 
 
 

@@ -198,7 +198,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
             content=node.content
             r=document.createElement("ruby")
             #r.setAttribute("lang","jp")
-            r.appendChild(document.createTextNode(content))
+            r.appendChild(document.createTextNode(content.decode("utf-8")))
             rp1=document.createElement("rp")
             rp1.appendChild(document.createTextNode(" ("))
             r.appendChild(rp1)

@@ -149,7 +149,7 @@ def _html_out_body(node,in_list,flags):
     elif isinstance(node,nodes.RubiNode):
         label=html_out_body(node.label)
         content=node.content
-        return "<ruby>"+content.encode("utf-8")+"<rp> (</rp><rt>"+label+"</rt><rp>) </rp></ruby>" # lang='jp'
+        return "<ruby>"+content+"<rp> (</rp><rt>"+label+"</rt><rp>) </rp></ruby>" # lang='jp'
     elif isinstance(node,nodes.HrefNode):
         label=html_out_body(node.label)
         ht=node.hreftype

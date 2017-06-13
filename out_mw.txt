@@ -298,7 +298,7 @@ ation.
 
 </pre>
 
-<pre>&#39;&#39;Breaking&#39;&#39;
+<pre>''Breaking''
 
 the news (still in code).
 
@@ -481,6 +481,6 @@ This should be a rainbow banner: 🏳️‍🌈 or 🏳️‍🌈
 
 ''This should behave more or less as expected. However, I have reason to believe otherwise.'' (Should be fixed now…) 
 
-<span class="mw-customtoggle-6" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-6" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
+<span class="mw-customtoggle-5" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-5" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
 
 

@@ -48,7 +48,7 @@ def _mwiki_out_body(node,flags=()):
     elif isinstance(node,nodes.RubiNode):
         label=mwiki_out_body(node.label,flags=flags)
         content=node.content
-        return "<ruby>"+content.encode("utf-8")+"<rp> (</rp><rt>"+label+"</rt><rp>) </rp></ruby>"
+        return "<ruby>"+content+"<rp> (</rp><rt>"+label+"</rt><rp>) </rp></ruby>"
     elif isinstance(node,nodes.HrefNode):
         label=mwiki_out_body(node.label,flags=flags)
         ht=node.hreftype

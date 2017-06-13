@@ -166,7 +166,7 @@ def _bb_out(node,in_list,flags):
     elif isinstance(node,nodes.RubiNode):
         label=bb_out(node.label)
         content=node.content
-        return content.encode("utf-8")+" ("+label+") "
+        return content+" ("+label+") "
     elif isinstance(node,nodes.HrefNode):
         label=bb_out(node.label)
         ht=node.hreftype

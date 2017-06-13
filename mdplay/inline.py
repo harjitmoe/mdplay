@@ -7,11 +7,8 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay import nodes, umlaut
-from mdplay.uriregex import uriregex
+from mdplay import nodes, umlaut, uriregex, inline_cjk, mdpemoji
 from mdplay import htmlentitydefs_latest as htmlentitydefs
-from mdplay.inline_cjk import cjk_handler
-from mdplay.inline_emoji import emoji_handler
 
 punct=string.punctuation+string.whitespace
 
@@ -30,7 +27,7 @@ def _parse_inline(content,levs=("root",),flags=()):
     # mutable, "passed by reference" as it were
     lastchar=" "
     if ("noverifyurl" not in flags):
-        urireg="("+uriregex+"|[#/]s(poiler)?( .+)?)"
+        urireg="("+uriregex.uriregex+"|[#/]s(poiler)?( .+)?)"
     else:
         urireg=".*"
     if ("nospecialhrefs" not in flags):
@@ -44,7 +41,7 @@ def _parse_inline(content,levs=("root",),flags=()):
     lev=levs[0]
     while content:
         c=content.pop(0)
-        isurl=re.match(uriregex,c+("".join(content))) #NOT urireg
+        isurl=re.match(uriregex.uriregex,c+("".join(content))) #NOT urireg
         ### BibTeX diacritics
         if c=="\\" and ("bibuml" in levs) and ("nodiacritic" not in flags):
             c2=""
@@ -221,7 +218,7 @@ def _parse_inline(content,levs=("root",),flags=()):
                     out.append(nodes.InlineSpoilerNode(list(href)))
                 else:
                     out.append(nodes.InlineSpoilerNode(label))
-            elif not cjk_handler(out, hreftype, href, label, flags):
+            elif not inline_cjk.cjk_handler(out, hreftype, href, label, flags):
                 out.append(nodes.HrefNode(href,label,hreftype,width=gogo(width),height=gogo(height)))
         elif c=="]" and lev=="label":
             return out
@@ -255,7 +252,7 @@ def _parse_inline(content,levs=("root",),flags=()):
             del content[0]
             return out
         ### Emoji ###
-        elif emoji_handler(out, c, content, levs, flags):
+        elif mdpemoji.emoji_handler(out, c, content, levs, flags):
             pass
         ### Other ###
         elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):

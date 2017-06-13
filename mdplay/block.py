@@ -471,7 +471,7 @@ def _parse_block(f,titlelevels,flags):
                         cellrows2[0][-1].extend(row)
                 for row in cellrows2[0]:
                     for i in range(len(row)):
-                        row[i]=nodes.filter_paratags(list(parse_block(row[i],flags)))
+                        row[i]=mdputil.normalise_child_nodes(list(parse_block(row[i],flags)))
                 for row in cellrows[1]:
                     if cellrows2[1] and (not row[0].strip()):
                         for n,i in enumerate(row):
@@ -483,7 +483,7 @@ def _parse_block(f,titlelevels,flags):
                         cellrows2[1][-1].extend(row)
                 for row in cellrows2[1]:
                     for i in range(len(row)):
-                        row[i]=nodes.filter_paratags(list(parse_block(row[i],flags)))
+                        row[i]=mdputil.normalise_child_nodes(list(parse_block(row[i],flags)))
                 yield (nodes.TableNode(cellrows2))
                 within="root"
                 cellwid=[]

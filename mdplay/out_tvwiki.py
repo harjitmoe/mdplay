@@ -12,7 +12,7 @@ def tvwiki_out(nodes,titl_ignored=None,flags=()):
 
 def tvwiki_out_body(nodel,flags=()):
     r=""
-    for node in mdputil.agglomerate(nodel): #FIXME should not be left to the renderer to invoke agglomerate.
+    for node in nodel:
         r+=_tvwiki_out_body(node,flags=flags)
     return r
 

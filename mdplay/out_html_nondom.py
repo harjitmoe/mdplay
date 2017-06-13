@@ -20,8 +20,7 @@ from mdplay import nodes, mdputil
 def html_out_body(nodel,flags=()):
     in_list=()
     r=""
-    #FIXME should not be left to the renderer to invoke aggolmerate
-    for node in mdputil.agglomerate(nodel):
+    for node in nodel:
         _r=_html_out_body(node,in_list,flags=flags)
         if len(_r)==2 and type(_r)==type(()):
             _r,in_list=_r

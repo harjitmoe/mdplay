@@ -15,8 +15,7 @@ def md_out(nodes,titl_ignored=None,flags=()):
 
 def md_out_body(nodel,flags=()):
     r=""
-    #FIXME should not be left to the renderer to invoke aggolmerate
-    for node in mdputil.agglomerate(nodel):
+    for node in nodel:
         r+=_md_out_body(node,flags=flags)
     return r
 

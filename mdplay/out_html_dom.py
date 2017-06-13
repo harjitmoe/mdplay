@@ -10,8 +10,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 from mdplay import nodes, mdputil
 
 def html_out_part(nodem,document,in_list=(),flags=()):
-    #FIXME should not be left to the renderer to invoke aggolmerate
-    return list(_html_out_part(mdputil.agglomerate_inplace(nodem),document,in_list,flags=flags))
+    return list(_html_out_part(nodem,document,in_list,flags=flags))
 
 def _html_out_part(nodem,document,in_list=(),flags=()):
     while nodem:

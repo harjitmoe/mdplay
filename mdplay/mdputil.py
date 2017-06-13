@@ -4,30 +4,34 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay import mdpemoji
-
 def agglomerate(nodelist):
-    """Given a list of nodes, fuse adjacent text nodes, and split emoji off into emoji nodes.
-
-    TODO: disassociate from Emoji processing, and call from the parser, not from the renderer.
-    """
-    outlist=[]
+    """Given a list of nodes, fuse adjacent text nodes, and split emoji off into emoji nodes."""
+    outlist = []
     for i in nodelist:
         #NOTE: assumes Python 2
         if isinstance(i,type(u"")):
-            i=i.encode("utf-8")
+            i = i.encode("utf-8")
         if isinstance(i,type("")) and outlist and isinstance(outlist[-1],type("")): #NOT elif
-            outlist[-1]+=i
+            outlist[-1] += i
         else:
             outlist.append(i)
-    return mdpemoji.emoji_scan(outlist)
+    return outlist
 
+'''
 def agglomerate_inplace(nodelist):
     """The way the DOM renderer works with lists necessitates this."""
-    agglo=agglomerate(nodelist)
+    agglo = agglomerate(nodelist)
     del nodelist[:]
     nodelist.extend(agglo)
     return nodelist
+'''
+
+def normalise_child_nodes(content):
+    from mdplay import mdpemoji, nodes
+    if len(content) == 1 and isinstance(content[0], nodes.ParagraphNode):
+        return content[0].content
+    else:
+        return mdpemoji.emoji_scan(agglomerate(content))
 
 # Give more deterministic IDs to expandable spoiler nodes in HTML/MWiki.
 _curid = 1

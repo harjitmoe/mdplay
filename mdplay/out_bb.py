@@ -18,7 +18,7 @@ def bb_out(nodel,titl_ignored=None,flags=()):
 def bb_out_body(nodel,flags=()):
     in_list=()
     r=""
-    for node in mdputil.agglomerate(nodel): #FIXME should not be left to the renderer to invoke this
+    for node in nodel:
         _r=_bb_out(node,in_list,flags=flags)
         if len(_r)==2 and type(_r)==type(()):
             _r,in_list=_r

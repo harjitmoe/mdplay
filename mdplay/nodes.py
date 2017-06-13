@@ -15,7 +15,8 @@ class NonContainerNode(Node):
 
 class BlockNode(Node):
     def __init__(self,content,depth=-1,bullet=None):
-        self.content=filter_paratags(list(content))
+        from mdplay import mdputil
+        self.content=mdputil.normalise_child_nodes(list(content))
         self.depth=depth
         self.bullet=bullet
         self.label="" # Spoiler kludge
@@ -28,6 +29,7 @@ class TableNode(Node):
 
 class InlineNode(Node):
     def __init__(self,content,label="",hreftype="",emphatic=False,width=None,height=None):
+        from mdplay import mdputil
         self.content=content
         self.hreftype=hreftype
         self.emphatic=emphatic
@@ -47,7 +49,8 @@ class CodeBlockNode(Node):
 
 class DirectiveNode(Node):
     def __init__(self,content,typ,args,opts):
-        self.content=content
+        from mdplay import mdputil
+        self.content=mdputil.normalise_child_nodes(list(content))
         self.type=typ
         self.args=args
         self.opts=opts
@@ -111,9 +114,4 @@ class RuleNode(NonContainerNode):
 
 class EmptyInterrupterNode(NonContainerNode):
     pass
-
-def filter_paratags(content):
-    if len(content) == 1 and isinstance(content[0], ParagraphNode):
-        return content[0].content
-    return content
 

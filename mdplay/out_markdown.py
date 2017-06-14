@@ -17,8 +17,6 @@ def md_out_body(nodel,flags=()):
     r=""
     for node in nodel:
         add=_md_out_body(node,flags=flags)
-        if type(add)!=type(""):
-            raise ValueError(repr(add))
         r+=add
     return r
 
@@ -166,7 +164,6 @@ def _md_out_body(node,flags=()):
         force_shortcode=("shortcodes" in flags) and node.label[1]
         if ("notwemoji" not in flags) and node.emphatic and (not force_shortcode):
             if node.content.decode("utf-8") == u"\U000FDECD":
-                raise RuntimeError
                 return "![:demonicduck:](http://i.imgur.com/SfHfed9.png)"
             else:
                 try:

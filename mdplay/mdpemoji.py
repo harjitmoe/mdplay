@@ -187,7 +187,7 @@ def emoji_handler(out, c, content, levs, flags):
         elif kwontent.startswith("dan_"):
             kwontent = kwontent[4:] 
         if kwontent in eacd: 
-            emoji = eacd[kwontent.decode("utf-8")]
+            emoji = eacd[kwontent.decode("utf-8")].encode("utf-8")
             out.append(emoji)
         else:
             out.append(":"+kwontenti+":")

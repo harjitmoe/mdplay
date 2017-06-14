@@ -27,11 +27,11 @@ def agglomerate_inplace(nodelist):
 '''
 
 def normalise_child_nodes(content):
-    from mdplay import mdpemoji, nodes
+    from mdplay import emoji, nodes
     if len(content) == 1 and isinstance(content[0], nodes.ParagraphNode):
         return content[0].content
     else:
-        return mdpemoji.emoji_scan(agglomerate(content))
+        return emoji.emoji_scan(agglomerate(content))
 
 # Give more deterministic IDs to expandable spoiler nodes in HTML/MWiki.
 _curid = 1

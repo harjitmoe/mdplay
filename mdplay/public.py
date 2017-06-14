@@ -19,7 +19,7 @@ class NoSnippetRendererError(MdplayError):pass
 writers={"debug":"out_repr","bbcode":"out_bb","html":"out_html_dom","htmlalt":"out_html_nondom","mwiki":"out_mwiki", "md":"out_markdown","tvwiki":"out_tvwiki","enamel":"out_enamel"}
 
 def _load_renderer(modname):
-    renderer_module=getattr(__import__("mdplay."+modname),modname)
+    renderer_module=getattr(__import__("mdplay.out."+modname).out,modname)
     return getattr(renderer_module,renderer_module.__mdplay_renderer__)
 def load_renderer(codename):
     if codename in writers:

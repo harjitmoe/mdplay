@@ -68,7 +68,8 @@ for opt,val in opts:
     else:
         help()
 
-sys.stderr.write("\nMDPlay by Thomas Hori (use -s (lowercase S) to suppress this message)\n")
+if not nostart:
+    sys.stderr.write("\nMDPlay by Thomas Hori (use -s (lowercase S) to suppress this message)\n")
 
 if input!="-":
     f=open(input,"rU")

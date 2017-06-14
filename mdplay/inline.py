@@ -7,7 +7,7 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay import nodes, umlaut, uriregex, inline_cjk, mdpemoji
+from mdplay import nodes, umlaut, uriregex, cjk, emoji
 from mdplay import htmlentitydefs_latest as htmlentitydefs
 
 punct=string.punctuation+string.whitespace
@@ -220,7 +220,7 @@ def _parse_inline(content,levs=("root",),flags=()):
                     out.append(nodes.InlineSpoilerNode(label))
                 else:
                     out.append(nodes.InlineSpoilerNode(parse_inline(href,flags=flags),label))
-            elif not inline_cjk.cjk_handler(out, hreftype, href, label, flags):
+            elif not cjk.cjk_handler(out, hreftype, href, label, flags):
                 out.append(nodes.HrefNode(href,label,hreftype,width=gogo(width),height=gogo(height)))
         elif c=="]" and lev=="label":
             return out
@@ -254,7 +254,7 @@ def _parse_inline(content,levs=("root",),flags=()):
             del content[0]
             return out
         ### Emoji ###
-        elif mdpemoji.emoji_handler(out, c, content, levs, flags):
+        elif emoji.emoji_handler(out, c, content, levs, flags):
             pass
         ### Other ###
         elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):

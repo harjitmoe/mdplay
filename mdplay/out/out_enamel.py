@@ -1,17 +1,15 @@
-import re
-from xml.dom import minidom
-
 __copying__ = """
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
+from mdplay.out.out_html_dom import html_out_part, _html_out_part
+from mdplay.out.enamelfacey import tonml
+
 from mdplay import nodes
-
-from mdplay.out_html_dom import html_out_part, _html_out_part
-
-from mdplay.enamelfacey import tonml
+from xml.dom import minidom
+import re
 
 #import htmlentitydefs
 from mdplay import htmlentitydefs_latest as htmlentitydefs

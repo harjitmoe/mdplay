@@ -6,7 +6,8 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay import nodes, cangjie, parse_roma
+from mdplay.cjk import cangjie, parse_roma
+from mdplay import nodes
 
 def cjk_handler(out, hreftype, href, label, flags):
     if (hreftype.lower() in ("cang","cangjie","souketsu","soketsu")) and ("nocangjie" not in flags):

@@ -6,7 +6,7 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay.cangjie.tables import cang03, cang05
+from mdplay.cjk.cangjie.tables import cang03, cang05
 
 class Agogo(dict):
     def __getitem__(self, key):

@@ -361,7 +361,7 @@ This is just a paragraph.  :lenny:  [It actually is.](/spoiler) :vulcan: :dan_sh
 
 Squirt :aries: Squirt :aries: Squirt ♈ 
 
-:smile: :grinning: :D :) 󽻍
+:smile: :grinning: :D :) :demonicduck:
 
 |Why|What|
 |:---:|:---|

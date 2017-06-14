@@ -214,10 +214,12 @@ def _parse_inline(content,levs=("root",),flags=()):
                 else:
                     out.append(nodes.InlineSpoilerNode(parse_inline(href.strip().split(" ",1)[1],flags=flags),label))
             elif (hreftype.lower() == "spoiler") and ("noembedspoiler" not in flags):
-                if (not label) and (href.strip()):
-                    out.append(nodes.InlineSpoilerNode(list(href)))
-                else:
+                if (not label) and href.strip():
+                    out.append(nodes.InlineSpoilerNode(parse_inline(href,flags=flags)))
+                elif label and (not href.strip()):
                     out.append(nodes.InlineSpoilerNode(label))
+                else:
+                    out.append(nodes.InlineSpoilerNode(parse_inline(href,flags=flags),label))
             elif not inline_cjk.cjk_handler(out, hreftype, href, label, flags):
                 out.append(nodes.HrefNode(href,label,hreftype,width=gogo(width),height=gogo(height)))
         elif c=="]" and lev=="label":

@@ -6,7 +6,7 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay.cjk.cangjie.tables import cang03, cang05
+import os
 
 class Agogo(dict):
     def __getitem__(self, key):
@@ -20,7 +20,7 @@ class Zagogo(dict):
             self[key] = 1 #Note not 0
         return dict.__getitem__(self, key)
 
-def proc_cang(cang):
+def init_proc_cang(cang):
     cang = cang.strip().split("\n")
     d = Agogo()
     dd = Zagogo()
@@ -33,10 +33,23 @@ def proc_cang(cang):
         dd[kanji] = priori
     return d, dd
 
-cangdb = {}
-popdb = {}
-cangdb[3], popdb[3] = proc_cang(cang03)
-cangdb[5], popdb[5] = proc_cang(cang05)
+cdbf = os.path.join(os.path.dirname(__file__), "cangdb.py")
+pdbf = os.path.join(os.path.dirname(__file__), "popdb.py")
+if os.path.exists(cdbf) and os.path.exists(pdbf):
+    from mdplay.cjk.cangjie.cangdb import cangdb
+    cangdb[3] = Agogo(cangdb[3])
+    cangdb[5] = Agogo(cangdb[5])
+    from mdplay.cjk.cangjie.popdb import popdb
+    popdb[3] = Zagogo(popdb[3])
+    popdb[5] = Zagogo(popdb[5])
+else:
+    from mdplay.cjk.cangjie.tables import cang03, cang05
+    cangdb = {}
+    popdb = {}
+    cangdb[3], popdb[3] = init_proc_cang(cang03)
+    cangdb[5], popdb[5] = init_proc_cang(cang05)
+    open(cdbf, "w").write("cangdb = " + repr(cangdb))
+    open(pdbf, "w").write("popdb = " + repr(popdb))
 
 def proc_cang(stri, version = -1):
     if version==3:

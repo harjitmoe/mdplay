@@ -8,7 +8,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from mdplay.emoji import twem2support, pickups_util, eac
 from mdplay import utfsupport, nodes
-import collections, re
+import collections, re, os
 
 #-------------------------------------------------------------------------------------------------
 
@@ -18,46 +18,58 @@ SMILEYA[":D"] = u"😆" # Otherwise implementation-defined behaviour (multiple m
 
 #-------------------------------------------------------------------------------------------------
 
-eacd = {
+eacd2 = {
 "lenny": u"( ͡° ͜ʖ ͡° )", "degdeg": u"( ͡° ͜ʖ ͡° )", "shruggie": u"¯\_(ツ)_/¯", 
 
 "darkmoon": u"🌚", "thefinger": u"🖕", "happy":u"😊", "rolleyes": u"🙄", "biggrin": u"😁", "aw_yeah": u"😏", "bigcry": u"😭", "evil": u"👿", "twisted": u"😈", "sasmile": u"😈", "sleep": u"😴", "conf": u"😕", "eek": u"😲", "sweat1": u"😅", "worshippy": u"🙇", "wub": u"😍", "mellow": u"😐", "shifty": u"👀", "danshiftyeyes": u"👀", 
 
-"textstyle": u"\ufe0e", "emojistyle": u"\ufe0f", 
-
-"demonicduck": u"󽻍"
+"textstyle": u"\ufe0e", "emojistyle": u"\ufe0f"
 }
 
+custom_eac = {"demonicduck": "http://i.imgur.com/SfHfed9.png"}
+
 # Converting eac hexcodes to twemoji hexcodes where needed.
-TWEMmap = {}
-for i2 in twem2support.TWEM:
-    if i2 not in eac.eac:
-        i = "-"+i2+"-"
-        i = i.replace("-200c-", "-")
-        i = i.replace("-200d-", "-")
-        i = i.replace("-fe0e-", "-")
-        i = i.replace("-fe0f-", "-")
-        i = i.strip("-")
-        if i in eac.eac:
-            TWEMmap[i] = i2
+twmf = os.path.join(os.path.dirname(__file__), "twemmap.py")
+if os.path.exists(twmf):
+    from mdplay.emoji.twemmap import TWEMmap
+else:
+    TWEMmap = {}
+    for i2 in twem2support.TWEM:
+        if i2 not in eac.eac:
+            i = "-"+i2+"-"
+            i = i.replace("-200c-", "-")
+            i = i.replace("-200d-", "-")
+            i = i.replace("-fe0e-", "-")
+            i = i.replace("-fe0f-", "-")
+            i = i.strip("-")
+            if i in eac.eac:
+                TWEMmap[i] = i2
+    open(twmf, "w").write("TWEMmap = " + repr(TWEMmap))
 
-eacd2 = eacd.copy()
-
-eacalt = {}
-
-for _euc in eac.eac.keys():
-    _ec = u""
-    _euc2 = _euc
-    if _euc2 in TWEMmap:
-        _euc2 = TWEMmap[_euc2]
-        eacalt[TWEMmap[_euc]] = eac.eac[_euc]
-    else:
-        eacalt[_euc] = eac.eac[_euc]
-    for _eucs in _euc2.split("-"):
-        _ec += utfsupport.unichr4all(int(_eucs, 16))
-    eacd[eac.eac[_euc]["alpha code"].strip(":").encode("utf-8")] = _ec
-    for _alias in eac.eac[_euc]["aliases"]:
-        eacd[_alias.strip(":").encode("utf-8")] = _ec
+# Generating shortcode-to-unicode mapping.
+eacdf = os.path.join(os.path.dirname(__file__), "eacd.py")
+eacaf = os.path.join(os.path.dirname(__file__), "eacalt.py")
+if os.path.exists(eacdf) and os.path.exists(eacaf):
+    from mdplay.emoji.eacd import eacd
+    from mdplay.emoji.eacalt import eacalt
+else:
+    eacd = eacd2.copy()
+    eacalt = {}
+    for _euc in eac.eac.keys():
+        _ec = u""
+        _euc2 = _euc
+        if _euc2 in TWEMmap:
+            _euc2 = TWEMmap[_euc2]
+            eacalt[TWEMmap[_euc]] = eac.eac[_euc]
+        else:
+            eacalt[_euc] = eac.eac[_euc]
+        for _eucs in _euc2.split("-"):
+            _ec += utfsupport.unichr4all(int(_eucs, 16))
+        eacd[eac.eac[_euc]["alpha code"].strip(":").encode("utf-8")] = _ec
+        for _alias in eac.eac[_euc]["aliases"]:
+            eacd[_alias.strip(":").encode("utf-8")] = _ec
+    open(eacdf, "w").write("eacd = " + repr(eacd))
+    open(eacaf, "w").write("eacalt = " + repr(eacalt))
 
 #-------------------------------------------------------------------------------------------------
 

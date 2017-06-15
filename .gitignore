@@ -5,4 +5,10 @@ facey.html
 .fuse_hidden*
 __pycache__
 gen_twem2support.py
+eacd.py
+eacalt.py
+cangdb.py
+popdb.py
+pstats.dat
+twemmap.py
 

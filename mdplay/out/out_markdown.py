@@ -54,12 +54,15 @@ def _md_out_body(node,flags=()):
     elif isinstance(node,nodes.OlliNode):
         return ("\x20\x20"*node.depth)+str(node.bullet)+") "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n"+("\x20\x20"*(node.depth+1))+(" "*+len(str(node.bullet))))+"\n"
     elif isinstance(node,nodes.BoldNode):
-        if node.emphatic or ("nobackslashspace" in flags) or ("noemphunderscore" in flags):
+        if node.emphatic or ("nobackslashspace" in flags) or ("noemphunderscore" in flags) or ("discordunderline" in flags):
             return "**"+md_out_body(node.content,flags)+"**"
         else:
             return "\ __"+md_out_body(node.content,flags)+"__\ "
-    elif isinstance(node,nodes.BadassEchoNode):
-        return "(((["+md_out_body(node.content,flags=flags)+"](https://www.youtube.com/watch?v=SQoA_wjmE9w""))))"
+    elif isinstance(node,nodes.UnderlineNode):
+        if "discordunderline" in flags:
+            return "__"+md_out_body(node.content,flags)+"__"
+        else:
+            return "<u>"+md_out_body(node.content,flags)+"</u>"
     elif isinstance(node,nodes.ItalicNode):
         if node.emphatic or ("nobackslashspace" in flags) or ("noemphunderscore" in flags):
             return "*"+md_out_body(node.content,flags)+"*"

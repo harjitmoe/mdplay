@@ -155,8 +155,8 @@ def _bb_out(node,in_list,flags):
         return r,in_list
     elif isinstance(node,nodes.BoldNode):
         return "[b]"+bb_out_body(node.content,flags=flags)+"[/b]"
-    elif isinstance(node,nodes.BadassEchoNode):
-        return "((([url=https://www.youtube.com/watch?v=SQoA_wjmE9w]"+bb_out_body(node.content,flags=flags)+"[/url])))"
+    elif isinstance(node,nodes.UnderlineNode):
+        return "[u]"+bb_out_body(node.content,flags=flags)+"[/u]"
     elif isinstance(node,nodes.ItalicNode):
         return "[i]"+bb_out_body(node.content,flags=flags)+"[/i]"
     elif isinstance(node,nodes.SuperNode):

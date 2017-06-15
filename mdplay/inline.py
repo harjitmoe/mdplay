@@ -150,7 +150,10 @@ def _parse_inline(content,levs=("root",),flags=()):
         #### /With underscores
         elif c=="_" and content[0]=="_" and ("boldalt" not in levs) and (lastchar in punct) and (lev!="wikilink" or out2):
             del content[0]
-            out.append(nodes.BoldNode(_parse_inline(content,("boldalt",)+levs,flags=flags),emphatic=False))
+            if "discordunderline" not in flags:
+                out.append(nodes.BoldNode(_parse_inline(content,("boldalt",)+levs,flags=flags),emphatic=False))
+            else: # Level still should be called boldalt, but node type should be different
+                out.append(nodes.UnderlineNode(_parse_inline(content,("boldalt",)+levs,flags=flags),emphatic=False))
         elif c=="_" and content[0]=="_" and lev=="boldalt" and ("".join(content[1:2]) in punct):
             del content[0]
             return out

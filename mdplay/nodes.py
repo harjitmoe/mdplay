@@ -82,9 +82,6 @@ class UlliNode(LiNode):
 class OlliNode(LiNode):
     pass
 
-class BadassEchoNode(InlineNode):
-    pass
-
 class CodeSpanNode(InlineNode):
     pass
 
@@ -92,6 +89,9 @@ class BoldNode(InlineNode):
     pass
 
 class ItalicNode(InlineNode):
+    pass
+
+class UnderlineNode(InlineNode):
     pass
 
 class SuperNode(InlineNode):

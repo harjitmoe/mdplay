@@ -197,15 +197,10 @@ def _html_out_body(node,in_list,flags):
         return ""
     elif isinstance(node,nodes.EmojiNode):
         if ("notwemoji" not in flags) and node.emphatic:
-            if node.content.decode("utf-8") == u"\U000FDECD":
-                return "<img src='http://i.imgur.com/SfHfed9.png' alt=':demonicduck:'></img>"
-            else:
-                try:
-                    hexcode = node.label[2]
-                    altcode = node.content
-                    # Acceptable attribution per https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
-                    return "<!-- twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/ --><img alt='%s' src='https://twemoji.maxcdn.com/2/72x72/%s.png' style='max-width:2em;max-height:2em;'></img>"%(altcode,hexcode)
-                except ValueError: pass
+            hexcode = node.label[2]
+            altcode = node.content
+            # Acceptable attribution per https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
+            return "<!-- twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/ --><img alt='%s' src='https://twemoji.maxcdn.com/2/72x72/%s.png' style='max-width:2em;max-height:2em;'></img>"%(altcode,hexcode)
         return _escape(node.content,html5)
     elif isinstance(node,nodes.DirectiveNode) and node.type.startswith("html-") and ("directive" in flags):
         r = "<"+node.type[len("html-"):]

@@ -163,21 +163,16 @@ def _md_out_body(node,flags=()):
     elif isinstance(node,nodes.EmojiNode):
         force_shortcode=("shortcodes" in flags) and node.label[1]
         if ("notwemoji" not in flags) and node.emphatic and (not force_shortcode):
-            if node.content.decode("utf-8") == u"\U000FDECD":
-                return "![:demonicduck:](http://i.imgur.com/SfHfed9.png)"
+            hexcode = node.label[2]
+            altcode = node.content
+            if "oldtwemoji" in flags:
+                return "![%s](https://twemoji.maxcdn.com/36x36/%s.png)"%(altcode, hexcode)
             else:
-                try:
-                    hexcode = node.label[2]
-                    altcode = node.content
-                    if "oldtwemoji" in flags:
-                        return "![%s](https://twemoji.maxcdn.com/36x36/%s.png)"%(altcode, hexcode)
-                    else:
-                        if "nosizes" not in flags:
-                            siz = "\x20=32x32"
-                        else:
-                            siz = ""
-                        return "![%s](https://twemoji.maxcdn.com/2/72x72/%s.png%s)"%(altcode, hexcode, siz)
-                except ValueError: pass
+                if "nosizes" not in flags:
+                    siz = "\x20=32x32"
+                else:
+                    siz = ""
+                return "![%s](https://twemoji.maxcdn.com/2/72x72/%s.png%s)"%(altcode, hexcode, siz)
         if ("nouseemoji" not in flags) and (not force_shortcode):
             return node.content
         elif ((node.hreftype=="ascii") or ("asciimotes" in flags)) and (not force_shortcode):

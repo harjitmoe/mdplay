@@ -53,10 +53,10 @@ def _tvwiki_out_body(node,flags=()):
         return ("#"*node.depth)+"# "+tvwiki_out_body(node.content).strip("\r\n")+"\n"
     elif isinstance(node,nodes.BoldNode):
         return "'''"+tvwiki_out_body(node.content)+"'''"
+    elif isinstance(node,nodes.UnderlineNode):
+        return "'''"+tvwiki_out_body(node.content)+"'''" # Can't do underline…
     elif isinstance(node,nodes.ItalicNode):
         return "''"+tvwiki_out_body(node.content)+"''"
-    elif isinstance(node,nodes.BadassEchoNode):
-        return "((([[https://www.youtube.com/watch?v=SQoA_wjmE9w "+mwiki_out_body(node.content,flags=flags)+"]])))"
     elif isinstance(node,nodes.SuperNode):
         return "[[superscript:"+tvwiki_out_body(node.content)+"]]"
     elif isinstance(node,nodes.SubscrNode):

@@ -5,7 +5,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
 def agglomerate(nodelist):
-    """Given a list of nodes, fuse adjacent text nodes, and split emoji off into emoji nodes."""
+    """Given a list of nodes, fuse adjacent text nodes."""
     outlist = []
     for i in nodelist:
         #NOTE: assumes Python 2
@@ -16,15 +16,6 @@ def agglomerate(nodelist):
         else:
             outlist.append(i)
     return outlist
-
-'''
-def agglomerate_inplace(nodelist):
-    """The way the DOM renderer works with lists necessitates this."""
-    agglo = agglomerate(nodelist)
-    del nodelist[:]
-    nodelist.extend(agglo)
-    return nodelist
-'''
 
 def normalise_child_nodes(content):
     from mdplay import emoji, nodes

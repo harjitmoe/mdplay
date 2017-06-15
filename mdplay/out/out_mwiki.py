@@ -37,10 +37,10 @@ def _mwiki_out_body(node,flags=()):
         return ("#"*node.depth)+"# "+mwiki_out_body(node.content,flags=flags).strip("\r\n")+"\n"
     elif isinstance(node,nodes.BoldNode):
         return "'''"+mwiki_out_body(node.content,flags=flags)+"'''"
+    elif isinstance(node,nodes.UnderlineNode):
+        return "<u>"+mwiki_out_body(node.content,flags=flags)+"</u>"
     elif isinstance(node,nodes.ItalicNode):
         return "''"+mwiki_out_body(node.content,flags=flags)+"''"
-    elif isinstance(node,nodes.BadassEchoNode):
-        return "((([https://www.youtube.com/watch?v=SQoA_wjmE9w "+mwiki_out_body(node.content,flags=flags)+"])))"
     elif isinstance(node,nodes.SuperNode):
         return "<sup>"+mwiki_out_body(node.content,flags=flags)+"</sup>"
     elif isinstance(node,nodes.SubscrNode):

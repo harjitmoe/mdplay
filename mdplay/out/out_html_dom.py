@@ -164,17 +164,16 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
+        elif isinstance(node,nodes.UnderlineNode):
+            r=document.createElement("u")
+            for domn in html_out_part(node.content,document,flags=flags):
+                r.appendChild(domn)
+            yield r
         elif isinstance(node,nodes.ItalicNode):
             if node.emphatic:
                 r=document.createElement("em")
             else:
                 r=document.createElement("i")
-            for domn in html_out_part(node.content,document,flags=flags):
-                r.appendChild(domn)
-            yield r
-        elif isinstance(node,nodes.BadassEchoNode):
-            r=document.createElement("i")
-            r.setAttribute("href","https://www.youtube.com/watch?v=SQoA_wjmE9w")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r

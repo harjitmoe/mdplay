@@ -28,7 +28,7 @@ def load_renderer(codename):
         raise NoSuchRendererError(codename)
 
 def _load_snippet_renderer(modname):
-    renderer_module=getattr(__import__("mdplay."+modname),modname)
+    renderer_module=getattr(__import__("mdplay.out."+modname).out,modname)
     if renderer_module.__mdplay_snippet_renderer__==None:
         raise NoSnippetRendererError(codename)
     return getattr(renderer_module,renderer_module.__mdplay_snippet_renderer__)

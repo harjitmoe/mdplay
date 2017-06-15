@@ -165,8 +165,6 @@ def emoji_scan(nodesz):
                     else:
                         shortcode = None                        
                     nodesz2.append(nodes.EmojiNode(emoji.encode("utf-8"), (asciimote, shortcode, hexcode), emphatic = emojistyle))
-                elif tuple(d) == (u"\U000FDECD",):
-                    nodesz2.append(nodes.EmojiNode(u"".join(d).encode("utf-8"), (None, ":demonicduck:", None), emphatic = True))
                 else:
                     out += ccc.encode("utf-8")
             if out:
@@ -202,8 +200,10 @@ def emoji_handler(out, c, content, levs, flags):
         if kwontent in eacd: 
             emoji = eacd[kwontent.decode("utf-8")].encode("utf-8")
             out.append(emoji)
+        elif kwontent in custom_eac:
+            out.append(nodes.HrefNode(custom_eac[kwontent], ":"+kwontenti+":", "img"))
         else:
-            out.append(":"+kwontenti+":")
+            out.append(":"+kwontenti+":") #TODO do this more elegantly
         return True
     elif _is_emotic(c + ("".join(content))) and ("noasciiemoticon" not in flags):
         emote = _is_emotic(c + ("".join(content)))

@@ -214,17 +214,14 @@ def _bb_out(node,in_list,flags):
         return ""
     elif isinstance(node,nodes.EmojiNode):
         force_shortcode = ("shortcodes" in flags) and node.label[1]
-        force_ascii = ("nouseemoji" in flags) and (node.label[0] or node.label[1]) and (node.content.decode("utf-8")!=u"\U000FDECD")
+        force_ascii = ("nouseemoji" in flags) and (node.label[0] or node.label[1])
         if ("notwemoji" not in flags) and node.emphatic and (not force_shortcode):
-            if node.content.decode("utf-8") == u"\U000FDECD":
-                return '[img alt=":demonicduck:"]http://i.imgur.com/SfHfed9.png[/img]'
+            hexcode=node.label[2]
+            altcode=node.content
+            if "oldtwemoji" in flags:
+                return '[img alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/36x36/%s.png[/img]'%(json.dumps(altcode),hexcode)
             else:
-                hexcode=node.label[2]
-                altcode=node.content
-                if "oldtwemoji" in flags:
-                    return '[img alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/36x36/%s.png[/img]'%(json.dumps(altcode),hexcode)
-                else:
-                    return '[img width="32" height="32" alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/%s.png[/img]'%(json.dumps(altcode),hexcode)
+                return '[img width="32" height="32" alt=%s title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/%s.png[/img]'%(json.dumps(altcode),hexcode)
         if (not force_ascii) and (not force_shortcode):
             return node.content
         elif (("asciimotes" in flags) or (not node.label[1])) and node.label[0] and (not force_shortcode):

@@ -175,6 +175,12 @@ def emoji_scan(nodesz):
 
 #-------------------------------------------------------------------------------------------------
 
+def _emoteid_to_url(s):
+    if "://" in s:
+        return s
+    else:
+        return "https://cdn.discordapp.com/emojis/" + s + ".png"
+
 def _is_emotic(s):
     for i in SMILEYA.keys():
         if s.startswith(i):
@@ -202,8 +208,9 @@ def emoji_handler(out, c, content, levs, flags):
         if alphaname_lookup in eacd: 
             emoji = eacd[alphaname_lookup.decode("utf-8")].encode("utf-8")
             out.append(emoji)
-        elif alphaname_lookup in custom_eac:
-            out.append(nodes.HrefNode(custom_eac[alphaname_lookup], alpha_alt_text, "img"))
+        elif alphaname_lookup in custom_eac: # Note: AFTER checking for a standard emoji.
+            emoteurl = _emoteid_to_url(custom_eac[alphaname_lookup])
+            out.append(nodes.HrefNode(emoteurl, alpha_alt_text, "img", width = 32, height = 32))
         else:
             out.append(":"+alphaname+":") #TODO do this more elegantly
         return True
@@ -220,7 +227,10 @@ def emoji_handler(out, c, content, levs, flags):
         while (c != ">"):
             emoteid += c
             c = content.pop(0)
-        emoteurl = "https://cdn.discordapp.com/emojis/" + emoteid + ".png"
+        emoteurl = _emoteid_to_url(emoteid) # id is not a URL here as regex enforces numerical
+        if (alphaname not in custom_eac) and (alphaname not in eacd):
+            # Well now you know (for it it's referenced later)
+            custom_eac[alphaname] = emoteurl # could alternatively use emoteid I suppose
         out.append(nodes.HrefNode(emoteurl, alt_text, "img", width = 32, height = 32))
         return True
     elif _is_emotic(c + ("".join(content))) and ("noasciiemoticon" not in flags):

@@ -451,6 +451,6 @@ This should be a rainbow banner: :flag_white::emojistyle:&zwj;:rainbow: or :rain
 
 [Labelled spoiler](/s Watch out, this is a spoiler!)
 
-Discord emote: <:wacko:230129080886886400>
+Discord emote: <:wacko:230129080886886400> <:ConcernFroge:306183254350757888> <:kananYouNot:264549500385886208> <:madeupemoteshortcode:306183254350757888> :madeupemoteshortcode:
 
 \

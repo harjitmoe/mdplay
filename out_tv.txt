@@ -438,6 +438,6 @@ This should be a rainbow banner: 🏳️‍🌈 or 🏳️‍🌈
 
 Labelled spoiler[[spoiler:Watch out, this is a spoiler!]] 
 
-Discord emote: [[https://cdn.discordapp.com/emojis/230129080886886400.png :⁠wacko:]] 
+Discord emote: [[https://cdn.discordapp.com/emojis/230129080886886400.png :⁠wacko:]] [[https://cdn.discordapp.com/emojis/306183254350757888.png :⁠ConcernFroge:]] [[https://cdn.discordapp.com/emojis/264549500385886208.png :⁠kananYouNot:]] [[https://cdn.discordapp.com/emojis/306183254350757888.png :⁠madeupemoteshortcode:]] [[https://cdn.discordapp.com/emojis/306183254350757888.png :⁠madeupemoteshortcode:]] 
 
 

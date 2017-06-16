@@ -54,7 +54,7 @@ def _tvwiki_out_body(node,flags=()):
     elif isinstance(node,nodes.BoldNode):
         return "'''"+tvwiki_out_body(node.content)+"'''"
     elif isinstance(node,nodes.UnderlineNode):
-        return "'''"+tvwiki_out_body(node.content)+"'''" # Can't do underline…
+        return "'''"+tvwiki_out_body(node.content)+"'''" # Can't do underline...
     elif isinstance(node,nodes.ItalicNode):
         return "''"+tvwiki_out_body(node.content)+"''"
     elif isinstance(node,nodes.SuperNode):

@@ -31,9 +31,13 @@ class InlineNode(Node):
     def __init__(self,content,label="",hreftype="",emphatic=False,width=None,height=None):
         from mdplay import mdputil
         self.content=content
+        if isinstance(content, type([])):
+            self.content=mdputil.agglomerate(list(content))
         self.hreftype=hreftype
         self.emphatic=emphatic
         self.label=label
+        if isinstance(label, type([])) and not isinstance(self, EmojiNode):
+            self.label=mdputil.agglomerate(list(label))
         self.width=width
         self.height=height
         self.fuse=None

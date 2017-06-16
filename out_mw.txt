@@ -382,7 +382,7 @@ This is just a paragraph.  ( ͡° ͜ʖ ͡° )  <span class="mw-customtoggle-4" s
 
 Squirt ♈ Squirt ♈ Squirt ♈ 
 
-😄 😀 😆 ☺ [http://i.imgur.com/SfHfed9.png :demonicduck:] 
+😄 😀 😆 ☺ [http://i.imgur.com/SfHfed9.png :⁠demonicduck:] 
 
 {|border="1"
 |-
@@ -481,6 +481,8 @@ This should be a rainbow banner: 🏳️‍🌈 or 🏳️‍🌈
 
 ''This should behave more or less as expected. However, I have reason to believe otherwise.'' (Should be fixed now…) 
 
-<span class="mw-customtoggle-5" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-5" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
+<span class="mw-customtoggle-4" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-4" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
+
+Discord emote: [https://cdn.discordapp.com/emojis/230129080886886400.png :⁠wacko:] 
 
 

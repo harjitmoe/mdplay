@@ -33,7 +33,7 @@ def _repr_out(node,flags):
         dco["NODE_TYPE"]=node.__class__.__name__
         for i in dci.keys():
             if i[0]!="_":
-                if i in ("content","label"):
+                if (i in ("content","label")) and (not isinstance(dci[i], basestring)):
                     dco[i]=map(_repr_out,dci[i],[flags]*len(dci[i]))
                 elif i in ("table_head","table_body"):
                     dco[i]=[]

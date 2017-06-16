@@ -182,28 +182,46 @@ def _is_emotic(s):
     return False
 
 def emoji_handler(out, c, content, levs, flags):
+    colon_then_wj = u":\u2060".encode("utf-8") # Insert a Word Joiner as round-trip kludge.
     ### Emoticons and Emoji ###
     if re.match(r":(\w|_|-)+:", c + ("".join(content))) and ("noshortcodeemoji" not in flags):
-        kwontenti = ""
+        alphaname = ""
         c = content.pop(0)
         while (c != ":"):
-            kwontenti += c
+            alphaname += c
             c = content.pop(0)
-        kwontent = kwontenti
+        alpha_alt_text = colon_then_wj + alphaname + ":"
+        alphaname_lookup = alphaname
         # Strip certain prefixes, added here mainly for (pre-Crash) 910 compatibility
-        if kwontent.startswith("icon_"):
-            kwontent = kwontent[5:]
-        elif kwontent.startswith("eusa_"):
-            kwontent = kwontent[5:]
-        elif kwontent.startswith("dan_"):
-            kwontent = kwontent[4:] 
-        if kwontent in eacd: 
-            emoji = eacd[kwontent.decode("utf-8")].encode("utf-8")
+        if alphaname_lookup.startswith("icon_"):
+            alphaname_lookup = alphaname_lookup[5:]
+        elif alphaname_lookup.startswith("eusa_"):
+            alphaname_lookup = alphaname_lookup[5:]
+        elif alphaname_lookup.startswith("dan_"):
+            alphaname_lookup = alphaname_lookup[4:] 
+        if alphaname_lookup in eacd: 
+            emoji = eacd[alphaname_lookup.decode("utf-8")].encode("utf-8")
             out.append(emoji)
-        elif kwontent in custom_eac:
-            out.append(nodes.HrefNode(custom_eac[kwontent], ":"+kwontenti+":", "img"))
+        elif alphaname_lookup in custom_eac:
+            out.append(nodes.HrefNode(custom_eac[alphaname_lookup], alpha_alt_text, "img"))
         else:
-            out.append(":"+kwontenti+":") #TODO do this more elegantly
+            out.append(":"+alphaname+":") #TODO do this more elegantly
+        return True
+    elif re.match(r"<:(\w|_|-)+:\d+>", c + ("".join(content))) and ("nodiscordemotes" not in flags):
+        alphaname = ""
+        emoteid = ""
+        del content[0] # the <
+        c = content.pop(0)
+        while (c != ":"):
+            alphaname += c
+            c = content.pop(0)
+        alt_text = colon_then_wj + alphaname + ":"
+        c = content.pop(0)
+        while (c != ">"):
+            emoteid += c
+            c = content.pop(0)
+        emoteurl = "https://cdn.discordapp.com/emojis/" + emoteid + ".png"
+        out.append(nodes.HrefNode(emoteurl, alt_text, "img", width = 32, height = 32))
         return True
     elif _is_emotic(c + ("".join(content))) and ("noasciiemoticon" not in flags):
         emote = _is_emotic(c + ("".join(content)))

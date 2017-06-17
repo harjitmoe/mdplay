@@ -4,7 +4,7 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-import re,string
+import re, string, os
 try:
     from StringIO import StringIO
 except:
@@ -53,6 +53,32 @@ def _parse_block(f,titlelevels,flags):
     fenceinfo=None
     cellwid=[]
     cellrows=[]
+    def handle_directive():
+        if not direname.strip(): # Allow use of an empty directive name for non-outputting execution.
+            list(parse_block(minibuf,titlelevels,flags))
+        elif direname.strip() == "mdplay-flag":
+            newflags = list(flags[:])
+            for i in cellwid:
+                for j in i.replace(",", " ").split():
+                    if j:
+                        if j.startswith("-") and (j != "-extradirective"):
+                            k = j[1:]
+                            while k in newflags:
+                                newflags.remove(k)
+                        else:
+                            newflags.append(j)
+            for i in parse_block(minibuf,titlelevels,tuple(newflags)):
+                yield i
+        elif direname.strip() == "mdplay-include":
+            for i in cellwid:
+                if i:
+                    mf = os.path.join(os.path.dirname(__file__), "headers", os.path.basename(i.strip()))
+                    mf = open(mf, "rU")
+                    for i in parse_block(mf.read(),titlelevels,flags):
+                        yield i
+                    mf.close()
+        elif ("extradirective" in flags):
+            yield (nodes.DirectiveNode(parse_block(minibuf,titlelevels,flags),direname,cellwid,cellrows))
 
     isrule=lambda line:re.match(r"\s*((?P<c>\*|_|-)\s?)\s*(?P=c)+\s*((?P=c)+\s+)*$",line+" ")
     istablerest=lambda line:re.match(r"(=+ )+=+\s*$",line)
@@ -420,23 +446,8 @@ def _parse_block(f,titlelevels,flags):
                 direfulfilled = 0
                 cellwid = [direargs]
             elif line.strip() and (line.lstrip() == line):
-                if not direname.strip(): # Allow use of an empty directive name for non-outputting execution.
-                    list(parse_block(minibuf,titlelevels,flags))
-                elif direname.strip() == "mdplay-flag":
-                    newflags = list(flags[:])
-                    for i in cellwid:
-                        for j in i.replace(",", " ").split():
-                            if j:
-                                if j.startswith("-") and (j != "-extradirective"):
-                                    k = k[1:]
-                                    while k in newflags:
-                                        newflags.remove(k)
-                                else:
-                                    newflags.append(j)
-                    for i in parse_block(minibuf,titlelevels,tuple(newflags)):
-                        yield i
-                elif ("extradirective" in flags):
-                    yield (nodes.DirectiveNode(parse_block(minibuf,titlelevels,flags),direname,cellwid,cellrows))
+                for i in handle_directive():
+                    yield i
                 cellwid = []; cellrows = []
                 minibuf=""
                 within="root"
@@ -553,7 +564,8 @@ def _parse_block(f,titlelevels,flags):
             raise AssertionError("Unknown syntax feature %r"%within)
     ####
     if within=="directive":
-        yield (nodes.DirectiveNode(parse_block(minibuf,titlelevels,flags),direname,cellwid,cellrows))
+        for i in handle_directive():
+            yield i
         cellwid = []; cellrows = []
         minibuf=""
         within="root"

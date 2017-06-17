@@ -411,3 +411,7 @@ Discord emote: :kananYouNot: [img alt=":\u2060wacko:" width="32"]https://cdn.dis
 [u]Greetings[/u] 
 
 [b]Greetings[/b] 
+
+:vanirLUL: 
+
+[img alt=":\u2060vanirLUL:" width="32"]https://cdn.discordapp.com/emojis/283868314235568129.png[/img] 

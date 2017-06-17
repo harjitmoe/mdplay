@@ -465,5 +465,10 @@ Discord emote: :kananYouNot: <:wacko:230129080886886400> <:ConcernFroge:30618325
    
    __Greetings__
 
+:vanirLUL:
+
+./. mdplay-include:: konosubadiscord_usage.md works but takes a looong time.
+
+:vanirLUL:
 
 \

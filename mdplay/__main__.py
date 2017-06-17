@@ -13,15 +13,7 @@ def help():
     sys.stderr.write("""\
 You put %s.
 
-html generates XHTML, which may cause IE to bork if it parses empty 
-<a> tags etc as HTML, htmlalt generates HTML which is hopefully valid
-XHTML also.
-
-For an exhaustive list of flags, see flag_chart.md
-
-Parser flag uicode enables detection of sufficiently large indents
-as code blocks, a la standard behaviour, rather than assuming indents
-are purely aesthetic unless indicated otherwise.
+For a list of flags, see flag_chart.md
 
 Parser flag "strict" disables syntax extensions, some of which are
 shared by other implementations.

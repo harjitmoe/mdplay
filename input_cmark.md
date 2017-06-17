@@ -471,3 +471,7 @@ Discord emote: :kananYouNot: ![:⁠wacko:](https://cdn.discordapp.com/emojis/230
 
 **Greetings**
 
+:vanirLUL:
+
+![:⁠vanirLUL:](https://cdn.discordapp.com/emojis/283868314235568129.png =32x)
+

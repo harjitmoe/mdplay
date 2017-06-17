@@ -61,11 +61,11 @@ def _parse_block(f,titlelevels,flags):
             for i in cellwid:
                 for j in i.replace(",", " ").split():
                     if j:
-                        if j.startswith("-") and (j != "-extradirective"):
+                        if j.startswith("-"):
                             k = j[1:]
                             while k in newflags:
                                 newflags.remove(k)
-                        else:
+                        elif j != "extradirective":
                             newflags.append(j)
             for i in parse_block(minibuf,titlelevels,tuple(newflags)):
                 yield i

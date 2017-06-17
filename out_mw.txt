@@ -483,6 +483,10 @@ This should be a rainbow banner: 🏳️‍🌈 or 🏳️‍🌈
 
 <span class="mw-customtoggle-4" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-4" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
 
-Discord emote: [https://cdn.discordapp.com/emojis/230129080886886400.png :⁠wacko:] [https://cdn.discordapp.com/emojis/306183254350757888.png :⁠ConcernFroge:] [https://cdn.discordapp.com/emojis/264549500385886208.png :⁠kananYouNot:] [https://cdn.discordapp.com/emojis/306183254350757888.png :⁠madeupemoteshortcode:] [https://cdn.discordapp.com/emojis/306183254350757888.png :⁠madeupemoteshortcode:] 
+Discord emote: :kananYouNot: [https://cdn.discordapp.com/emojis/230129080886886400.png :⁠wacko:] [https://cdn.discordapp.com/emojis/306183254350757888.png :⁠ConcernFroge:] [https://cdn.discordapp.com/emojis/264549500385886208.png :⁠kananYouNot:] [https://cdn.discordapp.com/emojis/306183254350757888.png :⁠madeupemoteshortcode:] [https://cdn.discordapp.com/emojis/306183254350757888.png :⁠madeupemoteshortcode:] [https://cdn.discordapp.com/emojis/264549500385886208.png :⁠kananYouNot:] 
+
+<u>Greetings</u> 
+
+'''Greetings''' 
 
 

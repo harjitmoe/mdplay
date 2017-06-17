@@ -7,7 +7,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
 from mdplay.emoji import twem2support, pickups_util, eac
-from mdplay import utfsupport, nodes
+from mdplay import utfsupport, nodes, uriregex
 import collections, re, os
 
 #-------------------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ eacd2 = {
 "textstyle": u"\ufe0e", "emojistyle": u"\ufe0f"
 }
 
-custom_eac = {"demonicduck": "http://i.imgur.com/SfHfed9.png"}
+custom_eac = {}
 
 # Converting eac hexcodes to twemoji hexcodes where needed.
 twmf = os.path.join(os.path.dirname(__file__), "twemmap.py")
@@ -176,7 +176,7 @@ def emoji_scan(nodesz):
 #-------------------------------------------------------------------------------------------------
 
 def _emoteid_to_url(s):
-    if "://" in s:
+    if ":" in s: # i.e. probably URI and not a number
         return s
     else:
         return "https://cdn.discordapp.com/emojis/" + s + ".png"
@@ -210,11 +210,11 @@ def emoji_handler(out, c, content, levs, flags):
             out.append(emoji)
         elif alphaname_lookup in custom_eac: # Note: AFTER checking for a standard emoji.
             emoteurl = _emoteid_to_url(custom_eac[alphaname_lookup])
-            out.append(nodes.HrefNode(emoteurl, alpha_alt_text, "img", width = 32, height = 32))
+            out.append(nodes.HrefNode(emoteurl, alpha_alt_text, "img", width = 32))
         else:
-            out.append(":"+alphaname+":") #TODO do this more elegantly
+            out.append(":"+alphaname+":") # Pass through, i.e. do NOT use colon_then_wj
         return True
-    elif re.match(r"<:(\w|_|-)+:\d+>", c + ("".join(content))) and ("nodiscordemotes" not in flags):
+    elif re.match(r"<:(\w|_|-)+:(\d|" + uriregex.uriregex + ")+>", c + ("".join(content))) and ("nodiscordemotes" not in flags):
         alphaname = ""
         emoteid = ""
         del content[0] # the <
@@ -228,10 +228,9 @@ def emoji_handler(out, c, content, levs, flags):
             emoteid += c
             c = content.pop(0)
         emoteurl = _emoteid_to_url(emoteid) # id is not a URL here as regex enforces numerical
-        if (alphaname not in custom_eac) and (alphaname not in eacd):
-            # Well now you know (for it it's referenced later)
+        if alphaname not in eacd:
             custom_eac[alphaname] = emoteurl # could alternatively use emoteid I suppose
-        out.append(nodes.HrefNode(emoteurl, alt_text, "img", width = 32, height = 32))
+        out.append(nodes.HrefNode(emoteurl, alt_text, "img", width = 32))
         return True
     elif _is_emotic(c + ("".join(content))) and ("noasciiemoticon" not in flags):
         emote = _is_emotic(c + ("".join(content)))

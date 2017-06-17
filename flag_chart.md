@@ -45,24 +45,28 @@
 * nosupersubscript, which activates
   * noredditstylesuper
   * nopandocstyle
+* nodirective
+* extradirective
 
 ## Writer:
 
 * htmllists (BB)
 * semihtmllists (BB)
-* autonumberonly (BB, HTML/DOM, HTML/ALT)
-* showtropes (BB, HTML/DOM, HTML/ALT, MW)
-* html5 (HTML/DOM, HTML/ALT)
+* autonumberonly (BB, HTML)
+* showtropes (BB, HTML, MW)
+* html5 (HTML)
 * nobackslashspace (MD)
 * noemphunderscore (MD)
 * pandoc (MD)
 * forum (TV)
-* notwemoji (BB, MD, HTML/ALT)
+* notwemoji (BB, MD)
 * nouseemoji (BB, MD)
 * shortcodes (BB, MD)
 * asciimotes (BB, MD)
-* fragment (HTML/DOM, HTML/ALT)
-* ipsspoilers (HTML/DOM, HTML/ALT)
+* fragment (HTML)
+* ipsspoilers (HTML)
 * nosizes (MD)
 * oldtwemoji (MD, BB)
+* directive (HTML)
+* nounicodeemoji (HTML)
 

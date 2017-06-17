@@ -82,7 +82,10 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
         elif isinstance(node,nodes.EmojiNode):
             if ("notwemoji" not in flags) and node.emphatic:
                 hexcode=node.label[2]
-                altcode=node.content.decode("utf-8")
+                if "nounicodeemoji" not in flags:
+                    altcode=node.content.decode("utf-8")
+                else:
+                    altcode=node.label[0] or node.label[1] or ":"+hexcode+":"
                 r=document.createElement("img")
                 r.setAttribute("src","https://twemoji.maxcdn.com/2/72x72/%s.png"%hexcode)
                 r.setAttribute("alt",altcode)
@@ -91,7 +94,10 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 yield document.createComment(" twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/ ")
                 yield r
             else:
-                yield document.createTextNode(node.content.decode("utf-8"))
+                if "nounicodeemoji" not in flags:
+                    yield document.createTextNode(node.content.decode("utf-8"))
+                else:
+                    yield document.createTextNode(node.label[0] or node.label[1] or ":"+node.label[2]+":")
         elif isinstance(node,nodes.TitleNode):
             if node.depth>6: node.depth=6
             r=_create_element("h%d"%node.depth)
@@ -232,7 +238,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 for domn in label:
                     r.appendChild(domn)
                 yield r
-            elif "script" in ht:
+            elif "script" in "".join(ht.split()):
                 pass #No way, Jos{\'e}!
             else: #Including img
                 try:

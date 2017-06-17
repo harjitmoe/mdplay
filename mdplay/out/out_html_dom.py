@@ -322,10 +322,6 @@ def html_out(nodem,titl="",flags=()):
     body=document.createElement("body")
     document.documentElement.appendChild(body)
     #Head
-    if titl:
-        titlebar=document.createElement("title")
-        head.appendChild(titlebar)
-        titlebar.appendChild(document.createTextNode(titl.decode("utf-8")))
     charset=document.createElement("meta")
     head.appendChild(charset)
     if not html5:
@@ -337,6 +333,10 @@ def html_out(nodem,titl="",flags=()):
         head.appendChild(xua)
         xua.setAttribute("http-equiv","X-UA-Compatible")
         xua.setAttribute("content","IE=10,chrome=1")
+    if titl:
+        titlebar=document.createElement("title")
+        head.appendChild(titlebar)
+        titlebar.appendChild(document.createTextNode(titl.decode("utf-8")))
     #Body
     nodem=list(nodem)
     for domn in html_out_part(nodem,document,flags=flags):

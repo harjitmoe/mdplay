@@ -361,6 +361,10 @@ This is just a paragraph.  :lenny:  [It actually is.](/spoiler) :vulcan: :dan_sh
 
 Squirt :aries: Squirt :aries: Squirt ♈ 
 
+.. ::
+   
+   <:demonicduck:http://i.imgur.com/SfHfed9.png>
+
 :smile: :grinning: :D :) :demonicduck:
 
 |Why|What|
@@ -451,6 +455,15 @@ This should be a rainbow banner: :flag_white::emojistyle:&zwj;:rainbow: or :rain
 
 [Labelled spoiler](/s Watch out, this is a spoiler!)
 
-Discord emote: <:wacko:230129080886886400> <:ConcernFroge:306183254350757888> <:kananYouNot:264549500385886208> <:madeupemoteshortcode:306183254350757888> :madeupemoteshortcode:
+Discord emote: :kananYouNot: <:wacko:230129080886886400> <:ConcernFroge:306183254350757888> <:kananYouNot:264549500385886208> <:madeupemoteshortcode:306183254350757888> :madeupemoteshortcode: :kananYouNot:
+
+.. mdplay-flag:: discordunderline
+   
+   __Greetings__
+
+.. mdplay-flag:: -discordunderline
+   
+   __Greetings__
+
 
 \

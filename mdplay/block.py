@@ -88,6 +88,10 @@ def _parse_block(f,titlelevels,flags):
                 within="atxhead"
                 f.rtpma()
                 continue
+            elif line.startswith(".. ") and ("::" in line) and ("nodirective" not in flags):
+                within="directive"
+                f.rtpma()
+                continue
             elif (line.strip() == "::") and ("nodicode" not in flags):
                 within="icode"
                 #NO rtpma
@@ -130,10 +134,6 @@ def _parse_block(f,titlelevels,flags):
                 continue
             elif ("|" in line) and isalign(f.peek_ahead()) and ("nomdtable" not in flags):
                 within="table"
-                f.rtpma()
-                continue
-            elif line.startswith(".. ") and ("::" in line) and ("directive" in flags):
-                within="directive"
                 f.rtpma()
                 continue
             elif line.startswith(".. ") and ("nocomment" not in flags):
@@ -420,7 +420,23 @@ def _parse_block(f,titlelevels,flags):
                 direfulfilled = 0
                 cellwid = [direargs]
             elif line.strip() and (line.lstrip() == line):
-                yield (nodes.DirectiveNode(parse_block(minibuf,titlelevels,flags),direname,cellwid,cellrows))
+                if not direname.strip(): # Allow use of an empty directive name for non-outputting execution.
+                    list(parse_block(minibuf,titlelevels,flags))
+                elif direname.strip() == "mdplay-flag":
+                    newflags = list(flags[:])
+                    for i in cellwid:
+                        for j in i.replace(",", " ").split():
+                            if j:
+                                if j.startswith("-") and (j != "-extradirective"):
+                                    k = k[1:]
+                                    while k in newflags:
+                                        newflags.remove(k)
+                                else:
+                                    newflags.append(j)
+                    for i in parse_block(minibuf,titlelevels,tuple(newflags)):
+                        yield i
+                elif ("extradirective" in flags):
+                    yield (nodes.DirectiveNode(parse_block(minibuf,titlelevels,flags),direname,cellwid,cellrows))
                 cellwid = []; cellrows = []
                 minibuf=""
                 within="root"

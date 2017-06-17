@@ -376,7 +376,7 @@ This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [It actually is.](/spoiler) ![�
 
 Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)
 
-![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) ![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32) ![☺](https://twemoji.maxcdn.com/2/72x72/263a.png =32x32) ![:⁠demonicduck:](http://i.imgur.com/SfHfed9.png =32x32)
+![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) ![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32) ![☺](https://twemoji.maxcdn.com/2/72x72/263a.png =32x32) ![:⁠demonicduck:](http://i.imgur.com/SfHfed9.png =32x)
 
 |Why|What|
 |:-:|:--|
@@ -465,5 +465,9 @@ This should be a rainbow banner: ![🏳️‍🌈](https://twemoji.maxcdn.com/2/
 
 [Labelled spoiler](/s Watch out, this is a spoiler!)
 
-Discord emote: ![:⁠wacko:](https://cdn.discordapp.com/emojis/230129080886886400.png =32x32) ![:⁠ConcernFroge:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x32) ![:⁠kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x32) ![:⁠madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x32) ![:⁠madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x32)
+Discord emote: :kananYouNot: ![:⁠wacko:](https://cdn.discordapp.com/emojis/230129080886886400.png =32x) ![:⁠ConcernFroge:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:⁠kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x) ![:⁠madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:⁠madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:⁠kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x)
+
+<u>Greetings</u>
+
+\ __Greetings__\
 

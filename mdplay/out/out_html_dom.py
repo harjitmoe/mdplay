@@ -13,12 +13,17 @@ def html_out_part(nodem,document,in_list=(),flags=()):
     return list(_html_out_part(nodem,document,in_list,flags=flags))
 
 def _html_out_part(nodem,document,in_list=(),flags=()):
+    def _create_element(tagname,document=document):
+        r = document.createElement(tagname)
+        # Prevent <.../> when not necessarily appropriate.
+        r.appendChild(document.createTextNode(""))
+        return r
     while nodem:
         node=nodem.pop(0)
         if isinstance(node,nodes.UlliNode):
             if (node.depth+1)>len(in_list):
-                r=document.createElement("ul")
-                r2=document.createElement("li")
+                r=_create_element("ul")
+                r2=_create_element("li")
                 r.appendChild(r2)
                 for domn in html_out_part(node.content,document,flags=flags):
                     r2.appendChild(domn)
@@ -26,7 +31,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                     if domn.tagName not in ("ul","ol"):
                         r.appendChild(domn)
                     elif not len(r2.childNodes):
-                        r3=document.createElement("li")
+                        r3=_create_element("li")
                         r.appendChild(r3)
                         r3.appendChild(domn)
                     else:
@@ -36,14 +41,14 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 nodem.insert(0,node)
                 return
             else:
-                r=document.createElement("li")
+                r=_create_element("li")
                 for domn in html_out_part(node.content,document,flags=flags):
                     r.appendChild(domn)
                 yield r
         elif isinstance(node,nodes.OlliNode):
             if (node.depth+1)>len(in_list):
-                r=document.createElement("ol")
-                r2=document.createElement("li")
+                r=_create_element("ol")
+                r2=_create_element("li")
                 if ("autonumberonly" not in flags):
                     r2.setAttribute("value",str(node.bullet))
                 r.appendChild(r2)
@@ -53,7 +58,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                     if domn.tagName not in ("ul","ol"):
                         r.appendChild(domn)
                     elif not len(r2.childNodes):
-                        r3=document.createElement("li")
+                        r3=_create_element("li")
                         r.appendChild(r3)
                         r3.appendChild(domn)
                     else:
@@ -63,7 +68,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 nodem.insert(0,node)
                 return
             else:
-                r=document.createElement("li")
+                r=_create_element("li")
                 if ("autonumberonly" not in flags):
                     r.setAttribute("value",str(node.bullet))
                 for domn in html_out_part(node.content,document,flags=flags):
@@ -89,30 +94,30 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 yield document.createTextNode(node.content.decode("utf-8"))
         elif isinstance(node,nodes.TitleNode):
             if node.depth>6: node.depth=6
-            r=document.createElement("h%d"%node.depth)
+            r=_create_element("h%d"%node.depth)
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.ParagraphNode):
-            r=document.createElement("p")
+            r=_create_element("p")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.BlockQuoteNode):
-            r=document.createElement("blockquote")
+            r=_create_element("blockquote")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.SpoilerNode):
             if "ipsspoilers" in flags:
-                metar=document.createElement("blockquote")
+                metar=_create_element("blockquote")
                 metar.setAttribute("class",'ipsStyle_spoiler')
                 metar.setAttribute("data-ipsspoiler",'')
                 metar.setAttribute("tabindex",'0')
-                r=document.createElement("div")
+                r=_create_element("div")
                 metar.appendChild(r)
                 r.setAttribute("class",'ipsSpoiler_header')
-                r2=document.createElement("span")
+                r2=_create_element("span")
                 r.appendChild(r2)
                 # TODO: does this actually change the title or does IPBoard override it?
                 if not node.label:
@@ -120,18 +125,18 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 else:
                     for domn in html_out_part(node.label,document,flags=flags):
                         r2.appendChild(domn)
-                r3=document.createElement("div")
+                r3=_create_element("div")
                 metar.appendChild(r3)
                 r3.setAttribute("class",'ipsSpoiler_contents')
                 for domn in html_out_part(node.content,document,flags=flags):
                     r3.appendChild(domn)
                 yield metar
             else:
-                metar=document.createElement("div")
+                metar=_create_element("div")
                 metar.setAttribute("class",'spoilerwrapper')
-                r=document.createElement("p")
+                r=_create_element("p")
                 metar.appendChild(r)
-                r2=document.createElement("a")
+                r2=_create_element("a")
                 r.appendChild(r2)
                 r2.setAttribute("href",'javascript:void(0);')
                 r2.setAttribute("onclick","document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')"%(mdputil.newid(node),mdputil.newid(node)))
@@ -140,7 +145,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 else:
                     for domn in html_out_part(node.label,document,flags=flags):
                         r2.appendChild(domn)
-                r3=document.createElement("div")
+                r3=_create_element("div")
                 metar.appendChild(r3)
                 r3.setAttribute("class",'spoiler')
                 r3.setAttribute("id",'spoil%d'%mdputil.newid(node))
@@ -149,57 +154,57 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                     r3.appendChild(domn)
                 yield metar
         elif isinstance(node,nodes.CodeBlockNode):
-            r=document.createElement("pre")
+            r=_create_element("pre")
             r.appendChild(document.createTextNode("".join(node.content).decode("utf-8")))
             yield r
         elif isinstance(node,nodes.CodeSpanNode):
-            r=document.createElement("code")
+            r=_create_element("code")
             r.appendChild(document.createTextNode("".join(node.content).decode("utf-8")))
             yield r
         elif isinstance(node,nodes.BoldNode):
             if node.emphatic:
-                r=document.createElement("strong")
+                r=_create_element("strong")
             else:
-                r=document.createElement("b")
+                r=_create_element("b")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.UnderlineNode):
-            r=document.createElement("u")
+            r=_create_element("u")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.ItalicNode):
             if node.emphatic:
-                r=document.createElement("em")
+                r=_create_element("em")
             else:
-                r=document.createElement("i")
+                r=_create_element("i")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.SuperNode):
-            r=document.createElement("sup")
+            r=_create_element("sup")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.SubscrNode):
-            r=document.createElement("sub")
+            r=_create_element("sub")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.RubiNode):
             content=node.content
-            r=document.createElement("ruby")
+            r=_create_element("ruby")
             #r.setAttribute("lang","jp")
             r.appendChild(document.createTextNode(content.decode("utf-8")))
-            rp1=document.createElement("rp")
+            rp1=_create_element("rp")
             rp1.appendChild(document.createTextNode(" ("))
             r.appendChild(rp1)
-            rt=document.createElement("rt")
+            rt=_create_element("rt")
             for domn in html_out_part(node.label,document):
                 rt.appendChild(domn)
             r.appendChild(rt)
-            rp2=document.createElement("rp")
+            rp2=_create_element("rp")
             rp2.appendChild(document.createTextNode(") "))
             r.appendChild(rp2)
             yield r
@@ -209,20 +214,20 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
             if ht=="url":
                 label=html_out_part(node.label,document)
                 if ("showtropes" in flags) and re.match("https?://(www\.)?tvtropes.org",content):
-                    metar=document.createElement("span")
-                    r=document.createElement("u")
+                    metar=_create_element("span")
+                    r=_create_element("u")
                     metar.appendChild(r)
                     for domn in label:
                         r.appendChild(domn)
-                    r2=document.createElement("sup")
+                    r2=_create_element("sup")
                     metar.appendChild(r2)
-                    r3=document.createElement("a")
+                    r3=_create_element("a")
                     r2.appendChild(r3)
                     r3.setAttribute("href",content.decode("utf-8"))
                     r3.appendChild(document.createTextNode("(TVTropes)"))
                     yield metar
                     continue
-                r=document.createElement("a")
+                r=_create_element("a")
                 r.setAttribute("href",content.decode("utf-8"))
                 for domn in label:
                     r.appendChild(domn)
@@ -255,28 +260,39 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
         elif isinstance(node,nodes.RuleNode):
             r=document.createElement("hr")
             yield r
+        elif isinstance(node,nodes.DirectiveNode) and node.type.startswith("html-") and ("directive" in flags):
+            r = _create_element(node.type[len("html-"):].strip())
+            for i,j in node.opts:
+                r.setAttribute(i, j)
+            for i in node.args:
+                if i.strip():
+                    r.setAttribute(i, i)
+            for domn in html_out_part(node.content,document):
+                r.appendChild(domn)
+            r.appendChild(document.createTextNode(""))
+            yield r
         elif isinstance(node,nodes.TableNode):
-            r=document.createElement("table")
+            r=_create_element("table")
             r.setAttribute("border","1")
-            thead=document.createElement("thead")
+            thead=_create_element("thead")
             r.appendChild(thead)
             for row in node.table_head:
-                tr=document.createElement("tr")
+                tr=_create_element("tr")
                 thead.appendChild(tr)
                 for colno,cell in enumerate(row):
-                    th=document.createElement("th")
+                    th=_create_element("th")
                     tr.appendChild(th)
                     if node.aligns and (len(node.aligns)>colno) and node.aligns[colno]:
                         th.setAttribute("style","text-align:"+node.aligns[colno])
                     for domn in html_out_part(list(cell),document):
                         th.appendChild(domn)
-            tbody=document.createElement("tbody")
+            tbody=_create_element("tbody")
             r.appendChild(tbody)
             for row in node.table_body:
-                tr=document.createElement("tr")
+                tr=_create_element("tr")
                 tbody.appendChild(tr)
                 for colno,cell in enumerate(row):
-                    td=document.createElement("td")
+                    td=_create_element("td")
                     tr.appendChild(td)
                     if node.aligns and (len(node.aligns)>colno) and node.aligns[colno]:
                         td.setAttribute("style","text-align:"+node.aligns[colno])

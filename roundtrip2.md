@@ -473,4 +473,6 @@ Discord emote: :kananYouNot: ![:⁠wacko:](https://cdn.discordapp.com/emojis/230
 
 :vanirLUL:
 
-![:⁠vanirLUL:](https://cdn.discordapp.com/emojis/283868314235568129.png =32x)
+./. mdplay\-include:: konosubadiscord\_usage.md works but takes a looong time.
+
+:vanirLUL:

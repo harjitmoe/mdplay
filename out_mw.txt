@@ -491,6 +491,8 @@ Discord emote: :kananYouNot: [https://cdn.discordapp.com/emojis/2301290808868864
 
 :vanirLUL: 
 
-[https://cdn.discordapp.com/emojis/283868314235568129.png :⁠vanirLUL:] 
+./. mdplay-include:: konosubadiscord_usage.md works but takes a looong time. 
+
+:vanirLUL: 
 
 

@@ -418,6 +418,8 @@ Discord emote: :kananYouNot: [img alt=":\u200cwacko:" width="32"]https://cdn.dis
 
 :vanirLUL: 
 
-[img width="32" height="32" alt="\ud83d\udd96" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f596.png[/img]‌[img width="32" height="32" alt="\ud83c\udfff" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f3ff.png[/img][br]
+[img width="32" height="32" alt="\ud83d\udd96\ud83c\udfff" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f596-1f3ff.png[/img] 
+
+[img width="32" height="32" alt="\ud83d\udd96" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f596.png[/img]‌[img width="32" height="32" alt="\ud83c\udfff" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f3ff.png[/img] 
 
 [img width="32" height="32" alt="\ud83c\udfff" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f3ff.png[/img] 

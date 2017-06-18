@@ -477,7 +477,8 @@ Discord emote: :kananYouNot: ![:‌wacko:](https://cdn.discordapp.com/emojis/230
 
 :vanirLUL:
 
-![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)  
+![🖖🏿](https://twemoji.maxcdn.com/2/72x72/1f596-1f3ff.png =32x32)
 
+![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)
 
 ![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)

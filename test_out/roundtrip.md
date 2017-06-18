@@ -22,7 +22,7 @@ Another paragraph.
 
 (The following page makes use of Twemoji, by Twitter, Inc.  [CC\-BY 4.0](http://creativecommons.org/licenses/by/4.0/), [origin](https://github.com/twitter/twemoji).)
 
-I can use *italic*, **bold**, `monospace`, **bold**.  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/YW5So8y.jpg) images and !media[embeds with site\-specific tags](http://i.imgur.com/YW5So8y.jpg), or even [link images ![like this](http://i.imgur.com/YW5So8y.jpg)](http://egscomics.com)!
+I can use *italic*, **bold**, `monospace`, \ __bold__\ .  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/YW5So8y.jpg) images and !media[embeds with site\-specific tags](http://i.imgur.com/YW5So8y.jpg), or even [link images ![like this](http://i.imgur.com/YW5So8y.jpg)](http://egscomics.com)!
 
 ~~~~~~~~ python
 #!/usr/bin/env python
@@ -140,7 +140,7 @@ Back^((not Backside\))
 > > > 
 > > > > Quatre 
 
-Parse\_this\_text stu*pen*dously, *mate*, do you *he*ar me?
+Parse\_this\_text stu*pen*dously, \ _mate_\ , do you \ _he_\ ar me?
 
 - - -
 
@@ -148,11 +148,11 @@ Parse\_this\_text stu*pen*dously, *mate*, do you *he*ar me?
 
 = Not a heading ==
 
-*Italic*, **bold**, ***both***, '\'neither'\'.
+\ _Italic_\ , \ __bold__\ , \ __\ _both_\ __\ , '\'neither'\'.
 
 *Italic*, **bold**, ***both***, \*neither\*.
 
-*Italic*, **bold**, ***both***, \_neither\_.
+\ _Italic_\ , \ __bold__\ , \ __\ _both_\ __\ , \_neither\_.
 
 # Level 1
 
@@ -231,9 +231,9 @@ J'ai regardé.
 
 Watashi\-wa Tōmasu desu.
 
-*illegitimi nōn carborundum*.
+\ _illegitimi nōn carborundum_\ .
 
-*spuriīs nōn carborandum*.
+\ _spuriīs nōn carborandum_\ .
 
 øe vs œ vs \\oe vs œ mate.
 
@@ -301,7 +301,7 @@ the news (also).
 
 !wiki[KSP](The King's (The Cathedral\) School)
 
-!wiki[KSP *(again)*](The King's (The Cathedral\) School)
+!wiki[KSP \ _(again)_\ ](The King's (The Cathedral\) School)
 
 !wiki[Hmm...](Try ''to'' br{'e}ak ``this``...)
 
@@ -333,7 +333,7 @@ And
 
 [Testing hashes.](http://i.imgur.com/YW5So8y.jpg#hash)
 
-![Let me *break* this!](http://i.imgur.com/YW5So8y.jpg)
+![Let me \ _break_\  this!](http://i.imgur.com/YW5So8y.jpg)
 
 ~In other news~
 
@@ -376,7 +376,7 @@ This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [It actually is.](/spoiler) ![�
 
 Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)
 
-![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) ![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32) ![☺](https://twemoji.maxcdn.com/2/72x72/263a.png =32x32) ![:⁠demonicduck:](http://i.imgur.com/SfHfed9.png =32x)
+![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) ![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32) ![☺](https://twemoji.maxcdn.com/2/72x72/263a.png =32x32) ![:‌demonicduck:](http://i.imgur.com/SfHfed9.png =32x)
 
 |Why|What|
 |:-:|:--|
@@ -396,8 +396,8 @@ m̈ëẗälë Ë
 
 ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) ![small image](http://i.imgur.com/YW5So8y.jpg =32x32) ![small image](http://i.imgur.com/YW5So8y.jpg =32x)
 
-![🖖🏿](https://twemoji.maxcdn.com/2/72x72/1f596-1f3ff.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌🏿  
-![🖖🏼](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fc.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌🏼  
+![🖖🏿](https://twemoji.maxcdn.com/2/72x72/1f596-1f3ff.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)  
+![🖖🏼](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fc.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏼](https://twemoji.maxcdn.com/2/72x72/1f3fc.png =32x32)  
 ![🖖🏽](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fd.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏽](https://twemoji.maxcdn.com/2/72x72/1f3fd.png =32x32)
 
 :undiefined:
@@ -461,19 +461,24 @@ This should be a rainbow banner: ![🏳️‍🌈](https://twemoji.maxcdn.com/2/
 
 ![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32)
 
-*This should behave more or less as expected. However, I have reason to believe otherwise.* (Should be fixed now…)
+\ _This should behave more or less as expected. However, I have reason to believe otherwise._\  (Should be fixed now…)
 
 [Labelled spoiler](/s Watch out, this is a spoiler!)
 
-Discord emote: :kananYouNot: ![:⁠wacko:](https://cdn.discordapp.com/emojis/230129080886886400.png =32x) ![:⁠ConcernFroge:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:⁠kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x) ![:⁠madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:⁠madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:⁠kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x)
+Discord emote: :kananYouNot: ![:‌wacko:](https://cdn.discordapp.com/emojis/230129080886886400.png =32x) ![:‌ConcernFroge:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x) ![:‌madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x)
 
 <u>Greetings</u>
 
-**Greetings**
+\ __Greetings__\
 
 :vanirLUL:
 
 ./. mdplay\-include:: konosubadiscord\_usage.md works but takes a looong time.
 
 :vanirLUL:
+
+![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)  
+
+
+![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)
 

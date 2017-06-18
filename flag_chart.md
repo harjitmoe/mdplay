@@ -28,6 +28,8 @@
     * nocangjie
     * noromkan
   * norubi
+  * nocomment
+  * nodirective
 * nouicode
 * nofcode
 * nosetexthead, which activates
@@ -45,7 +47,6 @@
 * nosupersubscript, which activates
   * noredditstylesuper
   * nopandocstyle
-* nodirective
 * extradirective
 
 ## Writer:
@@ -67,6 +68,6 @@
 * ipsspoilers (HTML)
 * nosizes (MD)
 * oldtwemoji (MD, BB)
-* directive (HTML)
+* insecuredirective (HTML)
 * nounicodeemoji (HTML)
 

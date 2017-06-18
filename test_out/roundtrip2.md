@@ -376,7 +376,7 @@ This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [It actually is.](/spoiler) ![�
 
 Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)
 
-![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) ![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32) ![☺](https://twemoji.maxcdn.com/2/72x72/263a.png =32x32) ![:⁠demonicduck:](http://i.imgur.com/SfHfed9.png =32x)
+![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) ![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32) ![☺](https://twemoji.maxcdn.com/2/72x72/263a.png =32x32) ![:‌demonicduck:](http://i.imgur.com/SfHfed9.png =32x)
 
 |Why|What|
 |:-:|:--|
@@ -396,8 +396,8 @@ m̈ëẗälë Ë
 
 ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) ![small image](http://i.imgur.com/YW5So8y.jpg =32x32) ![small image](http://i.imgur.com/YW5So8y.jpg =32x)
 
-![🖖🏿](https://twemoji.maxcdn.com/2/72x72/1f596-1f3ff.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌🏿  
-![🖖🏼](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fc.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌🏼  
+![🖖🏿](https://twemoji.maxcdn.com/2/72x72/1f596-1f3ff.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)  
+![🖖🏼](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fc.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏼](https://twemoji.maxcdn.com/2/72x72/1f3fc.png =32x32)  
 ![🖖🏽](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fd.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏽](https://twemoji.maxcdn.com/2/72x72/1f3fd.png =32x32)
 
 :undiefined:
@@ -465,7 +465,7 @@ This should be a rainbow banner: ![🏳️‍🌈](https://twemoji.maxcdn.com/2/
 
 [Labelled spoiler](/s Watch out, this is a spoiler!)
 
-Discord emote: :kananYouNot: ![:⁠wacko:](https://cdn.discordapp.com/emojis/230129080886886400.png =32x) ![:⁠ConcernFroge:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:⁠kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x) ![:⁠madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:⁠madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:⁠kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x)
+Discord emote: :kananYouNot: ![:‌wacko:](https://cdn.discordapp.com/emojis/230129080886886400.png =32x) ![:‌ConcernFroge:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x) ![:‌madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x)
 
 <u>Greetings</u>
 
@@ -476,3 +476,8 @@ Discord emote: :kananYouNot: ![:⁠wacko:](https://cdn.discordapp.com/emojis/230
 ./. mdplay\-include:: konosubadiscord\_usage.md works but takes a looong time.
 
 :vanirLUL:
+
+![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)  
+
+
+![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)

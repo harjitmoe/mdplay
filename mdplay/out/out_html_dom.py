@@ -266,7 +266,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
         elif isinstance(node,nodes.RuleNode):
             r=document.createElement("hr")
             yield r
-        elif isinstance(node,nodes.DirectiveNode) and node.type.startswith("html-") and ("directive" in flags):
+        elif isinstance(node,nodes.DirectiveNode) and node.type.startswith("html-") and ("insecuredirective" in flags):
             r = _create_element(node.type[len("html-"):].strip())
             for i,j in node.opts:
                 r.setAttribute(i, j)

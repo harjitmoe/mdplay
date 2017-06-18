@@ -43,7 +43,7 @@ def flatten_flags_parser(flags):
             out.extend(flatten_flags_parser(["norest", "nospoilertag", "nowikitext",
                                   "noredditstyle", "nopandocstyle", "nospecialhrefs",
                                   "nodiacritic", "noemoticon", "noembedspoiler",
-                                  "nocjk", "norubi", "nocomment"]))
+                                  "nocjk", "norubi", "nocomment", "nodirective"]))
         elif flag == "norest":
             out.extend(flatten_flags_parser(["noresthead", "nodicode", "noresttable"]))
         elif flag == "nowikitext":

@@ -126,10 +126,14 @@ def emoji_scan(nodesz):
                 d = []
                 c = ccc
                 td = TWEMD
-                while (node3) and (c in td):
+                while c in td:
                     d.append(c)
                     td = td[c]
-                    c = node3.pop(0)
+                    if node3:
+                        c = node3.pop(0)
+                    else:
+                        c = ""
+                        break
                 if tuple(d) in TWEM2:
                     emojistyle = (c != u"\ufe0e")
                     nodesz2.append(out)
@@ -187,8 +191,8 @@ def _is_emotic(s):
             return i
     return False
 
-def emoji_handler(out, c, content, levs, flags):
-    colon_then_wj = u":\u2060".encode("utf-8") # Insert a Word Joiner as round-trip kludge.
+def emote_handler(out, c, content, levs, flags):
+    colon_then_wj = u":\u200c".encode("utf-8") # Insert zero-width char as round-trip kludge.
     ### Emoticons and Emoji ###
     if re.match(r":(\w|_|-)+:", c + ("".join(content))) and ("noshortcodeemoji" not in flags):
         alphaname = ""

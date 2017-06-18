@@ -257,7 +257,7 @@ def _parse_inline(content,levs=("root",),flags=()):
             del content[0]
             return out
         ### Emoji ###
-        elif emoji.emoji_handler(out, c, content, levs, flags):
+        elif emoji.emote_handler(out, c, content, levs, flags):
             pass
         ### Other ###
         elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):

@@ -471,7 +471,9 @@ Discord emote: :kananYouNot: <:wacko:230129080886886400> <:ConcernFroge:30618325
 
 :vanirLUL:
 
-:vulcan:&zwnj;:tone5:  
+:vulcan::tone5:
+
+:vulcan:&zwnj;:tone5:
 
 :tone5:
 

@@ -418,6 +418,8 @@ Discord emote: :kananYouNot: [img alt=":\u200cwacko:" width="32"]https://cdn.dis
 
 :vanirLUL: 
 
-:vulcan:‌:tone5:[br]
+:vulcan_tone5: 
+
+:vulcan:‌:tone5: 
 
 :tone5: 

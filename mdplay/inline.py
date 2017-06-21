@@ -22,7 +22,7 @@ def _group_surrogates(content):
             c=c.encode("utf-8")
         yield c
 
-def _parse_inline(content,levs=("root",),flags=()):
+def _parse_inline(content,levs=("root",),flags=(),state=None):
     # Note: the recursion works by the list being a Python
     # mutable, "passed by reference" as it were
     lastchar=" "
@@ -97,7 +97,7 @@ def _parse_inline(content,levs=("root",),flags=()):
         elif c=="`" and (lev!="wikilink" or out2):
             while content[0]=="`":
                 c+=content.pop(0)
-            out.append(nodes.CodeSpanNode(_parse_inline(content,("codespan"+c,)+levs,flags=flags)))
+            out.append(nodes.CodeSpanNode(_parse_inline(content,("codespan"+c,)+levs,flags=flags,state=state)))
         ### Escaping ###
         elif c=="\\" and content and (content[0] in punct):
             c2=content.pop(0)
@@ -139,51 +139,52 @@ def _parse_inline(content,levs=("root",),flags=()):
         #### /With asterisks
         elif c=="*" and content[0]=="*" and ("bold" not in levs) and (lev!="wikilink" or out2):
             del content[0]
-            out.append(nodes.BoldNode(_parse_inline(content,("bold",)+levs,flags=flags),emphatic=True))
+            out.append(nodes.BoldNode(_parse_inline(content,("bold",)+levs,flags=flags,state=state),emphatic=True))
         elif c=="*" and content[0]=="*" and lev=="bold":
             del content[0]
             return out
         elif c=="*" and content[0]!="*" and ("italic" not in levs) and (lev!="wikilink" or out2):
-            out.append(nodes.ItalicNode(_parse_inline(content,("italic",)+levs,flags=flags),emphatic=True))
+            out.append(nodes.ItalicNode(_parse_inline(content,("italic",)+levs,flags=flags,state=state),emphatic=True))
         elif c=="*" and lev=="italic":
             return out
         #### /With underscores
         elif c=="_" and content[0]=="_" and ("boldalt" not in levs) and (lastchar in punct) and (lev!="wikilink" or out2):
             del content[0]
             if "discordunderline" not in flags:
-                out.append(nodes.BoldNode(_parse_inline(content,("boldalt",)+levs,flags=flags),emphatic=False))
+                out.append(nodes.BoldNode(_parse_inline(content,("boldalt",)+levs,flags=flags,state=state),emphatic=False))
             else: # Level still should be called boldalt, but node type should be different
-                out.append(nodes.UnderlineNode(_parse_inline(content,("boldalt",)+levs,flags=flags),emphatic=False))
+                out.append(nodes.UnderlineNode(_parse_inline(content,("boldalt",)+levs,flags=flags,state=state),emphatic=False))
         elif c=="_" and content[0]=="_" and lev=="boldalt" and ("".join(content[1:2]) in punct):
             del content[0]
             return out
         elif c=="_" and content[0]!="_" and ("italicalt" not in levs) and (lastchar in punct) and (lev!="wikilink" or out2):
-            out.append(nodes.ItalicNode(_parse_inline(content,("italicalt",)+levs,flags=flags),emphatic=False))
+            out.append(nodes.ItalicNode(_parse_inline(content,("italicalt",)+levs,flags=flags,state=state),emphatic=False))
         elif c=="_" and (content[0] in punct) and lev=="italicalt":
             return out
         #### /With apostrophes
         elif c=="'" and "".join(content).startswith("''") and ("boldmw" not in levs) and (lev!="wikilink" or out2) and ("nowikiemph" not in flags):
             del content[0]
             del content[0] #yes, again
-            out.append(nodes.BoldNode(_parse_inline(content,("boldmw",)+levs,flags=flags),emphatic=False))
+            out.append(nodes.BoldNode(_parse_inline(content,("boldmw",)+levs,flags=flags,state=state),emphatic=False))
         elif c=="'" and "".join(content).startswith("''") and lev=="boldmw" and ("nowikiemph" not in flags):
             del content[0]
             del content[0] #yes, again
             return out
         elif c=="'" and content[0]=="'" and ("italicmw" not in levs) and (lev!="wikilink" or out2) and ("nowikiemph" not in flags):
             del content[0]
-            out.append(nodes.ItalicNode(_parse_inline(content,("italicmw",)+levs,flags=flags),emphatic=False))
+            out.append(nodes.ItalicNode(_parse_inline(content,("italicmw",)+levs,flags=flags,state=state),emphatic=False))
         elif c=="'" and content[0]=="'" and lev=="italicmw" and ("nowikiemph" not in flags):
             del content[0]
             return out
         ### HREFs (links and embeds, plus CJK extensions) ###
         elif re.match(hrefre,c+("".join(content))) and (lev!="wikilink" or out2):
+            # Note: ridiculous amount of work needed here for CommonMark complience.
             #(re.match, not re.search, i.e. looks only at start of string)
             hreftype=""
             while c!="[":
                 hreftype+=c
                 c=content.pop(0)
-            label=_parse_inline(content,("label",)+levs,flags=flags)
+            label=_parse_inline(content,("label",)+levs,flags=flags,state=state)
             href=""
             #print hreftype,label,content
             if content[0]=="(":
@@ -215,21 +216,21 @@ def _parse_inline(content,levs=("root",),flags=()):
                 if " " not in href.strip():
                     out.append(nodes.InlineSpoilerNode(label))
                 else:
-                    out.append(nodes.InlineSpoilerNode(parse_inline(href.strip().split(" ",1)[1],flags=flags),label))
+                    out.append(nodes.InlineSpoilerNode(parse_inline(href.strip().split(" ",1)[1],flags=flags,state=state),label))
             elif (hreftype.lower() == "spoiler") and ("noembedspoiler" not in flags):
                 if (not label) and href.strip():
-                    out.append(nodes.InlineSpoilerNode(parse_inline(href,flags=flags)))
+                    out.append(nodes.InlineSpoilerNode(parse_inline(href,flags=flags,state=state)))
                 elif label and (not href.strip()):
                     out.append(nodes.InlineSpoilerNode(label))
                 else:
-                    out.append(nodes.InlineSpoilerNode(parse_inline(href,flags=flags),label))
+                    out.append(nodes.InlineSpoilerNode(parse_inline(href,flags=flags,state=state),label))
             elif not cjk.cjk_handler(out, hreftype, href, label, flags):
                 out.append(nodes.HrefNode(href,label,hreftype,width=gogo(width),height=gogo(height)))
         elif c=="]" and lev=="label":
             return out
         elif c=="[" and content[0]=="[" and (lev!="wikilink" or out2) and ("nowikilinks" not in flags):
             del content[0]
-            x,y=_parse_inline(content,("wikilink",)+levs,flags=flags)
+            x,y=_parse_inline(content,("wikilink",)+levs,flags=flags,state=state)
             out.append(nodes.HrefNode("".join(x),y,"wiki"))
         elif c=="|" and lev=="wikilink" and ("nowikilinks" not in flags):
             out2,out=out,[]
@@ -241,27 +242,27 @@ def _parse_inline(content,levs=("root",),flags=()):
         ### Superscripts and Subscripts ###
         elif c=="^" and content[0]=="(" and (lev!="wikilink" or out2) and ("noredditstylesuper" not in flags):
             del content[0]
-            out.append(nodes.SuperNode(_parse_inline(content,("supred",)+levs,flags=flags)))
+            out.append(nodes.SuperNode(_parse_inline(content,("supred",)+levs,flags=flags,state=state)))
         elif c==")" and lev=="supred" and ("noredditstylesuper" not in flags):
             return out
         elif c=="(" and content[0]=="^" and (lev!="wikilink" or out2) and ("nopandocstyle" not in flags):
             del content[0]
-            out.append(nodes.SuperNode(_parse_inline(content,("suppan",)+levs,flags=flags)))
+            out.append(nodes.SuperNode(_parse_inline(content,("suppan",)+levs,flags=flags,state=state)))
         elif c=="^" and content[0]==")" and lev=="suppan" and ("nopandocstyle" not in flags):
             del content[0]
             return out
         elif c=="(" and content[0]=="~" and (lev!="wikilink" or out2) and ("nopandocstyle" not in flags):
             del content[0]
-            out.append(nodes.SubscrNode(_parse_inline(content,("sub",)+levs,flags=flags)))
+            out.append(nodes.SubscrNode(_parse_inline(content,("sub",)+levs,flags=flags,state=state)))
         elif c=="~" and content[0]==")" and lev=="sub" and ("nopandocstyle" not in flags):
             del content[0]
             return out
-        ### Emoji ###
-        elif emoji.emote_handler(out, c, content, levs, flags):
+        ### Emoticons and shortcodes ###
+        elif emoji.emote_handler(out, c, content, levs, flags, state):
             pass
         ### Other ###
         elif c=="{" and (lev!="wikilink" or out2) and ("nodiacritic" not in flags):
-            out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags))
+            out.extend(_parse_inline(content,("bibuml",)+levs,flags=flags,state=state))
         else:
             lastchar=c
             out.append(c)
@@ -293,6 +294,6 @@ for _entity in htmlentitydefs.html5.keys():
         if _entity not in approaching_entity:
             approaching_entity.append(_entity)
 
-def parse_inline(content,flags=()):
+def parse_inline(content,flags,state):
     d=content.decode("utf-8")
-    return _parse_inline(list(_group_surrogates([i.encode("utf-8") for i in list(d)]+[""])),flags=flags)
+    return _parse_inline(list(_group_surrogates([i.encode("utf-8") for i in list(d)]+[""])),flags=flags,state=state)

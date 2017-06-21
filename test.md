@@ -443,7 +443,7 @@ Testing a URN: x-wikipedia:Tree
 
 :smile: :smile::textstyle: :smile::emojistyle: :smile:&zwnj;:textstyle:
 
-This should be a rainbow banner: :flag_white::emojistyle:&zwj;:rainbow: or :rainbow_flag:
+This should be a rainbow banner: :flag_white::emojistyle:&zwj;:rainbow: or :rainbow_flag: or :gay_pride_flag:
 
 ⛹🏻‍♀️
 

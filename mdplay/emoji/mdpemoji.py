@@ -26,8 +26,6 @@ eacd2 = {
 "textstyle": u"\ufe0e", "emojistyle": u"\ufe0f"
 }
 
-custom_eac = {}
-
 # Converting eac hexcodes to twemoji hexcodes where needed.
 twmf = os.path.join(os.path.dirname(__file__), "twemmap.py")
 if os.path.exists(twmf):
@@ -66,7 +64,7 @@ else:
         for _eucs in _euc2.split("-"):
             _ec += utfsupport.unichr4all(int(_eucs, 16))
         eacd[eac.eac[_euc]["alpha code"].strip(":").encode("utf-8")] = _ec
-        for _alias in eac.eac[_euc]["aliases"]:
+        for _alias in eac.eac[_euc]["aliases"].split("|"):
             eacd[_alias.strip(":").encode("utf-8")] = _ec
     open(eacdf, "w").write("eacd = " + repr(eacd))
     open(eacaf, "w").write("eacalt = " + repr(eacalt))
@@ -108,6 +106,7 @@ for _twem in TWEM2.keys():
 #-------------------------------------------------------------------------------------------------
 
 def emoji_scan(nodesz):
+    """Remove Unicode emoji from text nodes to dedicated EmojiNode nodes."""
     nodesz2 = []
     for node in nodesz:
         if type(node) == type(""):
@@ -191,8 +190,9 @@ def _is_emotic(s):
             return i
     return False
 
-def emote_handler(out, c, content, levs, flags):
-    colon_then_wj = u":\u200c".encode("utf-8") # Insert zero-width char as round-trip kludge.
+def emote_handler(out, c, content, levs, flags, state):
+    """Handle ASCII emoticons and shortcodes, converting as appropriate."""
+    zw = u"\u200c".encode("utf-8") # Insert zero-width char as round-trip kludge.
     ### Emoticons and Emoji ###
     if re.match(r":(\w|_|-)+:", c + ("".join(content))) and ("noshortcodeemoji" not in flags):
         alphaname = ""
@@ -200,7 +200,7 @@ def emote_handler(out, c, content, levs, flags):
         while (c != ":"):
             alphaname += c
             c = content.pop(0)
-        alpha_alt_text = colon_then_wj + alphaname + ":"
+        alpha_alt_text = ":" + zw + alphaname + ":"
         alphaname_lookup = alphaname
         # Strip certain prefixes, added here mainly for (pre-Crash) 910 compatibility
         if alphaname_lookup.startswith("icon_"):
@@ -212,8 +212,8 @@ def emote_handler(out, c, content, levs, flags):
         if alphaname_lookup in eacd: 
             emoji = eacd[alphaname_lookup.decode("utf-8")].encode("utf-8")
             out.append(emoji)
-        elif alphaname_lookup in custom_eac: # Note: AFTER checking for a standard emoji.
-            emoteurl = _emoteid_to_url(custom_eac[alphaname_lookup])
+        elif alphaname_lookup in state.custom_eac:
+            emoteurl = _emoteid_to_url(state.custom_eac[alphaname_lookup])
             out.append(nodes.HrefNode(emoteurl, alpha_alt_text, "img", width = 32))
         else:
             out.append(":"+alphaname+":") # Pass through, i.e. do NOT use colon_then_wj
@@ -226,14 +226,14 @@ def emote_handler(out, c, content, levs, flags):
         while (c != ":"):
             alphaname += c
             c = content.pop(0)
-        alt_text = colon_then_wj + alphaname + ":"
+        alt_text = ":" + zw + alphaname + ":"
         c = content.pop(0)
         while (c != ">"):
             emoteid += c
             c = content.pop(0)
         emoteurl = _emoteid_to_url(emoteid) # id is not a URL here as regex enforces numerical
         if alphaname not in eacd:
-            custom_eac[alphaname] = emoteurl # could alternatively use emoteid I suppose
+            state.custom_eac[alphaname] = emoteurl # could alternatively use emoteid I suppose
         out.append(nodes.HrefNode(emoteurl, alt_text, "img", width = 32))
         return True
     elif _is_emotic(c + ("".join(content))) and ("noasciiemoticon" not in flags):

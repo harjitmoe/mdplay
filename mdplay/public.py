@@ -8,16 +8,15 @@ from mdplay import block, nodes, mdputil
 from mdplay.LinestackIter import LinestackIter
 
 def parse_string(s,flags=()):
-    return block.parse_block(s,block.TitleLevels(),flags)
+    return block.parse_block(s,block.State(),flags)
 def parse_file(f,flags=()):
-    return block._parse_block(LinestackIter(f),block.TitleLevels(),mdputil.flatten_flags_parser(flags))
+    return block._parse_block(LinestackIter(f),block.State(),mdputil.flatten_flags_parser(flags))
 
 class MdplayError(ValueError):pass
 class NoSuchRendererError(MdplayError):pass
 class NoSnippetRendererError(MdplayError):pass
 
 writers={"debug":"out_repr","bbcode":"out_bb","html":"out_html_dom","mwiki":"out_mwiki", "md":"out_markdown","tvwiki":"out_tvwiki","enamel":"out_enamel"}
-# "htmlalt":"out_html_nondom", doesn't work.
 
 def _load_renderer(modname):
     renderer_module=getattr(__import__("mdplay.out."+modname).out,modname)

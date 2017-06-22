@@ -8,7 +8,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from mdplay.emoji import twem2support, pickups_util, eac
 from mdplay import utfsupport, nodes, uriregex
-import collections, re, os
+import collections, re, os, pprint
 
 #-------------------------------------------------------------------------------------------------
 
@@ -33,16 +33,15 @@ if os.path.exists(twmf):
 else:
     TWEMmap = {}
     for i2 in twem2support.TWEM:
-        if i2 not in eac.eac:
-            i = "-"+i2+"-"
-            i = i.replace("-200c-", "-")
-            i = i.replace("-200d-", "-")
-            i = i.replace("-fe0e-", "-")
-            i = i.replace("-fe0f-", "-")
-            i = i.strip("-")
-            if i in eac.eac:
-                TWEMmap[i] = i2
-    open(twmf, "w").write("TWEMmap = " + repr(TWEMmap))
+        i = "-"+i2+"-"
+        i = i.replace("-200c-", "-")
+        i = i.replace("-200d-", "-")
+        i = i.replace("-fe0e-", "-")
+        i = i.replace("-fe0f-", "-")
+        i = i.strip("-")
+        if i != i2:
+            TWEMmap[i] = i2
+    open(twmf, "w").write("TWEMmap = " + pprint.pformat(TWEMmap))
 
 # Generating shortcode-to-unicode mapping.
 eacdf = os.path.join(os.path.dirname(__file__), "eacd.py")
@@ -66,8 +65,8 @@ else:
         eacd[eac.eac[_euc]["alpha code"].strip(":").encode("utf-8")] = _ec
         for _alias in eac.eac[_euc]["aliases"].split("|"):
             eacd[_alias.strip(":").encode("utf-8")] = _ec
-    open(eacdf, "w").write("eacd = " + repr(eacd))
-    open(eacaf, "w").write("eacalt = " + repr(eacalt))
+    open(eacdf, "w").write("eacd = " + pprint.pformat(eacd))
+    open(eacaf, "w").write("eacalt = " + pprint.pformat(eacalt))
 
 #-------------------------------------------------------------------------------------------------
 

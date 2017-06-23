@@ -6,13 +6,13 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay.emoji import twem2support, pickups_util, eac
+from mdplay.emoji import twem2support, emoticon, eac
 from mdplay import utfsupport, nodes, uriregex
 import collections, re, os, pprint
 
 #-------------------------------------------------------------------------------------------------
 
-SMILEYA = dict(zip(pickups_util.SMILEYS.values(), pickups_util.SMILEYS.keys()))
+SMILEYA = dict(zip(emoticon.SMILEYS.values(), emoticon.SMILEYS.keys()))
 del SMILEYA[":/"] # https://
 SMILEYA[":D"] = u"😆" # Otherwise implementation-defined behaviour (multiple mapped to :D in SMILEYS)
 
@@ -142,7 +142,7 @@ def emoji_scan(nodesz):
                     emoji = u"".join(d)
                     if not emojistyle:
                         emoji += u"\ufe0e"
-                    asciimote = pickups_util.SMILEYS[emoji] if emoji in pickups_util.SMILEYS else None
+                    asciimote = emoticon.SMILEYS[emoji] if emoji in emoticon.SMILEYS else None
                     uhexcode = hexcode.decode("latin1")
                     uuhexcode = u"-" + uhexcode + u"-"
                     if uhexcode in eacalt:

@@ -9,21 +9,22 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from mdplay import nodes, mdputil
 
+def _newElementWithEndTag(document,tagname):
+    """Create an element containing an empty text node."""
+    r = document.createElement(tagname)
+    r.appendChild(document.createTextNode(""))
+    return r
+
 def html_out_part(nodem,document,in_list=(),flags=()):
     return list(_html_out_part(nodem,document,in_list,flags=flags))
 
 def _html_out_part(nodem,document,in_list=(),flags=()):
-    def _create_element(tagname,document=document):
-        r = document.createElement(tagname)
-        # Prevent <.../> when not necessarily appropriate.
-        r.appendChild(document.createTextNode(""))
-        return r
     while nodem:
         node=nodem.pop(0)
         if isinstance(node,nodes.UlliNode):
             if (node.depth+1)>len(in_list):
-                r=_create_element("ul")
-                r2=_create_element("li")
+                r=_newElementWithEndTag(document,"ul")
+                r2=_newElementWithEndTag(document,"li")
                 r.appendChild(r2)
                 for domn in html_out_part(node.content,document,flags=flags):
                     r2.appendChild(domn)
@@ -31,7 +32,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                     if domn.tagName not in ("ul","ol"):
                         r.appendChild(domn)
                     elif not len(r2.childNodes):
-                        r3=_create_element("li")
+                        r3=_newElementWithEndTag(document,"li")
                         r.appendChild(r3)
                         r3.appendChild(domn)
                     else:
@@ -41,14 +42,14 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 nodem.insert(0,node)
                 return
             else:
-                r=_create_element("li")
+                r=_newElementWithEndTag(document,"li")
                 for domn in html_out_part(node.content,document,flags=flags):
                     r.appendChild(domn)
                 yield r
         elif isinstance(node,nodes.OlliNode):
             if (node.depth+1)>len(in_list):
-                r=_create_element("ol")
-                r2=_create_element("li")
+                r=_newElementWithEndTag(document,"ol")
+                r2=_newElementWithEndTag(document,"li")
                 if ("autonumberonly" not in flags):
                     r2.setAttribute("value",str(node.bullet))
                 r.appendChild(r2)
@@ -58,7 +59,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                     if domn.tagName not in ("ul","ol"):
                         r.appendChild(domn)
                     elif not len(r2.childNodes):
-                        r3=_create_element("li")
+                        r3=_newElementWithEndTag(document,"li")
                         r.appendChild(r3)
                         r3.appendChild(domn)
                     else:
@@ -68,7 +69,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 nodem.insert(0,node)
                 return
             else:
-                r=_create_element("li")
+                r=_newElementWithEndTag(document,"li")
                 if ("autonumberonly" not in flags):
                     r.setAttribute("value",str(node.bullet))
                 for domn in html_out_part(node.content,document,flags=flags):
@@ -100,49 +101,50 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                     yield document.createTextNode(node.label[0] or node.label[1] or ":"+node.label[2]+":")
         elif isinstance(node,nodes.TitleNode):
             if node.depth>6: node.depth=6
-            r=_create_element("h%d"%node.depth)
+            r=_newElementWithEndTag(document,"h%d"%node.depth)
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.ParagraphNode):
-            r=_create_element("p")
+            r=_newElementWithEndTag(document,"p")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.BlockQuoteNode):
-            r=_create_element("blockquote")
+            r=_newElementWithEndTag(document,"blockquote")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.SpoilerNode):
             if "ipsspoilers" in flags:
-                metar=_create_element("blockquote")
+                if node.label:
+                    splabel=_newElementWithEndTag(document,"div")
+                    for domn in html_out_part(node.label,document,flags=flags):
+                        splabel.appendChild(domn)
+                    yield splabel
+                metar=_newElementWithEndTag(document,"blockquote")
                 metar.setAttribute("class",'ipsStyle_spoiler')
                 metar.setAttribute("data-ipsspoiler",'')
                 metar.setAttribute("tabindex",'0')
-                r=_create_element("div")
+                r=_newElementWithEndTag(document,"div")
                 metar.appendChild(r)
                 r.setAttribute("class",'ipsSpoiler_header')
-                r2=_create_element("span")
+                r2=_newElementWithEndTag(document,"span")
                 r.appendChild(r2)
-                # TODO: does this actually change the title or does IPBoard override it?
-                if not node.label:
-                    r2.appendChild(document.createTextNode("Spoiler"))
-                else:
-                    for domn in html_out_part(node.label,document,flags=flags):
-                        r2.appendChild(domn)
-                r3=_create_element("div")
+                # Spoiler-block header text will be overriden.
+                r2.appendChild(document.createTextNode("Spoiler"))
+                r3=_newElementWithEndTag(document,"div")
                 metar.appendChild(r3)
                 r3.setAttribute("class",'ipsSpoiler_contents')
                 for domn in html_out_part(node.content,document,flags=flags):
                     r3.appendChild(domn)
                 yield metar
             else:
-                metar=_create_element("div")
+                metar=_newElementWithEndTag(document,"div")
                 metar.setAttribute("class",'spoilerwrapper')
-                r=_create_element("p")
+                r=_newElementWithEndTag(document,"p")
                 metar.appendChild(r)
-                r2=_create_element("a")
+                r2=_newElementWithEndTag(document,"a")
                 r.appendChild(r2)
                 r2.setAttribute("href",'javascript:void(0);')
                 r2.setAttribute("onclick","document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')"%(mdputil.newid(node),mdputil.newid(node)))
@@ -151,7 +153,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                 else:
                     for domn in html_out_part(node.label,document,flags=flags):
                         r2.appendChild(domn)
-                r3=_create_element("div")
+                r3=_newElementWithEndTag(document,"div")
                 metar.appendChild(r3)
                 r3.setAttribute("class",'spoiler')
                 r3.setAttribute("id",'spoil%d'%mdputil.newid(node))
@@ -160,57 +162,57 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                     r3.appendChild(domn)
                 yield metar
         elif isinstance(node,nodes.CodeBlockNode):
-            r=_create_element("pre")
+            r=_newElementWithEndTag(document,"pre")
             r.appendChild(document.createTextNode("".join(node.content).decode("utf-8")))
             yield r
         elif isinstance(node,nodes.CodeSpanNode):
-            r=_create_element("code")
+            r=_newElementWithEndTag(document,"code")
             r.appendChild(document.createTextNode("".join(node.content).decode("utf-8")))
             yield r
         elif isinstance(node,nodes.BoldNode):
             if node.emphatic:
-                r=_create_element("strong")
+                r=_newElementWithEndTag(document,"strong")
             else:
-                r=_create_element("b")
+                r=_newElementWithEndTag(document,"b")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.UnderlineNode):
-            r=_create_element("u")
+            r=_newElementWithEndTag(document,"u")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.ItalicNode):
             if node.emphatic:
-                r=_create_element("em")
+                r=_newElementWithEndTag(document,"em")
             else:
-                r=_create_element("i")
+                r=_newElementWithEndTag(document,"i")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.SuperNode):
-            r=_create_element("sup")
+            r=_newElementWithEndTag(document,"sup")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.SubscrNode):
-            r=_create_element("sub")
+            r=_newElementWithEndTag(document,"sub")
             for domn in html_out_part(node.content,document,flags=flags):
                 r.appendChild(domn)
             yield r
         elif isinstance(node,nodes.RubiNode):
             content=node.content
-            r=_create_element("ruby")
+            r=_newElementWithEndTag(document,"ruby")
             #r.setAttribute("lang","jp")
             r.appendChild(document.createTextNode(content.decode("utf-8")))
-            rp1=_create_element("rp")
+            rp1=_newElementWithEndTag(document,"rp")
             rp1.appendChild(document.createTextNode(" ("))
             r.appendChild(rp1)
-            rt=_create_element("rt")
+            rt=_newElementWithEndTag(document,"rt")
             for domn in html_out_part(node.label,document):
                 rt.appendChild(domn)
             r.appendChild(rt)
-            rp2=_create_element("rp")
+            rp2=_newElementWithEndTag(document,"rp")
             rp2.appendChild(document.createTextNode(") "))
             r.appendChild(rp2)
             yield r
@@ -220,20 +222,20 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
             if ht=="url":
                 label=html_out_part(node.label,document)
                 if ("showtropes" in flags) and re.match("https?://(www\.)?tvtropes.org",content):
-                    metar=_create_element("span")
-                    r=_create_element("u")
+                    metar=_newElementWithEndTag(document,"span")
+                    r=_newElementWithEndTag(document,"u")
                     metar.appendChild(r)
                     for domn in label:
                         r.appendChild(domn)
-                    r2=_create_element("sup")
+                    r2=_newElementWithEndTag(document,"sup")
                     metar.appendChild(r2)
-                    r3=_create_element("a")
+                    r3=_newElementWithEndTag(document,"a")
                     r2.appendChild(r3)
                     r3.setAttribute("href",content.decode("utf-8"))
                     r3.appendChild(document.createTextNode("(TVTropes)"))
                     yield metar
                     continue
-                r=_create_element("a")
+                r=_newElementWithEndTag(document,"a")
                 r.setAttribute("href",content.decode("utf-8"))
                 for domn in label:
                     r.appendChild(domn)
@@ -267,7 +269,7 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
             r=document.createElement("hr")
             yield r
         elif isinstance(node,nodes.DirectiveNode) and node.type.startswith("html-") and ("insecuredirective" in flags):
-            r = _create_element(node.type[len("html-"):].strip())
+            r = _newElementWithEndTag(document,node.type[len("html-"):].strip())
             for i,j in node.opts:
                 r.setAttribute(i, j)
             for i in node.args:
@@ -275,30 +277,29 @@ def _html_out_part(nodem,document,in_list=(),flags=()):
                     r.setAttribute(i, i)
             for domn in html_out_part(node.content,document):
                 r.appendChild(domn)
-            r.appendChild(document.createTextNode(""))
             yield r
         elif isinstance(node,nodes.TableNode):
-            r=_create_element("table")
+            r=_newElementWithEndTag(document,"table")
             r.setAttribute("border","1")
-            thead=_create_element("thead")
+            thead=_newElementWithEndTag(document,"thead")
             r.appendChild(thead)
             for row in node.table_head:
-                tr=_create_element("tr")
+                tr=_newElementWithEndTag(document,"tr")
                 thead.appendChild(tr)
                 for colno,cell in enumerate(row):
-                    th=_create_element("th")
+                    th=_newElementWithEndTag(document,"th")
                     tr.appendChild(th)
                     if node.aligns and (len(node.aligns)>colno) and node.aligns[colno]:
                         th.setAttribute("style","text-align:"+node.aligns[colno])
                     for domn in html_out_part(list(cell),document):
                         th.appendChild(domn)
-            tbody=_create_element("tbody")
+            tbody=_newElementWithEndTag(document,"tbody")
             r.appendChild(tbody)
             for row in node.table_body:
-                tr=_create_element("tr")
+                tr=_newElementWithEndTag(document,"tr")
                 tbody.appendChild(tr)
                 for colno,cell in enumerate(row):
-                    td=_create_element("td")
+                    td=_newElementWithEndTag(document,"td")
                     tr.appendChild(td)
                     if node.aligns and (len(node.aligns)>colno) and node.aligns[colno]:
                         td.setAttribute("style","text-align:"+node.aligns[colno])

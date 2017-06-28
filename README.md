@@ -1,20 +1,16 @@
-# MDPlay by Thomas Hori #
+# MDPlay #
 
-a command-line Markdown suite targeting web destinations such as forums or wikis, as well as HTML.  with support for emoji, including Twemoji integration.
+a Markdown-based syntax targeting web destinations such as forums or wikis, as well as HTML.  with support for emoji, including Twemoji integration.
 
-if you have any improvements (such as extensions or adding any yet-unimplemented standard markdown), feel free.  HTML tag pass-through is deliberately not done, though (it isn't practical for multi-targeting unless they are actually parsed, and i'm writing a Markdown parser, not an HTML parser).
+flags can turn features and extensions off and configure exporters, the obvious one being the "strict" flag.  see flag_chart.md for a list.
 
-flags can turn features and extensions off and configure exporters, the obvious one being the "strict" flag.  see flag_chart.md for the full list.
-
-(this readme and changelog, barring the licence, is written with lowercase at the beginning of sentences, except for proper nouns, and with double spacing after sentences (in the Markdown, at any rate).  this is a deliberate stylistic decision and, as this is my project, my decisions.)
-
-code version 7 alpha
+code version 7.0.0
 
 change-log:
 
 |ver|changes|
 |---|---|
-|7 so far|tried to improve emoji support.  wound up ripping out much of the existing emoji parser code due to being broken beyond the possibility of repair, at least without creating an unreadable monster, and have consequently had to rethink my design decisions.  once all emoji is represented in Unicode, then I could just detect the Unicode emoji characters, as opposed to at the original inline parsing stage which may have entities (most of which are irrelevant), alphacodes, asciimotes, actual Unicode, the lot, hence the extremely confusing broken code that I just tore out.  new emoji code that works properly for once.  miscellaneous fixes.|
+|7.0.0|up-to-date / more full-featured and reliable emoji support.  wound up ripping out much of the existing emoji parser code and rethinking my design decisions.  mdplay- and html- directives.  now only one HTML renderer (DOM) with its weaknesses fixed.  miscellaneous fixes.  source tree organisation improvements.|
 |6.1.7|slight adjustment to what is considered "hepburn" romaji (allow "hu" - see code comments).  text/graphical style specifiers for emoji.|
 |6.1.6|ditch my modified romkan in favour of my entirely new support module, which uses a rather different approach to conversion, and proves substantially faster albeit one-way.  also, switch to MPL.|
 |6.1.5|conversion to hiragana now converts katakana where possible as well as romaji, and vice-versa.|

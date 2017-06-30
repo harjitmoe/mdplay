@@ -501,4 +501,6 @@ Discord emote: :kananYouNot: [https://cdn.discordapp.com/emojis/2301290808868864
 
 🏿 
 
+めぐみん (JA)<br />→ <ruby>惠<rp> (</rp><rt>めぐ</rt><rp>) </rp></ruby>みん (forced to a kanji spelling, even though one clearly isn't used for her, rather than resort to a Mandarin ateji / jièzì — the み is okurigana)<br />→ <ruby>惠<rp> (</rp><rt>めぐみ</rt><rp>) </rp></ruby><ruby>惠<rp> (</rp><rt>ん</rt><rp>) </rp></ruby> (doubled, presumably in analogy to the appended –ん — annotated here thusly)<br />→ <ruby>惠<rp> (</rp><rt>hui4 </rt><rp>) </rp></ruby><ruby>惠<rp> (</rp><rt>hui4</rt><rp>) </rp></ruby> (ZH) 
+
 

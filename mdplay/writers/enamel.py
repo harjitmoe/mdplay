@@ -4,8 +4,8 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay.out.out_html_dom import html_out_part, _html_out_part
-from mdplay.out.enamelfacey import tonml
+from mdplay.writers.html import html_out_part, _html_out_part
+from mdplay.writers._writenml import tonml
 
 from mdplay import nodes
 from xml.dom import minidom

@@ -4,12 +4,13 @@ a Markdown-based syntax targeting web destinations such as forums or wikis, as w
 
 flags can turn features and extensions off and configure exporters, the obvious one being the "strict" flag.  see flag_chart.md for a list.
 
-code version 7.0.0
+code version 7.0.1
 
 change-log:
 
 |ver|changes|
 |---|---|
+|7.0.1|code/module/package organisation improvements.|
 |7.0.0|up-to-date / more full-featured and reliable emoji support.  wound up ripping out much of the existing emoji parser code and rethinking my design decisions.  mdplay- and html- directives.  now only one HTML renderer (DOM) with its weaknesses fixed.  miscellaneous fixes.  source tree organisation improvements.|
 |6.1.7|slight adjustment to what is considered "hepburn" romaji (allow "hu" - see code comments).  text/graphical style specifiers for emoji.|
 |6.1.6|ditch my modified romkan in favour of my entirely new support module, which uses a rather different approach to conversion, and proves substantially faster albeit one-way.  also, switch to MPL.|

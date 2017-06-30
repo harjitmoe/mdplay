@@ -10,7 +10,12 @@ This file is a derivative work by Thomas Hori, may be used under same terms.
 
 import xml.dom.minidom as _d
 
-from mdplay.mdputil import simul_replace
+def simul_replace(a, b, c, d, e):
+    """Simultaneously replace (b with c) and (d with e) in a, returning the result."""
+    r = []
+    for f in a.split(b):
+        r.append(f.replace(d, e))
+    return c.join(r)
 
 def _write_data(writer, data):
     if data:

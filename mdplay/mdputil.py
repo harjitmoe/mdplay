@@ -66,10 +66,3 @@ def flatten_flags_parser(flags):
             out.append(flag)
     return list(set(out))
 
-def simul_replace(a, b, c, d, e):
-    """Simultaneously replace (b with c) and (d with e) in a, returning the result."""
-    r = []
-    for f in a.split(b):
-        r.append(f.replace(d, e))
-    return c.join(r)
-

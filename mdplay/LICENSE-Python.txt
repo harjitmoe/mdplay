@@ -1,4 +1,4 @@
-The Python licence is below, as certain filse were based on the Python 
+The Python licence is below, as certain files were based on the Python 
 Standard Library.  The below applies only to such files.  See 
 README.md for the mdplay licence.
 

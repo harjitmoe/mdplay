@@ -12,4 +12,4 @@ Look out for LICENSE* files through the source code for third-party
 licences applying to some parts of this work.
 
 Licence notices, including some third-party ones, may appear as
-__copying__ strings, or in docstrings, in individual modules.
+`__copying__` strings, or in docstrings, in individual modules.

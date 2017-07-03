@@ -361,7 +361,7 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                 for colno,cell in enumerate(row):
                     td = document.createElement("td")
                     tr.appendChild(td)
-                    td.setAttribute("style", "border: 1px solid black;")
+                    td.setAttribute("style", cellstyle)
                     if node.aligns and (len(node.aligns) > colno) and node.aligns[colno]:
                         td.setAttribute("style", cellstyle + " text-align:" + node.aligns[colno])
                     for domn in html_out_part(list(cell), document, flags=flags, mode=mode):

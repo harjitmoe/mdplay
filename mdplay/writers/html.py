@@ -10,312 +10,378 @@ from mdplay.writers._writehtml import tohtml
 import re
 from xml.dom import minidom
 
-def html_out_part(nodem,document,in_list=(),flags=()):
-    return list(_html_out_part(nodem,document,in_list,flags=flags))
+def html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
+    return list(_html_out_part(nodem, document, in_list, flags=flags, mode=mode))
 
-def _html_out_part(nodem,document,in_list=(),flags=()):
+def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
+    is_xhtml2 = mode in ("xhtml2", "xhtml2nml")
     while nodem:
-        node=nodem.pop(0)
-        if isinstance(node,nodes.UlliNode):
+        node = nodem.pop(0)
+        if isinstance(node, nodes.UlliNode):
             if (node.depth+1)>len(in_list):
-                r=document.createElement("ul")
-                r2=document.createElement("li")
+                r = document.createElement("ul")
+                r2 = document.createElement("li")
                 r.appendChild(r2)
-                for domn in html_out_part(node.content,document,flags=flags):
+                for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                     r2.appendChild(domn)
-                for domn in html_out_part(nodem,document,("ul",)+in_list):
+                for domn in html_out_part(nodem, document, ("ul",) + in_list, flags=flags, mode=mode):
                     if domn.tagName not in ("ul","ol"):
                         r.appendChild(domn)
                     elif not len(r2.childNodes):
-                        r3=document.createElement("li")
+                        r3 = document.createElement("li")
                         r.appendChild(r3)
                         r3.appendChild(domn)
                     else:
                         r.lastChild.appendChild(domn)
                 yield r
-            elif ((node.depth+1)<len(in_list)) or (in_list[0]=="ol"):
-                nodem.insert(0,node)
+            elif ((node.depth + 1) < len(in_list)) or (in_list[0] == "ol"):
+                nodem.insert(0, node)
                 return
             else:
                 r=document.createElement("li")
-                for domn in html_out_part(node.content,document,flags=flags):
+                for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                     r.appendChild(domn)
                 yield r
-        elif isinstance(node,nodes.OlliNode):
-            if (node.depth+1)>len(in_list):
+        elif isinstance(node, nodes.OlliNode):
+            if (node.depth + 1) > len(in_list):
                 r=document.createElement("ol")
                 r2=document.createElement("li")
-                if ("autonumberonly" not in flags):
-                    r2.setAttribute("value",str(node.bullet))
+                if "autonumberonly" not in flags:
+                    r2.setAttribute("value", str(node.bullet))
                 r.appendChild(r2)
-                for domn in html_out_part(node.content,document,flags=flags):
+                for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                     r2.appendChild(domn)
-                for domn in html_out_part(nodem,document,("ol",)+in_list):
-                    if domn.tagName not in ("ul","ol"):
+                for domn in html_out_part(nodem, document, ("ol",) + in_list, flags=flags, mode=mode):
+                    if domn.tagName not in ("ul", "ol"):
                         r.appendChild(domn)
                     elif not len(r2.childNodes):
-                        r3=document.createElement("li")
+                        r3 = document.createElement("li")
                         r.appendChild(r3)
                         r3.appendChild(domn)
                     else:
                         r.lastChild.appendChild(domn)
                 yield r
-            elif ((node.depth+1)<len(in_list)) or (in_list[0]=="ul"):
-                nodem.insert(0,node)
+            elif ((node.depth + 1) < len(in_list)) or (in_list[0] == "ul"):
+                nodem.insert(0, node)
                 return
             else:
-                r=document.createElement("li")
+                r = document.createElement("li")
                 if ("autonumberonly" not in flags):
-                    r.setAttribute("value",str(node.bullet))
-                for domn in html_out_part(node.content,document,flags=flags):
+                    r.setAttribute("value", str(node.bullet))
+                for domn in html_out_part(node.content, document, flags=flags):
                     r.appendChild(domn)
                 yield r
         elif in_list: #A non-list node at list-stack level
-            nodem.insert(0,node)
+            nodem.insert(0, node)
             return
-        elif not isinstance(node,nodes.Node): #i.e. is a string
+        elif not isinstance(node, nodes.Node): #i.e. is a string
             yield document.createTextNode(node.decode("utf-8").replace(u"\x20\x20",u"\xa0\x20"))
-        elif isinstance(node,nodes.EmojiNode):
+        elif isinstance(node, nodes.EmojiNode):
             if ("notwemoji" not in flags) and node.emphatic:
-                hexcode=node.label[2]
+                hexcode = node.label[2]
                 if "nounicodeemoji" not in flags:
-                    altcode=node.content.decode("utf-8")
+                    altcode = node.content.decode("utf-8")
                 else:
-                    altcode=node.label[0] or node.label[1] or ":"+hexcode+":"
+                    altcode = node.label[0] or node.label[1] or ":"+hexcode+":"
                 r=document.createElement("img")
-                r.setAttribute("src","https://twemoji.maxcdn.com/2/72x72/%s.png"%hexcode)
-                r.setAttribute("alt",altcode)
-                r.setAttribute("style","max-width:2em;max-height:2em;")
-                # Acceptable attribution per https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
-                yield document.createComment(" twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/ ")
+                r.setAttribute("src", "https://twemoji.maxcdn.com/2/72x72/%s.png" % hexcode)
+                r.setAttribute("style", "max-width:2em;max-height:2em;")
+                # https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
+                r.setAttribute("title", "twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/")
+                if not is_xhtml2:
+                    r.setAttribute("alt", altcode)
+                else:
+                    # XHTML2 regularises the asset-alt relation, asset in src=, alt as children.
+                    r.appendChild(document.createTextNode(altcode))
                 yield r
             else:
                 if "nounicodeemoji" not in flags:
                     yield document.createTextNode(node.content.decode("utf-8"))
                 else:
                     yield document.createTextNode(node.label[0] or node.label[1] or ":"+node.label[2]+":")
-        elif isinstance(node,nodes.TitleNode):
-            if node.depth>6: node.depth=6
-            r=document.createElement("h%d"%node.depth)
-            for domn in html_out_part(node.content,document,flags=flags):
+        elif isinstance(node, nodes.TitleNode):
+            if node.depth > 6:
+                node.depth = 6
+            # TODO leverage XHTML2 <h> element (strictly in the respective mode only).
+            r = document.createElement("h%d" % node.depth)
+            for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                 r.appendChild(domn)
             yield r
-        elif isinstance(node,nodes.ParagraphNode):
-            r=document.createElement("p")
-            for domn in html_out_part(node.content,document,flags=flags):
+        elif isinstance(node, nodes.ParagraphNode):
+            r = document.createElement("p")
+            for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                 r.appendChild(domn)
             yield r
-        elif isinstance(node,nodes.BlockQuoteNode):
-            r=document.createElement("blockquote")
-            for domn in html_out_part(node.content,document,flags=flags):
+        elif isinstance(node, nodes.BlockQuoteNode):
+            r = document.createElement("blockquote")
+            for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                 r.appendChild(domn)
             yield r
-        elif isinstance(node,nodes.SpoilerNode):
+        elif isinstance(node, nodes.SpoilerNode):
             if "ipsspoilers" in flags:
                 if node.label:
-                    splabel=document.createElement("div")
-                    for domn in html_out_part(node.label,document,flags=flags):
+                    splabel = document.createElement("div")
+                    for domn in html_out_part(node.label, document, flags=flags, mode=mode):
                         splabel.appendChild(domn)
                     yield splabel
                 metar=document.createElement("blockquote")
-                metar.setAttribute("class",'ipsStyle_spoiler')
-                metar.setAttribute("data-ipsspoiler",'')
-                metar.setAttribute("tabindex",'0')
+                metar.setAttribute("class", 'ipsStyle_spoiler')
+                metar.setAttribute("data-ipsspoiler", '')
+                metar.setAttribute("tabindex", '0')
                 r=document.createElement("div")
                 metar.appendChild(r)
-                r.setAttribute("class",'ipsSpoiler_header')
+                r.setAttribute("class", 'ipsSpoiler_header')
                 r2=document.createElement("span")
                 r.appendChild(r2)
                 # Spoiler-block header text will be overriden.
                 r2.appendChild(document.createTextNode("Spoiler"))
                 r3=document.createElement("div")
                 metar.appendChild(r3)
-                r3.setAttribute("class",'ipsSpoiler_contents')
-                for domn in html_out_part(node.content,document,flags=flags):
+                r3.setAttribute("class", 'ipsSpoiler_contents')
+                for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                     r3.appendChild(domn)
                 yield metar
             else:
-                metar=document.createElement("div")
-                metar.setAttribute("class",'spoilerwrapper')
-                r=document.createElement("p")
+                metar = document.createElement("div")
+                metar.setAttribute("class", 'spoilerwrapper')
+                r = document.createElement("p")
                 metar.appendChild(r)
-                r2=document.createElement("a")
-                r.appendChild(r2)
-                r2.setAttribute("href",'javascript:void(0);')
-                r2.setAttribute("onclick","document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none')"%(mdputil.newid(node),mdputil.newid(node)))
+                handler_script = "document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none');" % (mdputil.newid(node), mdputil.newid(node))
+                if not is_xhtml2:
+                    r2 = document.createElement("a")
+                    r.appendChild(r2)
+                    r2.setAttribute("href", 'javascript:void(0);')
+                    # TODO is it possible to use DOMActivate as an attribute?
+                    # (the problem with click is that keyboard activation is nominally ignored)
+                    r2.setAttribute("onclick", handler_script)
+                else:
+                    r.setAttribute("href", "#")
+                    r.setAttribute("ev:event", "DOMActivate")
+                    r.setAttribute("ev:handler", '#onclickspoil%d' % mdputil.newid(node))
+                    r.setAttribute("ev:defaultAction", "cancel")
+                    handler = document.createElement("script")
+                    handler.setAttribute("id", 'onclickspoil%d' % mdputil.newid(node))
+                    #handler.setAttribute("xml:id", 'onclickspoil%d' % mdputil.newid(node))
+                    handler.setAttribute("type", "text/javascript")
+                    hscript = document.createCDATASection("\n" + handler_script + "\n//")
+                    handler.appendChild(hscript)
+                    metar.appendChild(handler)
+                    r2 = r
                 if not node.label:
                     r2.appendChild(document.createTextNode("Expand/Hide Spoiler"))
                 else:
-                    for domn in html_out_part(node.label,document,flags=flags):
+                    for domn in html_out_part(node.label, document, flags=flags, mode=mode):
                         r2.appendChild(domn)
-                r3=document.createElement("div")
+                r3 = document.createElement("div")
                 metar.appendChild(r3)
-                r3.setAttribute("class",'spoiler')
-                r3.setAttribute("id",'spoil%d'%mdputil.newid(node))
-                r3.setAttribute("style",'display:none;')
-                for domn in html_out_part(node.content,document,flags=flags):
+                r3.setAttribute("class", 'spoiler')
+                r3.setAttribute("id", 'spoil%d' % mdputil.newid(node))
+                #if mode != "html":
+                #    r3.setAttribute("xml:id", 'spoil%d' % mdputil.newid(node))
+                r3.setAttribute("style", 'display:none;')
+                for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                     r3.appendChild(domn)
                 yield metar
-        elif isinstance(node,nodes.CodeBlockNode):
-            r=document.createElement("pre")
+        elif isinstance(node, nodes.CodeBlockNode):
+            r = document.createElement("pre" if not is_xhtml2 else "blockcode")
             r.appendChild(document.createTextNode("".join(node.content).decode("utf-8")))
             yield r
-        elif isinstance(node,nodes.CodeSpanNode):
-            r=document.createElement("code")
+        elif isinstance(node, nodes.CodeSpanNode):
+            r = document.createElement("code")
             r.appendChild(document.createTextNode("".join(node.content).decode("utf-8")))
             yield r
         elif isinstance(node,nodes.BoldNode):
             if node.emphatic:
-                r=document.createElement("strong")
+                r = document.createElement("strong")
+            elif not is_xhtml2:
+                r = document.createElement("b")
+            elif "html5" in flags:
+                r = document.createElement("html:b")
             else:
-                r=document.createElement("b")
-            for domn in html_out_part(node.content,document,flags=flags):
+                r = document.createElement("strong")
+            for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                 r.appendChild(domn)
             yield r
-        elif isinstance(node,nodes.UnderlineNode):
-            r=document.createElement("u")
-            for domn in html_out_part(node.content,document,flags=flags):
+        elif isinstance(node, nodes.UnderlineNode):
+            if not is_xhtml2:
+                r = document.createElement("u")
+            elif "html5" in flags:
+                r = document.createElement("html:u")
+            else:
+                r = document.createElement("span")
+                r.setAttribute("style", "text-decoration: underline;")
+            for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                 r.appendChild(domn)
             yield r
-        elif isinstance(node,nodes.ItalicNode):
+        elif isinstance(node, nodes.ItalicNode):
             if node.emphatic:
-                r=document.createElement("em")
+                r = document.createElement("em")
+            elif not is_xhtml2:
+                r = document.createElement("i")
+            elif "html5" in flags:
+                r = document.createElement("html:i")
             else:
-                r=document.createElement("i")
-            for domn in html_out_part(node.content,document,flags=flags):
+                r = document.createElement("em")
+            for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                 r.appendChild(domn)
             yield r
-        elif isinstance(node,nodes.SuperNode):
-            r=document.createElement("sup")
-            for domn in html_out_part(node.content,document,flags=flags):
+        elif isinstance(node, nodes.SuperNode):
+            r = document.createElement("sup") # Thankfully never earmarked, even in XHTML2.
+            for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                 r.appendChild(domn)
             yield r
-        elif isinstance(node,nodes.SubscrNode):
-            r=document.createElement("sub")
-            for domn in html_out_part(node.content,document,flags=flags):
+        elif isinstance(node, nodes.SubscrNode):
+            r = document.createElement("sub") # Thankfully never earmarked, even in XHTML2.
+            for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                 r.appendChild(domn)
             yield r
-        elif isinstance(node,nodes.RubiNode):
-            content=node.content
-            r=document.createElement("ruby")
+        elif isinstance(node, nodes.RubiNode):
+            content = node.content
+            r = document.createElement("ruby")
             #r.setAttribute("lang","jp")
             r.appendChild(document.createTextNode(content.decode("utf-8")))
-            rp1=document.createElement("rp")
+            rp1 = document.createElement("rp")
             rp1.appendChild(document.createTextNode(" ("))
             r.appendChild(rp1)
-            rt=document.createElement("rt")
-            for domn in html_out_part(node.label,document):
+            rt = document.createElement("rt")
+            for domn in html_out_part(node.label, document, flags=flags, mode=mode):
                 rt.appendChild(domn)
             r.appendChild(rt)
-            rp2=document.createElement("rp")
+            rp2 = document.createElement("rp")
             rp2.appendChild(document.createTextNode(") "))
             r.appendChild(rp2)
             yield r
-        elif isinstance(node,nodes.HrefNode):
-            ht=node.hreftype
-            content=node.content
-            if ht=="url":
-                label=html_out_part(node.label,document)
-                if ("showtropes" in flags) and re.match("https?://(www\.)?tvtropes.org",content):
-                    metar=document.createElement("span")
-                    r=document.createElement("u")
+        elif isinstance(node, nodes.HrefNode):
+            ht = node.hreftype
+            content = node.content
+            if ht == "url":
+                label = html_out_part(node.label, document, flags=flags, mode=mode)
+                if ("showtropes" in flags) and re.match("https?://(www\.)?tvtropes.org", content):
+                    metar = document.createElement("span")
+                    r = document.createElement("span")
+                    r.setAttribute("style", "text-decoration: underline;")
                     metar.appendChild(r)
                     for domn in label:
                         r.appendChild(domn)
-                    r2=document.createElement("sup")
+                    r2 = document.createElement("sup")
                     metar.appendChild(r2)
-                    r3=document.createElement("a")
-                    r2.appendChild(r3)
-                    r3.setAttribute("href",content.decode("utf-8"))
+                    if not is_xhtml2:
+                        r3 = document.createElement("a")
+                        r2.appendChild(r3)
+                    else:
+                        # XHTML2: not only can anything be an anchor, anything can be a hyperlink
+                        r3 = r2
+                    r3.setAttribute("href", content.decode("utf-8"))
                     r3.appendChild(document.createTextNode("(TVTropes)"))
                     yield metar
                     continue
-                r=document.createElement("a")
-                r.setAttribute("href",content.decode("utf-8"))
+                r = document.createElement("a")
+                r.setAttribute("href", content.decode("utf-8"))
                 for domn in label:
                     r.appendChild(domn)
                 yield r
             elif "script" in "".join(ht.split()):
                 pass #No way, Jos{\'e}!
             else: #Including img
-                try:
-                    label="".join(node.label)
-                except TypeError:
-                    label=html_out_body(node.label) #_body, not _part
-                r=document.createElement(ht)
-                r.setAttribute("src",content.decode("utf-8"))
-                if label:
-                    r.setAttribute("alt",label.decode("utf-8"))
-                styl=""
+                r = document.createElement(ht)
+                r.setAttribute("src", content.decode("utf-8"))
+                # Note: there seems to be some confusion here about just what the format of node.label
+                # can be expected to be, could we clarify?
+                if not is_xhtml2:
+                    try:
+                        label = "".join(node.label)
+                    except TypeError:
+                        label = html_out_body(node.label, flags=flags, mode=mode) # _body, not _part
+                    if label:
+                        r.setAttribute("alt", label.decode("utf-8"))
+                else:
+                    try:
+                        label = [document.createTextNode(("".join(node.label)).decode("utf-8"))]
+                    except TypeError:
+                        label = html_out_part(node.label, document, flags=flags, mode=mode) # _part this time
+                    for domn in label:
+                        r.appendChild(domn)
+                styl = ""
                 if node.width:
-                    styl+="width:%dpx;"%node.width
+                    styl += "width:%dpx;" % node.width
+                    if not is_xhtml2:
+                        r.setAttribute("width", str(node.width))
+                    elif "html5" in flags:
+                        r.setAttribute("html:width", str(node.width))
                 if node.height:
-                    styl+="height:%dpx;"%node.height
+                    styl += "height:%dpx;" % node.height
+                    if not is_xhtml2:
+                        r.setAttribute("height", str(node.height))
+                    elif "html5" in flags:
+                        r.setAttribute("html:height", str(node.height))
                 if styl:
-                    r.setAttribute("style",styl)
+                    r.setAttribute("style", styl)
                 if "//twemoji.maxcdn.com" in content:
-                    # Acceptable attribution per https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
+                    # https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
                     yield document.createComment(" twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/ ")
                 yield r
-        elif isinstance(node,nodes.NewlineNode):
-            r=document.createElement("br")
+        elif isinstance(node, nodes.NewlineNode): # TODO: <br /> in XHTML2 present but deprecated, use of <l> how?
+            r = document.createElement("br")
             yield r
-        elif isinstance(node,nodes.RuleNode):
-            r=document.createElement("hr")
+        elif isinstance(node, nodes.RuleNode):
+            r = document.createElement("hr" if not is_xhtml2 else "separator")
             yield r
-        elif isinstance(node,nodes.DirectiveNode) and node.type.startswith("html-") and ("insecuredirective" in flags):
+        elif isinstance(node, nodes.DirectiveNode) and node.type.startswith("html-") and ("insecuredirective" in flags):
             r = document.createElement(node.type[len("html-"):].strip())
             for i,j in node.opts:
                 r.setAttribute(i, j)
             for i in node.args:
                 if i.strip():
                     r.setAttribute(i, i)
-            for domn in html_out_part(node.content,document):
+            for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                 r.appendChild(domn)
             yield r
-        elif isinstance(node,nodes.TableNode):
-            r=document.createElement("table")
-            r.setAttribute("border","1")
-            thead=document.createElement("thead")
+        elif isinstance(node, nodes.TableNode):
+            r = document.createElement("table")
+            r.setAttribute("style", "border: 1px solid black; border-collapse: collapse;")
+            cellstyle = "border: 1px solid black; padding: 0.5ex;"
+            thead = document.createElement("thead")
             r.appendChild(thead)
             for row in node.table_head:
-                tr=document.createElement("tr")
+                tr = document.createElement("tr")
                 thead.appendChild(tr)
-                for colno,cell in enumerate(row):
-                    th=document.createElement("th")
+                for colno, cell in enumerate(row):
+                    th = document.createElement("th")
                     tr.appendChild(th)
-                    if node.aligns and (len(node.aligns)>colno) and node.aligns[colno]:
-                        th.setAttribute("style","text-align:"+node.aligns[colno])
-                    for domn in html_out_part(list(cell),document):
+                    th.setAttribute("style", cellstyle)
+                    if node.aligns and (len(node.aligns) > colno) and node.aligns[colno]:
+                        th.setAttribute("style", cellstyle + " text-align:" + node.aligns[colno])
+                    for domn in html_out_part(list(cell), document, flags=flags, mode=mode):
                         th.appendChild(domn)
-            tbody=document.createElement("tbody")
+            tbody = document.createElement("tbody")
             r.appendChild(tbody)
             for row in node.table_body:
-                tr=document.createElement("tr")
+                tr = document.createElement("tr")
                 tbody.appendChild(tr)
                 for colno,cell in enumerate(row):
-                    td=document.createElement("td")
+                    td = document.createElement("td")
                     tr.appendChild(td)
-                    if node.aligns and (len(node.aligns)>colno) and node.aligns[colno]:
-                        td.setAttribute("style","text-align:"+node.aligns[colno])
-                    for domn in html_out_part(list(cell),document):
+                    td.setAttribute("style", "border: 1px solid black;")
+                    if node.aligns and (len(node.aligns) > colno) and node.aligns[colno]:
+                        td.setAttribute("style", cellstyle + " text-align:" + node.aligns[colno])
+                    for domn in html_out_part(list(cell), document, flags=flags, mode=mode):
                         td.appendChild(domn)
             yield r
         elif isinstance(node,nodes.EmptyInterrupterNode):
             yield document.createTextNode("")
         else:
-            yield document.createTextNode("ERROR"+repr(node))
+            yield document.createTextNode("ERROR" + repr(node))
 
 #import htmlentitydefs
 from mdplay import htmlentitydefs_latest as htmlentitydefs
-def _escape(text,html5=0,mode="xhtml"):
+def _escape(text, html5=0, mode="xhtml"):
     if mode == "xml": # as opposed to xhtml or html
         return
-    text=text.decode("utf-8")
+    text = text.decode("utf-8")
     if not html5:
-        keys=htmlentitydefs.name2codepoint.keys()
+        keys = htmlentitydefs.name2codepoint.keys()
     else:
-        keys=htmlentitydefs.html5.keys()
+        keys = htmlentitydefs.html5.keys()
     for name in keys:
         if ((mode != "nml") and (name not in ("amp","lt","quot","gt","apos"))) or \
            ((mode == "nml") and (name not in ("lbrack","lt","rbrack","gt"))):
@@ -332,58 +398,208 @@ def _escape(text,html5=0,mode="xhtml"):
                 text=text.replace(codept,("["+name.rstrip(";")+"]").decode("ascii"))
     return text.encode("utf-8")
 
+mode_identifiers = {
+    # Keyed by (serialisation, is_html5)
+    ("xml", True): {
+        # For XML parsers; HTML parsers won't necessarily parse it correctly
+        "xmlns": "http://www.w3.org/1999/xhtml",
+        "root": "html",
+        "xsi": None,
+        # HTML Living Standard appears apathetic about XHTML doctypes or their content.
+        # Could make something up like "-//WHATWG//DTD XHTML 5.0//EN" but... probably
+        # best to stick to the legacy-format HTML5 doctype.
+        "fpi": None,
+        "fsi": "about:legacy-compat", # Condoned by HTML5.
+        "other_xmlns": (),
+        "syntax": "xml"
+    },
+    ("xhtml", True): {
+        # For HTML5 and HTML5-entity-and-doctype-aware XML parsers
+        "xmlns": "http://www.w3.org/1999/xhtml",
+        "root": "html",
+        "xsi": None,
+        "fpi": None,
+        "fsi": None,
+        "other_xmlns": (),
+        "syntax": "xhtml"
+    },
+    ("html", True): {
+        # For HTML5 parsers, likely not to be valid XML
+        "xmlns": None,
+        "root": "html",
+        "xsi": None,
+        "fpi": None,
+        "fsi": None,
+        "other_xmlns": (),
+        "syntax": "html"
+    },
+    ("xml", False): {
+        # For XML parsers; HTML parsers won't necessarily parse it correctly
+        "xmlns": "http://www.w3.org/1999/xhtml",
+        "root": "html",
+        "xsi": None,
+        "fpi": "-//W3C//DTD XHTML 1.1//EN",
+        "fsi": "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd",
+        "other_xmlns": (),
+        "syntax": "xml"
+    },
+    ("xhtml", False): {
+        # For HTML parsers (not NS4) and XHTML1.1-entity-aware XML parsers
+        "xmlns": "http://www.w3.org/1999/xhtml",
+        "root": "html",
+        "xsi": None,
+        "fpi": "-//W3C//DTD XHTML 1.1//EN",
+        "fsi": "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd",
+        "other_xmlns": (),
+        "syntax": "xhtml"
+    },
+    ("html", False): {
+        # For HTML4 parsers, likely not to be valid XML
+        "xmlns": None,
+        "root": "html",
+        "xsi": None,
+        "fpi": "-//W3C//DTD HTML 4.01 Transitional//EN",
+        "fsi": "https://www.w3.org/TR/html4/loose.dtd",
+        "other_xmlns": (),
+        "syntax": "html"
+    },
+    #
+    # Now the niche, abandoned or experimental formats:
+    ("nml", True): {
+        # Naggum syntax serialisation of HTML5
+        "xmlns": None,
+        "root": "html",
+        "xsi": None,
+        "fpi": None,
+        "fsi": None,
+        "other_xmlns": (),
+        "syntax": "nml"
+    },
+    ("nml", False): {
+        # Naggum syntax serialisation of HTML4 (plus [lbrack] and [rbrack])
+        "xmlns": None,
+        "root": "html",
+        "xsi": None,
+        "fpi": None,
+        "fsi": None,
+        "other_xmlns": (),
+        "syntax": "nml"
+    },
+    # The latest and likely terminal draft of XHTML 2 still defines the namespace as
+    # being http://www.w3.org/1999/xhtml i.e. the same as XHTML 1 or 5.  However, the 
+    # (presently no-op) schema http://www.w3.org/MarkUp/SCHEMA/xhtml2.xsd referenced
+    # in said draft defines said namespace as being http://www.w3.org/2002/06/xhtml2/
+    # which does in fact exist and calls itself the "XHTML 2.0 namespace".
+    # Considering also the compatibility break between XHTML 1 or 5 and XHTML 2, and
+    # the fact that XHTML 5 is the current version of XHTML, I'm using the latter.
+    ("xhtml2", False): {
+        # Abandoned compatibility-breaking version of HTML.
+        "xmlns": "http://www.w3.org/2002/06/xhtml2/",
+        "root": "html",
+        "xsi": "http://www.w3.org/2002/06/xhtml2/ http://www.w3.org/MarkUp/SCHEMA/xhtml2.xsd",
+        "fpi": "-//W3C//DTD XHTML 2.0//EN",
+        "fsi": "http://www.w3.org/MarkUp/DTD/xhtml2.dtd",
+        "other_xmlns": (("ev", "http://www.w3.org/2001/xml-events"),),
+        "syntax": "xml"
+    },
+    # The unique namespaces become an identifying features of XHTML2 versus XHTML5.
+    ("xhtml2", True): {
+        # And you thought normal XHTML2 output was silly.
+        "xmlns": "http://www.w3.org/2002/06/xhtml2/",
+        "root": "html",
+        "xsi": "http://www.w3.org/2002/06/xhtml2/ http://www.w3.org/MarkUp/SCHEMA/xhtml2.xsd",
+        "fpi": "-//W3C//DTD XHTML 2.0//EN",
+        "fsi": "http://www.w3.org/MarkUp/DTD/xhtml2.dtd",
+        "other_xmlns": (("ev", "http://www.w3.org/2001/xml-events"), 
+                        ("html", "http://www.w3.org/1999/xhtml")),
+        "syntax": "xml"
+    },
+    # Similarly with NML syntax, which has no standard syntax for a doctype
+    ("xhtml2nml", False): {
+        # Yes, I went there.
+        "xmlns": "http://www.w3.org/2002/06/xhtml2/",
+        "root": "html",
+        "xsi": "http://www.w3.org/2002/06/xhtml2/ http://www.w3.org/MarkUp/SCHEMA/xhtml2.xsd",
+        "fpi": None, # No standard doctype syntax in NML.
+        "fsi": None,
+        "other_xmlns": (),
+        "syntax": "nml"
+    },
+    ("xhtml2nml", True): {
+        # And the most hipster format supported by this writer is...
+        "xmlns": "http://www.w3.org/2002/06/xhtml2/",
+        "root": "html",
+        "xsi": "http://www.w3.org/2002/06/xhtml2/ http://www.w3.org/MarkUp/SCHEMA/xhtml2.xsd",
+        "fpi": None,
+        "fsi": None,
+        "other_xmlns": (("ev", "http://www.w3.org/2001/xml-events"), 
+                        ("html", "http://www.w3.org/1999/xhtml")),
+        "syntax": "nml"
+    },
+}
+
 def html_out(nodem,titl="",flags=(),mode="xhtml"):
     if "fragment" in flags:
         return html_out_body(nodem,flags)
-    html5=("html5" in flags)
-    mdi=minidom.getDOMImplementation() #minidom: other xml.dom imps don't necessarily support toxml
-    if not html5:
-        document=mdi.createDocument("http://www.w3.org/1999/xhtml","html",mdi.createDocumentType("html","-//W3C//DTD XHTML 1.1//EN","http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"))
-    else:
-        if mode == "xml":
-            document=mdi.createDocument("http://www.w3.org/1999/xhtml","html",mdi.createDocumentType("html",None,"about:legacy-compat"))
-        else:
-            document=mdi.createDocument("http://www.w3.org/1999/xhtml","html",mdi.createDocumentType("html",None,None))
-    if mode in ("xhtml", "xml"):
-        document.documentElement.setAttribute("xmlns","http://www.w3.org/1999/xhtml") # not done automatically by minidom
-    head=document.createElement("head")
+    html5 = ("html5" in flags)
+    mdi = minidom.getDOMImplementation() #minidom: other xml.dom imps don't necessarily support _get_attributes()
+    fm = mode_identifiers[(mode, html5)]
+    is_xhtml2 = mode in ("xhtml2", "xhtml2nml")
+    document = mdi.createDocument(fm["xmlns"], fm["root"], mdi.createDocumentType(fm["root"], fm["fpi"], fm["fsi"]))
+    if fm["xmlns"]:
+        # not done automatically by minidom, though you'd expect it to given its provision above
+        document.documentElement.setAttribute("xmlns", fm["xmlns"])
+    for (ns, nsuri) in fm["other_xmlns"]:
+        document.documentElement.setAttribute("xmlns:"+ns, nsuri)
+    if fm["xsi"]:
+        # not provided above so would not be expected to be done automatically
+        document.documentElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+        document.documentElement.setAttribute("xsi:schemaLocation", fm["xsi"])
+    head = document.head = document.createElement("head")
     document.documentElement.appendChild(head)
-    body=document.createElement("body")
+    body = document.createElement("body")
     document.documentElement.appendChild(body)
     #Head
-    charset=document.createElement("meta")
-    head.appendChild(charset)
     if not html5:
-        charset.setAttribute("http-equiv","Content-Type")
-        charset.setAttribute("content","text/html; charset=UTF-8")
+        charset = document.createElement("meta")
+        head.appendChild(charset)
+        charset.setAttribute("http-equiv", "Content-Type")
+        charset.setAttribute("content", "text/html; charset=UTF-8")
     else:
-        charset.setAttribute("charset","UTF-8")
-        xua=document.createElement("meta")
+        if is_xhtml2:
+            charset = document.createElement("html:meta")
+        else:
+            charset = document.createElement("meta")
+        head.appendChild(charset)
+        charset.setAttribute("charset", "UTF-8")
+        xua = document.createElement("meta")
         head.appendChild(xua)
-        xua.setAttribute("http-equiv","X-UA-Compatible")
-        xua.setAttribute("content","IE=10,chrome=1")
+        xua.setAttribute("http-equiv", "X-UA-Compatible")
+        xua.setAttribute("content", "IE=Edge")
     if titl:
-        titlebar=document.createElement("title")
+        titlebar = document.createElement("title")
         head.appendChild(titlebar)
         titlebar.appendChild(document.createTextNode(titl.decode("utf-8")))
     #Body
-    nodem=list(nodem)
-    for domn in html_out_part(nodem,document,flags=flags):
+    nodem = list(nodem)
+    for domn in html_out_part(nodem, document, flags=flags, mode=mode):
         body.appendChild(domn)
-    retval=_escape(tohtml(document,"utf-8",mode=mode),html5,mode=mode)
+    retval = _escape(tohtml(document, "utf-8", mode=fm["syntax"]), html5, mode=mode)
     document.unlink()
     return retval
 
-def html_out_body(nodem,flags=(),mode="xhtml"):
-    html5=("html5" in flags)
-    mdi=minidom.getDOMImplementation() #minidom: other xml.dom imps don't necessarily support toxml
-    document=mdi.createDocument("http://www.w3.org/1999/xhtml","html",mdi.createDocumentType("html","-//W3C//DTD XHTML 1.1//EN","http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd")) #never actually seen.
-    ret=""
-    nodem=list(nodem)
-    for domn in html_out_part(nodem,document,flags=flags):
-        ret+=tohtml(domn,"utf-8",mode=mode)
+def html_out_body(nodem, flags=(), mode="xhtml"):
+    html5 = ("html5" in flags)
+    fm = mode_identifiers[(mode, html5)]
+    mdi = minidom.getDOMImplementation() #minidom: other xml.dom imps don't necessarily support _get_attributes()
+    document = mdi.createDocument(None, "html", mdi.createDocumentType("html", None, None)) #never actually seen.
+    document.head = document.createElement("head") #never actually seen, don't bother appending
+    ret = ""
+    nodem = list(nodem)
+    for domn in html_out_part(nodem, document, flags=flags, mode=mode):
+        ret += tohtml(domn, "utf-8", mode=fm["syntax"])
     document.unlink()
-    return _escape(ret,html5,mode=mode)
+    return _escape(ret, html5, mode=mode)
 
 __mdplay_renderer__="html_out"
 __mdplay_snippet_renderer__="html_out_body"

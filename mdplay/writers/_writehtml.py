@@ -30,6 +30,8 @@ source
 track
 wbr""".split()
 
+ALL_HTML_CDATA_ELEMENTS = ("script", "style")
+
 def _simul_replace(a, b, c, d, e):
     """Simultaneously replace (b with c) and (d with e) in a, returning the result."""
     r = []
@@ -37,9 +39,14 @@ def _simul_replace(a, b, c, d, e):
         r.append(f.replace(d, e))
     return c.join(r)
 
-def _write_data(writer, data, mode):
+def _write_data(writer, data, mode="xml"):
     if data:
-        if mode != "nml":
+        data = unicode(data) # not str(data)
+        if mode == "xml": # not xhtml or html
+            data = data.replace("&", "&amp;").replace("<", "&lt;"). \
+                        replace("\"", "&quot;").replace(">", "&gt;"). \
+                        replace("'", "&apos;")
+        elif mode != "nml":
             data = data.replace("&", "&amp;").replace("<", "&lt;"). \
                         replace("\"", "&quot;").replace(">", "&gt;")
         else:
@@ -47,19 +54,20 @@ def _write_data(writer, data, mode):
                          replace("<", "[lt]").replace(">", "[gt]")
         writer.write(data)
 
-def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mode="xhtml"):
+def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mode="xhtml", implied_cdata=False):
+    # indent = current indentation
+    # addindent = indentation to add to higher levels
+    # newl = newline string
     if isinstance(node, _d.Element):
-        # indent = current indentation
-        # addindent = indentation to add to higher levels
-        # newl = newline string
         if (mode == "nml") and ("|" in node.tagName):
             raise ValueError("pipe in tag name %r" % node.tagName)
         writer.write(indent+"<" + node.tagName)
-
-        attrs = node._get_attributes()
-        a_names = attrs.keys()
-        a_names.sort()
-
+        attrs = node.attributes
+        if hasattr(attrs, "keys"): # minidom (implementing dict interface)
+            a_names = attrs.keys()
+            a_names.sort()
+        else: # standard (allowing numerical indices, which minidom doesn't)
+            a_names = [attrs[i].name for i in range(attrmap.length)]
         for a_name in a_names:
             if mode != "nml":
                 writer.write(" %s=\"" % a_name)
@@ -72,14 +80,15 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
                 _write_data(writer, attrs[a_name].value, mode)
                 writer.write(">")
         if node.childNodes:
+            icd = node.tagName in ALL_HTML_CDATA_ELEMENTS
             writer.write(">" if mode != "nml" else "|")
             if (len(node.childNodes) == 1 and
                     node.childNodes[0].nodeType == _d.Node.TEXT_NODE):
-                writehtml(node.childNodes[0], writer, '', '', '', mode = mode)
+                writehtml(node.childNodes[0], writer, '', '', '', mode=mode, implied_cdata=icd)
             else:
                 writer.write(newl)
                 for cnode in node.childNodes:
-                    writehtml(cnode, writer, indent+addindent, addindent, newl, mode = mode)
+                    writehtml(cnode, writer, indent+addindent, addindent, newl, mode=mode, implied_cdata=icd)
                 writer.write(indent)
             if mode != "nml":
                 writer.write("</%s>%s" % (node.tagName, newl))
@@ -103,12 +112,16 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
                 else:
                     writer.write("></%s>%s" % (node.tagName, newl))
     elif isinstance(node, _d.Text):
-        if (mode == "xml") and isinstance(node, _d.CDATASection) \
+        if (mode == "html") and implied_cdata:
+            if "</" in node.data:
+                raise ValueError("'</' is not allowed in an implicit CDATA section")
+            writer.write(node.data)
+        elif (mode == "xml") and isinstance(node, _d.CDATASection) \
                 and (node.data.find("]]>") < 0):
             writer.write("<![CDATA[%s]]>" % node.data)
         else:
             _write_data(writer, "%s%s%s" % (indent, node.data, newl), mode)
-    # Unclear what the following are supposed to be rendered as in NML:
+    # Undefined what the following are supposed to be rendered as in NML:
     elif isinstance(node, _d.DocumentType):
         if mode != "nml":
             writer.write("<!DOCTYPE ")
@@ -137,7 +150,7 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
                 raise ValueError("'--' is not allowed in a comment node")
             writer.write("%s<!--%s-->%s" % (indent, node.data, newl))
         else:
-            pass
+            pass # TODO surely there must be some way of doing this???
     #
     elif isinstance(node, _d.Document):
         if mode == "xml":
@@ -148,7 +161,7 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
         for cnode in node.childNodes:
             writehtml(cnode, writer, indent, addindent, newl, mode = mode)
     else:
-        raise TypeError
+        raise TypeError("%r is not a DOM node" % node)
 
 def tohtml(node, encoding="utf-8", indent="", newl="", mode="xhtml"):
     # indent = the indentation string to prepend, per level

@@ -1,4 +1,5 @@
 python pymdplay.py -o test_out/out.txt -f bbcode test.md
+python pymdplay.py -o test_out/out.repr -f debug test.md
 python pymdplay.py -o test_out/out_noemo.txt -f bbcode -W nouseemoji,notwemoji,asciimotes test.md
 python pymdplay.py -o test_out/out_shortc.txt -f bbcode -W shortcodes test.md
 python pymdplay.py -o test_out/out_new.txt -f html -W fragment,ipsspoilers,nounicodeemoji test.md
@@ -11,7 +12,9 @@ python pymdplay.py -o test_out/out_5.html -5 -f html test.md
 python pymdplay.py -o test_out/out_5tropes.html -f html -W showtropes,html5 test.md
 python pymdplay.py -o test_out/out_mw.txt -f mwiki test.md
 python pymdplay.py -o test_out/out_tv.txt -f tvwiki test.md
-python pymdplay.py -o test_out/out.nml -f enamel test.md
+python pymdplay.py -o test_out/out.nml -f html -F nml test.md
+python pymdplay.py -o test_out/out.xhtml2 -f html -F xhtml2 test.md
+python pymdplay.py -o test_out/out_5.xhtml2 -f html -F xhtml2 -5 test.md
 python pymdplay.py -o test_out/roundtrip.md -f md test.md
 python pymdplay.py -o test_out/roundtrip2.md -f md test_out/roundtrip.md
 python pymdplay.py -o test_out/roundtrip.html -f html test_out/roundtrip2.md

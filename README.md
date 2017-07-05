@@ -4,12 +4,13 @@ a Markdown-based syntax targeting web destinations such as forums or wikis, as w
 
 flags can turn features and extensions off and configure exporters, the obvious one being the "strict" flag.  see flag_chart.md for a list.
 
-code version 7.0.4
+code version 7.0.5
 
 change-log:
 
 |ver|changes|
 |---|---|
+|7.0.5|make use of the HTML5 details tag in html5 output where available, should still mostly work if not though.  tying into this, improvements to handling of polyglot HTML-XML script and style tags (when in xhtml mode) in the customised minidom markup writing code.|
 |7.0.4|minor fix.|
 |7.0.3|HTML writer/renderer compliance improvements.  fix some bugs where writer flags would not be propagated.  add support for illustrative output in the abandoned XHTML2 format, with and without XHTML5 extensions.  discontinue the separate enamel writer in favour of writer modes.|
 |7.0.2|HTML writing improvements (fork the writexml/toxml methods from minidom to versions that can reliably output data compatible with a plain-HTML parser).  accordingly more fully merge the NML writer code into the HTML writer code than before.|

@@ -28,9 +28,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from mdplay.utfsupport import unichr4all
+from mdplay import mdputil
 
-SMILEYS = dict([(unichr4all(k), v) for k, v in {
+SMILEYS = dict([(mdputil.unichr4all(k), v) for k, v in {
         0x263a: ':)',
         0x1f494: '</3',
         0x1f49c: '<3',

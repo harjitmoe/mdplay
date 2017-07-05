@@ -116,8 +116,16 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
             if "</" in node.data:
                 raise ValueError("'</' is not allowed in an implicit CDATA section")
             writer.write(node.data)
-        elif (mode == "xml") and isinstance(node, _d.CDATASection) \
-                and (node.data.find("]]>") < 0):
+        elif (mode == "xhtml") and implied_cdata:
+            # The needful polygloty here is difficult...
+            if "</" in node.data:
+                raise ValueError("'</' is not allowed in an implicit CDATA section (HTML)")
+            elif "]]>" in node.data:
+                raise ValueError("']]>' is not allowed in a CDATA section (XML)")
+            # Both CSS and JS support /* */ comments thank goodness...
+            writer.write("/* <![CDATA[ */\n" + node.data + "\n/* ]]> */")
+        elif (mode in ("xhtml", "xml") and isinstance(node, _d.CDATASection) \
+                and ("]]>" not in node.data)):
             writer.write("<![CDATA[%s]]>" % node.data)
         else:
             _write_data(writer, "%s%s%s" % (indent, node.data, newl), mode)

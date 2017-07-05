@@ -4,6 +4,14 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
+def unichr4all(n):
+    try:
+        return unichr(n)
+    except (ValueError, OverflowError):
+        main = n - 0x010000
+        s = unichr(0xD800 + (main // 1024)) + unichr(0xDC00 + (main % 1024))
+        return s
+
 def agglomerate(nodelist):
     """Given a list of nodes, fuse adjacent text nodes."""
     outlist = []

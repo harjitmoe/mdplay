@@ -7,7 +7,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
 from mdplay.emoji import twem2support, emoticon, eac
-from mdplay import utfsupport, nodes, uriregex
+from mdplay import mdputil, nodes, uriregex
 import collections, re, os, pprint
 
 #-------------------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ else:
         else:
             eacalt[_euc] = eac.eac[_euc]
         for _eucs in _euc2.split("-"):
-            _ec += utfsupport.unichr4all(int(_eucs, 16))
+            _ec += mdputil.unichr4all(int(_eucs, 16))
         eacd[eac.eac[_euc]["alpha code"].strip(":").encode("utf-8")] = _ec
         for _alias in eac.eac[_euc]["aliases"].split("|"):
             eacd[_alias.strip(":").encode("utf-8")] = _ec
@@ -85,7 +85,7 @@ def _utf16_ord(s):
 
 TWEM2 = {}
 for i2 in twem2support.TWEM:
-    i = tuple([utfsupport.unichr4all(int(j,16)) for j in i2.split("-")])
+    i = tuple([mdputil.unichr4all(int(j,16)) for j in i2.split("-")])
     if (len(i)>1) or (_utf16_ord(i[0])>0xff): #No fancy copyright symbols here mate
         TWEM2[i] = i2
 

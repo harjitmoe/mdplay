@@ -13,14 +13,17 @@ def help():
     sys.stderr.write("""\
 You put %s.
 
+Writer modes only used by the html renderer, those appropriate for
+general interchange are html and xhtml
+
+Writer flag html5 enables HTML5 output.  -5 (five) is a shorthand.
+
 For a list of flags, see flag_chart.md
 
 Parser flag "strict" disables syntax extensions, some of which are
 shared by other implementations.
 
 Parser flag notable isn't "notable", it's "no table".
-
-Writer flag html5 enables HTML5 output.  -5 (five) is a shorthand.
 """%sys.argv)
     sys.exit()
 

@@ -10,6 +10,17 @@ from mdplay.writers._writehtml import tohtml
 import re
 from xml.dom import minidom
 
+def _createScriptTag(content, document):
+    se = document.createElement("script")
+    se.setAttribute("type", "text/javascript")
+    script = document.createCDATASection(content)
+    se.appendChild(script)
+    return se
+
+def _shim_ht5_element(tag, document):
+    # Somethimes improves vintage MSIE support
+    return _createScriptTag("document.createElement(%r);" % tag, document)
+
 def html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
     return list(_html_out_part(nodem, document, in_list, flags=flags, mode=mode))
 
@@ -142,45 +153,50 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                     r3.appendChild(domn)
                 yield metar
             else:
-                metar = document.createElement("div")
+                if "html5" in flags:
+                    yield _shim_ht5_element("details", document)
+                    yield _shim_ht5_element("summary", document)
+                metar = document.createElement("details" if ("html5" in flags) else "div")
                 metar.setAttribute("class", 'spoilerwrapper')
-                r = document.createElement("p")
+                metar.setAttribute("style", 'display: block;')
+                r = document.createElement("summary" if ("html5" in flags) else "p")
+                r.setAttribute("style", 'display: block; color: blue; cursor: pointer; text-decoration: underline;')
                 metar.appendChild(r)
-                handler_script = "document.getElementById('spoil%d').style.display=(document.getElementById('spoil%d').style.display=='none')?('block'):('none');" % (mdputil.newid(node), mdputil.newid(node))
+                handler_script = "document.getElementById('spoil%d').style.display = (document.getElementById('spoil%d').style.display=='none')?('block'):('none');" % (mdputil.newid(node), mdputil.newid(node))
+                if "html5" in flags:
+                    handler_script = "if (!window.HTMLDetailsElement) { %s }" % (handler_script)
                 if not is_xhtml2:
-                    r2 = document.createElement("a")
-                    r.appendChild(r2)
-                    r2.setAttribute("href", 'javascript:void(0);')
                     # TODO is it possible to use DOMActivate as an attribute?
-                    # (the problem with click is that keyboard activation is nominally ignored)
-                    r2.setAttribute("onclick", handler_script)
+                    # (the problem with click is that keyboard activation is ignored)
+                    r.setAttribute("onclick", handler_script)
                 else:
-                    r.setAttribute("href", "#")
-                    r.setAttribute("ev:event", "DOMActivate")
-                    r.setAttribute("ev:handler", '#onclickspoil%d' % mdputil.newid(node))
-                    r.setAttribute("ev:defaultAction", "cancel")
-                    handler = document.createElement("script")
-                    handler.setAttribute("id", 'onclickspoil%d' % mdputil.newid(node))
-                    #handler.setAttribute("xml:id", 'onclickspoil%d' % mdputil.newid(node))
+                    r.setAttribute("href", "javascript:void(0);")
+                    r.setAttribute("id", 'observerspoil%d' % mdputil.newid(node))
+                    handler = _createScriptTag(handler_script, document)
                     handler.setAttribute("type", "text/javascript")
-                    hscript = document.createCDATASection("\n" + handler_script + "\n//")
-                    handler.appendChild(hscript)
+                    handler.setAttribute("ev:event", "DOMActivate")
+                    handler.setAttribute("ev:observer", '#observerspoil%d' % mdputil.newid(node))
+                    handler.setAttribute("ev:defaultAction", "cancel")
                     metar.appendChild(handler)
-                    r2 = r
                 if not node.label:
-                    r2.appendChild(document.createTextNode("Expand/Hide Spoiler"))
+                    r.appendChild(document.createTextNode("Expand/Hide Spoiler"))
                 else:
                     for domn in html_out_part(node.label, document, flags=flags, mode=mode):
-                        r2.appendChild(domn)
+                        r.appendChild(domn)
                 r3 = document.createElement("div")
                 metar.appendChild(r3)
                 r3.setAttribute("class", 'spoiler')
                 r3.setAttribute("id", 'spoil%d' % mdputil.newid(node))
-                #if mode != "html":
-                #    r3.setAttribute("xml:id", 'spoil%d' % mdputil.newid(node))
-                r3.setAttribute("style", 'display:none;')
+                r3.setAttribute("style", 'display: block; border: 1px solid black; margin: 0.5ex 0; padding: 0.5em;')
                 for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                     r3.appendChild(domn)
+                # If <details> not supported: hide the spoiler content until displayed by my onclick handler.
+                # If <details> is supported, then my display:block on the <summary> is unneeded; use browser defaults.
+                if "html5" in flags:
+                    r4 = _createScriptTag("if (!window.HTMLDetailsElement) { document.getElementById('spoil%d').style.display = 'none'; } else{ document.getElementById('spoil%d').parentNode.firstChild.style.display = null; }" % (mdputil.newid(node), mdputil.newid(node)), document)
+                else:
+                    r4 = _createScriptTag("document.getElementById('spoil%d').style.display = 'none';" % mdputil.newid(node), document)
+                metar.appendChild(r4)
                 yield metar
         elif isinstance(node, nodes.CodeBlockNode):
             r = document.createElement("pre" if not is_xhtml2 else "blockcode")

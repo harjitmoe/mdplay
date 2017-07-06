@@ -153,18 +153,37 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                     r3.appendChild(domn)
                 yield metar
             else:
-                if "html5" in flags:
-                    yield _shim_ht5_element("details", document)
-                    yield _shim_ht5_element("summary", document)
-                metar = document.createElement("details" if ("html5" in flags) else "div")
-                metar.setAttribute("class", 'spoilerwrapper')
-                metar.setAttribute("style", 'display: block;')
-                r = document.createElement("summary" if ("html5" in flags) else "p")
-                r.setAttribute("style", 'display: block; color: blue; cursor: pointer; text-decoration: underline;')
-                metar.appendChild(r)
+                # Set up wrapper and title/toggle, define event handler as appropriate
                 handler_script = "document.getElementById('spoil%d').style.display = (document.getElementById('spoil%d').style.display=='none')?('block'):('none');" % (mdputil.newid(node), mdputil.newid(node))
-                if "html5" in flags:
+                if "html5" not in flags:
+                    metar = document.createElement("div")
+                    metar.setAttribute("class", 'spoilerwrapper')
+                    r2 = document.createElement("p")
+                    metar.appendChild(r2)
+                    r = document.createElement("a")
+                    r2.appendChild(r)
+                    r.setAttribute("href", "javascript:void(0)")
+                else:
                     handler_script = "if (!window.HTMLDetailsElement) { %s }" % (handler_script)
+                    if is_xhtml2:
+                        metar = document.createElement("html:details")
+                        r = document.createElement("html:summary")
+                    else:
+                        yield _shim_ht5_element("details", document)
+                        yield _shim_ht5_element("summary", document)
+                        metar = document.createElement("details")
+                        r = document.createElement("summary")
+                    metar.appendChild(r)
+                    metar.setAttribute("class", 'spoilerwrapper')
+                    metar.setAttribute("style", 'display: block;')
+                    r.setAttribute("style", 'display: block; color: blue; cursor: pointer; text-decoration: underline;')
+                # Add text to title/toggle
+                if not node.label:
+                    r.appendChild(document.createTextNode("Expand/Hide Spoiler"))
+                else:
+                    for domn in html_out_part(node.label, document, flags=flags, mode=mode):
+                        r.appendChild(domn)
+                # Install event handler
                 if not is_xhtml2:
                     # TODO is it possible to use DOMActivate as an attribute?
                     # (the problem with click is that keyboard activation is ignored)
@@ -178,20 +197,15 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                     handler.setAttribute("ev:observer", '#observerspoil%d' % mdputil.newid(node))
                     handler.setAttribute("ev:defaultAction", "cancel")
                     metar.appendChild(handler)
-                if not node.label:
-                    r.appendChild(document.createTextNode("Expand/Hide Spoiler"))
-                else:
-                    for domn in html_out_part(node.label, document, flags=flags, mode=mode):
-                        r.appendChild(domn)
+                # Add spoiler content
                 r3 = document.createElement("div")
                 metar.appendChild(r3)
                 r3.setAttribute("class", 'spoiler')
                 r3.setAttribute("id", 'spoil%d' % mdputil.newid(node))
-                r3.setAttribute("style", 'display: block; border: 1px solid black; margin: 0.5ex 0; padding: 0.5em;')
+                r3.setAttribute("style", 'border: 1px solid black; margin: 0.5ex 0; padding: 0.5em;')
                 for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                     r3.appendChild(domn)
-                # If <details> not supported: hide the spoiler content until displayed by my onclick handler.
-                # If <details> is supported, then my display:block on the <summary> is unneeded; use browser defaults.
+                # Hde spoiler content if and only if browser doesn't support details element or it's not used
                 if "html5" in flags:
                     r4 = _createScriptTag("if (!window.HTMLDetailsElement) { document.getElementById('spoil%d').style.display = 'none'; } else{ document.getElementById('spoil%d').parentNode.firstChild.style.display = null; }" % (mdputil.newid(node), mdputil.newid(node)), document)
                 else:

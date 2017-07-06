@@ -7,7 +7,7 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay import nodes, umlaut, uriregex, cjk, emoji
+from mdplay import nodes, diacritic, uriregex, cjk, emoji
 from mdplay import htmlentitydefs_latest as htmlentitydefs
 
 punct=string.punctuation+string.whitespace
@@ -64,11 +64,11 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
             else:
                 c2,c3=c2[:1],c2[1:]
             try:
-                r=umlaut.umlaut(c2,c3).encode("utf-8")
+                r=diacritic.diacritic(c2,c3)
             except ValueError:
                 try:
                     if not braced:
-                        r=umlaut.umlaut(c2+c3,'').encode("utf-8")
+                        r=diacritic.diacritic(c2+c3,'')
                     else:
                         raise ValueError #yeah yeah I know
                 except ValueError:

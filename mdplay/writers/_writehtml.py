@@ -1,4 +1,17 @@
-"""HTML writer for minidom, derived from the XML writer of minidom."""
+"""HTML writer for minidom, derived from the XML writer of minidom.
+
+Modes:
+
+html: Well-formed plain HTML syntax.
+
+xhtml: XHTML syntax which should work with most plain HTML parsers.
+
+xml: XHTML but not suited for general interchange (reliant upon
+being parsed as XML syntax).
+
+nml: Naggum syntax, illustrative, not used in general interchange.
+
+"""
 
 __copying__ = """
 minidom is part of the Python Standard Library.
@@ -42,7 +55,7 @@ def _simul_replace(a, b, c, d, e):
 def _write_data(writer, data, mode="xml"):
     if data:
         data = unicode(data) # not str(data)
-        if mode == "xml": # not xhtml or html
+        if mode == "xml": # i.e. not xhtml or html
             data = data.replace("&", "&amp;").replace("<", "&lt;"). \
                         replace("\"", "&quot;").replace(">", "&gt;"). \
                         replace("'", "&apos;")
@@ -124,8 +137,8 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
                 raise ValueError("']]>' is not allowed in a CDATA section (XML)")
             # Both CSS and JS support /* */ comments thank goodness...
             writer.write("/* <![CDATA[ */\n" + node.data + "\n/* ]]> */")
-        elif (mode in ("xhtml", "xml") and isinstance(node, _d.CDATASection) \
-                and ("]]>" not in node.data)):
+        elif (mode == "xml") and isinstance(node, _d.CDATASection) \
+                and ("]]>" not in node.data):
             writer.write("<![CDATA[%s]]>" % node.data)
         else:
             _write_data(writer, "%s%s%s" % (indent, node.data, newl), mode)

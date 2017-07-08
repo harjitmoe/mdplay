@@ -4,11 +4,6 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-try:
-    StopIteration = StopIteration
-except NameError:
-    StopIteration = IndexError
-
 class LinestackIter(object):
     """Specialised iterator for a list of lines, allowing peeking as well as
     re-running of previously seen lines.
@@ -51,14 +46,4 @@ class LinestackIter(object):
     # Is itself an iterator, so its iterator is itself.
     def __iter__(self):
         return self
-    
-    # Wrappers for older iterator APIs
-    # In particular, next() is needed on Python 2.
-    def next(self):
-        return self.__next__()
-    def __getitem__(self,i):
-        if i==self._c:
-            return self.__next__()
-        else:
-            raise TypeError("indexing an iterator")
 

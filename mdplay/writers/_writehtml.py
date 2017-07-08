@@ -59,7 +59,7 @@ def _simul_replace(a, b, c, d, e):
 
 def _write_data(writer, data, mode="xml"):
     if data:
-        data = unicode(data) # not str(data)
+        data = str(data) # not str(data)
         if mode == "xml": # i.e. not xhtml or html
             data = data.replace("&", "&amp;").replace("<", "&lt;"). \
                         replace("\"", "&quot;").replace(">", "&gt;"). \
@@ -109,7 +109,7 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
         writer.write(indent+"<" + node.tagName)
         attrs = node.attributes
         if hasattr(attrs, "keys"): # minidom (implementing dict interface)
-            a_names = attrs.keys()
+            a_names = list(attrs.keys())
         else: # standard (allowing numerical indices, which minidom doesn't)
             a_names = [attrs[i].name for i in range(attrs.length)]
         a_names.sort()
@@ -201,13 +201,6 @@ def tohtml(node, encoding="utf-8", indent="", newl="", mode="xhtml",
            dommodule=xml.dom.minidom):
     # indent = the indentation string to prepend, per level
     # newl = the newline string to append
-    import StringIO # not cStringIO as Unicode issues apparently
-    writer = StringIO.StringIO()
-    if encoding is not None:
-        import codecs
-        # Can't use codecs.getwriter to preserve 2.0 compatibility
-        writer = codecs.lookup("utf-8")[3](writer)
-    r""" Note the preceeding code is from Python 2, following code is from Python 3:
     import io
     if encoding is None:
         writer = io.StringIO()
@@ -215,8 +208,11 @@ def tohtml(node, encoding="utf-8", indent="", newl="", mode="xhtml",
         writer = io.TextIOWrapper(io.BytesIO(),
                                   encoding=encoding,
                                   errors="xmlcharrefreplace",
-                                  newline='\n')"""
+                                  newline='\n')
     writehtml(node, writer, "", indent, newl, encoding=encoding, mode=mode,
               dommodule=dommodule)
-    return writer.getvalue() # writer.detach().getvalue() for TextIOWrapper
+    if encoding is None:
+        return writer.getvalue()
+    else:
+        return writer.detach().getvalue()
 

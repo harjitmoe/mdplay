@@ -7,25 +7,25 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 import unicodedata
 
 DIACRITICS = {
-    "`": u"\u0300", # Grave
-    "'": u"\u0301", # Acute
-    "^": u"\u0302", # Circumflex
-    "~": u"\u0303", # Tilde
-    "=": u"\u0304", # Macron
+    "`": "\u0300", # Grave
+    "'": "\u0301", # Acute
+    "^": "\u0302", # Circumflex
+    "~": "\u0303", # Tilde
+    "=": "\u0304", # Macron
     # 305: overline
-    "u": u"\u0306", # Breve or micron
+    "u": "\u0306", # Breve or micron
     # 307: dot above
-    '"': u"\u0308", # Trema or umlaut
+    '"': "\u0308", # Trema or umlaut
     # 309: comma above
-    "r": u"\u030a", # Ring
-    "H": u"\u030b", # Double actue
-    "v": u"\u030c", # Caron or h{\'a}{\vc}ek
+    "r": "\u030a", # Ring
+    "H": "\u030b", # Double actue
+    "v": "\u030c", # Caron or h{\'a}{\vc}ek
     # 30d: vertical dash above
     # 30e: two vertical dashes above
     # 30f: double grave
-    "c": u"\u0327", # Cedilla
-    "k": u"\u0328", # Ogonek
-    "B": u"\u0338", # Slash (see also SLASHES below)
+    "c": "\u0327", # Cedilla
+    "k": "\u0328", # Ogonek
+    "B": "\u0338", # Slash (see also SLASHES below)
 }
 
 SHORTHANDS = {
@@ -38,26 +38,26 @@ SHORTHANDS = {
 }
 
 DIGRAPHS = {
-    "OE": u"\u0152", # Microsoft 0x8c
-    "oe": u"\u0153", # Microsoft 0x9c
-    "AE": u"\u00c6",
-    "DH": u"\u00d0",
-    "TH": u"\u00de",
-    "ss": u"\u00df",
-    "ae": u"\u00e6",
-    "dh": u"\u00f0",
-    "th": u"\u00fe",
+    "OE": "\u0152", # Microsoft 0x8c
+    "oe": "\u0153", # Microsoft 0x9c
+    "AE": "\u00c6",
+    "DH": "\u00d0",
+    "TH": "\u00de",
+    "ss": "\u00df",
+    "ae": "\u00e6",
+    "dh": "\u00f0",
+    "th": "\u00fe",
 }
 
 SLASHES = {
     # While this dict was derived from code previously in umlaut.py, it was my
     # own code added in mdplay version 3.9 rather than from the original.
-    'o': u'\u00f8',
-    'O': u'\u00d8',
-    'D': u'\u0110',
-    'd': u'\u0111',
-    'L': u'\u0141',
-    'l': u'\u0142'
+    'o': '\u00f8',
+    'O': '\u00d8',
+    'D': '\u0110',
+    'd': '\u0111',
+    'L': '\u0141',
+    'l': '\u0142'
 }
 
 def diacritic(command, arg):
@@ -70,8 +70,8 @@ def diacritic(command, arg):
     elif command in DIACRITICS:
         return unicodedata.normalize(
             "NFC",
-            arg.decode("utf-8") + DIACRITICS[command]
-        ).encode("utf-8")
+            arg + DIACRITICS[command]
+        )
     else:
         raise ValueError("unsupported diacritic: " + command + " with " + arg)
 

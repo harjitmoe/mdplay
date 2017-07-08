@@ -6,20 +6,17 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 def unichr4all(n):
     try:
-        return unichr(n)
+        return chr(n)
     except (ValueError, OverflowError):
         main = n - 0x010000
-        s = unichr(0xD800 + (main // 1024)) + unichr(0xDC00 + (main % 1024))
+        s = chr(0xD800 + (main // 1024)) + chr(0xDC00 + (main % 1024))
         return s
 
 def agglomerate(nodelist):
     """Given a list of nodes, fuse adjacent text nodes."""
     outlist = []
     for i in nodelist:
-        #NOTE: assumes Python 2
-        if isinstance(i,type(u"")):
-            i = i.encode("utf-8")
-        if isinstance(i,type("")) and outlist and isinstance(outlist[-1],type("")): #NOT elif
+        if isinstance(i,type("")) and outlist and isinstance(outlist[-1],type("")):
             outlist[-1] += i
         else:
             outlist.append(i)

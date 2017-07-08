@@ -36,15 +36,15 @@ def html_out_body(nodel,flags=()):
 #import htmlentitydefs
 from mdplay import htmlentitydefs_latest as htmlentitydefs
 def _escape(text,html5=0):
-    text=text.decode("utf-8").replace(u"&",u"&amp;") #must be done first, else others get broken.
+    text=text.decode("utf-8").replace("&","&amp;") #must be done first, else others get broken.
     if not html5:
-        keys=htmlentitydefs.name2codepoint.keys()
+        keys=list(htmlentitydefs.name2codepoint.keys())
     else:
-        keys=htmlentitydefs.html5.keys()
+        keys=list(htmlentitydefs.html5.keys())
     for name in keys:
         if name!="amp":
             if not html5:
-                codept=unichr(htmlentitydefs.name2codepoint[name])
+                codept=chr(htmlentitydefs.name2codepoint[name])
             else:
                 codept=htmlentitydefs.html5[name]
             if (ord(codept)<0xff) and (name not in htmlentitydefs.name2codepoint):

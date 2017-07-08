@@ -57,12 +57,12 @@ class _PF(object):
     def push_front(self,i):
         self.pf.insert(0,i)
     def __iter__(self): return self
-    def __next__(self): return self.next()
-    def next(self):
+    def __next__(self): return next(self)
+    def __next__(self):
         if self.pf: return self.pf.pop(0)
         self.cou += 1
         try: return self.it.__next__()
-        except AttributeError: return self.it.next()
+        except AttributeError: return next(self.it)
 
 def parse_roma(itr, force="none"):
     """Real-time user input roomaji parser / simplifier.
@@ -126,7 +126,7 @@ def parse_roma(itr, force="none"):
     gagh.cou = 0
     while 1:
         try:
-            c = gagh.next()
+            c = next(gagh)
             if c: c=c.lower()
         except StopIteration:
             c = None
@@ -157,7 +157,7 @@ def parse_roma(itr, force="none"):
         elif (force != "kunrei") and (gli1 == gli2 == vow == None) and (con=="t") and (c=="c"):
             siz = con+siz
             con = c
-        elif (gli1 == gli2 == vow == None) and ( (c in glide) or (c and con and (con in "td") and (c=="'")) or (c and con and (con+c in assocs.keys()) and (force != "kunrei")) ):
+        elif (gli1 == gli2 == vow == None) and ( (c in glide) or (c and con and (con in "td") and (c=="'")) or (c and con and (con+c in list(assocs.keys())) and (force != "kunrei")) ):
             gli1 = c
         elif (gli2 == vow == None) and (c in glide):
             gli2 = c
@@ -199,7 +199,7 @@ def parse_roma(itr, force="none"):
                         gagh.cou -= 1
                         xcou = 1
                     norma = "-"
-                elif (not gli2) and gli1 and ((con+gli1) in assocs.keys()):
+                elif (not gli2) and gli1 and ((con+gli1) in list(assocs.keys())):
                     if c not in termina:
                         gagh.cou -= 1
                         xcou = 1
@@ -213,14 +213,14 @@ def parse_roma(itr, force="none"):
                     if c not in termina:
                         gagh.cou -= 1
                         xcou = 1
-                    if con in assocs.keys():
+                    if con in list(assocs.keys()):
                         aso = assocs[con]
                     else:
                         aso = con+"u"
                     #
                     if (not siz) and (aso in nonglide_have_lil):
                         norma = "x"+aso
-                    elif (force != "kunrei") and (aso[:-1] == con) and (aso in assocs.values()) and (aso not in assocs_selfplain):
+                    elif (force != "kunrei") and (aso[:-1] == con) and (aso in list(assocs.values())) and (aso not in assocs_selfplain):
                         norma = _proc_siz(siz)+con+"o"
                     else:
                         norma = _proc_siz(siz)+aso
@@ -241,7 +241,7 @@ def parse_roma(itr, force="none"):
                         norma = _proc_siz(siz)+"wox"+vow
                 elif (con == "y") and (vow in no_yagyoo):
                     norma = _proc_siz(siz)+"ix"+vow
-                elif con in assocs.keys():
+                elif con in list(assocs.keys()):
                     aso = assocs[con]
                     if vow == aso[-1]:
                         norma = _proc_siz(siz)+aso
@@ -293,7 +293,7 @@ def parse_roma(itr, force="none"):
                     else:
                         norma = _proc_siz(siz)+aso+"xix"+vow
                 elif gli1 == "h":
-                    if con in assoc2.keys():
+                    if con in list(assoc2.keys()):
                         norma = _proc_siz(siz)+assoc2[con]+"x"+vow
                     elif (vow in no_lil_yagyoo):
                         norma = _proc_siz(siz)+con+"ex"+vow
@@ -348,13 +348,15 @@ def parse_roma(itr, force="none"):
     if ovf:
         yield (ovf, None, gagh.cou)
 
-_to_kana = {'gu': '\xe3\x82\xb0', 'xra': '\xe3\x87\xbb', 'ge': '\xe3\x82\xb2', 'ga': '\xe3\x82\xac', 'go': '\xe3\x82\xb4', 'gi': '\xe3\x82\xae', 'xyu': '\xe3\x83\xa5', 'xtu': '\xe3\x83\x83', 'tu': '\xe3\x83\x84', 'to': '\xe3\x83\x88', 'ti': '\xe3\x83\x81', 'xto': '\xe3\x87\xb3', 'xmu': '\xe3\x87\xba', '^': '\xe3\x83\xbc', 'ta': '\xe3\x82\xbf', 'do': '\xe3\x83\x89', 'yo': '\xe3\x83\xa8', 'di': '\xe3\x83\x82', 'ya': '\xe3\x83\xa4', 'de': '\xe3\x83\x87', 'da': '\xe3\x83\x80', 'du': '\xe3\x83\x85', 'yu': '\xe3\x83\xa6', 'xsu': '\xe3\x87\xb2', 't': '\xe3\x83\x83', 'xsi': '\xe3\x87\xb1', 'mo': '\xe3\x83\xa2', 'zo': '\xe3\x82\xbe', 'zi': '\xe3\x82\xb8', 'ze': '\xe3\x82\xbc', 'za': '\xe3\x82\xb6', 'zu': '\xe3\x82\xba', 'ru': '\xe3\x83\xab', 're': '\xe3\x83\xac', 'ra': '\xe3\x83\xa9', 'ro': '\xe3\x83\xad', 'ri': '\xe3\x83\xaa', 'be': '\xe3\x83\x99', 'we': '\xe3\x83\xb1', 'ba': '\xe3\x83\x90', 'wa': '\xe3\x83\xaf', 'wo': '\xe3\x83\xb2', 'bo': '\xe3\x83\x9c', 'bi': '\xe3\x83\x93', 'wi': '\xe3\x83\xb0', 'bu': '\xe3\x83\x96', 'mi': '\xe3\x83\x9f', 'xnu': '\xe3\x87\xb4', 'o': '\xe3\x82\xaa', '~': '\xe3\x80\x9c', 'xu': '\xe3\x82\xa5', 'xi': '\xe3\x82\xa3', 'xo': '\xe3\x82\xa9', 'xa': '\xe3\x82\xa1', 'xe': '\xe3\x82\xa7', 'xya': '\xe3\x83\xa3', 'xyo': '\xe3\x83\xa7', 'pu': '\xe3\x83\x97', '.': '\xe3\x80\x82', 'pa': '\xe3\x83\x91', 'pe': '\xe3\x83\x9a', 'pi': '\xe3\x83\x94', 'po': '\xe3\x83\x9d', 'hu': '\xe3\x83\x95', 'hi': '\xe3\x83\x92', 'ho': '\xe3\x83\x9b', 'ha': '\xe3\x83\x8f', 'he': '\xe3\x83\x98', 'me': '\xe3\x83\xa1', 'xha': '\xe3\x87\xb5', 'te': '\xe3\x83\x86', 'ma': '\xe3\x83\x9e', 'xhe': '\xe3\x87\xb8', 'xhi': '\xe3\x87\xb6', 'xho': '\xe3\x87\xb9', 'mu': '\xe3\x83\xa0', 'xhu': '\xe3\x87\xb7', 'xwa': '\xe3\x83\xae', 'va': '\xe3\x83\xb7', 've': '\xe3\x83\xb9', 'vi': '\xe3\x83\xb8', 'vo': '\xe3\x83\xba', 'vu': '\xe3\x83\xb4', 'ni': '\xe3\x83\x8b', 'xro': '\xe3\x87\xbf', 'xri': '\xe3\x87\xbc', 'no': '\xe3\x83\x8e', 'xre': '\xe3\x87\xbe', 'na': '\xe3\x83\x8a', 'xka': '\xe3\x83\xb5', '-': '\xe3\x83\xbc', 'ne': '\xe3\x83\x8d', 'xke': '\xe3\x83\xb6', 'xru': '\xe3\x87\xbd', 'u': '\xe3\x82\xa6', 'nu': '\xe3\x83\x8c', 'xku': '\xe3\x87\xb0', 'a': '\xe3\x82\xa2', 'ka': '\xe3\x82\xab', 'e': '\xe3\x82\xa8', 'ye': '\xf0\x9b\x80\x81', 'ke': '\xe3\x82\xb1', 'i': '\xe3\x82\xa4', 'ki': '\xe3\x82\xad', 'ko': '\xe3\x82\xb3', 'su': '\xe3\x82\xb9', "n'": '\xe3\x83\xb3', 'si': '\xe3\x82\xb7', 'so': '\xe3\x82\xbd', 'ku': '\xe3\x82\xaf', 'sa': '\xe3\x82\xb5', 'se': '\xe3\x82\xbb'}
+_to_kana = {'gu': '\u30b0', '-': '\u30fc', 'ge': '\u30b2', 'ga': '\u30ac', 'go': '\u30b4', 'gi': '\u30ae', 'xo': '\u30a9', 'xtu': '\u30c3', 'tu': '\u30c4', 'to': '\u30c8', 'ti': '\u30c1', 'xto': '\u31f3', 'xmu': '\u31fa', '^': '\u30fc', 'ta': '\u30bf', 'do': '\u30c9', 'yo': '\u30e8', 'di': '\u30c2', 'ya': '\u30e4', 'de': '\u30c7', 'ye': '\U0001b001', 'da': '\u30c0', 'du': '\u30c5', 'yu': '\u30e6', 'xsu': '\u31f2', 't': '\u30c3', 'xsi': '\u31f1', 'xhi': '\u31f6', 'zo': '\u30be', 'zi': '\u30b8', 'ze': '\u30bc', 'za': '\u30b6', 'zu': '\u30ba', 'ru': '\u30eb', 're': '\u30ec', 'ra': '\u30e9', 'ro': '\u30ed', 'ri': '\u30ea', 'be': '\u30d9', 'we': '\u30f1', 'ba': '\u30d0', 'wa': '\u30ef', 'wo': '\u30f2', 'bo': '\u30dc', 'bi': '\u30d3', 'wi': '\u30f0', 'bu': '\u30d6', 'xyo': '\u30e7', 'xnu': '\u31f4', 'so': '\u30bd', 'o': '\u30aa', '~': '\u301c', 'xi': '\u30a3', 'xyu': '\u30e5', 'xa': '\u30a1', 'xe': '\u30a7', 'xya': '\u30e3', 'xu': '\u30a5', 'pu': '\u30d7', '.': '\u3002', 'pa': '\u30d1', 'pe': '\u30da', 'pi': '\u30d4', 'po': '\u30dd', 'hu': '\u30d5', 'hi': '\u30d2', 'ho': '\u30db', 'ha': '\u30cf', 'he': '\u30d8', 'me': '\u30e1', 'xha': '\u31f5', 'te': '\u30c6', 'ma': '\u30de', 'xhe': '\u31f8', 'mo': '\u30e2', 'xho': '\u31f9', 'mu': '\u30e0', 'xhu': '\u31f7', 'xwa': '\u30ee', 'va': '\u30f7', 've': '\u30f9', 'vi': '\u30f8', 'vo': '\u30fa', 'vu': '\u30f4', 'ni': '\u30cb', 'xro': '\u31ff', 'xri': '\u31fc', 'no': '\u30ce', 'xre': '\u31fe', 'na': '\u30ca', 'xka': '\u30f5', 'xra': '\u31fb', 'ne': '\u30cd', 'xke': '\u30f6', 'xru': '\u31fd', 'mi': '\u30df', 'nu': '\u30cc', 'xku': '\u31f0', 'a': '\u30a2', 'ka': '\u30ab', 'e': '\u30a8', 'ke': '\u30b1', 'i': '\u30a4', 'ki': '\u30ad', 'ko': '\u30b3', 'su': '\u30b9', "n'": '\u30f3', 'si': '\u30b7', 'u': '\u30a6', 'ku': '\u30af', 'sa': '\u30b5', 'se': '\u30bb'}
+
 
 #Note: do not add Small Ke - must remain Katakana.
-_katahiral = [('\xe3\x82\xa1', '\xe3\x81\x81'), ('\xe3\x82\xa2', '\xe3\x81\x82'), ('\xe3\x82\xa3', '\xe3\x81\x83'), ('\xe3\x82\xa4', '\xe3\x81\x84'), ('\xe3\x82\xa5', '\xe3\x81\x85'), ('\xe3\x82\xa6', '\xe3\x81\x86'), ('\xe3\x82\xa7', '\xe3\x81\x87'), ('\xe3\x82\xa8', '\xe3\x81\x88'), ('\xe3\x82\xa9', '\xe3\x81\x89'), ('\xe3\x82\xaa', '\xe3\x81\x8a'), ('\xe3\x82\xab', '\xe3\x81\x8b'), ('\xe3\x82\xac', '\xe3\x81\x8c'), ('\xe3\x82\xad', '\xe3\x81\x8d'), ('\xe3\x82\xae', '\xe3\x81\x8e'), ('\xe3\x82\xaf', '\xe3\x81\x8f'), ('\xe3\x82\xb0', '\xe3\x81\x90'), ('\xe3\x82\xb1', '\xe3\x81\x91'), ('\xe3\x82\xb2', '\xe3\x81\x92'), ('\xe3\x82\xb3', '\xe3\x81\x93'), ('\xe3\x82\xb4', '\xe3\x81\x94'), ('\xe3\x82\xb5', '\xe3\x81\x95'), ('\xe3\x82\xb6', '\xe3\x81\x96'), ('\xe3\x82\xb7', '\xe3\x81\x97'), ('\xe3\x82\xb8', '\xe3\x81\x98'), ('\xe3\x82\xb9', '\xe3\x81\x99'), ('\xe3\x82\xba', '\xe3\x81\x9a'), ('\xe3\x82\xbb', '\xe3\x81\x9b'), ('\xe3\x82\xbc', '\xe3\x81\x9c'), ('\xe3\x82\xbd', '\xe3\x81\x9d'), ('\xe3\x82\xbe', '\xe3\x81\x9e'), ('\xe3\x82\xbf', '\xe3\x81\x9f'), ('\xe3\x83\x80', '\xe3\x81\xa0'), ('\xe3\x83\x81', '\xe3\x81\xa1'), ('\xe3\x83\x82', '\xe3\x81\xa2'), ('\xe3\x83\x83', '\xe3\x81\xa3'), ('\xe3\x83\x84', '\xe3\x81\xa4'), ('\xe3\x83\x85', '\xe3\x81\xa5'), ('\xe3\x83\x86', '\xe3\x81\xa6'), ('\xe3\x83\x87', '\xe3\x81\xa7'), ('\xe3\x83\x88', '\xe3\x81\xa8'), ('\xe3\x83\x89', '\xe3\x81\xa9'), ('\xe3\x83\x8a', '\xe3\x81\xaa'), ('\xe3\x83\x8b', '\xe3\x81\xab'), ('\xe3\x83\x8c', '\xe3\x81\xac'), ('\xe3\x83\x8d', '\xe3\x81\xad'), ('\xe3\x83\x8e', '\xe3\x81\xae'), ('\xe3\x83\x8f', '\xe3\x81\xaf'), ('\xe3\x83\x90', '\xe3\x81\xb0'), ('\xe3\x83\x91', '\xe3\x81\xb1'), ('\xe3\x83\x92', '\xe3\x81\xb2'), ('\xe3\x83\x93', '\xe3\x81\xb3'), ('\xe3\x83\x94', '\xe3\x81\xb4'), ('\xe3\x83\x95', '\xe3\x81\xb5'), ('\xe3\x83\x96', '\xe3\x81\xb6'), ('\xe3\x83\x97', '\xe3\x81\xb7'), ('\xe3\x83\x98', '\xe3\x81\xb8'), ('\xe3\x83\x99', '\xe3\x81\xb9'), ('\xe3\x83\x9a', '\xe3\x81\xba'), ('\xe3\x83\x9b', '\xe3\x81\xbb'), ('\xe3\x83\x9c', '\xe3\x81\xbc'), ('\xe3\x83\x9d', '\xe3\x81\xbd'), ('\xe3\x83\x9e', '\xe3\x81\xbe'), ('\xe3\x83\x9f', '\xe3\x81\xbf'), ('\xe3\x83\xa0', '\xe3\x82\x80'), ('\xe3\x83\xa1', '\xe3\x82\x81'), ('\xe3\x83\xa2', '\xe3\x82\x82'), ('\xe3\x83\xa3', '\xe3\x82\x83'), ('\xe3\x83\xa4', '\xe3\x82\x84'), ('\xe3\x83\xa5', '\xe3\x82\x85'), ('\xe3\x83\xa6', '\xe3\x82\x86'), ('\xe3\x83\xa7', '\xe3\x82\x87'), ('\xe3\x83\xa8', '\xe3\x82\x88'), ('\xe3\x83\xa9', '\xe3\x82\x89'), ('\xe3\x83\xaa', '\xe3\x82\x8a'), ('\xe3\x83\xab', '\xe3\x82\x8b'), ('\xe3\x83\xac', '\xe3\x82\x8c'), ('\xe3\x83\xad', '\xe3\x82\x8d'), ('\xe3\x83\xae', '\xe3\x82\x8e'), ('\xe3\x83\xaf', '\xe3\x82\x8f'), ('\xe3\x83\xb0', '\xe3\x82\x90'), ('\xe3\x83\xb1', '\xe3\x82\x91'), ('\xe3\x83\xb2', '\xe3\x82\x92'), ('\xe3\x83\xb3', '\xe3\x82\x93'), ('\xe3\x83\xb4', '\xe3\x82\x94')]
+_katahiral = [('\u30a1', '\u3041'), ('\u30a2', '\u3042'), ('\u30a3', '\u3043'), ('\u30a4', '\u3044'), ('\u30a5', '\u3045'), ('\u30a6', '\u3046'), ('\u30a7', '\u3047'), ('\u30a8', '\u3048'), ('\u30a9', '\u3049'), ('\u30aa', '\u304a'), ('\u30ab', '\u304b'), ('\u30ac', '\u304c'), ('\u30ad', '\u304d'), ('\u30ae', '\u304e'), ('\u30af', '\u304f'), ('\u30b0', '\u3050'), ('\u30b1', '\u3051'), ('\u30b2', '\u3052'), ('\u30b3', '\u3053'), ('\u30b4', '\u3054'), ('\u30b5', '\u3055'), ('\u30b6', '\u3056'), ('\u30b7', '\u3057'), ('\u30b8', '\u3058'), ('\u30b9', '\u3059'), ('\u30ba', '\u305a'), ('\u30bb', '\u305b'), ('\u30bc', '\u305c'), ('\u30bd', '\u305d'), ('\u30be', '\u305e'), ('\u30bf', '\u305f'), ('\u30c0', '\u3060'), ('\u30c1', '\u3061'), ('\u30c2', '\u3062'), ('\u30c3', '\u3063'), ('\u30c4', '\u3064'), ('\u30c5', '\u3065'), ('\u30c6', '\u3066'), ('\u30c7', '\u3067'), ('\u30c8', '\u3068'), ('\u30c9', '\u3069'), ('\u30ca', '\u306a'), ('\u30cb', '\u306b'), ('\u30cc', '\u306c'), ('\u30cd', '\u306d'), ('\u30ce', '\u306e'), ('\u30cf', '\u306f'), ('\u30d0', '\u3070'), ('\u30d1', '\u3071'), ('\u30d2', '\u3072'), ('\u30d3', '\u3073'), ('\u30d4', '\u3074'), ('\u30d5', '\u3075'), ('\u30d6', '\u3076'), ('\u30d7', '\u3077'), ('\u30d8', '\u3078'), ('\u30d9', '\u3079'), ('\u30da', '\u307a'), ('\u30db', '\u307b'), ('\u30dc', '\u307c'), ('\u30dd', '\u307d'), ('\u30de', '\u307e'), ('\u30df', '\u307f'), ('\u30e0', '\u3080'), ('\u30e1', '\u3081'), ('\u30e2', '\u3082'), ('\u30e3', '\u3083'), ('\u30e4', '\u3084'), ('\u30e5', '\u3085'), ('\u30e6', '\u3086'), ('\u30e7', '\u3087'), ('\u30e8', '\u3088'), ('\u30e9', '\u3089'), ('\u30ea', '\u308a'), ('\u30eb', '\u308b'), ('\u30ec', '\u308c'), ('\u30ed', '\u308d'), ('\u30ee', '\u308e'), ('\u30ef', '\u308f'), ('\u30f0', '\u3090'), ('\u30f1', '\u3091'), ('\u30f2', '\u3092'), ('\u30f3', '\u3093'), ('\u30f4', '\u3094')]
+
 
 _katahira = dict(_katahiral)
-_hirakata = dict(zip(*zip(*_katahiral)[::-1]))
+_hirakata = dict(zip(_katahira.values(), _katahira.keys()))
 
 def unicify(j):
     """Convert parse_roma output to Unicode kana.
@@ -363,7 +365,7 @@ def unicify(j):
     user input, use kanafy, which runs it through parse_roma first.
     For real-time user input, use in conjunction with parse_roma.
     """
-    r = u""
+    r = ""
     while j:
         u = j
         j = ""
@@ -374,7 +376,7 @@ def unicify(j):
             r += j[0]
             j=j[1:]
         elif u:
-            r += _to_kana[u].decode("utf-8")
+            r += _to_kana[u]
     return r
 
 class _StringGenIter(object):
@@ -385,8 +387,8 @@ class _StringGenIter(object):
     rrom = None
     def __init__(self,roma): self.rrom = list(roma)
     def __iter__(self): return self
-    def __next__(self): return self.next()
-    def next(self):
+    def __next__(self): return next(self)
+    def __next__(self):
         if self.nulo:
             self.out += "\n"
             self.nulo = 0
@@ -410,18 +412,18 @@ def kanafy(roma, force="none"):
     """
     ftdi = _StringGenIter(roma)
     for i,j,cou in parse_roma(ftdi, force):
-        ftdi.out += i+unicify(j).encode("utf-8")
-    return ftdi.out.decode("utf-8")
+        ftdi.out += i+unicify(j)
+    return ftdi.out
 
 def _aggloma(func):
-    return lambda i,func=func:u"".join(tuple(func(i)))
+    return lambda i,func=func:"".join(tuple(func(i)))
 
 @_aggloma
 def hiraise(input):
     """Convert Unicode Katakana to Hiragana."""
     for i in input:
-        if i.encode("utf-8") in _katahira.keys():
-            yield _katahira[i.encode("utf-8")].decode("utf-8")
+        if i in list(_katahira.keys()):
+            yield _katahira[i]
         else:
             yield i
 
@@ -429,8 +431,8 @@ def hiraise(input):
 def kataise(input):
     """Convert Unicode Hiragana to Katakana."""
     for i in input:
-        if i.encode("utf-8") in _hirakata.keys():
-            yield _hirakata[i.encode("utf-8")].decode("utf-8")
+        if i in list(_hirakata.keys()):
+            yield _hirakata[i]
         else:
             yield i
 
@@ -443,8 +445,8 @@ if __name__=="__main__":
         loge = ""
         nulo = 0
         def __iter__(self): return self
-        def __next__(self): return self.next()
-        def next(self):
+        def __next__(self): return next(self)
+        def __next__(self):
             if self.nulo:
                 sys.stdout.write("\r\n") #Yes, both (raw mode, so LF is literal LF)
                 self.nulo = 0
@@ -469,7 +471,7 @@ if __name__=="__main__":
                     self.count -= 1
                     self.pending, self.filed = self.filed[:-1], ""
                     return "\0"
-                return self.next()
+                return next(self)
             if (len(r)==1) and (0x20<=ord(r)<0x7f):
                 self.loge += r
                 sys.stdout.write(r)

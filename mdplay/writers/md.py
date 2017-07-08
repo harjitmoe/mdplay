@@ -148,14 +148,14 @@ def _md_out_body(node,flags=()):
             return line
         for row in rows_header:
             if row and (not row[0].strip()): row[0]="\\"
-            lines=zip(*[i.split("\n") for i in row])
+            lines=list(zip(*[i.split("\n") for i in row]))
             for line in lines:
                 if line:
                     r+=(" ".join(map(pad_to_len,line[:-1],column_guage[:-1])))+" "+line[-1]+"\n"
         r+=rule
         for row in rows_body:
             if row and (not row[0].strip()): row[0]="\\"
-            lines=zip(*[i.split("\n") for i in row])
+            lines=list(zip(*[i.split("\n") for i in row]))
             for line in lines:
                 if line:
                     r+=(" ".join(map(pad_to_len,line[:-1],column_guage[:-1])))+" "+line[-1]+"\n"

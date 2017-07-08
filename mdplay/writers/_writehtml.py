@@ -67,7 +67,7 @@ def _write_data(writer, data, mode="xml"):
                          replace("<", "[lt]").replace(">", "[gt]")
         writer.write(data)
 
-def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mode="xhtml", implied_cdata=False):
+def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mode="xhtml", is_implied_cdata=False):
     # indent = current indentation
     # addindent = indentation to add to higher levels
     # newl = newline string
@@ -97,11 +97,11 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
             writer.write(">" if mode != "nml" else "|")
             if (len(node.childNodes) == 1 and
                     node.childNodes[0].nodeType == _d.Node.TEXT_NODE):
-                writehtml(node.childNodes[0], writer, '', '', '', mode=mode, implied_cdata=icd)
+                writehtml(node.childNodes[0], writer, '', '', '', mode=mode, is_implied_cdata=icd)
             else:
                 writer.write(newl)
                 for cnode in node.childNodes:
-                    writehtml(cnode, writer, indent+addindent, addindent, newl, mode=mode, implied_cdata=icd)
+                    writehtml(cnode, writer, indent+addindent, addindent, newl, mode=mode, is_implied_cdata=icd)
                 writer.write(indent)
             if mode != "nml":
                 writer.write("</%s>%s" % (node.tagName, newl))
@@ -125,11 +125,11 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
                 else:
                     writer.write("></%s>%s" % (node.tagName, newl))
     elif isinstance(node, _d.Text):
-        if (mode == "html") and implied_cdata:
+        if (mode == "html") and is_implied_cdata:
             if "</" in node.data:
                 raise ValueError("'</' is not allowed in an implicit CDATA section")
             writer.write(node.data)
-        elif (mode == "xhtml") and implied_cdata:
+        elif (mode == "xhtml") and is_implied_cdata:
             # The needful polygloty here is difficult...
             if "</" in node.data:
                 raise ValueError("'</' is not allowed in an implicit CDATA section (HTML)")
@@ -142,7 +142,7 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
             writer.write("<![CDATA[%s]]>" % node.data)
         else:
             _write_data(writer, "%s%s%s" % (indent, node.data, newl), mode)
-    # Undefined what the following are supposed to be rendered as in NML:
+    # Undefined what (if anything) the following are supposed to be rendered as in NML:
     elif isinstance(node, _d.DocumentType):
         if mode != "nml":
             writer.write("<!DOCTYPE ")

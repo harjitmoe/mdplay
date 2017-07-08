@@ -1,4 +1,4 @@
-"""HTML writer for minidom, derived from the XML writer of minidom.
+"""HTML writer for the DOM, derived from the XML writer of minidom.
 
 Modes:
 
@@ -21,8 +21,9 @@ Copy of the Python licence incuded as LICENSE-Python.txt
 This file is a derivative work by Thomas Hori, may be used under same terms.
 """
 
-import xml.dom.minidom as _d
+import xml.dom.minidom
 
+# Empty elements from HTML5 and HTML4-Transitional, called "void elements" in HTML5.
 ALL_HTML_EMPTY_ELEMENTS = """\
 area
 base
@@ -43,7 +44,11 @@ source
 track
 wbr""".split()
 
+# Elements that are CDATA in HTML (not XHTML), HTML5's "raw text elements".
 ALL_HTML_CDATA_ELEMENTS = ("script", "style")
+
+# Elements that are PCDATA in HTML, HTML5's "escapable raw text elements".
+ALL_HTML_PCDATA_ELEMENTS = ("textarea", "title")
 
 def _simul_replace(a, b, c, d, e):
     """Simultaneously replace (b with c) and (d with e) in a, returning the result."""
@@ -67,20 +72,47 @@ def _write_data(writer, data, mode="xml"):
                          replace("<", "[lt]").replace(">", "[gt]")
         writer.write(data)
 
-def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mode="xhtml", is_implied_cdata=False):
+def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mode="xhtml", 
+              parenttag=None, dommodule=xml.dom.minidom):
     # indent = current indentation
     # addindent = indentation to add to higher levels
     # newl = newline string
-    if isinstance(node, _d.Element):
+    is_implied_cdata = parenttag in ALL_HTML_CDATA_ELEMENTS
+    is_pcdata = parenttag in ALL_HTML_PCDATA_ELEMENTS
+    _d = dommodule
+    if isinstance(node, _d.Text):
+        if (mode == "html") and is_implied_cdata:
+            if "</" in node.data: # HTML5 is a bit more lenient here but whatever...
+                raise ValueError("'</' is not allowed in a %s element" % parenttag)
+            writer.write(node.data)
+        elif (mode == "xhtml") and is_implied_cdata:
+            # The needful polygloty here is difficult...
+            if "</" in node.data:
+                raise ValueError("'</' is not allowed in a %s element" % parenttag)
+            elif "]]>" in node.data:
+                raise ValueError("']]>' is not allowed in a %s element" % parenttag)
+            # Both CSS and JS support /* */ comments thank goodness...
+            writer.write("/* <![CDATA[ */\n" + node.data + "\n/* ]]> */")
+        elif (mode == "xml") and isinstance(node, _d.CDATASection) \
+                and ("]]>" not in node.data):
+            writer.write("<![CDATA[%s]]>" % node.data)
+        else:
+            _write_data(writer, "%s%s%s" % (indent, node.data, newl), mode)
+    elif (is_implied_cdata or is_pcdata) and (mode in ("html", "xhtml")):
+        raise ValueError("%s nodes are not allowed in a %s element"
+            % (node.__class__.__name__, parenttag))
+    elif isinstance(node, _d.Element):
+        if is_pcdata or is_implied_cdata:
+            raise ValueError
         if (mode == "nml") and ("|" in node.tagName):
             raise ValueError("pipe in tag name %r" % node.tagName)
         writer.write(indent+"<" + node.tagName)
         attrs = node.attributes
         if hasattr(attrs, "keys"): # minidom (implementing dict interface)
             a_names = attrs.keys()
-            a_names.sort()
         else: # standard (allowing numerical indices, which minidom doesn't)
-            a_names = [attrs[i].name for i in range(attrmap.length)]
+            a_names = [attrs[i].name for i in range(attrs.length)]
+        a_names.sort()
         for a_name in a_names:
             if mode != "nml":
                 writer.write(" %s=\"" % a_name)
@@ -93,15 +125,14 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
                 _write_data(writer, attrs[a_name].value, mode)
                 writer.write(">")
         if node.childNodes:
-            icd = node.tagName in ALL_HTML_CDATA_ELEMENTS
             writer.write(">" if mode != "nml" else "|")
             if (len(node.childNodes) == 1 and
                     node.childNodes[0].nodeType == _d.Node.TEXT_NODE):
-                writehtml(node.childNodes[0], writer, '', '', '', mode=mode, is_implied_cdata=icd)
+                writehtml(node.childNodes[0], writer, '', '', '', mode=mode, parenttag=node.tagName)
             else:
                 writer.write(newl)
                 for cnode in node.childNodes:
-                    writehtml(cnode, writer, indent+addindent, addindent, newl, mode=mode, is_implied_cdata=icd)
+                    writehtml(cnode, writer, indent+addindent, addindent, newl, mode=mode, parenttag=node.tagName)
                 writer.write(indent)
             if mode != "nml":
                 writer.write("</%s>%s" % (node.tagName, newl))
@@ -124,24 +155,6 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
                     writer.write(">%s" % (newl))
                 else:
                     writer.write("></%s>%s" % (node.tagName, newl))
-    elif isinstance(node, _d.Text):
-        if (mode == "html") and is_implied_cdata:
-            if "</" in node.data:
-                raise ValueError("'</' is not allowed in an implicit CDATA section")
-            writer.write(node.data)
-        elif (mode == "xhtml") and is_implied_cdata:
-            # The needful polygloty here is difficult...
-            if "</" in node.data:
-                raise ValueError("'</' is not allowed in an implicit CDATA section (HTML)")
-            elif "]]>" in node.data:
-                raise ValueError("']]>' is not allowed in a CDATA section (XML)")
-            # Both CSS and JS support /* */ comments thank goodness...
-            writer.write("/* <![CDATA[ */\n" + node.data + "\n/* ]]> */")
-        elif (mode == "xml") and isinstance(node, _d.CDATASection) \
-                and ("]]>" not in node.data):
-            writer.write("<![CDATA[%s]]>" % node.data)
-        else:
-            _write_data(writer, "%s%s%s" % (indent, node.data, newl), mode)
     # Undefined what (if anything) the following are supposed to be rendered as in NML:
     elif isinstance(node, _d.DocumentType):
         if mode != "nml":
@@ -180,17 +193,30 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
             else:
                 writer.write('<?xml version="1.0" encoding="%s"?>%s' % (encoding, newl))
         for cnode in node.childNodes:
-            writehtml(cnode, writer, indent, addindent, newl, mode = mode)
+            writehtml(cnode, writer, indent, addindent, newl, mode=mode)
     else:
         raise TypeError("%r is not a DOM node" % node)
 
-def tohtml(node, encoding="utf-8", indent="", newl="", mode="xhtml"):
+def tohtml(node, encoding="utf-8", indent="", newl="", mode="xhtml", 
+           dommodule=xml.dom.minidom):
     # indent = the indentation string to prepend, per level
     # newl = the newline string to append
-    writer = _d._get_StringIO()
+    import StringIO # not cStringIO as Unicode issues apparently
+    writer = StringIO.StringIO()
     if encoding is not None:
         import codecs
         # Can't use codecs.getwriter to preserve 2.0 compatibility
         writer = codecs.lookup("utf-8")[3](writer)
-    writehtml(node, writer, "", indent, newl, encoding = encoding, mode = mode)
-    return writer.getvalue()
+    r""" Note the preceeding code is from Python 2, following code is from Python 3:
+    import io
+    if encoding is None:
+        writer = io.StringIO()
+    else:
+        writer = io.TextIOWrapper(io.BytesIO(),
+                                  encoding=encoding,
+                                  errors="xmlcharrefreplace",
+                                  newline='\n')"""
+    writehtml(node, writer, "", indent, newl, encoding=encoding, mode=mode,
+              dommodule=dommodule)
+    return writer.getvalue() # writer.detach().getvalue() for TextIOWrapper
+

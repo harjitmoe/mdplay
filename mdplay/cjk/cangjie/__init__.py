@@ -48,8 +48,8 @@ else:
     popdb = {}
     cangdb[3], popdb[3] = init_proc_cang(cang03)
     cangdb[5], popdb[5] = init_proc_cang(cang05)
-    open(cdbf, "w").write("cangdb = " + repr(cangdb))
-    open(pdbf, "w").write("popdb = " + repr(popdb))
+    open(cdbf, "w").write("# coding: utf-8\ncangdb = " + repr(cangdb))
+    open(pdbf, "w").write("# coding: utf-8\npopdb = " + repr(popdb))
 
 def proc_cang(stri, version = -1):
     if version==3:
@@ -66,11 +66,11 @@ def proc_cang(stri, version = -1):
         nntub = popdb[3]
     else:
         raise ValueError("unsupported revision number of Cangjie or not an int: %r"%version)
-    stri = stri.decode("utf-8")+u"-"
-    tub = u""
-    out = u""
+    stri = stri + "-"
+    tub = ""
+    out = ""
     for c in stri:
-        if c.lower() in u"pyfgcrlaoeuidhtnsqjkxbmwvz0123456789":
+        if c.lower() in "pyfgcrlaoeuidhtnsqjkxbmwvz0123456789":
             tub += c.lower()
         else:
             tub2 = ""
@@ -90,7 +90,7 @@ def proc_cang(stri, version = -1):
                     for k,v in ncdb[tub]:
                         if k not in mydb:
                             mydb[k] = v*2 #Scale differences between the tables
-                    outps = sorted(mydb.items(), key=lambda a:("%12d%s"%(100000000000-nntub[a[0]],a[0])))
+                    outps = sorted(list(mydb.items()), key=lambda a:("%12d%s"%(100000000000-nntub[a[0]],a[0])))
                     ind %= len(outps)
                     out += outps[ind][0]
                 elif cdb[tub]:
@@ -99,5 +99,5 @@ def proc_cang(stri, version = -1):
                     out += outps[ind][0]
                 else:
                     out += "<"+tub+">"
-            tub = u""
+            tub = ""
     return out

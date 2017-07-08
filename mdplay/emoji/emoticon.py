@@ -2,7 +2,7 @@ __copying__="""
 Emoticon code by Antoine Pietri isolated from "pickups", an IRC gateway for 
 Google Hangouts.
 
-With minor alterations for Python 2 / mdplay integration, but may nonetheless 
+With minor alterations (TODO: is this still true?), but may nonetheless 
 be used under the same terms as the original.
 
 Licence for Pickups:
@@ -28,9 +28,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from mdplay import mdputil
-
-SMILEYS = dict([(mdputil.unichr4all(k), v) for k, v in {
+SMILEYS = dict([(chr(k), v) for k, v in list({
         0x263a: ':)',
         0x1f494: '</3',
         0x1f49c: '<3',
@@ -65,7 +63,7 @@ SMILEYS = dict([(mdputil.unichr4all(k), v) for k, v in {
         0x1f632: ':O',
         0x1f635: 'x_x',
         0x1f638: ':3',
-}.items()])
+}.items())])
 
 def smileys_to_ascii(s):
     res = []
@@ -73,7 +71,7 @@ def smileys_to_ascii(s):
         if c in SMILEYS:
             res.append(SMILEYS[c])
             if i < len(s) - 1 and s[i + 1] in SMILEYS: # separate smileys
-                res.append(u' ')
+                res.append(' ')
         else:
             res.append(c)
-    return u''.join(res)
+    return ''.join(res)

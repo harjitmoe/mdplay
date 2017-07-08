@@ -6,7 +6,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import re, string, os
 try:
-    from StringIO import StringIO
+    from io import StringIO
 except:
     from io import StringIO
 
@@ -225,7 +225,7 @@ def _parse_block(f,state,flags):
                 else:
                     depth=1
                     while 1:
-                        if (depth>1) or (char!="-") or (not state.titlelevels.keys()):
+                        if (depth>1) or (char!="-") or (not list(state.titlelevels.keys())):
                             i=state.titlelevels[depth]
                             if i.c==char:
                                 break
@@ -461,7 +461,7 @@ def _parse_block(f,state,flags):
             elif (not direfulfilled) and (not line.strip()):
                 direfulfilled = 1
             elif (not direfulfilled) and line.lstrip().startswith(":") and (":" in line.lstrip()[1:]):
-                cellrows.append(map(str.strip, line.lstrip()[1:].split(":",1)))
+                cellrows.append(list(map(str.strip, line.lstrip()[1:].split(":",1))))
             elif not direfulfilled:
                 cellwid.append(line.strip())
             else:
@@ -482,7 +482,7 @@ def _parse_block(f,state,flags):
                     line=line[1:] #Assume validity already tested
                 return lines
             if (not cellwid) and (istablerest(line)):
-                cellwid=map(len,line.strip().split(" "))
+                cellwid=list(map(len,line.strip().split(" ")))
                 cellrows=[[],[]]
             elif (depth==0) and (not istablerest(line)) and validly(line,cellwid):
                 cellrows[0].append(splice(line,cellwid))

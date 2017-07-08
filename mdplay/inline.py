@@ -12,16 +12,6 @@ from mdplay import htmlentitydefs_latest as htmlentitydefs
 
 punct=string.punctuation+string.whitespace
 
-def _group_surrogates(content):
-    #Because Windows uses UTF-16, not UTF-32, that's why!
-    while content:
-        c=content.pop(0)
-        if content and (0xD800<=ord(c.decode("utf-8"))<0xDC00) and (0xDC00<=ord(content[0].decode("utf-8"))<0xE000): 
-            #UTF-16 surrogates (cat in UCS form, not UTF-8, to avoid CESU)
-            c=c.decode("utf-8")+content.pop(0).decode("utf-8")
-            c=c.encode("utf-8")
-        yield c
-
 def _parse_inline(content,levs=("root",),flags=(),state=None):
     # Note: the recursion works by the list being a Python
     # mutable, "passed by reference" as it were
@@ -113,14 +103,14 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
             while c in approaching_entity:
                 c+=content[n]
                 n+=1
-            if c in htmlentitydefs.html5.keys():
+            if c in list(htmlentitydefs.html5.keys()):
                 hamayalawa = htmlentitydefs.html5[c]
-                out.append(hamayalawa.encode("utf-8"))
+                out.append(hamayalawa)
                 del content[:n]
-            elif (c[:-1] in htmlentitydefs.html5.keys()) and ("nohtmlsloppyentity" not in flags):
+            elif (c[:-1] in list(htmlentitydefs.html5.keys())) and ("nohtmlsloppyentity" not in flags):
                 n -= 1; c = c[:-1]
                 hamayalawa = htmlentitydefs.html5[c]
-                out.append(hamayalawa.encode("utf-8"))
+                out.append(hamayalawa)
                 del content[:n]
             else:
                 out.append("&")
@@ -272,7 +262,7 @@ def cautious_replace(strn,frm,to):
     """Replace string provided not backslash-escaped."""
     def count_yen(s):
         n=0
-        while s.endswith(u"\\"):
+        while s.endswith("\\"):
             n+=1
             s=s[:-1]
         return n
@@ -286,7 +276,7 @@ def cautious_replace(strn,frm,to):
     return r
 
 approaching_entity=[]
-for _entity in htmlentitydefs.html5.keys():
+for _entity in list(htmlentitydefs.html5.keys()):
     while 1:
         _entity=_entity[:-1]
         if not _entity:
@@ -295,5 +285,5 @@ for _entity in htmlentitydefs.html5.keys():
             approaching_entity.append(_entity)
 
 def parse_inline(content,flags,state):
-    d=content.decode("utf-8")
-    return _parse_inline(list(_group_surrogates([i.encode("utf-8") for i in list(d)]+[""])),flags=flags,state=state)
+    d=content
+    return _parse_inline(list(d) + [""],flags=flags,state=state)

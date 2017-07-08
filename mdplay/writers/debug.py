@@ -31,16 +31,16 @@ def _repr_out(node,flags):
         dci=node.__dict__
         dco={}
         dco["NODE_TYPE"]=node.__class__.__name__
-        for i in dci.keys():
+        for i in list(dci.keys()):
             if i[0]!="_":
-                if (i in ("content","label")) and (not isinstance(dci[i], basestring)):
-                    dco[i]=map(_repr_out,dci[i],[flags]*len(dci[i]))
+                if (i in ("content","label")) and (not isinstance(dci[i], str)):
+                    dco[i]=list(map(_repr_out,dci[i],[flags]*len(dci[i])))
                 elif i in ("table_head","table_body"):
                     dco[i]=[]
                     for j in dci[i]:
                         dco[i].append([])
                         for k in j:
-                            dco[i][-1].append(map(_repr_out,k,[flags]*len(k)))
+                            dco[i][-1].append(list(map(_repr_out,k,[flags]*len(k))))
                 else:
                     dco[i]=dci[i]
         return dco

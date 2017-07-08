@@ -12,18 +12,18 @@ import collections, re, os, pprint
 
 #-------------------------------------------------------------------------------------------------
 
-SMILEYA = dict(zip(emoticon.SMILEYS.values(), emoticon.SMILEYS.keys()))
+SMILEYA = dict(list(zip(list(emoticon.SMILEYS.values()), list(emoticon.SMILEYS.keys()))))
 del SMILEYA[":/"] # https://
-SMILEYA[":D"] = u"😆" # Otherwise implementation-defined behaviour (multiple mapped to :D in SMILEYS)
+SMILEYA[":D"] = "😆" # Otherwise implementation-defined behaviour (multiple mapped to :D in SMILEYS)
 
 #-------------------------------------------------------------------------------------------------
 
 eacd2 = {
-"lenny": u"( ͡° ͜ʖ ͡° )", "degdeg": u"( ͡° ͜ʖ ͡° )", "shruggie": u"¯\_(ツ)_/¯", 
+"lenny": "( ͡° ͜ʖ ͡° )", "degdeg": "( ͡° ͜ʖ ͡° )", "shruggie": "¯\_(ツ)_/¯", 
 
-"darkmoon": u"🌚", "thefinger": u"🖕", "happy":u"😊", "rolleyes": u"🙄", "biggrin": u"😁", "aw_yeah": u"😏", "bigcry": u"😭", "evil": u"👿", "twisted": u"😈", "sasmile": u"😈", "sleep": u"😴", "conf": u"😕", "eek": u"😲", "sweat1": u"😅", "worshippy": u"🙇", "wub": u"😍", "mellow": u"😐", "shifty": u"👀", "danshiftyeyes": u"👀", 
+"darkmoon": "🌚", "thefinger": "🖕", "happy":"😊", "rolleyes": "🙄", "biggrin": "😁", "aw_yeah": "😏", "bigcry": "😭", "evil": "👿", "twisted": "😈", "sasmile": "😈", "sleep": "😴", "conf": "😕", "eek": "😲", "sweat1": "😅", "worshippy": "🙇", "wub": "😍", "mellow": "😐", "shifty": "👀", "danshiftyeyes": "👀", 
 
-"textstyle": u"\ufe0e", "emojistyle": u"\ufe0f"
+"textstyle": "\ufe0e", "emojistyle": "\ufe0f"
 }
 
 # Converting eac hexcodes to twemoji hexcodes where needed.
@@ -52,8 +52,8 @@ if os.path.exists(eacdf) and os.path.exists(eacaf):
 else:
     eacd = eacd2.copy()
     eacalt = {}
-    for _euc in eac.eac.keys():
-        _ec = u""
+    for _euc in list(eac.eac.keys()):
+        _ec = ""
         _euc2 = _euc
         if _euc2 in TWEMmap:
             _euc2 = TWEMmap[_euc2]
@@ -62,9 +62,9 @@ else:
             eacalt[_euc] = eac.eac[_euc]
         for _eucs in _euc2.split("-"):
             _ec += mdputil.unichr4all(int(_eucs, 16))
-        eacd[eac.eac[_euc]["alpha code"].strip(":").encode("utf-8")] = _ec
+        eacd[eac.eac[_euc]["alpha code"].strip(":")] = _ec
         for _alias in eac.eac[_euc]["aliases"].split("|"):
-            eacd[_alias.strip(":").encode("utf-8")] = _ec
+            eacd[_alias.strip(":")] = _ec
     open(eacdf, "w").write("eacd = " + pprint.pformat(eacd))
     open(eacaf, "w").write("eacalt = " + pprint.pformat(eacalt))
 
@@ -92,14 +92,14 @@ for i2 in twem2support.TWEM:
 _nesting_defaultdict = lambda: collections.defaultdict(_nesting_defaultdict)
 
 TWEMD = _nesting_defaultdict()
-TWEMD[u"\U000FDECD"] = ":demonicduck:"
+TWEMD["\U000FDECD"] = ":demonicduck:"
 
 def _apply(lat, stack, fing):
     if len(stack)>1:
         return _apply(lat[stack[0]], stack[1:], fing)
     lat[stack[0]]["\x00"] = fing
 
-for _twem in TWEM2.keys():
+for _twem in list(TWEM2.keys()):
     _apply(TWEMD, _twem, TWEM2[_twem])
 
 #-------------------------------------------------------------------------------------------------
@@ -109,7 +109,7 @@ def emoji_scan(nodesz):
     nodesz2 = []
     for node in nodesz:
         if type(node) == type(""):
-            node = list(node.decode("utf8"))
+            node = list(node)
             node2 = []
             while node:
                 # Grumble grumble Windows grumble
@@ -133,26 +133,26 @@ def emoji_scan(nodesz):
                         c = ""
                         break
                 if tuple(d) in TWEM2:
-                    emojistyle = (c != u"\ufe0e")
+                    emojistyle = (c != "\ufe0e")
                     nodesz2.append(out)
                     out = ""
                     node2 = node3
                     node2.insert(0, c)
                     hexcode = TWEM2[tuple(d)]
-                    emoji = u"".join(d)
+                    emoji = "".join(d)
                     if not emojistyle:
-                        emoji += u"\ufe0e"
+                        emoji += "\ufe0e"
                     asciimote = emoticon.SMILEYS[emoji] if emoji in emoticon.SMILEYS else None
-                    uhexcode = hexcode.decode("latin1")
-                    uuhexcode = u"-" + uhexcode + u"-"
+                    uhexcode = hexcode
+                    uuhexcode = "-" + uhexcode + "-"
                     if uhexcode in eacalt:
-                        shortcode = eacalt[uhexcode][u"alpha code"].encode("utf-8")
-                    elif (u"-200d-" in uuhexcode) or (u"-200c-" in uuhexcode) or (u"-fe0e-" in uuhexcode) or (u"-fe0f-" in uuhexcode):
-                        uhexcodes = uuhexcode.replace(u"-200d-", u"#200d#").replace(u"-200c-", u"#200c#").replace(u"-fe0e-", u"#fe0e#").replace(u"-fe0f-", u"#fe0f#").strip("#-").split(u"#")
+                        shortcode = eacalt[uhexcode]["alpha code"]
+                    elif ("-200d-" in uuhexcode) or ("-200c-" in uuhexcode) or ("-fe0e-" in uuhexcode) or ("-fe0f-" in uuhexcode):
+                        uhexcodes = uuhexcode.replace("-200d-", "#200d#").replace("-200c-", "#200c#").replace("-fe0e-", "#fe0e#").replace("-fe0f-", "#fe0f#").strip("#-").split("#")
                         shortcode = ""
                         for hexc in uhexcodes:
                             if hexc in eacalt:
-                                shortcode += eacalt[hexc][u"alpha code"].encode("utf-8")
+                                shortcode += eacalt[hexc]["alpha code"]
                             elif hexc == "200d":
                                 shortcode += "&zwj;"
                             elif hexc == "200c":
@@ -166,9 +166,9 @@ def emoji_scan(nodesz):
                                 break
                     else:
                         shortcode = None                        
-                    nodesz2.append(nodes.EmojiNode(emoji.encode("utf-8"), (asciimote, shortcode, hexcode), emphatic = emojistyle))
+                    nodesz2.append(nodes.EmojiNode(emoji, (asciimote, shortcode, hexcode), emphatic = emojistyle))
                 else:
-                    out += ccc.encode("utf-8")
+                    out += ccc
             if out:
                 nodesz2.append(out)
         else:
@@ -184,14 +184,14 @@ def _emoteid_to_url(s):
         return "https://cdn.discordapp.com/emojis/" + s + ".png"
 
 def _is_emotic(s):
-    for i in SMILEYA.keys():
+    for i in list(SMILEYA.keys()):
         if s.startswith(i):
             return i
     return False
 
 def emote_handler(out, c, content, levs, flags, state):
     """Handle ASCII emoticons and shortcodes, converting as appropriate."""
-    zw = u"\u200c".encode("utf-8") # Insert zero-width char as round-trip kludge.
+    zw = "\u200c" # Insert zero-width char as round-trip kludge.
     ### Emoticons and Emoji ###
     if re.match(r":(\w|_|-)+:", c + ("".join(content))) and ("noshortcodeemoji" not in flags):
         alphaname = ""
@@ -209,7 +209,7 @@ def emote_handler(out, c, content, levs, flags, state):
         elif alphaname_lookup.startswith("dan_"):
             alphaname_lookup = alphaname_lookup[4:] 
         if alphaname_lookup in eacd: 
-            emoji = eacd[alphaname_lookup.decode("utf-8")].encode("utf-8")
+            emoji = eacd[alphaname_lookup]
             out.append(emoji)
         elif alphaname_lookup in state.custom_eac:
             emoteurl = _emoteid_to_url(state.custom_eac[alphaname_lookup])
@@ -239,7 +239,7 @@ def emote_handler(out, c, content, levs, flags, state):
         emote = _is_emotic(c + ("".join(content)))
         for iii in range(len(emote)-1): #Already popped the first (to c)!
             content.pop(0)
-        emoji = SMILEYA[emote].encode("utf-8")
+        emoji = SMILEYA[emote]
         out.append(emoji)
         return True
     else:
@@ -248,12 +248,12 @@ def emote_handler(out, c, content, levs, flags, state):
 #-------------------------------------------------------------------------------------------------
 
 if __name__=="__main__":
-    for _euc in eac.eac.keys():
+    for _euc in list(eac.eac.keys()):
         unit = eac.eac[_euc]
-        az = [unit["alpha code"].strip(":").encode("utf-8")]
-        az.extend([a.strip(":").encode("utf-8") for a in unit["aliases"]])
+        az = [unit["alpha code"].strip(":")]
+        az.extend([a.strip(":") for a in unit["aliases"]])
         for a in az:
             if a in eacd2:
-                print ("%s %s" % (a, "overdefined"))
+                print(("%s %s" % (a, "overdefined")))
             elif a.startswith("icon_") or a.startswith("dan_") or a.startswith("eusa_"):
-                print ("%s %s" % (a, "currently inaccessible"))
+                print(("%s %s" % (a, "currently inaccessible")))

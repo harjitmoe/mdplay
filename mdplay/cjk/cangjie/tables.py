@@ -1,5 +1,5 @@
 # -*- mode: python; coding: utf-8 -*-
-cang03=u"""a	日	500
+cang03 = """a	日	500
 a	曰	495
 aa	昌	500
 aa	昍	495

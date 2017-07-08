@@ -86,12 +86,12 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
             nodem.insert(0, node)
             return
         elif not isinstance(node, nodes.Node): #i.e. is a string
-            yield document.createTextNode(node.decode("utf-8").replace(u"\x20\x20",u"\xa0\x20"))
+            yield document.createTextNode(node.replace("\x20\x20","\xa0\x20"))
         elif isinstance(node, nodes.EmojiNode):
             if ("notwemoji" not in flags) and node.emphatic:
                 hexcode = node.label[2]
                 if "nounicodeemoji" not in flags:
-                    altcode = node.content.decode("utf-8")
+                    altcode = node.content
                 else:
                     altcode = node.label[0] or node.label[1] or ":"+hexcode+":"
                 r=document.createElement("img")
@@ -107,7 +107,7 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                 yield r
             else:
                 if "nounicodeemoji" not in flags:
-                    yield document.createTextNode(node.content.decode("utf-8"))
+                    yield document.createTextNode(node.content)
                 else:
                     yield document.createTextNode(node.label[0] or node.label[1] or ":"+node.label[2]+":")
         elif isinstance(node, nodes.TitleNode):
@@ -214,11 +214,11 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                 yield metar
         elif isinstance(node, nodes.CodeBlockNode):
             r = document.createElement("pre" if not is_xhtml2 else "blockcode")
-            r.appendChild(document.createTextNode("".join(node.content).decode("utf-8")))
+            r.appendChild(document.createTextNode("".join(node.content)))
             yield r
         elif isinstance(node, nodes.CodeSpanNode):
             r = document.createElement("code")
-            r.appendChild(document.createTextNode("".join(node.content).decode("utf-8")))
+            r.appendChild(document.createTextNode("".join(node.content)))
             yield r
         elif isinstance(node,nodes.BoldNode):
             if node.emphatic:
@@ -269,7 +269,7 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
             content = node.content
             r = document.createElement("ruby")
             #r.setAttribute("lang","jp")
-            r.appendChild(document.createTextNode(content.decode("utf-8")))
+            r.appendChild(document.createTextNode(content))
             rp1 = document.createElement("rp")
             rp1.appendChild(document.createTextNode(" ("))
             r.appendChild(rp1)
@@ -301,12 +301,12 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                     else:
                         # XHTML2: not only can anything be an anchor, anything can be a hyperlink
                         r3 = r2
-                    r3.setAttribute("href", content.decode("utf-8"))
+                    r3.setAttribute("href", content)
                     r3.appendChild(document.createTextNode("(TVTropes)"))
                     yield metar
                     continue
                 r = document.createElement("a")
-                r.setAttribute("href", content.decode("utf-8"))
+                r.setAttribute("href", content)
                 for domn in label:
                     r.appendChild(domn)
                 yield r
@@ -314,7 +314,7 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                 pass #No way, Jos{\'e}!
             else: #Including img
                 r = document.createElement(ht)
-                r.setAttribute("src", content.decode("utf-8"))
+                r.setAttribute("src", content)
                 # Note: there seems to be some confusion here about just what the format of node.label
                 # can be expected to be, could we clarify?
                 if not is_xhtml2:
@@ -323,10 +323,10 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                     except TypeError:
                         label = html_out_body(node.label, flags=flags, mode=mode) # _body, not _part
                     if label:
-                        r.setAttribute("alt", label.decode("utf-8"))
+                        r.setAttribute("alt", label)
                 else:
                     try:
-                        label = [document.createTextNode(("".join(node.label)).decode("utf-8"))]
+                        label = [document.createTextNode(("".join(node.label)))]
                     except TypeError:
                         label = html_out_part(node.label, document, flags=flags, mode=mode) # _part this time
                     for domn in label:
@@ -407,26 +407,29 @@ from mdplay import htmlentitydefs_latest as htmlentitydefs
 def _escape(text, html5=0, mode="xhtml"):
     if mode == "xml": # as opposed to xhtml or html
         return
-    text = text.decode("utf-8")
     if not html5:
-        keys = htmlentitydefs.name2codepoint.keys()
+        keys = list(htmlentitydefs.name2codepoint.keys())
     else:
-        keys = htmlentitydefs.html5.keys()
+        keys = list(htmlentitydefs.html5.keys())
+    c2n4 = htmlentitydefs.codepoint2name
     for name in keys:
         if ((mode != "nml") and (name not in ("amp","lt","quot","gt","apos"))) or \
            ((mode == "nml") and (name not in ("lbrack","lt","rbrack","gt"))):
             # Not a syntax-critical escape so appropriate to do now.
             if not html5:
-                codept=unichr(htmlentitydefs.name2codepoint[name])
+                codept=chr(htmlentitydefs.name2codepoint[name])
             else:
                 codept=htmlentitydefs.html5[name]
-            if (len(codept)==1) and (ord(codept)<0x7f) and (name not in htmlentitydefs.name2codepoint):
+            if (len(codept) == 1) and (ord(codept)<0x7f) and (name not in htmlentitydefs.name2codepoint):
                 continue #or face insanity.
-            if mode != "nml":
-                text=text.replace(codept,("&"+name.rstrip(";")+";").decode("ascii"))
+            elif (len(codept) == 1) and (ord(codept) in c2n4) and (name.rstrip(";") != c2n4[ord(codept)]):
+                # Non-HTML4 names redundant with HTML4 names.  Avoid.
+                continue
+            elif mode != "nml":
+                text=text.replace(codept,("&"+name.rstrip(";")+";"))
             else:
-                text=text.replace(codept,("["+name.rstrip(";")+"]").decode("ascii"))
-    return text.encode("utf-8")
+                text=text.replace(codept,("["+name.rstrip(";")+"]"))
+    return text
 
 mode_identifiers = {
     # Keyed by (serialisation, is_html5)
@@ -609,12 +612,12 @@ def html_out(nodem,titl="",flags=(),mode="xhtml"):
     if titl:
         titlebar = document.createElement("title")
         head.appendChild(titlebar)
-        titlebar.appendChild(document.createTextNode(titl.decode("utf-8")))
+        titlebar.appendChild(document.createTextNode(titl))
     #Body
     nodem = list(nodem)
     for domn in html_out_part(nodem, document, flags=flags, mode=mode):
         body.appendChild(domn)
-    retval = _escape(tohtml(document, "utf-8", mode=fm["syntax"]), html5, mode=mode)
+    retval = _escape(tohtml(document, "utf-8", mode=fm["syntax"]).decode("utf-8"), html5, mode=mode)
     document.unlink()
     return retval
 
@@ -627,7 +630,7 @@ def html_out_body(nodem, flags=(), mode="xhtml"):
     ret = ""
     nodem = list(nodem)
     for domn in html_out_part(nodem, document, flags=flags, mode=mode):
-        ret += tohtml(domn, "utf-8", mode=fm["syntax"])
+        ret += tohtml(domn, "utf-8", mode=fm["syntax"]).decode("utf-8")
     document.unlink()
     return _escape(ret, html5, mode=mode)
 

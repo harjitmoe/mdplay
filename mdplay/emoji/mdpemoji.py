@@ -15,6 +15,17 @@ import collections, re, os, pprint
 SMILEYA = dict(list(zip(list(emoticon.SMILEYS.values()), list(emoticon.SMILEYS.keys()))))
 del SMILEYA[":/"] # https://
 SMILEYA[":D"] = "😆" # Otherwise implementation-defined behaviour (multiple mapped to :D in SMILEYS)
+for _i in list(SMILEYA.keys()):
+    if _i.count(":") == 1:
+        if _i[-1] == ":":
+            SMILEYA[_i.replace(":", "-:")] = SMILEYA[_i]
+        else:
+            SMILEYA[_i.replace(":", ":-")] = SMILEYA[_i]
+    elif _i.count(";") == 1:
+        if _i[-1] == ";":
+            SMILEYA[_i.replace(";", "-;")] = SMILEYA[_i]
+        else:
+            SMILEYA[_i.replace(";", ";-")] = SMILEYA[_i]
 
 #-------------------------------------------------------------------------------------------------
 

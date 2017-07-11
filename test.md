@@ -482,4 +482,6 @@ Discord emote: :kananYouNot: <:wacko:230129080886886400> <:ConcernFroge:30618325
 → !cang[!hkana[](megumi)](jip)!cang[!hkana[](n)](jip) (doubled, presumably in analogy to the appended &ndash;!hkana[](n) &mdash; annotated here thusly)  
 → !cang[hui4&ensp;](jip)!cang[hui4](jip) (ZH)
 
+!fullwidth[](£$¥¢€vapourwave, CWM FJORDBANK GLYPHS VEXT QUIZ.)
+
 \

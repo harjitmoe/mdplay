@@ -488,3 +488,5 @@ Discord emote: :kananYouNot: ![:‌wacko:](https://cdn.discordapp.com/emojis/230
 → 惠 (めぐみ) 惠 (ん)  (doubled, presumably in analogy to the appended –ん — annotated here thusly)  
 → 惠 (hui4 ) 惠 (hui4)  (ZH)
 
+￡＄￥￠€ｖａｐｏｕｒｗａｖｅ，　ＣＷＭ　ＦＪＯＲＤＢＡＮＫ　ＧＬＹＰＨＳ　ＶＥＸＴ　ＱＵＩＺ．
+

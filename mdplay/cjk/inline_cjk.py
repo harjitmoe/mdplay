@@ -6,7 +6,7 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay.cjk import cangjie, parse_roma
+from mdplay.cjk import cangjie, parse_roma, fullwidth
 from mdplay import nodes
 
 def cjk_handler(out, hreftype, href, label, flags):
@@ -66,6 +66,12 @@ def cjk_handler(out, hreftype, href, label, flags):
             out.append(nodes.RubiNode(kana, label))
         else:
             out.append(kana)
+    elif (hreftype.lower() in ("fullwidth",)) and ("nofullwidth" not in flags):
+        fw = fullwidth.to_fullwidth(href)
+        if label and ("norubi" not in flags):
+            out.append(nodes.RubiNode(fw, label))
+        else:
+            out.append(fw)
     elif (hreftype.lower() in ("rubi","ruby","furi")) and ("norubi" not in flags):
         out.append(nodes.RubiNode(href, label))
     else:

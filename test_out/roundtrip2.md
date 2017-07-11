@@ -487,3 +487,5 @@ Discord emote: :kananYouNot: ![:‌wacko:](https://cdn.discordapp.com/emojis/230
 → 惠 (めぐ) みん (forced to a kanji spelling, even though one clearly isn't used for her, rather than resort to a Mandarin ateji / jièzì — the み is okurigana)  
 → 惠 (めぐみ) 惠 (ん)  (doubled, presumably in analogy to the appended –ん — annotated here thusly)  
 → 惠 (hui4 ) 惠 (hui4)  (ZH)
+
+￡＄￥￠€ｖａｐｏｕｒｗａｖｅ，　ＣＷＭ　ＦＪＯＲＤＢＡＮＫ　ＧＬＹＰＨＳ　ＶＥＸＴ　ＱＵＩＺ．

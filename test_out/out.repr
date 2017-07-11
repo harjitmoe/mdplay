@@ -2586,6 +2586,12 @@
   'label': ''},
  {'NODE_TYPE': 'ParagraphNode',
   'bullet': None,
+  'content': ['￡＄￥￠€ｖａｐｏｕｒｗａｖｅ，\u3000ＣＷＭ\u3000ＦＪＯＲＤＢＡＮＫ\u3000ＧＬＹＰＨＳ\u3000'
+              'ＶＥＸＴ\u3000ＱＵＩＺ． '],
+  'depth': -1,
+  'label': ''},
+ {'NODE_TYPE': 'ParagraphNode',
+  'bullet': None,
   'content': [],
   'depth': -1,
   'label': ''}]

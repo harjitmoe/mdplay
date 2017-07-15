@@ -2,9 +2,9 @@
 # -*- mode: python; coding: utf-8 -*-
 
 __copying__ = """
-This Source Code Form is subject to the terms of the Mozilla Public
-License, v. 2.0. If a copy of the MPL was not distributed with this
-file, You can obtain one at http://mozilla.org/MPL/2.0/.
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided this notice is
+preserved.  This file is offered as-is, without any warranty.
 """
 
 import unicodedata
@@ -22,4 +22,6 @@ def to_fullwidth(a):
             r += h2f[c] # This would not be nearly as clean on Python 2
         else:
             r += c
-    return r
+    # Control where line breaks occur, like in halfwidth ASCII:
+    return ("\u2060".join(r).replace("\u2060\u3000\u2060", "\u2060\u3000")
+            ).replace("\u2060\uff0d\u2060", "\u2060\uff0d")

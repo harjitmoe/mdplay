@@ -59,6 +59,7 @@ def _parse_block(f,state,flags):
     cellwid=[]
     cellrows=[]
     def handle_directive():
+        #print(repr(direname), repr(cellwid))
         if not direname.strip(): # Allow use of an empty directive name for non-outputting execution.
             list(parse_block(minibuf,state,flags))
         elif direname.strip() == "mdplay-flag":
@@ -446,16 +447,21 @@ def _parse_block(f,state,flags):
                 f.rtpma()
                 continue
         elif within=="directive":
+            if line.strip() and (line != line.lstrip()) and (depth == 0):
+                depth = len(line) - len(line.lstrip())
+            # Not elif:
             if (not cellwid) and line.startswith(".. ") and ("::" in line):
                 direname, direargs = line[3:].split("::",1)
                 direfulfilled = 0
-                cellwid = [direargs]
-            elif line.strip() and (line.lstrip() == line):
+                depth = 0
+                cellwid = [direargs.strip()]
+            elif line.strip() and (depth > 0) and line[:depth].strip():
                 for i in handle_directive():
                     yield i
                 cellwid = []; cellrows = []
                 minibuf=""
                 within="root"
+                depth = 0
                 f.rtpma()
                 continue
             elif (not direfulfilled) and (not line.strip()):
@@ -465,7 +471,7 @@ def _parse_block(f,state,flags):
             elif not direfulfilled:
                 cellwid.append(line.strip())
             else:
-                minibuf+=line.lstrip().rstrip("\r\n")+"\n"
+                minibuf += line[depth:].rstrip("\r\n")+"\n"
         elif within=="tablerest":
             def validly(line,cellwid):
                 for cell in cellwid:

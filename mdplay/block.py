@@ -114,66 +114,66 @@ def _parse_block(f,state,flags):
             if line.startswith(" "*4) and ("nouicode" not in flags):
                 within="icode"
                 depth=4
-                f.rtpma()
+                f.reconsume()
                 continue
             elif isheadatx(line):
                 within="atxhead"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif line.startswith(".. ") and ("::" in line) and ("nodirective" not in flags):
                 within="directive"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif (line.strip() == "::") and ("nodicode" not in flags):
                 within="icode"
-                #NO rtpma
+                #NO reconsume
                 continue
             elif isheadmw(line) and ("nowikihead" not in flags):
                 within="mwhead"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif istablerest(line) and ("noresttable" not in flags):
                 within="tablerest"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif isrule(line):
                 within="rule"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif isfence(line) and ("nofcode" not in flags):
                 within="fence"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif isulin(line) and ("noresthead" not in flags):
                 within="sthead"
-                #NO rtpma
+                #NO reconsume
                 continue
             elif isul(line):
                 within="ul"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif isol(line):
                 within="ol"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif isbq(line):
                 within="quote"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif issp(line) and ("noblockspoiler" not in flags):
                 within="spoiler"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif ("|" in line) and isalign(f.peek_ahead()) and ("nomdtable" not in flags):
                 within="table"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif line.startswith(".. ") and ("nocomment" not in flags):
-                #No rtpma or within change.
+                #No reconsume or within change.
                 continue
             elif line.strip():
                 within="para"
-                f.rtpma()
+                f.reconsume()
                 continue
         elif within=="atxhead":
             if not isheadatx(line):
@@ -181,7 +181,7 @@ def _parse_block(f,state,flags):
                 minibuf=""
                 depth=0
                 within="root"
-                f.rtpma()
+                f.reconsume()
                 continue
             deep=0
             line=line.strip()
@@ -238,21 +238,21 @@ def _parse_block(f,state,flags):
                 minibuf=""
                 depth=0
                 within="root"
-                #NO rtpma
+                #NO reconsume
                 continue
             elif not line.strip():
                 yield (nodes.ParagraphNode(inline.parse_inline(minibuf,flags,state)))
                 minibuf=""
                 depth=0
                 within="root"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif isrule(line):
                 yield (nodes.ParagraphNode(inline.parse_inline(minibuf,flags,state)))
                 minibuf=""
                 depth=0
                 within="rule"
-                f.rtpma()
+                f.reconsume()
                 continue
             if (line.rstrip()[-3:]==" ::") and ("nodicode" not in flags):
                 if line.rstrip("\r\n").endswith("  "):
@@ -273,7 +273,7 @@ def _parse_block(f,state,flags):
                 minibuf=""
                 depth=0
                 within="icode"
-                #NO rtpma
+                #NO reconsume
                 continue
         elif within=="ul":
             if fence == {}:
@@ -287,7 +287,7 @@ def _parse_block(f,state,flags):
                 #Don't reset depths
                 within="ol"
                 fence={}
-                f.rtpma()
+                f.reconsume()
                 continue
             elif ( (not line.strip()) and ( (f.peek_ahead()==None) or (not f.peek_ahead().strip()) or (f.peek_ahead()[0] not in (" ",fence)) or ("breaklists" in flags) ) ) or isrule(line):
                 yield (nodes.UlliNode(parse_block(minibuf,state,flags),depth,bullet=fence))
@@ -296,7 +296,7 @@ def _parse_block(f,state,flags):
                 depths=[]
                 fence=None
                 within="root"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif isul(line):
                 if minibuf:
@@ -327,7 +327,7 @@ def _parse_block(f,state,flags):
                 #Don't reset depths
                 within="ul"
                 fence={}
-                f.rtpma()
+                f.reconsume()
                 continue
             # FIXME fence usage not the appropriate thing here
             elif ( (not line.strip()) and ( (f.peek_ahead()==None) or (not f.peek_ahead().strip()) or (f.peek_ahead()[0] not in (" ",fence)) or ("breaklists" in flags) ) ) or isrule(line):
@@ -337,7 +337,7 @@ def _parse_block(f,state,flags):
                 depths=[]
                 fence=None
                 within="root"
-                f.rtpma()
+                f.reconsume()
                 continue
             elif isol(line):
                 if minibuf:
@@ -377,7 +377,7 @@ def _parse_block(f,state,flags):
                     within="atxcode"
                 else:
                     within="root"
-                f.rtpma()
+                f.reconsume()
                 continue
             if line.strip() and (not line.startswith(" "*depth)):
                 yield (nodes.CodeBlockNode(minibuf,clas="::"))
@@ -385,7 +385,7 @@ def _parse_block(f,state,flags):
                 depth=0
                 fence=None
                 within="root"
-                f.rtpma()
+                f.reconsume()
                 continue
             else:
                 minibuf+=line[depth:].rstrip("\r\n")+"\n"
@@ -396,7 +396,7 @@ def _parse_block(f,state,flags):
                 depth=0
                 fence=None
                 within="root"
-                f.rtpma()
+                f.reconsume()
                 continue
             else:
                 minibuf+=line.rstrip("\r\n")+"\n"
@@ -432,7 +432,7 @@ def _parse_block(f,state,flags):
                 yield (nodes.BlockQuoteNode(parse_block(minibuf,state,flags)))
                 minibuf=""
                 within="root"
-                f.rtpma()
+                f.reconsume()
                 continue
         elif within=="spoiler":
             if issp(line) or (line.strip() and not iscb(line) and not isulin(line) and not isfence(line) and not isul(line) and not isheadatx(line) and not isbq(line)):
@@ -444,7 +444,7 @@ def _parse_block(f,state,flags):
                 yield (nodes.BlockSpoilerNode(parse_block(minibuf,state,flags)))
                 minibuf=""
                 within="root"
-                f.rtpma()
+                f.reconsume()
                 continue
         elif within=="directive":
             if line.strip() and (line != line.lstrip()) and (depth == 0):
@@ -462,7 +462,7 @@ def _parse_block(f,state,flags):
                 minibuf=""
                 within="root"
                 depth = 0
-                f.rtpma()
+                f.reconsume()
                 continue
             elif (not direfulfilled) and (not line.strip()):
                 direfulfilled = 1
@@ -528,7 +528,7 @@ def _parse_block(f,state,flags):
                 cellrows=[]
                 depth=0
                 if (not istablerest(line)) or (not validly(line,cellwid)):
-                    f.rtpma()
+                    f.reconsume()
                 continue
         elif within=="table":
             def splitcols(line):
@@ -569,7 +569,7 @@ def _parse_block(f,state,flags):
                 cellwid=[]
                 cellrows=[]
                 depth=0
-                f.rtpma()
+                f.reconsume()
                 continue
         else:
             raise AssertionError("Unknown syntax feature %r"%within)

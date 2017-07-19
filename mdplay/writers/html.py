@@ -438,9 +438,11 @@ mode_identifiers = {
         "xmlns": "http://www.w3.org/1999/xhtml",
         "root": "html",
         "xsi": None,
-        # HTML Living Standard appears apathetic about XHTML doctypes or their content.
-        # Could make something up like "-//WHATWG//DTD XHTML 5.0//EN" but... probably
+        # WHATWG HTML is apathetic about xml-MIME-served doctype content.
+        # Could make something up like "-//WHATWG//DTD XHTML5//EN" but... probably
         # best to stick to the legacy-format HTML5 doctype.
+        # (The FPI "-//WHATWG//NONSGML HTML5//EN" was considered before it was
+        # decided that HTML5 should not have an FPI.)
         "fpi": None,
         "fsi": "about:legacy-compat", # Condoned by HTML5.
         "other_xmlns": (),

@@ -39,9 +39,12 @@ class LinestackIter(object):
             return None
         return self._stack[self._n + n]
     
-    def rtpma(self): #Run that past me again
+    def reconsume(self):
         """Make the next iteration yield the current line again."""
         self._n -= 1
+    
+    def rtpma(self):
+        self.reconsume()
     
     # Is itself an iterator, so its iterator is itself.
     def __iter__(self):

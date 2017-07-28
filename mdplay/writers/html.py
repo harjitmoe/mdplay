@@ -177,6 +177,7 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                     metar.setAttribute("class", 'spoilerwrapper')
                     metar.setAttribute("style", 'display: block;')
                     r.setAttribute("style", 'display: block; color: blue; cursor: pointer; text-decoration: underline;')
+                    r.setAttribute("tabindex", '0') #i.e. focusable but in source order.
                 # Add text to title/toggle
                 if not node.label:
                     r.appendChild(document.createTextNode("Expand/Hide Spoiler"))
@@ -185,9 +186,14 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                         r.appendChild(domn)
                 # Install event handler
                 if not is_xhtml2:
-                    # TODO is it possible to use DOMActivate as an attribute?
-                    # (the problem with click is that keyboard activation is ignored)
                     r.setAttribute("onclick", handler_script)
+                    keyhandle = "if ((event.keyCode || event.which) == 13 || (event.keyCode || event.which) == 32) { %s }"
+                    # Pressing Return on an <a> tag seems to activate onclick (understandably) and they cancel out.
+                    # This in spite of onkeypress being present, which you'd have thought would disable that.
+                    # This does not occur in the html5 instance, possibly becouse it only occurs for <a> elements?
+                    # Tested so far on Seamonkey (modern) and on Firefox 2.0 (vintage).
+                    if "html5" in flags:
+                        r.setAttribute("onkeypress", keyhandle % handler_script)
                 else:
                     r.setAttribute("href", "javascript:void(0);")
                     r.setAttribute("id", 'observerspoil%d' % mdputil.newid(node))

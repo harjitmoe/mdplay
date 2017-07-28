@@ -4,12 +4,13 @@ a Markdown-based syntax targeting web destinations such as forums or wikis, as w
 
 flags can turn features and extensions off and configure exporters, the obvious one being the "strict" flag.  see flag_chart.md for a list.
 
-code version 8.0.4
+code version 8.0.5
 
 change-log:
 
 |ver|changes|
 |---|---|
+|8.0.5|HTML writer: hopefully allow keyboard activation of spoilers even without <details> element support.|
 |8.0.4|fix issue preventing parsing of nested directives.|
 |8.0.3|improved fullwidth effect (use word joiners).|
 |8.0.2|add the fullwidth effect.|

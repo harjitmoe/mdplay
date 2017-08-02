@@ -14,23 +14,23 @@ from mdplay import nodes, mdputil, inline
 from mdplay.LinestackIter import LinestackIter
 
 class _TitleItem(object):
-    c=None
-    def __init__(self,l,n):
-        self.l=l
-        self.n=n
-    def setchar(self,c):
-        self.l.bychar[c]=self
-        self.c=c
+    c = None
+    def __init__(self, l, n):
+        self.l = l
+        self.n = n
+    def setchar(self, c):
+        self.l.bychar[c] = self
+        self.c = c
 
 class TitleLevels(dict):
     def __init__(self):
-        self.bychar={}
+        self.bychar = {}
         dict.__init__(self)
-    def __getitem__(self,k):
+    def __getitem__(self, k):
         try:
-            return dict.__getitem__(self,k)
+            return dict.__getitem__(self, k)
         except KeyError:
-            self[k]=_TitleItem(self,k)
+            self[k] = _TitleItem(self, k)
             return self[k]
 
 class State(object):
@@ -39,25 +39,20 @@ class State(object):
         self.custom_eac = {}
 
 def all_same(l):
-    if len(l)==0:
+    if (not l) or (l.strip(l[0])):
         return False
-    elif len(l)==1:
-        return l[0]
     else:
-        for i in l:
-            if i!=l[0]:
-                return False
         return l[0]
 
-def _parse_block(f,state,flags):
-    within="root"
-    minibuf=""
-    depth=0
-    depths=[]
-    fence=None
-    fenceinfo=None
-    cellwid=[]
-    cellrows=[]
+def _parse_block(f, state, flags):
+    within = "root"
+    minibuf = ""
+    depth = 0
+    depths = []
+    fence = None
+    fenceinfo = None
+    cellwid = []
+    cellrows = []
     def handle_directive():
         #print(repr(direname), repr(cellwid))
         if direname.strip() in ("", "mdplay-nonoutput"):
@@ -84,103 +79,104 @@ def _parse_block(f,state,flags):
         elif direname.strip() == "mdplay-pgcontext":
             yield from mdputil.normalise_child_nodes(parse_block(minibuf, state, flags))
         elif ("extradirective" in flags):
-            yield nodes.DirectiveNode(parse_block(minibuf,state,flags),direname,cellwid,cellrows)
+            yield nodes.DirectiveNode(parse_block(minibuf, state, flags), direname, cellwid, cellrows)
 
-    isrule=lambda line:re.match(r"\s*((?P<c>\*|_|-)\s?)\s*(?P=c)+\s*((?P=c)+\s+)*$",line+" ")
-    istablerest=lambda line:re.match(r"(=+ )+=+\s*$",line)
-    isheadatx=lambda line:line.strip() and re.match(r"(#+) .*(\S#|[^#]|\\#)( \1)?$",line)
-    isheadmw=lambda line:line.strip() and re.match(r"\s*(=+)([^=](.*[^=])?)\1\s*$",line)
-    if ("noresthead" not in flags):
-        isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple(string.punctuation))
+    isrule = lambda line: re.match(r"\s*((?P<c>\*|_|-)\s?)\s*(?P=c)+\s*((?P=c)+\s+)*$", line + " ")
+    istablerest = lambda line: re.match(r"(=+ )+=+\s*$",line)
+    isheadatx = lambda line: line.strip() and re.match(r"(#+) .*(\S#|[^#]|\\#)( \1)?$", line)
+    isheadmw = lambda line: line.strip() and re.match(r"\s*(=+)([^=](.*[^=])?)\1\s*$", line)
+    if "noresthead" not in flags:
+        isulin = lambda line: line.strip() and (all_same(line.strip()) in tuple(string.punctuation))
     else:
-        isulin=lambda line:line.strip() and (all_same(line.strip()) in tuple("=-"))
-    isfence=lambda line:line.strip() and re.match(r"\s*(```+[^`]*$|~~~+.*$)",line)
-    if ("noblockspoiler" not in flags):
-        isbq=lambda line:line.strip() and re.match(r"\s*>([^!].*)?$",line)
-        issp=lambda line:line.strip() and line.lstrip().startswith(">!")
+        isulin = lambda line: line.strip() and (all_same(line.strip()) in tuple("=-"))
+    isfence = lambda line: line.strip() and re.match(r"\s*(```+[^`]*$|~~~+.*$)", line)
+    if "noblockspoiler" not in flags:
+        isbq = lambda line: line.strip() and re.match(r"\s*>([^!].*)?$", line)
+        issp = lambda line: line.strip() and line.lstrip().startswith(">!")
     else:
-        isbq=lambda line:line.strip() and re.match(r"\s*>.*$",line)
-        issp=lambda line:0
-    iscb=lambda line:len(line)>=4 and all_same(line[:4])==" "
-    isul=lambda line:line.strip() and re.match(r"\s*[*+-](\s.*)?$",line)
+        isbq = lambda line: line.strip() and re.match(r"\s*>.*$", line)
+        issp = lambda line: 0
+    iscb = lambda line: (len(line) >= 4) and (all_same(line[:4]) == " ")
+    isul = lambda line: line.strip() and re.match(r"\s*[*+-](\s.*)?$", line)
     #isol=lambda line:line.strip() and re.match(r"\s*(\d+[).:]|[#])(\s.*)?$",line)
-    isol=lambda line:line.strip() and re.match(r"\s*(\d+[).:])(\s.*)?$",line)
-    isalign=lambda line:(line!=None) and line.strip() and re.match(r"\|?((:--+|:-+:|--+:|---+)\|)+(:--+|:-+:|--+:|---+)\|?",line)
+    isol = lambda line: line.strip() and re.match(r"\s*(\d+[).:])(\s.*)?$", line)
+    isalign = lambda line: ( (line != None) and line.strip() and \
+                             re.match(r"\|?((:--+|:-+:|--+:|---+)\|)+(:--+|:-+:|--+:|---+)\|?", line) )
 
     for line in f:
-        line=line.replace("\0","\xef\xbf\xbd").replace("\t"," "*4)
-        if within=="root":
-            assert depth==0
+        line = line.replace("\0", "\ufffd").replace("\t", " " * 4)
+        if within == "root":
+            assert depth == 0
             if line.startswith(" "*4) and ("nouicode" not in flags):
-                within="icode"
-                depth=4
+                within = "icode"
+                depth = 4
                 f.reconsume()
                 continue
             elif isheadatx(line):
-                within="atxhead"
+                within = "atxhead"
                 f.reconsume()
                 continue
             elif line.startswith(".. ") and ("::" in line) and ("nodirective" not in flags):
-                within="directive"
+                within = "directive"
                 f.reconsume()
                 continue
             elif (line.strip() == "::") and ("nodicode" not in flags):
-                within="icode"
+                within = "icode"
                 #NO reconsume
                 continue
             elif isheadmw(line) and ("nowikihead" not in flags):
-                within="mwhead"
+                within = "mwhead"
                 f.reconsume()
                 continue
             elif istablerest(line) and ("noresttable" not in flags):
-                within="tablerest"
+                within = "tablerest"
                 f.reconsume()
                 continue
             elif isrule(line):
-                within="rule"
+                within = "rule"
                 f.reconsume()
                 continue
             elif isfence(line) and ("nofcode" not in flags):
-                within="fence"
+                within = "fence"
                 f.reconsume()
                 continue
             elif isulin(line) and ("noresthead" not in flags):
-                within="sthead"
+                within = "sthead"
                 #NO reconsume
                 continue
             elif isul(line):
-                within="ul"
+                within = "ul"
                 f.reconsume()
                 continue
             elif isol(line):
-                within="ol"
+                within = "ol"
                 f.reconsume()
                 continue
             elif isbq(line):
-                within="quote"
+                within = "quote"
                 f.reconsume()
                 continue
             elif issp(line) and ("noblockspoiler" not in flags):
-                within="spoiler"
+                within = "spoiler"
                 f.reconsume()
                 continue
             elif ("|" in line) and isalign(f.peek_ahead()) and ("nomdtable" not in flags):
-                within="table"
+                within = "table"
                 f.reconsume()
                 continue
             elif line.startswith(".. ") and ("nocomment" not in flags):
                 #No reconsume or within change.
                 continue
             elif line.strip():
-                within="para"
+                within = "para"
                 f.reconsume()
                 continue
-        elif within=="atxhead":
+        elif within == "atxhead":
             if not isheadatx(line):
                 yield nodes.TitleNode(inline.parse_inline(minibuf,flags,state),depth)
                 minibuf=""
                 depth=0
-                within="root"
+                within = "root"
                 f.reconsume()
                 continue
             deep=0
@@ -197,7 +193,7 @@ def _parse_block(f,state,flags):
                 line=line[:-depth]
             line=line.strip()
             minibuf+=line+" "
-        elif within=="mwhead":
+        elif within == "mwhead":
             depth=0
             line=line.strip()
             while line.startswith("="):
@@ -209,16 +205,15 @@ def _parse_block(f,state,flags):
             line=line.strip()
             yield nodes.TitleNode(inline.parse_inline(line,flags,state),depth)
             depth=0
-            within="root"
+            within = "root"
         elif within in ("para","sthead"):
             depth+=1
             if isulin(line.rstrip()) and (((depth==2) and ("noplainsetexthead" not in flags)) or (within=="sthead")):
                 # Combining vanilla-Setext and ATX headers is obvious.
-                # Combining ReST and ATX headers is not.
+                # Combining ReST headers (extended Setext headers) with the result is not.
                 # For each new char, use the first level without a char.
-                # Exception is "-" which is not assigned highest level,
-                # unless it is used for literally the first heading in
-                # the document.
+                # Exception is "-" which is not assigned highest level, unless it is used 
+                # for literally the first heading in the document.
                 # Thus implement ReST-style but mostly MD-compatible.
                 char=line.strip()[0]
                 if char in state.titlelevels.bychar:
@@ -237,21 +232,21 @@ def _parse_block(f,state,flags):
                 yield nodes.TitleNode(inline.parse_inline(minibuf,flags,state),depth)
                 minibuf=""
                 depth=0
-                within="root"
+                within = "root"
                 #NO reconsume
                 continue
             elif not line.strip():
                 yield nodes.ParagraphNode(inline.parse_inline(minibuf,flags,state))
                 minibuf=""
                 depth=0
-                within="root"
+                within = "root"
                 f.reconsume()
                 continue
             elif isrule(line):
                 yield nodes.ParagraphNode(inline.parse_inline(minibuf,flags,state))
                 minibuf=""
                 depth=0
-                within="rule"
+                within = "rule"
                 f.reconsume()
                 continue
             if (line.rstrip()[-3:]==" ::") and ("nodicode" not in flags):
@@ -272,10 +267,10 @@ def _parse_block(f,state,flags):
                 yield nodes.ParagraphNode(inline.parse_inline(minibuf,flags,state))
                 minibuf=""
                 depth=0
-                within="icode"
+                within = "icode"
                 #NO reconsume
                 continue
-        elif within=="ul":
+        elif within == "ul":
             if fence == {}:
                 fence=line.lstrip()[0]
             elif not fence:
@@ -285,17 +280,18 @@ def _parse_block(f,state,flags):
                 yield nodes.UlliNode(parse_block(minibuf,state,flags),depth,bullet=fence)
                 minibuf=""
                 #Don't reset depths
-                within="ol"
+                within = "ol"
                 fence={}
                 f.reconsume()
                 continue
-            elif ( (not line.strip()) and ( (f.peek_ahead()==None) or (not f.peek_ahead().strip()) or (f.peek_ahead()[0] not in (" ",fence)) or ("breaklists" in flags) ) ) or isrule(line):
+            elif ( (not line.strip()) and ( (f.peek_ahead()==None) or (not f.peek_ahead().strip()) or \
+                                            (f.peek_ahead()[0] not in (" ",fence)) or ("breaklists" in flags) ) ) or isrule(line):
                 yield nodes.UlliNode(parse_block(minibuf,state,flags),depth,bullet=fence)
                 minibuf=""
                 depth=0
                 depths=[]
                 fence=None
-                within="root"
+                within = "root"
                 f.reconsume()
                 continue
             elif isul(line):
@@ -318,25 +314,26 @@ def _parse_block(f,state,flags):
                 minibuf+=line.lstrip()[1:].lstrip()
             else:
                 minibuf+=line.lstrip().rstrip("\r\n")+"\n"
-        elif within=="ol":
+        elif within == "ol":
             if (fence!={}) and not fence:
                 yield nodes.EmptyInterrupterNode()
             if isul(line):
                 yield nodes.OlliNode(parse_block(minibuf,state,flags),depth,bullet=int(fence,10))
                 minibuf=""
                 #Don't reset depths
-                within="ul"
+                within = "ul"
                 fence={}
                 f.reconsume()
                 continue
             # FIXME fence usage not the appropriate thing here
-            elif ( (not line.strip()) and ( (f.peek_ahead()==None) or (not f.peek_ahead().strip()) or (f.peek_ahead()[0] not in (" ",fence)) or ("breaklists" in flags) ) ) or isrule(line):
+            elif ( (not line.strip()) and ( (f.peek_ahead()==None) or (not f.peek_ahead().strip()) or \
+                                            (f.peek_ahead()[0] not in (" ",fence)) or ("breaklists" in flags) ) ) or isrule(line):
                 yield nodes.OlliNode(parse_block(minibuf,state,flags),depth,bullet=int(fence,10))
                 minibuf=""
                 depth=0
                 depths=[]
                 fence=None
-                within="root"
+                within = "root"
                 f.reconsume()
                 continue
             elif isol(line):
@@ -361,10 +358,10 @@ def _parse_block(f,state,flags):
                 minibuf+=line.lstrip()[len(fence)+1:].lstrip()
             else:
                 minibuf+=line.lstrip().rstrip("\r\n")+"\n"
-        elif within=="rule":
+        elif within == "rule":
             yield nodes.RuleNode()
-            within="root"
-        elif within=="icode":
+            within = "root"
+        elif within == "icode":
             if (depth==0) and (not line.strip()):
                 continue
             if depth==0:
@@ -374,9 +371,9 @@ def _parse_block(f,state,flags):
                 depth=0
                 fence=None
                 if ("noatxcode" not in flags):
-                    within="atxcode"
+                    within = "atxcode"
                 else:
-                    within="root"
+                    within = "root"
                 f.reconsume()
                 continue
             if line.strip() and (not line.startswith(" "*depth)):
@@ -384,23 +381,23 @@ def _parse_block(f,state,flags):
                 minibuf=""
                 depth=0
                 fence=None
-                within="root"
+                within = "root"
                 f.reconsume()
                 continue
             else:
                 minibuf+=line[depth:].rstrip("\r\n")+"\n"
-        elif within=="atxcode":
+        elif within == "atxcode":
             if not line.strip():
                 yield nodes.CodeBlockNode(minibuf,clas="::")
                 minibuf=""
                 depth=0
                 fence=None
-                within="root"
+                within = "root"
                 f.reconsume()
                 continue
             else:
                 minibuf+=line.rstrip("\r\n")+"\n"
-        elif within=="fence":
+        elif within == "fence":
             if fence==None:
                 fence=0
                 depth=len(line)-len(line.lstrip())
@@ -416,14 +413,15 @@ def _parse_block(f,state,flags):
                 minibuf=""
                 depth=0
                 fence=None
-                within="root"
+                within = "root"
             else:
                 for i in range(depth):
                     if line[:1]==" ":
                         line=line[1:]
                 minibuf+=line.rstrip("\r\n")+"\n"
-        elif within=="quote":
-            if isbq(line) or (line.strip() and not iscb(line) and not isulin(line) and not isfence(line) and not isul(line) and not isheadatx(line) and not issp(line)):
+        elif within == "quote":
+            if isbq(line) or (line.strip() and not iscb(line) and not isulin(line) and not isfence(line) and not isul(line) \
+                                           and not isheadatx(line) and not issp(line)):
                 line=line.lstrip()
                 if line[:1]==">":line=line[1:]
                 if line[:1]==" ":line=line[1:]
@@ -431,11 +429,12 @@ def _parse_block(f,state,flags):
             else:
                 yield nodes.BlockQuoteNode(parse_block(minibuf,state,flags))
                 minibuf=""
-                within="root"
+                within = "root"
                 f.reconsume()
                 continue
-        elif within=="spoiler":
-            if issp(line) or (line.strip() and not iscb(line) and not isulin(line) and not isfence(line) and not isul(line) and not isheadatx(line) and not isbq(line)):
+        elif within == "spoiler":
+            if issp(line) or (line.strip() and not iscb(line) and not isulin(line) and not isfence(line) and not isul(line) \
+                                           and not isheadatx(line) and not isbq(line)):
                 line=line.lstrip()
                 if line[:2]==">!":line=line[2:]
                 if line[:1]==" ":line=line[1:]
@@ -443,10 +442,10 @@ def _parse_block(f,state,flags):
             else:
                 yield nodes.BlockSpoilerNode(parse_block(minibuf,state,flags))
                 minibuf=""
-                within="root"
+                within = "root"
                 f.reconsume()
                 continue
-        elif within=="directive":
+        elif within == "directive":
             if line.strip() and (line != line.lstrip()) and (depth == 0):
                 depth = len(line) - len(line.lstrip())
             # Not elif:
@@ -459,7 +458,7 @@ def _parse_block(f,state,flags):
                 yield from handle_directive()
                 cellwid = []; cellrows = []
                 minibuf=""
-                within="root"
+                within = "root"
                 depth = 0
                 f.reconsume()
                 continue
@@ -471,7 +470,7 @@ def _parse_block(f,state,flags):
                 cellwid.append(line.strip())
             else:
                 minibuf += line[depth:].rstrip("\r\n")+"\n"
-        elif within=="tablerest":
+        elif within == "tablerest":
             def validly(line,cellwid):
                 for cell in cellwid:
                     line=line[cell:]
@@ -522,14 +521,14 @@ def _parse_block(f,state,flags):
                     for i in range(len(row)):
                         row[i]=mdputil.normalise_child_nodes(list(parse_block(row[i],flags)))
                 yield nodes.TableNode(cellrows2)
-                within="root"
+                within = "root"
                 cellwid=[]
                 cellrows=[]
                 depth=0
                 if (not istablerest(line)) or (not validly(line,cellwid)):
                     f.reconsume()
                 continue
-        elif within=="table":
+        elif within == "table":
             def splitcols(line):
                 cols=[""]
                 esc=0
@@ -564,7 +563,7 @@ def _parse_block(f,state,flags):
             else:
                 cellrows=[[[inline.parse_inline(k,flags,state) for k in j] for j in i] for i in cellrows]
                 yield nodes.TableNode(cellrows,cellwid)
-                within="root"
+                within = "root"
                 cellwid=[]
                 cellrows=[]
                 depth=0
@@ -573,23 +572,23 @@ def _parse_block(f,state,flags):
         else:
             raise AssertionError("Unknown syntax feature %r"%within)
     ####
-    if within=="directive":
+    if within == "directive":
         yield from handle_directive()
         cellwid = []; cellrows = []
         minibuf=""
-        within="root"
+        within = "root"
     elif minibuf:
-        if within=="fence":
+        if within == "fence":
             yield nodes.CodeBlockNode(minibuf,clas=fenceinfo)
             minibuf=""
             depth=0
             fence=None
-            within="root"
+            within = "root"
         elif within in ("icode","atxcode"):
             yield nodes.CodeBlockNode(minibuf,clas="::")
             minibuf=""
             depth=0
-            within="root"
+            within = "root"
 
 def parse_block(content,state,flags=()):
     return _parse_block(LinestackIter(StringIO(content)),state,mdputil.flatten_flags_parser(flags))

@@ -2369,9 +2369,10 @@
   'bullet': None,
   'content': ['めぐみん (JA)',
               {'NODE_TYPE': 'NewlineNode'},
-              '→ 惠 (めぐ) みん (forced to a kanji spelling, even though one '
-              "clearly isn't used for her, rather than resort to a Mandarin "
-              'ateji / jièzì — the み is okurigana)',
+              '→ 惠 (めぐ) みん (reconstructed kanji spelling, even though one '
+              "clearly isn't used for her (S2 OVA confirms Megumin cannot read "
+              'Japanese script), rather than resort to a Mandarin ateji / '
+              'jièzì — the み is okurigana)',
               {'NODE_TYPE': 'NewlineNode'},
               '→ 惠 (めぐみ) 惠 (ん)  (doubled, presumably in analogy to the '
               'appended –ん — annotated here thusly)',

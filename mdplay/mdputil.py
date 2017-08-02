@@ -24,6 +24,7 @@ def agglomerate(nodelist):
 
 def normalise_child_nodes(content):
     from mdplay import emoji, nodes
+    content = list(content)
     if len(content) == 1 and isinstance(content[0], nodes.ParagraphNode):
         return content[0].content
     else:

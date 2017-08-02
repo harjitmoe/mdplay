@@ -115,9 +115,8 @@ for _twem in list(TWEM2.keys()):
 
 #-------------------------------------------------------------------------------------------------
 
-def emoji_scan(nodesz):
+def _emoji_scan(nodesz):
     """Remove Unicode emoji from text nodes to dedicated EmojiNode nodes."""
-    nodesz2 = []
     for node in nodesz:
         if type(node) == type(""):
             node = list(node)
@@ -145,7 +144,7 @@ def emoji_scan(nodesz):
                         break
                 if tuple(d) in TWEM2:
                     emojistyle = (c != "\ufe0e")
-                    nodesz2.append(out)
+                    yield out
                     out = ""
                     node2 = node3
                     node2.insert(0, c)
@@ -177,14 +176,15 @@ def emoji_scan(nodesz):
                                 break
                     else:
                         shortcode = None                        
-                    nodesz2.append(nodes.EmojiNode(emoji, (asciimote, shortcode, hexcode), emphatic = emojistyle))
+                    yield nodes.EmojiNode(emoji, (asciimote, shortcode, hexcode), emphatic = emojistyle)
                 else:
                     out += ccc
             if out:
-                nodesz2.append(out)
+                yield out
         else:
-            nodesz2.append(node)
-    return nodesz2
+            yield node
+
+emoji_scan = lambda nodesz: list(_emoji_scan(nodesz))
 
 #-------------------------------------------------------------------------------------------------
 

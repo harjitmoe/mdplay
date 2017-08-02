@@ -2528,9 +2528,10 @@
                'hreftype': '',
                'label': ['めぐ'],
                'width': None},
-              "みん (forced to a kanji spelling, even though one clearly isn't "
-              'used for her, rather than resort to a Mandarin ateji / jièzì — '
-              'the み is okurigana)',
+              "みん (reconstructed kanji spelling, even though one clearly isn't "
+              'used for her (S2 OVA confirms Megumin cannot read Japanese '
+              'script), rather than resort to a Mandarin ateji / jièzì — the み '
+              'is okurigana)',
               {'NODE_TYPE': 'NewlineNode'},
               '→ ',
               {'NODE_TYPE': 'RubiNode',

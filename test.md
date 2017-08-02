@@ -478,7 +478,7 @@ Discord emote: :kananYouNot: <:wacko:230129080886886400> <:ConcernFroge:30618325
 :tone5:
 
 !hkana[](megumin) (JA)  
-→ !cang[!hkana[](megu)](jip)!hkana[](min) (forced to a kanji spelling, even though one clearly isn't used for her, rather than resort to a Mandarin ateji / ji{\`e}z{\`i} &mdash; the !hkana[](mi) is okurigana)  
+→ !cang[!hkana[](megu)](jip)!hkana[](min) (reconstructed kanji spelling, even though one clearly isn't used for her (S2 OVA confirms Megumin cannot read Japanese script), rather than resort to a Mandarin ateji / ji{\`e}z{\`i} &mdash; the !hkana[](mi) is okurigana)  
 → !cang[!hkana[](megumi)](jip)!cang[!hkana[](n)](jip) (doubled, presumably in analogy to the appended &ndash;!hkana[](n) &mdash; annotated here thusly)  
 → !cang[hui4&ensp;](jip)!cang[hui4](jip) (ZH)
 

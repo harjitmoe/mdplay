@@ -82,7 +82,7 @@ def parse_roma(itr, force="none"):
 
     The following are special characters or signals controlling the parser:
 
-    - NUL, which drains the current sequence (ready to be re-fed a modified
+    - NUL, which drops the current sequence (ready to be re-fed a modified
       sequence if applicable).  (The way this works internally, allowing the
       current sequence to be edited while loaded would be complicated.)
 
@@ -350,6 +350,10 @@ def parse_roma(itr, force="none"):
 
 _to_kana = {'gu': '\u30b0', '-': '\u30fc', 'ge': '\u30b2', 'ga': '\u30ac', 'go': '\u30b4', 'gi': '\u30ae', 'xo': '\u30a9', 'xtu': '\u30c3', 'tu': '\u30c4', 'to': '\u30c8', 'ti': '\u30c1', 'xto': '\u31f3', 'xmu': '\u31fa', '^': '\u30fc', 'ta': '\u30bf', 'do': '\u30c9', 'yo': '\u30e8', 'di': '\u30c2', 'ya': '\u30e4', 'de': '\u30c7', 'ye': '\U0001b001', 'da': '\u30c0', 'du': '\u30c5', 'yu': '\u30e6', 'xsu': '\u31f2', 't': '\u30c3', 'xsi': '\u31f1', 'xhi': '\u31f6', 'zo': '\u30be', 'zi': '\u30b8', 'ze': '\u30bc', 'za': '\u30b6', 'zu': '\u30ba', 'ru': '\u30eb', 're': '\u30ec', 'ra': '\u30e9', 'ro': '\u30ed', 'ri': '\u30ea', 'be': '\u30d9', 'we': '\u30f1', 'ba': '\u30d0', 'wa': '\u30ef', 'wo': '\u30f2', 'bo': '\u30dc', 'bi': '\u30d3', 'wi': '\u30f0', 'bu': '\u30d6', 'xyo': '\u30e7', 'xnu': '\u31f4', 'so': '\u30bd', 'o': '\u30aa', '~': '\u301c', 'xi': '\u30a3', 'xyu': '\u30e5', 'xa': '\u30a1', 'xe': '\u30a7', 'xya': '\u30e3', 'xu': '\u30a5', 'pu': '\u30d7', '.': '\u3002', 'pa': '\u30d1', 'pe': '\u30da', 'pi': '\u30d4', 'po': '\u30dd', 'hu': '\u30d5', 'hi': '\u30d2', 'ho': '\u30db', 'ha': '\u30cf', 'he': '\u30d8', 'me': '\u30e1', 'xha': '\u31f5', 'te': '\u30c6', 'ma': '\u30de', 'xhe': '\u31f8', 'mo': '\u30e2', 'xho': '\u31f9', 'mu': '\u30e0', 'xhu': '\u31f7', 'xwa': '\u30ee', 'va': '\u30f7', 've': '\u30f9', 'vi': '\u30f8', 'vo': '\u30fa', 'vu': '\u30f4', 'ni': '\u30cb', 'xro': '\u31ff', 'xri': '\u31fc', 'no': '\u30ce', 'xre': '\u31fe', 'na': '\u30ca', 'xka': '\u30f5', 'xra': '\u31fb', 'ne': '\u30cd', 'xke': '\u30f6', 'xru': '\u31fd', 'mi': '\u30df', 'nu': '\u30cc', 'xku': '\u31f0', 'a': '\u30a2', 'ka': '\u30ab', 'e': '\u30a8', 'ke': '\u30b1', 'i': '\u30a4', 'ki': '\u30ad', 'ko': '\u30b3', 'su': '\u30b9', "n'": '\u30f3', 'si': '\u30b7', 'u': '\u30a6', 'ku': '\u30af', 'sa': '\u30b5', 'se': '\u30bb'}
 
+_to_dumbroma = {}
+
+for (k, v) in _to_kana.items():
+    _to_dumbroma[v] = k
 
 #Note: do not add Small Ke - must remain Katakana.
 _katahiral = [('\u30a1', '\u3041'), ('\u30a2', '\u3042'), ('\u30a3', '\u3043'), ('\u30a4', '\u3044'), ('\u30a5', '\u3045'), ('\u30a6', '\u3046'), ('\u30a7', '\u3047'), ('\u30a8', '\u3048'), ('\u30a9', '\u3049'), ('\u30aa', '\u304a'), ('\u30ab', '\u304b'), ('\u30ac', '\u304c'), ('\u30ad', '\u304d'), ('\u30ae', '\u304e'), ('\u30af', '\u304f'), ('\u30b0', '\u3050'), ('\u30b1', '\u3051'), ('\u30b2', '\u3052'), ('\u30b3', '\u3053'), ('\u30b4', '\u3054'), ('\u30b5', '\u3055'), ('\u30b6', '\u3056'), ('\u30b7', '\u3057'), ('\u30b8', '\u3058'), ('\u30b9', '\u3059'), ('\u30ba', '\u305a'), ('\u30bb', '\u305b'), ('\u30bc', '\u305c'), ('\u30bd', '\u305d'), ('\u30be', '\u305e'), ('\u30bf', '\u305f'), ('\u30c0', '\u3060'), ('\u30c1', '\u3061'), ('\u30c2', '\u3062'), ('\u30c3', '\u3063'), ('\u30c4', '\u3064'), ('\u30c5', '\u3065'), ('\u30c6', '\u3066'), ('\u30c7', '\u3067'), ('\u30c8', '\u3068'), ('\u30c9', '\u3069'), ('\u30ca', '\u306a'), ('\u30cb', '\u306b'), ('\u30cc', '\u306c'), ('\u30cd', '\u306d'), ('\u30ce', '\u306e'), ('\u30cf', '\u306f'), ('\u30d0', '\u3070'), ('\u30d1', '\u3071'), ('\u30d2', '\u3072'), ('\u30d3', '\u3073'), ('\u30d4', '\u3074'), ('\u30d5', '\u3075'), ('\u30d6', '\u3076'), ('\u30d7', '\u3077'), ('\u30d8', '\u3078'), ('\u30d9', '\u3079'), ('\u30da', '\u307a'), ('\u30db', '\u307b'), ('\u30dc', '\u307c'), ('\u30dd', '\u307d'), ('\u30de', '\u307e'), ('\u30df', '\u307f'), ('\u30e0', '\u3080'), ('\u30e1', '\u3081'), ('\u30e2', '\u3082'), ('\u30e3', '\u3083'), ('\u30e4', '\u3084'), ('\u30e5', '\u3085'), ('\u30e6', '\u3086'), ('\u30e7', '\u3087'), ('\u30e8', '\u3088'), ('\u30e9', '\u3089'), ('\u30ea', '\u308a'), ('\u30eb', '\u308b'), ('\u30ec', '\u308c'), ('\u30ed', '\u308d'), ('\u30ee', '\u308e'), ('\u30ef', '\u308f'), ('\u30f0', '\u3090'), ('\u30f1', '\u3091'), ('\u30f2', '\u3092'), ('\u30f3', '\u3093'), ('\u30f4', '\u3094')]
@@ -387,7 +391,6 @@ class _StringGenIter(object):
     rrom = None
     def __init__(self,roma): self.rrom = list(roma)
     def __iter__(self): return self
-    def __next__(self): return next(self)
     def __next__(self):
         if self.nulo:
             self.out += "\n"
@@ -419,25 +422,46 @@ def _aggloma(func):
     return lambda i,func=func:"".join(tuple(func(i)))
 
 @_aggloma
-def hiraise(input):
+def hiraise(inpt):
     """Convert Unicode Katakana to Hiragana."""
-    for i in input:
-        if i in list(_katahira.keys()):
+    for i in inpt:
+        if i in _katahira:
             yield _katahira[i]
         else:
             yield i
 
 @_aggloma
-def kataise(input):
+def kataise(inpt):
     """Convert Unicode Hiragana to Katakana."""
-    for i in input:
-        if i in list(_hirakata.keys()):
+    for i in inpt:
+        if i in _hirakata:
             yield _hirakata[i]
         else:
             yield i
 
+def kataise2(inpt):
+    """Convert Unicode Hiragana to Katakana, applying heuristic long vowel changes.
+    
+    This may produce incorrect behaviour with lemma forms of wa-gyō godan verbs."""
+    out = ""
+    inpt = kataise(inpt)
+    for i in inpt:
+        if i in _to_dumbroma:
+            i = _to_dumbroma[i]
+            if (len(i) == 1) and (i in "aiueo") and (out.endswith(i)):
+                out += "-"
+            elif (i == "u") and (out.endswith("o")):
+                # Not always appropriate (e.g. godan terminals ending in -owu),
+                # but not much we can do about that short of an actual dictionary.
+                out += "-"
+            else:
+                out += i
+        else:
+            out += i
+    return kanafy(out)
+
 if __name__=="__main__":
-    import tty,sys
+    import tty, sys
     class STDIter(object):
         count = 0
         filed = ""
@@ -445,7 +469,6 @@ if __name__=="__main__":
         loge = ""
         nulo = 0
         def __iter__(self): return self
-        def __next__(self): return next(self)
         def __next__(self):
             if self.nulo:
                 sys.stdout.write("\r\n") #Yes, both (raw mode, so LF is literal LF)
@@ -457,6 +480,7 @@ if __name__=="__main__":
             if self.pending:
                 r,self.pending = self.pending[0],self.pending[1:]
                 return r
+            sys.stdout.flush()
             r = sys.stdin.read(1)
             if r in "\x03": #^C
                 raise KeyboardInterrupt #User pressed ^C

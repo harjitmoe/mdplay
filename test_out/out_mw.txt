@@ -461,7 +461,7 @@ x̄ and ȳ
 
 キェ ブァハハハハ イェヴィンギャ シジチヂツヅ<br />キェ ブァハハハハ イェヴィンギャ スィズィティディトゥドゥ 
 
-<span class="mw-customtoggle-5" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-5" class="mw-collapsible mw-collapsed" style="display:none;">Spojra</div> 
+<span class="mw-customtoggle-4" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-4" class="mw-collapsible mw-collapsed" style="display:none;">Spojra</div> 
 
 ヴァ ヴィ ヴ ヴェ ヴォ 〜 ヴャ ヸ ヴュ ヹ ヴョ 〜 ヴァ ヴィ ヴゥ ヴェ ヴォ 〜 ヷ ヸ ヺゥ ヹ ヺ 
 
@@ -481,7 +481,7 @@ This should be a rainbow banner: 🏳️‍🌈 or 🏳️‍🌈 or 🏳️‍�
 
 ''This should behave more or less as expected. However, I have reason to believe otherwise.'' (Should be fixed now…) 
 
-<span class="mw-customtoggle-6" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-6" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
+<span class="mw-customtoggle-3" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-3" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
 
 Discord emote: :kananYouNot: [https://cdn.discordapp.com/emojis/230129080886886400.png :‌wacko:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌ConcernFroge:] [https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:] [https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:] 
 

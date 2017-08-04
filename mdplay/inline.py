@@ -114,6 +114,21 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
                 del content[:n]
             else:
                 out.append("&")
+        ### Unicode-syntax Rubi and Furigana (mdplay.cjk handles the href-based syntaces) ###
+        elif (c == "\ufff9") and ("norubi" not in flags):
+            dat1 = list(_parse_inline(content,("unirubimain",)+levs,flags=flags,state=state))
+            dat2 = ""
+            termina = dat1.pop()
+            if termina == "\ufffa":
+                dat2 = list(_parse_inline(content,("unirubiannot",)+levs,flags=flags,state=state))
+                dat2.pop()
+            out.append(nodes.RubiNode(dat1, dat2))
+        elif (c == "\ufffa") and (lev == "unirubimain"): # i.e. not if already in the annotation.
+            out.append(c) # So we can tell if initial span broken with fffa or ended with fffb.
+            return out
+        elif (c == "\ufffb") and (lev.startswith("unirubi")):
+            out.append(c) # So we can tell if initial span broken with fffa or ended with fffb.
+            return out
         ### Newlines (there are only true newlines by this point) ###
         elif c=="\n" and (lev!="wikilink" or out2):
             out.append(nodes.NewlineNode())

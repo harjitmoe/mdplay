@@ -275,7 +275,9 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
             content = node.content
             r = document.createElement("ruby")
             #r.setAttribute("lang","jp")
-            r.appendChild(document.createTextNode(content))
+            for domn in html_out_part(node.content, document, flags=flags, mode=mode):
+                r.appendChild(domn)
+            #r.appendChild(document.createTextNode(content))
             rp1 = document.createElement("rp")
             rp1.appendChild(document.createTextNode(" ("))
             r.appendChild(rp1)

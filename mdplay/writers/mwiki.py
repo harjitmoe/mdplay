@@ -46,8 +46,8 @@ def _mwiki_out_body(node,flags=()):
     elif isinstance(node,nodes.SubscrNode):
         return "<sub>"+mwiki_out_body(node.content,flags=flags)+"</sub>"
     elif isinstance(node,nodes.RubiNode):
-        label=mwiki_out_body(node.label,flags=flags)
-        content=node.content
+        label = mwiki_out_body(node.label, flags=flags)
+        content = mwiki_out_body(node.content, flags=flags)
         return "<ruby>"+content+"<rp> (</rp><rt>"+label+"</rt><rp>) </rp></ruby>"
     elif isinstance(node,nodes.HrefNode):
         label=mwiki_out_body(node.label,flags=flags)

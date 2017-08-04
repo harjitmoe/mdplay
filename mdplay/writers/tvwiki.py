@@ -62,8 +62,8 @@ def _tvwiki_out_body(node,flags=()):
     elif isinstance(node,nodes.SubscrNode):
         return "[[subscript:"+tvwiki_out_body(node.content)+"]]"
     elif isinstance(node,nodes.RubiNode):
-        label=tvwiki_out_body(node.label)
-        content=node.content
+        label = tvwiki_out_body(node.label)
+        content = tvwiki_out_body(node.content)
         return content+" ("+label+") "
     elif isinstance(node,nodes.HrefNode):
         label=tvwiki_out_body(node.label)

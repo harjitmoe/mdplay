@@ -164,8 +164,8 @@ def _bb_out(node,in_list,flags):
     elif isinstance(node,nodes.SubscrNode):
         return "[sub]"+bb_out_body(node.content,flags=flags)+"[/sub]"
     elif isinstance(node,nodes.RubiNode):
-        label=bb_out(node.label)
-        content=node.content
+        label = bb_out(node.label)
+        content = bb_out(node.content)
         return content+" ("+label+") "
     elif isinstance(node,nodes.HrefNode):
         label=bb_out(node.label)

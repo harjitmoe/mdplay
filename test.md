@@ -484,12 +484,8 @@ Discord emote: :kananYouNot: <:wacko:230129080886886400> <:ConcernFroge:30618325
 
 !fullwidth[](£$¥¢€vapourwave, CWM FJORDBANK GLYPHS VEXT QUIZ.)
 
-.. html-p::
-    :class: hello
+The wonders of obscure Unicode: ￹和真￺カズマ￻。
 
-    .. html-span::
-        :class: world
 
-        THIS SHOULD WORRRRRRRRK (in HTML with indecuredirective and extradirective flags set)
 
 \

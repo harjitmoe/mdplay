@@ -490,3 +490,5 @@ Discord emote: :kananYouNot: ![:‌wacko:](https://cdn.discordapp.com/emojis/230
 
 ￡⁠＄⁠￥⁠￠⁠€⁠ｖ⁠ａ⁠ｐ⁠ｏ⁠ｕ⁠ｒ⁠ｗ⁠ａ⁠ｖ⁠ｅ⁠，⁠　Ｃ⁠Ｗ⁠Ｍ⁠　Ｆ⁠Ｊ⁠Ｏ⁠Ｒ⁠Ｄ⁠Ｂ⁠Ａ⁠Ｎ⁠Ｋ⁠　Ｇ⁠Ｌ⁠Ｙ⁠Ｐ⁠Ｈ⁠Ｓ⁠　Ｖ⁠Ｅ⁠Ｘ⁠Ｔ⁠　Ｑ⁠Ｕ⁠Ｉ⁠Ｚ⁠．
 
+The wonders of obscure Unicode: 和真 (カズマ) 。
+

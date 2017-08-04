@@ -439,27 +439,6 @@ def kataise(inpt):
         else:
             yield i
 
-def kataise2(inpt):
-    """Convert Unicode Hiragana to Katakana, applying heuristic long vowel changes.
-    
-    This may produce incorrect behaviour with lemma forms of wa-gyō godan verbs."""
-    out = ""
-    inpt = kataise(inpt)
-    for i in inpt:
-        if i in _to_dumbroma:
-            i = _to_dumbroma[i]
-            if (len(i) == 1) and (i in "aiueo") and (out.endswith(i)):
-                out += "-"
-            elif (i == "u") and (out.endswith("o")):
-                # Not always appropriate (e.g. godan terminals ending in -owu),
-                # but not much we can do about that short of an actual dictionary.
-                out += "-"
-            else:
-                out += i
-        else:
-            out += i
-    return kanafy(out)
-
 if __name__=="__main__":
     import tty, sys
     class STDIter(object):

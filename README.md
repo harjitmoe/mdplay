@@ -4,12 +4,13 @@ a Markdown-based syntax targeting web destinations such as forums or wikis, as w
 
 flags can turn features and extensions off and configure exporters, the obvious one being the "strict" flag.  see flag_chart.md for a list.
 
-code version 8.1.0
+code version 8.1.1
 
 change-log:
 
 |ver|changes|
 |---|---|
+|8.1.1|fix handling of traditional-Hepburn style use of "m" for syllabic "n" in romanisations.|
 |8.1.0|improvements to rubi support, including more versatile internal interface and, building on this, support for Unicode interlinear annotation special characters.|
 |8.0.6|add mdplay-pgcontext directive and tidy some existing yield statements (now requires a Python version supporting the `yield from` syntax).|
 |8.0.5|HTML writer: hopefully allow keyboard activation of spoilers even without <details> element support.|

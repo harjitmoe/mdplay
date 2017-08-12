@@ -17,7 +17,7 @@ glide = t("wyh") #assocs keys can constitute exceptions; must be subset of conso
 vowel = t("aiueo")
 line = t("-^~")
 size = t("x")
-syllabic = t("n")
+syllabic = t("nm")
 termina = t("'\n")
 extendercons = t("hr") # Not l though.  Only "h" is definitive.
 
@@ -193,7 +193,7 @@ def parse_roma(itr, force="none"):
                     if c not in termina:
                         gagh.cou -= 1
                         xcou = 1
-                    norma = con+"'"
+                    norma = (con if con != "m" else "n")+"'"
                 elif (not gli1) and (not gli2) and (not siz) and (con in extendercons) and (force != "kunrei"):
                     if c not in termina:
                         gagh.cou -= 1

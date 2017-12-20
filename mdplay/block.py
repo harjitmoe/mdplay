@@ -10,7 +10,7 @@ try:
 except:
     from io import StringIO
 
-from mdplay import nodes, mdputil, inline
+from mdplay import nodes, mdputil, inline, interprocesses
 from mdplay.LinestackIter import LinestackIter
 
 class _TitleItem(object):
@@ -77,7 +77,7 @@ def _parse_block(f, state, flags):
                     yield from parse_block(mf.read(), state, flags)
                     mf.close()
         elif direname.strip() == "mdplay-pgcontext":
-            yield from mdputil.normalise_child_nodes(parse_block(minibuf, state, flags))
+            yield from interprocesses.normalise_child_nodes(parse_block(minibuf, state, flags))
         elif ("extradirective" in flags):
             yield nodes.DirectiveNode(parse_block(minibuf, state, flags), direname, cellwid, cellrows)
 
@@ -507,7 +507,7 @@ def _parse_block(f, state, flags):
                         cellrows2[0][-1].extend(row)
                 for row in cellrows2[0]:
                     for i in range(len(row)):
-                        row[i]=mdputil.normalise_child_nodes(list(parse_block(row[i],flags)))
+                        row[i]=interprocesses.normalise_child_nodes(list(parse_block(row[i],flags)))
                 for row in cellrows[1]:
                     if cellrows2[1] and (not row[0].strip()):
                         for n,i in enumerate(row):
@@ -519,7 +519,7 @@ def _parse_block(f, state, flags):
                         cellrows2[1][-1].extend(row)
                 for row in cellrows2[1]:
                     for i in range(len(row)):
-                        row[i]=mdputil.normalise_child_nodes(list(parse_block(row[i],flags)))
+                        row[i]=interprocesses.normalise_child_nodes(list(parse_block(row[i],flags)))
                 yield nodes.TableNode(cellrows2)
                 within = "root"
                 cellwid=[]

@@ -4,6 +4,8 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
+import importlib
+
 from mdplay import block, nodes, mdputil, writers
 from mdplay.LinestackIter import LinestackIter
 
@@ -25,9 +27,9 @@ class NoSnippetRendererError(MdplayError):
 writernames = ["debug", "bbcode", "html", "mwiki", "md", "tvwiki"]
 
 def _load_renderer(modname):
-    __import__("mdplay.writers." + modname)
+    importlib.import_module("mdplay.writers." + modname)
     renderer_module = getattr(writers, modname)
-    return getattr(renderer_module, renderer_module.__mdplay_renderer__)\
+    return getattr(renderer_module, renderer_module.__mdplay_renderer__)
 
 def load_renderer(codename):
     if codename in writernames:
@@ -36,7 +38,7 @@ def load_renderer(codename):
         raise NoSuchRendererError(codename)
 
 def _load_snippet_renderer(modname):
-    __import__("mdplay.writers." + modname)
+    importlib.import_module("mdplay.writers." + modname)
     renderer_module = getattr(writers, modname)
     if renderer_module.__mdplay_snippet_renderer__ == None:
         raise NoSnippetRendererError(codename)

@@ -119,14 +119,7 @@ def _emoji_scan(nodesz):
     """Remove Unicode emoji from text nodes to dedicated EmojiNode nodes."""
     for node in nodesz:
         if type(node) == type(""):
-            node = list(node)
-            node2 = []
-            while node:
-                # Grumble grumble Windows grumble
-                c = node.pop(0)
-                if (0xD800<=ord(c)<0xDC00) and node and (0xDC00<=ord(node[0])<0xE000):
-                    c += node.pop(0)
-                node2.append(c)
+            node2 = list(node)
             out = ""
             while node2:
                 ccc = node2.pop(0)

@@ -15,8 +15,8 @@ class NonContainerNode(Node):
 
 class BlockNode(Node):
     def __init__(self,content,depth=-1,bullet=None):
-        from mdplay import mdputil
-        self.content=mdputil.normalise_child_nodes(list(content))
+        from mdplay import interprocesses
+        self.content=interprocesses.normalise_child_nodes(list(content))
         self.depth=depth
         self.bullet=bullet
         self.label="" # Spoiler kludge
@@ -29,15 +29,15 @@ class TableNode(Node):
 
 class InlineNode(Node):
     def __init__(self,content,label="",hreftype="",emphatic=False,width=None,height=None):
-        from mdplay import mdputil
+        from mdplay import interprocesses
         self.content=content
         if isinstance(content, type([])):
-            self.content=mdputil.agglomerate(list(content))
+            self.content=interprocesses.agglomerate(list(content))
         self.hreftype=hreftype
         self.emphatic=emphatic
         self.label=label
         if isinstance(label, type([])) and not isinstance(self, EmojiNode):
-            self.label=mdputil.agglomerate(list(label))
+            self.label=interprocesses.agglomerate(list(label))
         self.width=width
         self.height=height
         self.fuse=None
@@ -53,8 +53,8 @@ class CodeBlockNode(Node):
 
 class DirectiveNode(Node):
     def __init__(self,content,typ,args,opts):
-        from mdplay import mdputil
-        self.content=mdputil.normalise_child_nodes(list(content))
+        from mdplay import interprocesses
+        self.content=interprocesses.normalise_child_nodes(list(content))
         self.type=typ
         self.args=args
         self.opts=opts

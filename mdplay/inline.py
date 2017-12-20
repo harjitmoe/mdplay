@@ -114,21 +114,21 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
                 del content[:n]
             else:
                 out.append("&")
-        ### Unicode-syntax Rubi and Furigana (mdplay.cjk handles the href-based syntaces) ###
-        elif (c == "\ufff9") and ("norubi" not in flags):
-            dat1 = list(_parse_inline(content,("unirubimain",)+levs,flags=flags,state=state))
-            dat2 = ""
-            termina = dat1.pop()
-            if termina == "\ufffa":
-                dat2 = list(_parse_inline(content,("unirubiannot",)+levs,flags=flags,state=state))
-                dat2.pop()
-            out.append(nodes.RubiNode(dat1, dat2))
-        elif (c == "\ufffa") and (lev == "unirubimain"): # i.e. not if already in the annotation.
-            out.append(c) # So we can tell if initial span broken with fffa or ended with fffb.
-            return out
-        elif (c == "\ufffb") and (lev.startswith("unirubi")):
-            out.append(c) # So we can tell if initial span broken with fffa or ended with fffb.
-            return out
+        elif c == "&" and (len(content)>1) and (content[0] == "#") and ("nohtmlnumentity" not in flags):
+            c = ""
+            n = 1
+            while content[n:] and content[n] != ";":
+                c += content[n]
+                n += 1
+            n += 1 # The semicolon.
+            if c and not c.strip("0123456789"):
+                out.append(chr(int(c, 10)))
+                del content[:n]
+            elif c[1:] and c[0].casefold() == "x" and not c[1:].casefold().strip("0123456789abcdef"):
+                out.append(chr(int(c[1:], 16)))
+                del content[:n]
+            else:
+                out.append("&")
         ### Newlines (there are only true newlines by this point) ###
         elif c=="\n" and (lev!="wikilink" or out2):
             out.append(nodes.NewlineNode())
@@ -206,7 +206,7 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
             if hreftype=="!":
                 hreftype="img"
             elif hreftype=="":
-                hreftype="url"
+                hreftype="url" # Based on BBCode tag naming
             else:
                 hreftype=hreftype[1:] #Minus the leading !
             width = height = ""
@@ -244,6 +244,12 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
             if not out2:
                 out2=out[:]
             return out2,out
+        elif content[1:] and (c == content[1] == "/") and (content[0].lower() in "ur") and ("noredditrefs" not in flags):
+            hark = c + content.pop(0) + content.pop(0)
+            while content and re.compile("[A-Za-z_-]").match(content[0]):
+                hark += content.pop(0)
+            assert hark[0] == "/"
+            out.append(nodes.HrefNode("https://reddit.com" + hark, [hark], "url"))
         ### Superscripts and Subscripts ###
         elif c=="^" and content[0]=="(" and (lev!="wikilink" or out2) and ("noredditstylesuper" not in flags):
             del content[0]
@@ -262,6 +268,23 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
         elif c=="~" and content[0]==")" and lev=="sub" and ("nopandocstyle" not in flags):
             del content[0]
             return out
+        ### HZ escapes / codes / whatever ###
+        elif c=="~" and content[0]=="{" and (lev!="wikilink" or out2) and ("nohz" not in flags):
+            del content[0]
+            buf = []
+            while content[1:] and (content[:2] != ["~", "}"]):
+                buf.append(content.pop(0))
+                buf.append(content.pop(0)) # again (only terminate on an *aligned* "~}").
+            content = content[2:]
+            # Could just use the HZ decoder but want it like this for future versatility
+            # (e.g. extending the syntax to make a JIS version)
+            obuf = []
+            while buf:
+                mine = buf.pop(0)
+                if buf and (0x21 <= ord(mine) <= 0x7E):
+                    mine = bytes([ord(mine) | 0x80, ord(buf.pop(0)) | 0x80]).decode("euc-cn")
+                obuf.append(mine)
+            out.extend(obuf)
         ### Emoticons and shortcodes ###
         elif emoji.emote_handler(out, c, content, levs, flags, state):
             pass
@@ -299,6 +322,5 @@ for _entity in list(htmlentitydefs.html5.keys()):
         if _entity not in approaching_entity:
             approaching_entity.append(_entity)
 
-def parse_inline(content,flags,state):
-    d=content
-    return _parse_inline(list(d) + [""],flags=flags,state=state)
+def parse_inline(content, flags, state):
+    return _parse_inline(list(content) + [""], flags=flags, state=state)

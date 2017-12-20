@@ -486,6 +486,10 @@ Discord emote: :kananYouNot: <:wacko:230129080886886400> <:ConcernFroge:30618325
 
 The wonders of obscure Unicode: ￹和真￺カズマ￻。
 
+Likewise for KsubsubsubscriptL and supersuperLsuperKscript.
 
+Trying with HTML escapes &#x8b;subscript&#x8c; &#x1b;Lsuperscript&#x1b;K: &#65529;和真&#65530;カズマ&#65531;。
+
+HZ encoding: ~{NR$,C{$O$a$0$_$s#!~}
 
 \

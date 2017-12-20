@@ -4,31 +4,7 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-def unichr4all(n):
-    try:
-        return chr(n)
-    except (ValueError, OverflowError):
-        main = n - 0x010000
-        s = chr(0xD800 + (main // 1024)) + chr(0xDC00 + (main % 1024))
-        return s
-
-def agglomerate(nodelist):
-    """Given a list of nodes, fuse adjacent text nodes."""
-    outlist = []
-    for i in nodelist:
-        if isinstance(i,type("")) and outlist and isinstance(outlist[-1],type("")):
-            outlist[-1] += i
-        else:
-            outlist.append(i)
-    return outlist
-
-def normalise_child_nodes(content):
-    from mdplay import emoji, nodes
-    content = list(content)
-    if len(content) == 1 and isinstance(content[0], nodes.ParagraphNode):
-        return content[0].content
-    else:
-        return emoji.emoji_scan(agglomerate(content))
+unichr4all = chr
 
 # Give more deterministic IDs to expandable spoiler nodes in HTML/MWiki.
 _curid = 1

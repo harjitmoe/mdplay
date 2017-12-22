@@ -492,3 +492,9 @@ Discord emote: :kananYouNot: ![:‌wacko:](https://cdn.discordapp.com/emojis/230
 
 The wonders of obscure Unicode: 和真 (カズマ) 。
 
+Likewise for (~sub(~sub(~sub~\\)~\)script~) and ^(super^(super^(super\\)\)script).
+
+Trying with HTML escapes (~subscript~) ^(superscript): 和真 (カズマ) 。
+
+HZ encoding: 我が名はめぐみん！
+

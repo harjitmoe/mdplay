@@ -481,7 +481,7 @@ This should be a rainbow banner: 🏳️‍🌈 or 🏳️‍🌈 or 🏳️‍�
 
 ''This should behave more or less as expected. However, I have reason to believe otherwise.'' (Should be fixed now…) 
 
-<span class="mw-customtoggle-3" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-3" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
+<span class="mw-customtoggle-6" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-6" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
 
 Discord emote: :kananYouNot: [https://cdn.discordapp.com/emojis/230129080886886400.png :‌wacko:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌ConcernFroge:] [https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:] [https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:] 
 
@@ -506,5 +506,11 @@ Discord emote: :kananYouNot: [https://cdn.discordapp.com/emojis/2301290808868864
 ￡⁠＄⁠￥⁠￠⁠€⁠ｖ⁠ａ⁠ｐ⁠ｏ⁠ｕ⁠ｒ⁠ｗ⁠ａ⁠ｖ⁠ｅ⁠，⁠　Ｃ⁠Ｗ⁠Ｍ⁠　Ｆ⁠Ｊ⁠Ｏ⁠Ｒ⁠Ｄ⁠Ｂ⁠Ａ⁠Ｎ⁠Ｋ⁠　Ｇ⁠Ｌ⁠Ｙ⁠Ｐ⁠Ｈ⁠Ｓ⁠　Ｖ⁠Ｅ⁠Ｘ⁠Ｔ⁠　Ｑ⁠Ｕ⁠Ｉ⁠Ｚ⁠． 
 
 The wonders of obscure Unicode: <ruby>和真<rp> (</rp><rt>カズマ</rt><rp>) </rp></ruby>。 
+
+Likewise for <sub>sub<sub>sub<sub>sub</sub></sub>script</sub> and <sup>super<sup>super<sup>super</sup></sup>script</sup>. 
+
+Trying with HTML escapes <sub>subscript</sub> <sup>superscript</sup>: <ruby>和真<rp> (</rp><rt>カズマ</rt><rp>) </rp></ruby>。 
+
+HZ encoding: 我が名はめぐみん！ 
 
 

@@ -462,4 +462,10 @@ Discord emote: :kananYouNot: [[https://cdn.discordapp.com/emojis/230129080886886
 
 The wonders of obscure Unicode: 和真 (カズマ) 。 
 
+Likewise for [[subscript:sub[[subscript:sub[[subscript:sub]]]]script]] and [[superscript:super[[superscript:super[[superscript:super]]]]script]]. 
+
+Trying with HTML escapes [[subscript:subscript]] [[superscript:superscript]]: 和真 (カズマ) 。 
+
+HZ encoding: 我が名はめぐみん！ 
+
 

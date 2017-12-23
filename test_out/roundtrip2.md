@@ -497,3 +497,5 @@ Likewise for (~sub(~sub(~sub~\\\\\)~\\\)script~\\) and ^(super^(super^(super\\\\
 Trying with HTML escapes (~subscript~) ^(superscript): 和真 (カズマ) 。
 
 HZ encoding: 我が名はめぐみん！
+
+盐·惠· / 塩・惠・恵 / 塩・惠・恵

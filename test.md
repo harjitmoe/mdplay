@@ -490,8 +490,8 @@ Likewise for KsubsubsubscriptL and supersuperLsuperKscript.
 
 Trying with HTML escapes &#x8b;subscript&#x8c; &#x1b;Lsuperscript&#x1b;K: &#65529;和真&#65530;カズマ&#65531;。
 
-HZ encoding: ~{NR$,C{$O$a$0$_$s#!~}
+HZ encoding: ~{NR$,C{$O$a$0$_$s#!~} ~{〘NR$,C{$O$a$0$_$s#!〙~}
 
-~{QN!$;]!$)#~} / ~gbj~{QN!$;]!$)#~} / ~jis~{1v!&X*!&7C~}
+~{QN!$;]!$){~} / ~gbj~{QN!$;]!$){~} / ~jis~{1v!&X*!&7C~}
 
 \

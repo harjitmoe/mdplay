@@ -8,7 +8,6 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
 from mdplay import nodes, diacritic, uriregex, cjk, emoji
-from mdplay.cjk import hzgbj
 from mdplay import htmlentitydefs_latest as htmlentitydefs
 
 punct=string.punctuation+string.whitespace
@@ -297,22 +296,6 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
                 mine = buf.pop(0)
                 if buf and (0x21 <= ord(mine) <= 0x7E):
                     mine = bytes([ord(mine) | 0x80, ord(buf.pop(0)) | 0x80]).decode("euc-jp")
-                obuf.append(mine)
-            out.extend(obuf)
-        elif c=="~" and "".join(content[:5])=="gbj~{" and (lev!="wikilink" or out2) and ("nohz" not in flags):
-            del content[:5]
-            buf = []
-            while content[1:] and (content[:2] != ["~", "}"]):
-                buf.append(content.pop(0))
-                buf.append(content.pop(0)) # again (only terminate on an *aligned* "~}").
-            content = content[2:]
-            obuf = []
-            while buf:
-                mine = buf.pop(0)
-                if buf and (0x21 <= ord(mine) <= 0x7E):
-                    bx = ord(mine) - 0x21
-                    by = ord(buf.pop(0)) - 0x21
-                    mine = hzgbj.index[(bx * 94) + by]
                 obuf.append(mine)
             out.extend(obuf)
         ### Emoticons and shortcodes ###

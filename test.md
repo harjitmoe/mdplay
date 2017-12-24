@@ -492,6 +492,6 @@ Trying with HTML escapes &#x8b;subscript&#x8c; &#x1b;Lsuperscript&#x1b;K: &#6552
 
 HZ encoding: ~{NR$,C{$O$a$0$_$s#!~} ~{〘NR$,C{$O$a$0$_$s#!〙~}
 
-~{QN!$.G!$;]~} / ~gbj~{QN!$.G!$;]~} / ~jis~{1v!&X*!&7C~}
+~{QN!$;]~} / ~jis~{1v!&X*!&7C~}
 
 \

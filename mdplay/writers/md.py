@@ -42,6 +42,8 @@ def _md_out_body(node,flags=()):
         bullet="~~~~~~"
         while bullet in rcontent:
             bullet+="~"
+        if rcontent[-1] != "\n":
+            rcontent += "\n"
         return "\n"+bullet+" "+node.clas+"\n"+rcontent+bullet+"\n"
     elif isinstance(node,nodes.CodeSpanNode):
         rcontent="".join(node.content)

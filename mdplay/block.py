@@ -377,7 +377,7 @@ def _parse_block(f, state, flags):
                 f.reconsume()
                 continue
             if line.strip() and (not line.startswith(" "*depth)):
-                yield nodes.CodeBlockNode(minibuf,clas="::")
+                yield nodes.CodeBlockNode(minibuf.rstrip("\n"), clas="::")
                 minibuf=""
                 depth=0
                 fence=None
@@ -409,6 +409,16 @@ def _parse_block(f, state, flags):
                 fenceinfo=line.strip()
                 fence*=fchar
             elif all_same(line.strip()) and (fence in line):
+                yield nodes.CodeBlockNode(minibuf,clas=fenceinfo)
+                minibuf=""
+                depth=0
+                fence=None
+                within = "root"
+            elif line.rstrip().endswith(fence):
+                for i in range(depth):
+                    if line[:1]==" ":
+                        line=line[1:]
+                minibuf+=line.rstrip("\r\n")+"\n"
                 yield nodes.CodeBlockNode(minibuf,clas=fenceinfo)
                 minibuf=""
                 depth=0
@@ -552,8 +562,10 @@ def _parse_block(f, state, flags):
                 if line.strip().endswith("|"):
                     line=line[:-1]
             if (not cellwid) and (cellrows):
+                #print(repr(line), repr(splitcols(line.strip())))
                 cellwid=[( (((i.strip()[0]+i.strip()[-1])=="::") and "center") or ((i.strip()[0]==":") and "left") or ((i.strip()[-1]==":") and "right") or None ) for i in splitcols(line.strip())]
             elif not cellwid:
+                # NOTE: THIS IS NOT QUITE RIGHT ("|a|b" will result in empty splitcols elements on the alignment line and fail)
                 depth=line.strip().startswith("|") and line.strip().endswith("|")
                 if depth:
                     line=line.strip()[1:-1]

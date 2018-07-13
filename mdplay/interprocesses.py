@@ -41,6 +41,32 @@ def _interprocess_string(content, levs = ("root",), flags = (), state = None):
         if c=="\u001b" and content and (0x40 <= ord(content[0]) < 0x60):
             # Normalise ESC sequences to C1 sequences where applicable.
             c = chr(ord(content.pop(0)) + 0x40)
+        #
+        # Convert ANSI-escape rubi to Unicode rubi.
+        # Todo: should this really require the backslashes to be escaped as it does now (edits to
+        # inline.py would be needed to change this)? Allowing the ESC or CSI to be an entity and
+        # still allowing the backslash to be escaped would be prohibitively convoluted, so likely
+        # it shouldn't.
+        if c == "\x9b" and content[1:] and (content[0] == "1") and (content[1] == "\\"):
+            c = "\ufff9"
+            del content[:2]
+        elif c == "\x9b" and content[1:] and (content[0] == "3") and (content[1] == "\\"):
+            c = "\ufffa"
+            del content[:2]
+        elif c == "\x9b" and content[1:] and (content[0] == "4") and (content[1] == "\\"):
+            c = "\ufffa"
+            del content[:2]
+        elif c == "\x9b" and content[1:] and (content[0] == "5") and (content[1] == "\\"):
+            c = "\ufffb"
+            del content[:2]
+            content.insert(0, "\ufff9")
+        elif c == "\x9b" and content[1:] and (content[0] == "0") and (content[1] == "\\"):
+            c = "\ufffb"
+            del content[:2]
+        elif c == "\x9b" and content[1:] and (content[1] == "\\"):
+            c = "\ufffb"
+            content.pop(0)
+        #
         ### Superscript ###
         if c=="\u008C" and (lev != "subuni") and ("noc1supersub" not in flags): # PLU
             out.append(nodes.SuperNode(_interprocess_string(content,("supuni",)+levs,flags=flags,state=state)))

@@ -32,6 +32,8 @@ def flatten_flags_parser(flags):
             out.extend(flatten_flags_parser(["nowikihead", "nowikiemph", "nowikilinks"]))
         elif flag == "noredditstyle":
             out.extend(flatten_flags_parser(["noredditstylesuper", "noredditspoiler"]))
+        elif flag == "noredditspoiler":
+            out.extend(flatten_flags_parser(["noredditcssspoiler", "noredditrealspoiler"]))
         elif flag == "nospoilertag":
             out.extend(flatten_flags_parser(["noblockspoiler", "noredditspoiler"]))
         elif flag == "nosetexthead":

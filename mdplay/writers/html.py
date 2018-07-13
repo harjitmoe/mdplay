@@ -4,7 +4,7 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay import nodes, mdputil
+from mdplay import nodes, mdputil, deseret
 from mdplay.writers._writehtml import tohtml
 
 import re
@@ -364,6 +364,8 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
         elif isinstance(node, nodes.RuleNode):
             r = document.createElement("hr" if not is_xhtml2 else "separator")
             yield r
+        elif isinstance(node, nodes.DeseretNode):
+            yield from deseret.characters_to_nodes(document, node.content)
         elif isinstance(node, nodes.DirectiveNode) and node.type.startswith("html-") and ("insecuredirective" in flags):
             r = document.createElement(node.type[len("html-"):].strip())
             for i,j in node.opts:

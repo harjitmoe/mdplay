@@ -107,6 +107,9 @@ class SubscrNode(InlineNode):
 class HrefNode(InlineNode):
     pass
 
+class DeseretNode(InlineNode):
+    pass
+
 class RubiNode(InlineNode):
     pass
 

@@ -494,4 +494,12 @@ HZ encoding: ~{NR$,C{$O$a$0$_$s#!~} ~{〘NR$,C{$O$a$0$_$s#!〙~}
 
 ~{QN!$;]~} / ~jis~{1v!&X*!&7C~}
 
+>! Block spoiler
+
+And >!Inline spoiler!<
+
+\ >!Inline spoiler!< again.
+
+Testing [1\\This[3\\as[0\\ so.
+
 \

@@ -181,6 +181,13 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
         elif c=="'" and content[0]=="'" and lev=="italicmw" and ("nowikiemph" not in flags):
             del content[0]
             return out
+        ### New Reddit spoilers (urn:x-reddit-post:8ybmnq) ###
+        elif c==">" and content[0]=="!" and ("noredditrealspoiler" not in flags):
+            del content[0]
+            out.append(nodes.InlineSpoilerNode(_parse_inline(content,("rfmspoiler",)+levs,flags=flags,state=state)))
+        elif c=="!" and content[0]=="<" and lev=="rfmspoiler" and ("noredditrealspoiler" not in flags):
+            del content[0]
+            return out
         ### HREFs (links and embeds, plus CJK extensions) ###
         elif re.match(hrefre,c+("".join(content))) and (lev!="wikilink" or out2):
             # Note: ridiculous amount of work needed here for CommonMark complience.
@@ -217,7 +224,7 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
                 href, size = href.split(" =",1)
                 width, height = size.split("x")
             url_is_spoiler = href.strip().split()[0] in ("/spoiler","/s","#spoiler","#s")
-            if url_is_spoiler and (hreftype == "url") and ("noredditspoiler" not in flags):
+            if url_is_spoiler and (hreftype == "url") and ("noredditcssspoiler" not in flags):
                 if " " not in href.strip():
                     out.append(nodes.InlineSpoilerNode(label))
                 else:
@@ -229,6 +236,8 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
                     out.append(nodes.InlineSpoilerNode(label))
                 else:
                     out.append(nodes.InlineSpoilerNode(parse_inline(href,flags=flags,state=state),label))
+            elif (hreftype.lower() == "deseret") and ("nodeseret" not in flags):
+                out.append(nodes.DeseretNode(href))
             elif not cjk.cjk_handler(out, hreftype, href, label, flags):
                 out.append(nodes.HrefNode(href,label,hreftype,width=gogo(width),height=gogo(height)))
         elif c=="]" and lev=="label":

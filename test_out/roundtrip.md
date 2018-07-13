@@ -184,21 +184,18 @@ Indented code block:
 
 ~~~~~~ ::
 Hello world
-
 ~~~~~~
 
 Indented code block:
 
 ~~~~~~ ::
 Hello world
-
 ~~~~~~
 
 Indented code block:
 
 ~~~~~~ ::
 Hello world
-
 ~~~~~~
 
 Hello.
@@ -207,7 +204,6 @@ Indented code block:
 
 ~~~~~~ ::
 Hello world
-
 ~~~~~~
 
 Ada.
@@ -222,7 +218,6 @@ nouicode flag passed.
 Second paragraph
 
 Third paragraph
-
 ~~~~~~
 
 Søren. Søren.
@@ -270,7 +265,6 @@ Hello.
 ~~~~~~ ::
  Indent
 ation.
-
 ~~~~~~
 
 ~~~~~~ ::
@@ -279,22 +273,18 @@ Indent
 
 ~~~~~~ ::
 ation.
-
 ~~~~~~
 
 ~~~~~~ ::
 ''Breaking''
 
 the news (still in code).
-
 ~~~~~~
 
 ~~~~~~ ::
 Breaking
 
 the news (also).
-
-
 ~~~~~~
 
 !wiki[](User:HarJIT)
@@ -499,4 +489,12 @@ Trying with HTML escapes (~subscript~) ^(superscript): 和真 (カズマ) 。
 HZ encoding: 我が名はめぐみん！ 〘我が名はめぐみん！〙
 
 盐·惠 / 塩・惠・恵
+
+>! Block spoiler 
+
+And [Inline spoiler](/spoiler)
+
+[Inline spoiler](/spoiler) again.
+
+Testing This (as)  so.
 

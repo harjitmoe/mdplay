@@ -184,21 +184,18 @@ Indented code block:
 
 ~~~~~~ ::
 Hello world
-
 ~~~~~~
 
 Indented code block:
 
 ~~~~~~ ::
 Hello world
-
 ~~~~~~
 
 Indented code block:
 
 ~~~~~~ ::
 Hello world
-
 ~~~~~~
 
 Hello.
@@ -207,7 +204,6 @@ Indented code block:
 
 ~~~~~~ ::
 Hello world
-
 ~~~~~~
 
 Ada.
@@ -222,7 +218,6 @@ nouicode flag passed.
 Second paragraph
 
 Third paragraph
-
 ~~~~~~
 
 Søren. Søren.
@@ -270,7 +265,6 @@ Hello.
 ~~~~~~ ::
  Indent
 ation.
-
 ~~~~~~
 
 ~~~~~~ ::
@@ -279,22 +273,18 @@ Indent
 
 ~~~~~~ ::
 ation.
-
 ~~~~~~
 
 ~~~~~~ ::
 ''Breaking''
 
 the news (still in code).
-
 ~~~~~~
 
 ~~~~~~ ::
 Breaking
 
 the news (also).
-
-
 ~~~~~~
 
 !wiki[](User:HarJIT)
@@ -372,7 +362,7 @@ Testing ordered lists:
       2) Coming back to this level. 
   * Similarly 
 
-This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [It actually is.](/spoiler) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32)
+This is just a paragraph.  ( ͡° ͜ʖ ͡° )  >!It actually is.!< ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32)
 
 Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)
 
@@ -443,7 +433,7 @@ Pinguinet (PANG\-win\-ay)
 キェ ブァハハハハ イェヴィンギャ シジチヂツヅ  
 キェ ブァハハハハ イェヴィンギャ スィズィティディトゥドゥ
 
-[Spojra](/spoiler)
+>!Spojra!<
 
 ヴァ ヴィ ヴ ヴェ ヴォ 〜 ヴャ ヸ ヴュ ヹ ヴョ 〜 ヴァ ヴィ ヴゥ ヴェ ヴォ 〜 ヷ ヸ ヺゥ ヹ ヺ
 
@@ -496,5 +486,15 @@ Likewise for (~sub(~sub(~sub~\\)~\)script~) and ^(super^(super^(super\\)\)script
 
 Trying with HTML escapes (~subscript~) ^(superscript): 和真 (カズマ) 。
 
-HZ encoding: 我が名はめぐみん！
+HZ encoding: 我が名はめぐみん！ 〘我が名はめぐみん！〙
+
+盐·惠 / 塩・惠・恵
+
+>! Block spoiler 
+
+And >!Inline spoiler!<
+
+>!Inline spoiler!< again.
+
+Testing This (as)  so.
 

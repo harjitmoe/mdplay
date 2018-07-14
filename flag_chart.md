@@ -16,7 +16,9 @@
     * nowikilinks
   * noredditstyle, which activates
     * noredditstylesuper
-    * noredditspoiler
+    * noredditspoiler, which activates
+      * noredditrealspoiler
+      * noredditcssspoiler
   * nopandocstyle
   * nospecialhrefs
   * nodiacritic
@@ -58,6 +60,9 @@
 * html5 (HTML)
 * nobackslashspace (MD)
 * noemphunderscore (MD)
+* discordunderline (MD)
+* discordunderline (MD)
+* classicsubredditspoiler (MD)
 * pandoc (MD)
 * forum (TV)
 * notwemoji (BB, MD)

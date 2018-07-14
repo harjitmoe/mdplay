@@ -45,7 +45,7 @@ def _interprocess_string(content, levs = ("root",), flags = (), state = None):
         # Convert ANSI-escape rubi to Unicode rubi.
         # Todo: should this really require the backslashes to be escaped as it does now (edits to
         # inline.py would be needed to change this)? Allowing the ESC or CSI to be an entity and
-        # still allowing the backslash to be escaped would be prohibitively convoluted, so likely
+        # still allowing the backslash to be unescaped would be prohibitively convoluted, so likely
         # it shouldn't.
         if c == "\x9b" and content[1:] and (content[0] == "1") and (content[1] == "\\"):
             c = "\ufff9"

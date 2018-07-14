@@ -362,7 +362,7 @@ Testing ordered lists:
       2) Coming back to this level. 
   * Similarly 
 
-This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [It actually is.](/spoiler) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32)
+This is just a paragraph.  ( ͡° ͜ʖ ͡° )  \ >!It actually is.!< ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32)
 
 Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)
 
@@ -433,7 +433,7 @@ Pinguinet (PANG\-win\-ay)
 キェ ブァハハハハ イェヴィンギャ シジチヂツヅ  
 キェ ブァハハハハ イェヴィンギャ スィズィティディトゥドゥ
 
-[Spojra](/spoiler)
+\ >!Spojra!<
 
 ヴァ ヴィ ヴ ヴェ ヴォ 〜 ヴャ ヸ ヴュ ヹ ヴョ 〜 ヴァ ヴィ ヴゥ ヴェ ヴォ 〜 ヷ ヸ ヺゥ ヹ ヺ
 
@@ -492,8 +492,8 @@ HZ encoding: 我が名はめぐみん！ 〘我が名はめぐみん！〙
 
 >! Block spoiler 
 
-And [Inline spoiler](/spoiler)
+And \ >!Inline spoiler!<
 
-[Inline spoiler](/spoiler) again.
+\ >!Inline spoiler!< again.
 
 Testing This (as)  so.

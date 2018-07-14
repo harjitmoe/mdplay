@@ -34,7 +34,12 @@ def _md_out_body(node,flags=()):
         return "\n>! "+md_out_body(node.content,flags).strip("\r\n").replace("\n","\n>! ")+"\n"
     elif isinstance(node,nodes.InlineSpoilerNode):
         if not node.label:
-            return "["+md_out_body(node.content,flags)+"](/spoiler)"
+            if "classicsubredditspoiler" in flags:
+                return "["+md_out_body(node.content,flags)+"](/spoiler)"
+            elif "nobackslashspace" in flags:
+                return ">!"+md_out_body(node.content,flags)+"!<"
+            else:
+                return "\ >!"+md_out_body(node.content,flags)+"!<"
         else:
             return "["+md_out_body(node.label,flags)+"](/s "+md_out_body(node.content,flags)+")"
     elif isinstance(node,nodes.CodeBlockNode):

@@ -434,4 +434,14 @@ Likewise for [sub]sub[sub]sub[sub]sub[/sub][/sub]script[/sub] and [sup]super[sup
 
 Trying with HTML escapes [sub]subscript[/sub] [sup]superscript[/sup]: 和真 (カズマ) 。 
 
-HZ encoding: 我が名はめぐみん！ 
+HZ encoding: 我が名はめぐみん！ 〘我が名はめぐみん！〙 
+
+盐·惠 / 塩・惠・恵 
+
+[spoiler]Block spoiler [/spoiler]
+
+And [spoiler]Inline spoiler[/spoiler] 
+
+[spoiler]Inline spoiler[/spoiler] again. 
+
+Testing This (as)  so. 

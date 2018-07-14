@@ -179,28 +179,20 @@ ATX code block syntax:
 Indented code block:
 
 @@[=Hello world=]@@
-@@[==]@@
-@@[==]@@
 
 Indented code block:
 
 @@[=Hello world=]@@
-@@[==]@@
-@@[==]@@
 
 Indented code block: 
 
 @@[=Hello world=]@@
-@@[==]@@
-@@[==]@@
 
 Hello. 
 
 Indented code block: 
 
 @@[=Hello world=]@@
-@@[==]@@
-@@[==]@@
 
 Ada. 
 
@@ -213,8 +205,6 @@ Ada.
 @@[=Second paragraph=]@@
 @@[==]@@
 @@[=Third paragraph=]@@
-@@[==]@@
-@@[==]@@
 
 Søren. Søren. 
 
@@ -260,28 +250,18 @@ Hello.
 
 @@[= Indent=]@@
 @@[=ation.=]@@
-@@[==]@@
-@@[==]@@
 
 @@[=Indent=]@@
-@@[==]@@
 
 @@[=ation.=]@@
-@@[==]@@
-@@[==]@@
 
 @@[=''Breaking''=]@@
 @@[==]@@
 @@[=the news (still in code).=]@@
-@@[==]@@
-@@[==]@@
 
 @@[=Breaking=]@@
 @@[==]@@
 @@[=the news (also).=]@@
-@@[==]@@
-@@[==]@@
-@@[==]@@
 
 [[User/{{HarJIT}} User:HarJIT]] 
 
@@ -466,6 +446,16 @@ Likewise for [[subscript:sub[[subscript:sub[[subscript:sub]]]]script]] and [[sup
 
 Trying with HTML escapes [[subscript:subscript]] [[superscript:superscript]]: 和真 (カズマ) 。 
 
-HZ encoding: 我が名はめぐみん！ 
+HZ encoding: 我が名はめぐみん！ 〘我が名はめぐみん！〙 
+
+盐·惠 &#47; 塩・惠・恵 
+
+[[spoiler:Block spoiler ]]
+
+And [[spoiler:Inline spoiler]] 
+
+[[spoiler:Inline spoiler]] again. 
+
+Testing This (as)  so. 
 
 

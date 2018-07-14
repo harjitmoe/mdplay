@@ -172,29 +172,21 @@ ATX code block syntax:
 
 Indented code block:
 
-<pre>Hello world
-
-</pre>
+<pre>Hello world</pre>
 
 Indented code block:
 
-<pre>Hello world
-
-</pre>
+<pre>Hello world</pre>
 
 Indented code block: 
 
-<pre>Hello world
-
-</pre>
+<pre>Hello world</pre>
 
 Hello. 
 
 Indented code block: 
 
-<pre>Hello world
-
-</pre>
+<pre>Hello world</pre>
 
 Ada. 
 
@@ -206,9 +198,7 @@ nouicode flag passed.
 
 Second paragraph
 
-Third paragraph
-
-</pre>
+Third paragraph</pre>
 
 Søren. Søren. 
 
@@ -287,29 +277,19 @@ Hi.
 Hello. 
 
 <pre> Indent
-ation.
+ation.</pre>
 
-</pre>
+<pre>Indent</pre>
 
-<pre>Indent
-</pre>
-
-<pre>ation.
-
-</pre>
+<pre>ation.</pre>
 
 <pre>''Breaking''
 
-the news (still in code).
-
-</pre>
+the news (still in code).</pre>
 
 <pre>Breaking
 
-the news (also).
-
-
-</pre>
+the news (also).</pre>
 
 [[User:HarJIT]] 
 
@@ -481,7 +461,7 @@ This should be a rainbow banner: 🏳️‍🌈 or 🏳️‍🌈 or 🏳️‍�
 
 ''This should behave more or less as expected. However, I have reason to believe otherwise.'' (Should be fixed now…) 
 
-<span class="mw-customtoggle-6" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-6" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
+<span class="mw-customtoggle-5" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-5" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
 
 Discord emote: :kananYouNot: [https://cdn.discordapp.com/emojis/230129080886886400.png :‌wacko:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌ConcernFroge:] [https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:] [https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:] 
 
@@ -511,6 +491,14 @@ Likewise for <sub>sub<sub>sub<sub>sub</sub></sub>script</sub> and <sup>super<sup
 
 Trying with HTML escapes <sub>subscript</sub> <sup>superscript</sup>: <ruby>和真<rp> (</rp><rt>カズマ</rt><rp>) </rp></ruby>。 
 
-HZ encoding: 我が名はめぐみん！ 
+HZ encoding: 我が名はめぐみん！ 〘我が名はめぐみん！〙 
+
+盐·惠 / 塩・惠・恵 
+<span class="mw-customtoggle-6" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-6" class="mw-collapsible mw-collapsed" style="display:none;">Block spoiler </div>
+And <span class="mw-customtoggle-7" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-7" class="mw-collapsible mw-collapsed" style="display:none;">Inline spoiler</div> 
+
+<span class="mw-customtoggle-6" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-6" class="mw-collapsible mw-collapsed" style="display:none;">Inline spoiler</div> again. 
+
+Testing <ruby>This<rp> (</rp><rt>as</rt><rp>) </rp></ruby> so. 
 
 

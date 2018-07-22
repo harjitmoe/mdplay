@@ -10,7 +10,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # their ilk.
 
 from mdplay.emoji import emoji_scan
-from mdplay import nodes
+from mdplay import nodes, interwiki
 
 def agglomerate(nodelist): # From mdputil.py
     """Given a list of nodes, fuse adjacent text nodes."""
@@ -102,6 +102,14 @@ def _interprocess_nodes(nodesz, flags, state):
     for node in nodesz:
         if type(node) == type(""):
             yield from interprocess_string(node, flags, state)
+        elif isinstance(node, nodes.HrefNode):
+            if node.content.lower().startswith("urn:x-interwiki:"): # Not .casefold here as trimming hard.
+                c = node.content[len("urn:x-interwiki:"):]
+                if ":" in c:
+                    p, d = c.split(":", 1)
+                    if p.casefold() in interwiki.interwikis:
+                        node.content = interwiki.interwikis[p.casefold()].replace("$1", d)
+            yield node
         else:
             yield node
 

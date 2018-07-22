@@ -394,7 +394,9 @@ m̈ëẗälë Ë
 
 ![🇯🇵](https://twemoji.maxcdn.com/2/72x72/1f1ef-1f1f5.png =32x32) ![🇯](https://twemoji.maxcdn.com/2/72x72/1f1ef.png =32x32)‌![🇵](https://twemoji.maxcdn.com/2/72x72/1f1f5.png =32x32)
 
-Testing a URN: [x\-wikipedia:Tree](x-wikipedia:Tree)
+Testing a URN: [urn:x\-interwiki:wikipedia:Tree](https://en.wikipedia.org/wiki/Tree)
+
+Case sensitivity: [urn:x\-interwiki:gausswiki:Hello](http://gauss.ffii.org/Hello) \[Eh?]([uRn:x\-inteRwiki:gaU](uRn:x-inteRwiki:gaU)ß[wiki:Hello](wiki:Hello))
 
 x̄ and ȳ
 

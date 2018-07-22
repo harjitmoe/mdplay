@@ -394,7 +394,9 @@ Squirt :aries: Squirt :aries: Squirt ♈
 
 🇯🇵 🇯&zwnj;🇵
 
-Testing a URN: x-wikipedia:Tree
+Testing a URN: urn:x-interwiki:wikipedia:Tree
+
+Case sensitivity: urn:x-interwiki:gausswiki:Hello [Eh?](uRn:x-inteRwiki:gaUßwiki:Hello)
 
 {\=x} and {\=y}
 

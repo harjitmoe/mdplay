@@ -360,7 +360,9 @@ m̈ëẗälë Ë
 
 🇯🇵 🇯‌🇵 
 
-Testing a URN: x-wikipedia:Tree 
+Testing a URN: [[https://en.wikipedia.org/wiki/Tree urn:x-interwiki:wikipedia:Tree]] 
+
+Case sensitivity: [[http://gauss.ffii.org/Hello urn:x-interwiki:gausswiki:Hello]] &#91;Eh?&#93;(uRn:x-inteRwiki:gaUßwiki:Hello) 
 
 x̄ and ȳ 
 

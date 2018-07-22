@@ -358,7 +358,7 @@ Testing ordered lists:
 #### Coming back to this level. 
 ** Similarly 
 
-This is just a paragraph.  ( ͡° ͜ʖ ͡° )  <span class="mw-customtoggle-4" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-4" class="mw-collapsible mw-collapsed" style="display:none;">It actually is.</div> 🖖 👀 👀 
+This is just a paragraph.  ( ͡° ͜ʖ ͡° )  <span class="mw-customtoggle-1" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-1" class="mw-collapsible mw-collapsed" style="display:none;">It actually is.</div> 🖖 👀 👀 
 
 Squirt ♈ Squirt ♈ Squirt ♈ 
 
@@ -405,7 +405,9 @@ m̈ëẗälë Ë
 
 🇯🇵 🇯‌🇵 
 
-Testing a URN: [x-wikipedia:Tree x-wikipedia:Tree] 
+Testing a URN: [https://en.wikipedia.org/wiki/Tree urn:x-interwiki:wikipedia:Tree] 
+
+Case sensitivity: [http://gauss.ffii.org/Hello urn:x-interwiki:gausswiki:Hello] &#91;Eh?&#93;([uRn:x-inteRwiki:gaU uRn:x-inteRwiki:gaU]ß[wiki:Hello wiki:Hello]) 
 
 x̄ and ȳ 
 
@@ -441,7 +443,7 @@ x̄ and ȳ
 
 キェ ブァハハハハ イェヴィンギャ シジチヂツヅ<br />キェ ブァハハハハ イェヴィンギャ スィズィティディトゥドゥ 
 
-<span class="mw-customtoggle-5" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-5" class="mw-collapsible mw-collapsed" style="display:none;">Spojra</div> 
+<span class="mw-customtoggle-1" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-1" class="mw-collapsible mw-collapsed" style="display:none;">Spojra</div> 
 
 ヴァ ヴィ ヴ ヴェ ヴォ 〜 ヴャ ヸ ヴュ ヹ ヴョ 〜 ヴァ ヴィ ヴゥ ヴェ ヴォ 〜 ヷ ヸ ヺゥ ヹ ヺ 
 
@@ -461,7 +463,7 @@ This should be a rainbow banner: 🏳️‍🌈 or 🏳️‍🌈 or 🏳️‍�
 
 ''This should behave more or less as expected. However, I have reason to believe otherwise.'' (Should be fixed now…) 
 
-<span class="mw-customtoggle-5" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-5" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
+<span class="mw-customtoggle-4" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-4" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
 
 Discord emote: :kananYouNot: [https://cdn.discordapp.com/emojis/230129080886886400.png :‌wacko:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌ConcernFroge:] [https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:] [https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:] 
 
@@ -494,10 +496,10 @@ Trying with HTML escapes <sub>subscript</sub> <sup>superscript</sup>: <ruby>和�
 HZ encoding: 我が名はめぐみん！ 〘我が名はめぐみん！〙 
 
 盐·惠 / 塩・惠・恵 
-<span class="mw-customtoggle-6" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-6" class="mw-collapsible mw-collapsed" style="display:none;">Block spoiler </div>
-And <span class="mw-customtoggle-7" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-7" class="mw-collapsible mw-collapsed" style="display:none;">Inline spoiler</div> 
+<span class="mw-customtoggle-5" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-5" class="mw-collapsible mw-collapsed" style="display:none;">Block spoiler </div>
+And <span class="mw-customtoggle-2" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-2" class="mw-collapsible mw-collapsed" style="display:none;">Inline spoiler</div> 
 
-<span class="mw-customtoggle-6" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-6" class="mw-collapsible mw-collapsed" style="display:none;">Inline spoiler</div> again. 
+<span class="mw-customtoggle-5" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-5" class="mw-collapsible mw-collapsed" style="display:none;">Inline spoiler</div> again. 
 
 Testing <ruby>This<rp> (</rp><rt>as</rt><rp>) </rp></ruby> so. 
 

@@ -345,7 +345,9 @@ m̈ëẗälë Ë
 
 [img width="32" height="32" alt="\ud83c\uddef\ud83c\uddf5" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f1ef-1f1f5.png[/img] [img width="32" height="32" alt="\ud83c\uddef" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f1ef.png[/img]‌[img width="32" height="32" alt="\ud83c\uddf5" title="twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/"]https://twemoji.maxcdn.com/2/72x72/1f1f5.png[/img] 
 
-Testing a URN: [url="x-wikipedia:Tree"]x-wikipedia:Tree[/url] 
+Testing a URN: [url="https://en.wikipedia.org/wiki/Tree"]urn:x-interwiki:wikipedia:Tree[/url] 
+
+Case sensitivity: [url="http://gauss.ffii.org/Hello"]urn:x-interwiki:gausswiki:Hello[/url] [Eh?]([url="uRn:x-inteRwiki:gaU"]uRn:x-inteRwiki:gaU[/url]ß[url="wiki:Hello"]wiki:Hello[/url]) 
 
 x̄ and ȳ 
 

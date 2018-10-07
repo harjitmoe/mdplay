@@ -55,8 +55,6 @@ def characters_to_nodes(document, s):
     bgsz = FACTOR * height / cheight
     mh = FACTOR ; mw = FACTOR * cwidth / cheight
     templ = "width: {:f}em; height: {:f}em; background-size: auto {:f}em; background-position: {};"
-    templ += "\x20background-image: url('/deseret/Deseret.png'); display: inline-block;"
-    templ += "\x20color: rgba(0, 0, 0, 0); overflow: hidden;"
     for c in s:
         cs = smp_to_csur(c)
         if cs == "\x20":
@@ -71,6 +69,7 @@ def characters_to_nodes(document, s):
         else:
             e = document.createElement("span")
             sty = templ.format(mw, mh, bgsz, csur_to_coords(cs, bgsz))
+            e.setAttribute("class", "deseretletter")
             e.setAttribute("style", sty)
             e.appendChild(document.createTextNode(c))
             yield e

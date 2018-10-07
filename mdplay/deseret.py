@@ -60,7 +60,7 @@ def characters_to_nodes(document, s):
     for c in s:
         cs = smp_to_csur(c)
         if cs == "\x20":
-            e = document.createElement("div")
+            e = document.createElement("span")
             sty = "width: {:f}em; height: {:f}em; display: inline-block;".format(mw, mh)
             e.setAttribute("style", sty)
             e.appendChild(document.createTextNode(" "))
@@ -69,7 +69,7 @@ def characters_to_nodes(document, s):
             yield document.createTextNode(c)
             continue
         else:
-            e = document.createElement("div")
+            e = document.createElement("span")
             sty = templ.format(mw, mh, bgsz, csur_to_coords(cs, bgsz))
             e.setAttribute("style", sty)
             e.appendChild(document.createTextNode(c))

@@ -104,6 +104,9 @@ class SuperNode(InlineNode):
 class SubscrNode(InlineNode):
     pass
 
+class StrikeNode(InlineNode):
+    pass
+
 class HrefNode(InlineNode):
     pass
 

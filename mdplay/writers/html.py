@@ -261,6 +261,18 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
             for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                 r.appendChild(domn)
             yield r
+        elif isinstance(node, nodes.StrikeNode):
+            if node.emphatic:
+                r = document.createElement("del")
+            elif not is_xhtml2:
+                r = document.createElement("s")
+            elif "html5" in flags:
+                r = document.createElement("html:s")
+            else:
+                r = document.createElement("del")
+            for domn in html_out_part(node.content, document, flags=flags, mode=mode):
+                r.appendChild(domn)
+            yield r
         elif isinstance(node, nodes.SuperNode):
             r = document.createElement("sup") # Thankfully never earmarked, even in XHTML2.
             for domn in html_out_part(node.content, document, flags=flags, mode=mode):

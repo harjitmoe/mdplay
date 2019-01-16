@@ -57,6 +57,8 @@ def _tvwiki_out_body(node,flags=()):
         return "'''"+tvwiki_out_body(node.content)+"'''" # Can't do underline...
     elif isinstance(node,nodes.ItalicNode):
         return "''"+tvwiki_out_body(node.content)+"''"
+    elif isinstance(node,nodes.StrikeNode):
+        return "[[strike:"+tvwiki_out_body(node.content)+"]]" # Only for forums but no alternative…
     elif isinstance(node,nodes.SuperNode):
         return "[[superscript:"+tvwiki_out_body(node.content)+"]]"
     elif isinstance(node,nodes.SubscrNode):

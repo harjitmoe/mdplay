@@ -496,6 +496,10 @@ HZ encoding: 我が名はめぐみん！ 〘我が名はめぐみん！〙
 
 And \ >!Inline spoiler!<
 
+Hello\\world hello\\`world hello\\\\world `
+
+ERROR<mdplay.nodes.StrikeNode object at 0x7f1c46281400>
+
 \ >!Inline spoiler!< again.
 
 Testing This (as)  so.

@@ -75,6 +75,8 @@ def _md_out_body(node,flags=()):
             return "*"+md_out_body(node.content,flags)+"*"
         else:
             return "\ _"+md_out_body(node.content,flags)+"_\ "
+    elif isinstance(node,nodes.ItalicNode):
+        return "~~"+md_out_body(node.content,flags)+"~~"
     elif isinstance(node,nodes.SuperNode):
         if ("pandoc" in flags):
             return "(^"+md_out_body(node.content,flags).replace(")","\\)")+"^)"
@@ -124,50 +126,6 @@ def _md_out_body(node,flags=()):
             for cell in row:
                 r+=md_out_body(list(cell)).strip().replace("|","\\|").replace("\n","&#10;")+"|"
         return r+"\n"
-    elif 0: #isinstance(node,nodes.TableNode):
-        #Old code for generating ReST-style tables.
-        r="\n"
-        rows_header=[]
-        rows_body=[]
-        for arow in node.table_head:
-            row=[]
-            for cell in arow:
-                row.append(md_out_body(cell,flags).strip("\r\n"))
-            rows_header.append(row)
-        for arow in node.table_body:
-            row=[]
-            for cell in arow:
-                row.append(md_out_body(cell,flags).strip("\r\n"))
-            rows_body.append(row)
-        column_guage=[]
-        for col in range(len(rows_header[0])):
-            guage=0
-            for row in rows_header+rows_body:
-                for line in row[col].split("\n"):
-                    if len(line)>guage:
-                        guage=len(line)
-            column_guage.append(guage)
-        rule=" ".join(["="*l for l in column_guage])+"\n"
-        r+=rule
-        def pad_to_len(line,guage):
-            while len(line)<guage:
-                line+=" "
-            return line
-        for row in rows_header:
-            if row and (not row[0].strip()): row[0]="\\"
-            lines=list(zip(*[i.split("\n") for i in row]))
-            for line in lines:
-                if line:
-                    r+=(" ".join(map(pad_to_len,line[:-1],column_guage[:-1])))+" "+line[-1]+"\n"
-        r+=rule
-        for row in rows_body:
-            if row and (not row[0].strip()): row[0]="\\"
-            lines=list(zip(*[i.split("\n") for i in row]))
-            for line in lines:
-                if line:
-                    r+=(" ".join(map(pad_to_len,line[:-1],column_guage[:-1])))+" "+line[-1]+"\n"
-        r+=rule
-        return r
     elif isinstance(node,nodes.EmptyInterrupterNode):
         return "\n\n"
     elif isinstance(node,nodes.EmojiNode):

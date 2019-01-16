@@ -500,6 +500,10 @@ HZ encoding: ~{NR$,C{$O$a$0$_$s#!~} ~{〘NR$,C{$O$a$0$_$s#!〙~}
 
 And >!Inline spoiler!<
 
+Hello\\world hello\\\`world hello\\\\world
+
+~~Crossed out~~
+
 \ >!Inline spoiler!< again.
 
 Testing [1\\This[3\\as[0\\ so.

@@ -181,6 +181,14 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
         elif c=="'" and content[0]=="'" and lev=="italicmw" and ("nowikiemph" not in flags):
             del content[0]
             return out
+        #### /Others
+        elif c=="~" and "".join(content).startswith("~") and ("strikediscord" not in levs) and (lev!="wikilink" or out2) and ("nodiscordstrike" not in flags):
+            del content[0]
+            # emphatic=True would be <del>, emphatic=False would be <s>
+            out.append(nodes.StrikeNode(_parse_inline(content,("strikediscord",)+levs,flags=flags,state=state),emphatic=True))
+        elif c=="~" and "".join(content).startswith("~") and lev=="strikediscord" and ("nodiscordstrike" not in flags):
+            del content[0]
+            return out
         ### New Reddit spoilers (urn:x-reddit-post:8ybmnq) ###
         elif c==">" and content[0]=="!" and ("noredditrealspoiler" not in flags):
             del content[0]
@@ -223,6 +231,7 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
             if (hreftype=="img") and (" =" in href):
                 href, size = href.split(" =",1)
                 width, height = size.split("x")
+            #print(repr(hreftype), repr(label), repr(href))
             url_is_spoiler = href.strip().split()[0] in ("/spoiler","/s","#spoiler","#s")
             if url_is_spoiler and (hreftype == "url") and ("noredditcssspoiler" not in flags):
                 if " " not in href.strip():

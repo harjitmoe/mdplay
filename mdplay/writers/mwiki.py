@@ -41,6 +41,11 @@ def _mwiki_out_body(node,flags=()):
         return "<u>"+mwiki_out_body(node.content,flags=flags)+"</u>"
     elif isinstance(node,nodes.ItalicNode):
         return "''"+mwiki_out_body(node.content,flags=flags)+"''"
+    elif isinstance(node,nodes.StrikeNode):
+        if note.emphatic:
+            return "<del>"+mwiki_out_body(node.content,flags=flags)+"</del>"
+        else:
+            return "<s>"+mwiki_out_body(node.content,flags=flags)+"</s>"
     elif isinstance(node,nodes.SuperNode):
         return "<sup>"+mwiki_out_body(node.content,flags=flags)+"</sup>"
     elif isinstance(node,nodes.SubscrNode):

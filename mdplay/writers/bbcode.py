@@ -159,6 +159,8 @@ def _bb_out(node,in_list,flags):
         return "[u]"+bb_out_body(node.content,flags=flags)+"[/u]"
     elif isinstance(node,nodes.ItalicNode):
         return "[i]"+bb_out_body(node.content,flags=flags)+"[/i]"
+    elif isinstance(node,nodes.StrikeNode):
+        return "[s]"+bb_out_body(node.content,flags=flags)+"[/s]"
     elif isinstance(node,nodes.SuperNode):
         return "[sup]"+bb_out_body(node.content,flags=flags)+"[/sup]"
     elif isinstance(node,nodes.SubscrNode):

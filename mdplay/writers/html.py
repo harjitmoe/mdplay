@@ -542,6 +542,26 @@ mode_identifiers = {
         "other_xmlns": (),
         "syntax": "nml"
     },
+    ("jsx", True): {
+        # JSX syntax serialisation of HTML5
+        "xmlns": None,
+        "root": "html",
+        "xsi": None,
+        "fpi": None,
+        "fsi": None,
+        "other_xmlns": (),
+        "syntax": "jsx"
+    },
+    ("jsx", False): {
+        # JSX syntax serialisation of HTML4
+        "xmlns": None,
+        "root": "html",
+        "xsi": None,
+        "fpi": None,
+        "fsi": None,
+        "other_xmlns": (),
+        "syntax": "jsx"
+    },
     # The latest and likely terminal draft of XHTML 2 still defines the namespace as
     # being http://www.w3.org/1999/xhtml i.e. the same as XHTML 1 or 5.  However, the 
     # (presently no-op) schema http://www.w3.org/MarkUp/SCHEMA/xhtml2.xsd referenced

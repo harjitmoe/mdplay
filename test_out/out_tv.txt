@@ -456,6 +456,12 @@ HZ encoding: 我が名はめぐみん！ 〘我が名はめぐみん！〙
 
 And [[spoiler:Inline spoiler]] 
 
+Hello\world hello\`world hello\\world 
+
+[[strike:Crossed out]] 
+
+¬in ∉ &amp;notin 
+
 [[spoiler:Inline spoiler]] again. 
 
 Testing This (as)  so. 

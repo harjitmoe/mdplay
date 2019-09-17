@@ -504,6 +504,8 @@ Hello\\world hello\\\`world hello\\\\world
 
 ~~Crossed out~~
 
+&not;in &notin; &notin
+
 \ >!Inline spoiler!< again.
 
 Testing [1\\This[3\\as[0\\ so.

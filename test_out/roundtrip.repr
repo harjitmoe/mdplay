@@ -2588,7 +2588,7 @@
   'label': ''},
  {'NODE_TYPE': 'ParagraphNode',
   'bullet': None,
-  'content': ['ERROR<mdplay.nodes.StrikeNode object at 0x7f543c0b7f28> '],
+  'content': ['ERROR<mdplay.nodes.StrikeNode object at 0x7fd72b763e80> '],
   'depth': -1,
   'label': ''},
  {'NODE_TYPE': 'ParagraphNode',

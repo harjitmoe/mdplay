@@ -112,7 +112,7 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
                 and ("]]>" not in node.data):
             writer.write("<![CDATA[%s]]>" % node.data)
         elif (mode == "jsx"):
-            writer.write("%s%s%s" % (indent, json.dumps(node.data), newl))
+            writer.write("%s%s" % (indent, json.dumps(node.data)))
         else:
             _write_data(writer, "%s%s%s" % (indent, node.data, newl), mode)
     elif (is_implied_cdata or is_pcdata) and (mode in ("html", "xhtml")):
@@ -162,22 +162,27 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
             if mode == "nml":
                 writer.write("|")
             elif mode == "jsx":
-                writer.write("}, ")
+                writer.write("}")
             else:
                 writer.write(">")
             if (len(node.childNodes) == 1 and
                     node.childNodes[0].nodeType == _d.Node.TEXT_NODE):
+                if mode == "jsx":
+                    writer.write(", ")
                 writehtml(node.childNodes[0], writer, '', '', '', mode=mode, parenttag=node.tagName)
             else:
-                writer.write(newl)
-                firstloop = True
+                if mode != "jsx": # Where newline will be added as part of comma management
+                    writer.write(newl)
                 for cnode in node.childNodes:
                     if mode == "jsx":
-                        if firstloop:
-                            firstloop = False
-                        else:
-                            writer.write(", %s" % (newl))
+                        if not isinstance(cnode, (_d.DocumentType, _d.Comment,
+                                                  _d.ProcessingInstruction)):
+                            writer.write(",%s" % (newl or " "))
+                        elif isinstance(cnode, _d.Comment):
+                            writer.write(newl)
                     writehtml(cnode, writer, indent+addindent, addindent, newl, mode=mode, parenttag=node.tagName)
+                if mode == "jsx":
+                    writer.write(newl)
                 writer.write(indent)
             if mode == "nml":
                 writer.write(">%s" % (newl))
@@ -220,15 +225,11 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
                 writer.write(node.internalSubset)
                 writer.write("]")
             writer.write(">"+newl)
-        elif mode == "jsx":
-            writer.write("null")
         else:
             pass
     elif isinstance(node, _d.ProcessingInstruction):
         if mode == "xml":
             writer.write("%s<?%s %s?>%s" % (indent, node.target, node.data, newl))
-        elif mode == "jsx":
-            writer.write("null")
         else:
             pass
     elif isinstance(node, _d.Comment):
@@ -237,7 +238,7 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
         elif mode == "jsx":
             if "*/" in node.data:
                 raise ValueError("'*/' is not allowed in a JS comment node")
-            writer.write("%s/*%s*/%s" % (indent, node.data, newl))
+            writer.write("%s/*%s*/" % (indent, node.data))
         else:
             if "--" in node.data:
                 raise ValueError("'--' is not allowed in a comment node")
@@ -252,12 +253,12 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
         firstloop = True
         for cnode in node.childNodes:
             if mode == "jsx":
-                if isinstance(cnode, _d.DocumentType):
-                    continue # Avoid extraneous "null,"
-                if firstloop:
-                    firstloop = False
-                else:
-                    writer.write(", %s" % (newl))
+                if not isinstance(cnode, (_d.DocumentType, _d.Comment,
+                                          _d.ProcessingInstruction)):
+                    if firstloop:
+                        firstloop = False
+                    else:
+                        writer.write(",%s" % (newl or " "))
             writehtml(cnode, writer, indent, addindent, newl, mode=mode)
     else:
         raise TypeError("%r is not a DOM node" % node)
@@ -274,8 +275,8 @@ def tohtml(node, encoding="utf-8", indent="", newl="", mode="xhtml",
                                   encoding=encoding,
                                   errors="xmlcharrefreplace",
                                   newline='\n')
-    writehtml(node, writer, "", indent, newl, encoding=encoding, mode=mode,
-              dommodule=dommodule)
+    writehtml(node, writer, indent="", addindent=indent, newl=newl,
+              encoding=encoding, mode=mode, dommodule=dommodule)
     if encoding is None:
         return writer.getvalue()
     else:

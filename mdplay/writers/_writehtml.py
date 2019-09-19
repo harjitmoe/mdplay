@@ -79,8 +79,10 @@ def _write_data(writer, data, mode="xml"):
             data = data.replace("&", "&amp;").replace("<", "&lt;"). \
                         replace("\"", "&quot;").replace(">", "&gt;")
         else:
+            # [ and ] are used for entities. < and > are used for nodes.
+            # I'm using the # for comments (see below).
             data = _simul_replace(data, "[", "[lbrack]", "]", "[rbrack]"). \
-                         replace("<", "[lt]").replace(">", "[gt]")
+                         replace("<", "[lt]").replace(">", "[gt]").replace("#", "[num]")
         writer.write(data)
 
 _valid_js_idf = (lambda s: ((s[0] not in "0123456789") and 
@@ -209,8 +211,9 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
                     writer.write(">%s" % (newl))
                 else:
                     writer.write("></%s>%s" % (node.tagName, newl))
-    # Undefined what (if anything) the following are supposed to be rendered as in NML:
     elif isinstance(node, _d.DocumentType):
+        # Undefined what (if anything) this is supposed to be rendered as in NML.
+        # I'm not sure if doctypes were ever processed by JSX, but suspect not.
         if mode not in ("nml", "jsx"):
             writer.write("<!DOCTYPE ")
             writer.write(node.name)
@@ -228,13 +231,19 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
         else:
             pass
     elif isinstance(node, _d.ProcessingInstruction):
+        # Really makes basically no sense outside of XML.
         if mode == "xml":
             writer.write("%s<?%s %s?>%s" % (indent, node.target, node.data, newl))
         else:
             pass
     elif isinstance(node, _d.Comment):
         if mode == "nml":
-            pass # TODO surely there must be some way of doing this???
+            # FIXME: this is not part of the orthodox NML in that it isn't mentioned
+            # in the (admittedly informal) defining message. Rather, that does not
+            # mention comment syntax. I'm borrowing this one from Common Lisp.
+            if "|#" in node.data:
+                raise ValueError("'|#' is not allowed in an NML comment node")
+            writer.write("%s#||%s||#%s" % (indent, node.data, newl))
         elif mode == "jsx":
             if "*/" in node.data:
                 raise ValueError("'*/' is not allowed in a JS comment node")

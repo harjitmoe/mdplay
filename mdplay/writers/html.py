@@ -428,7 +428,7 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
 from mdplay import htmlentitydefs_latest as htmlentitydefs
 def _escape(text, html5=0, mode="xhtml"):
     if mode in ("xml", "xhtml"):
-        return
+        return text
     if not html5:
         keys = list(htmlentitydefs.name2codepoint.keys())
     else:

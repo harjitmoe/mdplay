@@ -96,7 +96,10 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                     altcode = node.label[0] or node.label[1] or ":"+hexcode+":"
                 r=document.createElement("img")
                 r.setAttribute("src", "https://twemoji.maxcdn.com/2/72x72/%s.png" % hexcode)
-                r.setAttribute("style", "max-width:2em;max-height:2em;")
+                if "noinlinecss" not in flags:
+                    r.setAttribute("style", "max-width:2em;max-height:2em;")
+                else:
+                    r.setAttribute("class", "emoji")
                 # https://github.com/twitter/twemoji/blob/b33c30e78db45be787410567ad6f4c7b56c137a0/README.md#attribution-requirements
                 r.setAttribute("title", "twemoji, by Twitter, Inc.  Licensed under CC-BY 4.0 (http://creativecommons.org/licenses/by/4.0/), available from https://github.com/twitter/twemoji/")
                 if not is_xhtml2:
@@ -176,6 +179,8 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                     metar.appendChild(r)
                     metar.setAttribute("class", 'spoilerwrapper')
                     metar.setAttribute("style", 'display: block;')
+                    if "noinlinecss" not in flags:
+                        r.setAttribute("style", 'display: block; color: blue; cursor: pointer; text-decoration: underline;')
                     r.setAttribute("style", 'display: block; color: blue; cursor: pointer; text-decoration: underline;')
                     r.setAttribute("tabindex", '0') #i.e. focusable but in source order.
                 # Add text to title/toggle
@@ -208,7 +213,10 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                 metar.appendChild(r3)
                 r3.setAttribute("class", 'spoiler')
                 r3.setAttribute("id", 'spoil%d' % mdputil.newid(node))
-                r3.setAttribute("style", 'border: 1px solid black; margin: 0.5ex 0; padding: 0.5em;')
+                if "noinlinecss" not in flags:
+                    r3.setAttribute("style", 'border: 1px solid black; margin: 0.5ex 0; padding: 0.5em;')
+                else:
+                    r3.setAttribute("class", 'spoilercontent')
                 for domn in html_out_part(node.content, document, flags=flags, mode=mode):
                     r3.appendChild(domn)
                 # Hde spoiler content if and only if browser doesn't support details element or it's not used
@@ -309,7 +317,10 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                 if ("showtropes" in flags) and re.match("https?://(www\.)?tvtropes.org", content):
                     metar = document.createElement("span")
                     r = document.createElement("span")
-                    r.setAttribute("style", "text-decoration: underline;")
+                    if "noinlinecss" not in flags:
+                        r.setAttribute("style", "text-decoration: underline;")
+                    else:
+                        r.setAttribute("class", "tvtropesreference")
                     metar.appendChild(r)
                     for domn in label:
                         r.appendChild(domn)
@@ -390,8 +401,9 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
             yield r
         elif isinstance(node, nodes.TableNode):
             r = document.createElement("table")
-            r.setAttribute("style", "border: 1px solid black; border-collapse: collapse;")
-            cellstyle = "border: 1px solid black; padding: 0.5ex;"
+            if "noinlinecss" not in flags:
+                r.setAttribute("style", "border: 1px solid black; border-collapse: collapse;")
+                cellstyle = "border: 1px solid black; padding: 0.5ex;"
             thead = document.createElement("thead")
             r.appendChild(thead)
             for row in node.table_head:
@@ -400,9 +412,14 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                 for colno, cell in enumerate(row):
                     th = document.createElement("th")
                     tr.appendChild(th)
-                    th.setAttribute("style", cellstyle)
+                    if "noinlinecss" not in flags:
+                        th.setAttribute("style", cellstyle)
+                    #
                     if node.aligns and (len(node.aligns) > colno) and node.aligns[colno]:
-                        th.setAttribute("style", cellstyle + " text-align:" + node.aligns[colno])
+                        if "noinlinecss" not in flags:
+                            th.setAttribute("style", cellstyle + " text-align:" + node.aligns[colno])
+                        else:
+                            th.setAttribute("class", "cell-align-" + node.aligns[colno].strip())
                     for domn in html_out_part(list(cell), document, flags=flags, mode=mode):
                         th.appendChild(domn)
             tbody = document.createElement("tbody")
@@ -413,9 +430,14 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                 for colno,cell in enumerate(row):
                     td = document.createElement("td")
                     tr.appendChild(td)
-                    td.setAttribute("style", cellstyle)
+                    if "noinlinecss" not in flags:
+                        th.setAttribute("style", cellstyle)
+                    #
                     if node.aligns and (len(node.aligns) > colno) and node.aligns[colno]:
-                        td.setAttribute("style", cellstyle + " text-align:" + node.aligns[colno])
+                        if "noinlinecss" not in flags:
+                            th.setAttribute("style", cellstyle + " text-align:" + node.aligns[colno])
+                        else:
+                            th.setAttribute("class", "cell-align-" + node.aligns[colno].strip())
                     for domn in html_out_part(list(cell), document, flags=flags, mode=mode):
                         td.appendChild(domn)
             yield r

@@ -48,8 +48,8 @@ else:
     popdb = {}
     cangdb[3], popdb[3] = init_proc_cang(cang03)
     cangdb[5], popdb[5] = init_proc_cang(cang05)
-    open(cdbf, "w").write("# coding: utf-8\ncangdb = " + repr(cangdb))
-    open(pdbf, "w").write("# coding: utf-8\npopdb = " + repr(popdb))
+    open(cdbf, "w", encoding="utf-8").write("# coding: utf-8\ncangdb = " + repr(cangdb))
+    open(pdbf, "w", encoding="utf-8").write("# coding: utf-8\npopdb = " + repr(popdb))
 
 def proc_cang(stri, version = -1):
     if version==3:

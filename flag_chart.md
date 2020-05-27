@@ -75,4 +75,5 @@
 * oldtwemoji (MD, BB)
 * insecuredirective (HTML)
 * nounicodeemoji (HTML)
+* noinlinecss (HTML)
 

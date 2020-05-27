@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- mode: python; coding: utf-8 -*-
-import re,string
 
 __copying__ = """
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
+
+import re, string
 
 from mdplay import nodes, diacritic, uriregex, cjk, emoji
 from mdplay import htmlentitydefs_latest as htmlentitydefs

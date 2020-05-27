@@ -76,8 +76,8 @@ else:
         eacd[eac.eac[_euc]["alpha code"].strip(":")] = _ec
         for _alias in eac.eac[_euc]["aliases"].split("|"):
             eacd[_alias.strip(":")] = _ec
-    open(eacdf, "w").write("eacd = " + pprint.pformat(eacd))
-    open(eacaf, "w").write("eacalt = " + pprint.pformat(eacalt))
+    open(eacdf, "w", encoding="utf-8").write("eacd = " + pprint.pformat(eacd))
+    open(eacaf, "w", encoding="utf-8").write("eacalt = " + pprint.pformat(eacalt))
 
 #-------------------------------------------------------------------------------------------------
 

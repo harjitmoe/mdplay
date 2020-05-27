@@ -72,7 +72,7 @@ if not nostart:
     sys.stderr.write("\nMDPlay by HarJIT (use -s (lowercase S) to suppress this message)\n")
 
 if inputf != "-":
-    f = open(inputf, "rU")
+    f = open(inputf, "rU", encoding="utf-8")
 else:
     f = sys.stdin
 try:
@@ -88,5 +88,5 @@ f.close()
 if output == "-":
     fo = sys.stdout
 else:
-    fo = open(output, "w")
+    fo = open(output, "w", encoding="utf-8")
 fo.write(ret)

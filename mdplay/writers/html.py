@@ -181,7 +181,6 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                     metar.setAttribute("style", 'display: block;')
                     if "noinlinecss" not in flags:
                         r.setAttribute("style", 'display: block; color: blue; cursor: pointer; text-decoration: underline;')
-                    r.setAttribute("style", 'display: block; color: blue; cursor: pointer; text-decoration: underline;')
                     r.setAttribute("tabindex", '0') #i.e. focusable but in source order.
                 # Add text to title/toggle
                 if not node.label:

@@ -430,13 +430,13 @@ def _html_out_part(nodem, document, in_list=(), flags=(), mode="xhtml"):
                     td = document.createElement("td")
                     tr.appendChild(td)
                     if "noinlinecss" not in flags:
-                        th.setAttribute("style", cellstyle)
+                        td.setAttribute("style", cellstyle)
                     #
                     if node.aligns and (len(node.aligns) > colno) and node.aligns[colno]:
                         if "noinlinecss" not in flags:
-                            th.setAttribute("style", cellstyle + " text-align:" + node.aligns[colno])
+                            td.setAttribute("style", cellstyle + " text-align:" + node.aligns[colno])
                         else:
-                            th.setAttribute("class", "cell-align-" + node.aligns[colno].strip())
+                            td.setAttribute("class", "cell-align-" + node.aligns[colno].strip())
                     for domn in html_out_part(list(cell), document, flags=flags, mode=mode):
                         td.appendChild(domn)
             yield r

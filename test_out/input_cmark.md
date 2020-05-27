@@ -498,11 +498,15 @@ And >!Inline spoiler!<
 
 Hello\\world hello\\`world hello\\\\world
 
-ERROR<mdplay.nodes.StrikeNode object at 0x7f6cc41b1208>
+ERROR<mdplay.nodes.StrikeNode object at 0x048C1B08>
 
 ¬in ∉ &amp;notin
 
 >!Inline spoiler!< again.
 
 Testing This (as)  so.
+
+\[This should [actually work now](http://example.com/).]
+
+\[This] should [actually work now](http://example.com/).
 

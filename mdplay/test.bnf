@@ -1,4 +1,5 @@
-; https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form#Further_examples (CC BY-SA 3.0)
+; https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form#Further_examples (CC BY-SA 3.0), altered.
+; Note that this currently describes a subset of the supported syntax, though it fully describes its own syntax.
  root           ≔ syntax EOF 
  syntax         ≔ maybe-rule syntax | maybe-rule
  maybe-rule     ≔ comment | rule

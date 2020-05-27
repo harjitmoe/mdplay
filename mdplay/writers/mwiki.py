@@ -42,7 +42,7 @@ def _mwiki_out_body(node,flags=()):
     elif isinstance(node,nodes.ItalicNode):
         return "''"+mwiki_out_body(node.content,flags=flags)+"''"
     elif isinstance(node,nodes.StrikeNode):
-        if note.emphatic:
+        if node.emphatic:
             return "<del>"+mwiki_out_body(node.content,flags=flags)+"</del>"
         else:
             return "<s>"+mwiki_out_body(node.content,flags=flags)+"</s>"

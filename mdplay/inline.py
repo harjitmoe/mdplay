@@ -10,7 +10,19 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 from mdplay import nodes, diacritic, uriregex, cjk, emoji
 from mdplay import htmlentitydefs_latest as htmlentitydefs
 
-punct=string.punctuation+string.whitespace
+punct = string.punctuation + string.whitespace
+
+def verify_href(matchobj):
+    # The regex alone cannot detect instances where a normal [like this] is
+    #   present before or around a link. But the actual parsing of the link
+    #   does tell the difference.
+    if not matchobj:
+        return False
+    postulate = matchobj.group(0)
+    scrubbed = postulate.replace(r"\\", "").replace(r"\[", "").replace(r"\]", "")
+    if scrubbed.count("[") > scrubbed.count("]("):
+        return False
+    return True
 
 def _parse_inline(content,levs=("root",),flags=(),state=None):
     # Note: the recursion works by the list being a Python
@@ -197,9 +209,9 @@ def _parse_inline(content,levs=("root",),flags=(),state=None):
             del content[0]
             return out
         ### HREFs (links and embeds, plus CJK extensions) ###
-        elif re.match(hrefre,c+("".join(content))) and (lev!="wikilink" or out2):
+        elif verify_href(re.match(hrefre, c + ("".join(content)))) and (lev!="wikilink" or out2):
             # Note: ridiculous amount of work needed here for CommonMark complience.
-            #(re.match, not re.search, i.e. looks only at start of string)
+            #   (re.match, not re.search, i.e. looks only at start of string)
             hreftype=""
             while c!="[":
                 hreftype+=c

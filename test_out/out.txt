@@ -453,3 +453,7 @@ Hello\world hello\`world hello\\world
 [spoiler]Inline spoiler[/spoiler] again. 
 
 Testing This (as)  so. 
+
+[This should [url="http://example.com/"]actually work now[/url].] 
+
+[This] should [url="http://example.com/"]actually work now[/url]. 

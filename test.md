@@ -510,4 +510,8 @@ Hello\\world hello\\\`world hello\\\\world
 
 Testing [1\\This[3\\as[0\\ so.
 
+[This should [actually work now](http://example.com/).]
+
+[This] should [actually work now](http://example.com/).
+
 \

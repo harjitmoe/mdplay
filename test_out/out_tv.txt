@@ -466,4 +466,8 @@ Hello\world hello\`world hello\\world
 
 Testing This (as)  so. 
 
+&#91;This should [[http://example.com/ actually work now]].&#93; 
+
+&#91;This&#93; should [[http://example.com/ actually work now]]. 
+
 

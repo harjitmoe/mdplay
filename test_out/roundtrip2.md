@@ -498,7 +498,7 @@ And \ >!Inline spoiler!<
 
 Hello\\world hello\\`world hello\\\\world `
 
-ERROR<mdplay.nodes.StrikeNode object at 0x05231B38>
+ERROR<mdplay.nodes.StrikeNode object at 0x050A1B38>
 
 ¬in ∉ &amp;notin
 
@@ -509,3 +509,5 @@ Testing This (as)  so.
 \[This should [actually work now](http://example.com/).]
 
 \[This] should [actually work now](http://example.com/).
+
+[This](http://example.com/) should \[ideally] actually [work now](http://example.com/).

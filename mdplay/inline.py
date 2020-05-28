@@ -19,10 +19,24 @@ def verify_href(matchobj):
     if not matchobj:
         return False
     postulate = matchobj.group(0)
+    # Escaped chars are syntactically transparant for this test's purpose
     scrubbed = postulate.replace(r"\\", "").replace(r"\[", "").replace(r"\]", "")
-    if scrubbed.count("[") > scrubbed.count("]("):
-        return False
-    return True
+    openers = 0
+    possclose = False
+    for i in scrubbed:
+        if possclose and i == "(":
+            openers -= 1
+            possclose = False
+            if openers == 0:
+                return True
+        elif i == "]":
+            possclose = True
+        elif i == "[":
+            openers += 1
+            possclose = False
+        else:
+            possclose = False
+    return False
 
 def _parse_inline(content,levs=("root",),flags=(),state=None):
     # Note: the recursion works by the list being a Python

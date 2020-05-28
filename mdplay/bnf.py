@@ -13,7 +13,9 @@ import re, string, pprint, functools
 #   split at the tokens themselves, keep the split strings
 #   (effected by the outer parethetical) and discard the
 #   whitespace parts.
-token_splitter = re.compile(r"""("[^"]*"|'[^']*'|\S+)""")
+token_splitter = re.compile(r"""("[^"]*"|'[^']*'|\[.*?\]|\S+)""")
+
+range_unit = re.compile(r"""(?i)((?:#[0123456789abcdef]+|.)(?:-#[0123456789abcdef]+|-.))""")
 
 def parse_bnf(input):
     rules = {}
@@ -22,8 +24,12 @@ def parse_bnf(input):
             continue
         if line[0] == ";":
             continue
-        assert "≔" in line
-        lhs, rhs = line.split("≔", 1)
+        if "≔" in line:
+            lhs, rhs = line.split("≔", 1)
+        elif "::=" in line:
+            lhs, rhs = line.split("::=", 1)
+        else:
+            lhs, rhs = line.split("=", 1)
         name = lhs.strip()
         tokens = token_splitter.split(rhs.strip())[1::2]
         tokens.append(...) # Sentinel value
@@ -36,7 +42,8 @@ def parse_bnf(input):
                 if name not in possibility:
                     possibilities_nonselfref.append(tuple(possibility))
                 elif possibility[0] == name:
-                    possibilities_headselfref.append(tuple(possibility))
+                    #possibilities_headselfref.append(tuple(possibility))
+                    raise ValueError("implementation cannot handle leading recursion in BNF")
                 else:
                     possibilities_selfref.append(tuple(possibility))
                 del possibility[:]
@@ -163,6 +170,14 @@ def run_bnf(rules, shorts, root, input, handlers):
         this_token = possibility[nth_conjunction]
         if this_token == "EOL":
             this_token = "'\n'"
+        elif this_token[:2] in ("#x", "%x"):
+            if "-" in this_token:
+                if "." in this_token:
+                    raise ValueError("both concatenation and range in a single literal")
+                this_token = "[" + this_token.replace("%x", "#x") + "]"
+            else:
+                # Already tokenised, so internal chars matching delimitors is fine.
+                this_token = "'" + "".join(chr(int(i, 16)) for i in this_token.split("."))
         #
         if this_token == "EOF":
             if ipos == len(input):
@@ -185,6 +200,36 @@ def run_bnf(rules, shorts, root, input, handlers):
                 stack[-1] = (stack[-1][0], stack[-1][1], stack[-1][2] + 1, stack[-1][3])
                 continue
             else:
+                stack, ipos, active_content = failure_points.pop()
+                stack = list(stack)
+                active_content = list(active_content)
+                stack[-1] = (stack[-1][0], stack[-1][1] + 1, stack[-1][2], stack[-1][3])
+                continue
+        elif this_token[0] == "[":
+            units = range_unit.split(this_token[1:-1])[1::2]
+            inverse = False
+            if units[0] == "^":
+                units.pop(0)
+                inverse = True
+            for unit in units:
+                if "-" in unit:
+                    first, last = unit.split("-")
+                else:
+                    first = last = unit
+                if first.startswith("#x"):
+                    first = int(first[2:], 16)
+                else:
+                    first = ord(first)
+                if last.startswith("#x"):
+                    last = int(last[2:], 16)
+                else:
+                    last = ord(last)
+                if bool(first <= ord(input[ipos]) <= last) ^ bool(inverse):
+                    active_content.append(input[ipos])
+                    ipos += len(literal)
+                    stack[-1] = (stack[-1][0], stack[-1][1], stack[-1][2] + 1, stack[-1][3])
+                    break
+            else: # for..else i.e. if the for loop never encountered break
                 stack, ipos, active_content = failure_points.pop()
                 stack = list(stack)
                 active_content = list(active_content)

@@ -470,4 +470,6 @@ Testing This (as)  so.
 
 &#91;This&#93; should [[http://example.com/ actually work now]]. 
 
+[[http://example.com/ This]] should &#91;ideally&#93; actually [[http://example.com/ work now]]. 
+
 

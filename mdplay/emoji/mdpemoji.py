@@ -6,26 +6,9 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
-from mdplay.emoji import twem2support, emoticon, eac
+from mdplay.emoji import twem2support, eac, emoticon
 from mdplay import mdputil, nodes, uriregex
 import collections, re, os, pprint
-
-#-------------------------------------------------------------------------------------------------
-
-SMILEYA = dict(list(zip(list(emoticon.SMILEYS.values()), list(emoticon.SMILEYS.keys()))))
-del SMILEYA[":/"] # https://
-SMILEYA[":D"] = "😆" # Otherwise implementation-defined behaviour (multiple mapped to :D in SMILEYS)
-for _i in list(SMILEYA.keys()):
-    if _i.count(":") == 1:
-        if _i[-1] == ":":
-            SMILEYA[_i.replace(":", "-:")] = SMILEYA[_i]
-        else:
-            SMILEYA[_i.replace(":", ":-")] = SMILEYA[_i]
-    elif _i.count(";") == 1:
-        if _i[-1] == ";":
-            SMILEYA[_i.replace(";", "-;")] = SMILEYA[_i]
-        else:
-            SMILEYA[_i.replace(";", ";-")] = SMILEYA[_i]
 
 #-------------------------------------------------------------------------------------------------
 
@@ -193,16 +176,15 @@ def _is_emotic(s):
             return i
     return False
 
-def emote_handler(out, c, content, levs, flags, state):
+def emote_handler(tag, inner):
     """Handle ASCII emoticons and shortcodes, converting as appropriate."""
     zw = "\u200c" # Insert zero-width char as round-trip kludge.
     ### Emoticons and Emoji ###
-    if re.match(r":(\w|_|-)+:", c + ("".join(content))) and ("noshortcodeemoji" not in flags):
-        alphaname = ""
-        c = content.pop(0)
-        while (c != ":"):
-            alphaname += c
-            c = content.pop(0)
+    if tag == "shortcode":
+        assert len(inner) == 1
+        code = inner[0]
+        assert code[0] == code[-1] == ":"
+        alphaname = code[1:-1]
         alpha_alt_text = ":" + zw + alphaname + ":"
         alphaname_lookup = alphaname
         # Strip certain prefixes, added here mainly for (pre-Crash) 910 compatibility
@@ -213,15 +195,13 @@ def emote_handler(out, c, content, levs, flags, state):
         elif alphaname_lookup.startswith("dan_"):
             alphaname_lookup = alphaname_lookup[4:] 
         if alphaname_lookup in eacd: 
-            emoji = eacd[alphaname_lookup]
-            out.append(emoji)
-        elif alphaname_lookup in state.custom_eac:
-            emoteurl = _emoteid_to_url(state.custom_eac[alphaname_lookup])
-            out.append(nodes.HrefNode(emoteurl, alpha_alt_text, "img", width = 32))
+            return eacd[alphaname_lookup]
+        #elif alphaname_lookup in state.custom_eac:
+        #    emoteurl = _emoteid_to_url(state.custom_eac[alphaname_lookup])
+        #    out.append(nodes.HrefNode(emoteurl, alpha_alt_text, "img", width = 32))
         else:
-            out.append(":"+alphaname+":") # Pass through, i.e. do NOT use colon_then_wj
-        return True
-    elif re.match(r"<:(\w|_|-)+:(\d|" + uriregex.uriregex + ")+>", c + ("".join(content))) and ("nodiscordemotes" not in flags):
+            return code # Pass through, i.e. do NOT use colon_then_wj
+    elif False:
         alphaname = ""
         emoteid = ""
         del content[0] # the <
@@ -239,15 +219,7 @@ def emote_handler(out, c, content, levs, flags, state):
             state.custom_eac[alphaname] = emoteurl # could alternatively use emoteid I suppose
         out.append(nodes.HrefNode(emoteurl, alt_text, "img", width = 32))
         return True
-    elif _is_emotic(c + ("".join(content))) and ("noasciiemoticon" not in flags):
-        emote = _is_emotic(c + ("".join(content)))
-        for iii in range(len(emote)-1): #Already popped the first (to c)!
-            content.pop(0)
-        emoji = SMILEYA[emote]
-        out.append(emoji)
-        return True
-    else:
-        return False
+    return None
 
 #-------------------------------------------------------------------------------------------------
 

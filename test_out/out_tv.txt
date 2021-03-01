@@ -79,7 +79,7 @@ I can use ''italic'', '''bold''', @@[=monospace=]@@, '''bold'''.  I can [[http:/
 
 ![[http://i.imgur.com/YW5So8y.jpg This is not an embed either.]] 
 
-Nor is !&#91;this.&#93;([[http://i.imgur.com/YW5So8y.jpg http:&#47;&#47;i.imgur.com&#47;YW5So8y.jpg]]) 
+Nor is !&#91;this.&#93;(http:&#47;&#47;i.imgur.com&#47;YW5So8y.jpg) 
 
 Whereas this is: [[http://i.imgur.com/YW5So8y.jpg an embed]] 
 
@@ -149,7 +149,7 @@ Parse_this_text stu''pen''dously, ''mate'', do you ''he''ar me?
 
 ''Italic'', '''bold''', '''''both''''', *neither*. 
 
-''Italic'', '''bold''', '''''both''''', _neither_. 
+''Italic'', '''bold''', ___both___, _neither_. 
 
 ! Level 1 
 
@@ -216,7 +216,7 @@ Watashi-wa Tōmasu desu.
 
 ''spuriīs nōn carborandum''. 
 
-øe vs œ vs \oe vs œ mate. 
+øe vs œ vs &#123;\o&#123;e&#125;&#125; vs œ mate. 
 
 &#123;Nothing ^(Special) ''h''.&#125; 
 
@@ -265,11 +265,11 @@ Hello.
 
 [[User/{{HarJIT}} User:HarJIT]] 
 
-[[{{The King's (The Cathedral) School}} KSP]] 
+[[{{The King's (The Cathedral\}} KSP]] School) 
 
-[[{{The King's (The Cathedral) School}} KSP ''(again)'']] 
+&#91;&#91;The King's (The Cathedral) School|KSP ''(again)''&#93;&#93; 
 
-[[{{Try ''to'' br{'e}ak ``this``...}} Hmm...]] 
+&#91;&#91;Try ''to'' bréak @@[=this=]@@...|Hmm...&#93;&#93; 
 
 * one 
 * list 
@@ -302,7 +302,7 @@ Tōkyō.  Literal &amp;omacr; or &amp;omacr;.
 
 &amp;unescaped behaviour. 
 
-&#91;This is not a piped link.&#93;([[http://egscomics.com http:&#47;&#47;egscomics.com]]) 
+&#91;This is not a piped link.&#93;(http:&#47;&#47;egscomics.com) 
 
 &lt;omitting semicolons&gt;, &amp;amoled. 
 
@@ -334,7 +334,7 @@ This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [[spoiler:It actually is.]] 🖖 
 
 Squirt ♈ Squirt ♈ Squirt ♈ 
 
-😄 😀 😆 ☺ [[http://i.imgur.com/SfHfed9.png :‌demonicduck:]] 
+😄 😀 :D :) :demonicduck: 
 
 ||border=1"
 ||Why||What||
@@ -360,9 +360,9 @@ m̈ëẗälë Ë
 
 🇯🇵 🇯‌🇵 
 
-Testing a URN: [[https://en.wikipedia.org/wiki/Tree urn:x-interwiki:wikipedia:Tree]] 
+Testing a URN: urn:x-interwiki:wikipedia:Tree 
 
-Case sensitivity: [[http://gauss.ffii.org/Hello urn:x-interwiki:gausswiki:Hello]] &#91;Eh?&#93;(uRn:x-inteRwiki:gaUßwiki:Hello) 
+Case sensitivity: urn:x-interwiki:gausswiki:Hello [[http://gauss.ffii.org/Hello Eh?]] 
 
 x̄ and ȳ 
 
@@ -414,13 +414,13 @@ This should be a rainbow banner: 🏳️‍🌈 or 🏳️‍🌈 or 🏳️‍�
 
 ⛹🏻‍♀️ 
 
-😆 
+:D 
 
 ''This should behave more or less as expected. However, I have reason to believe otherwise.'' (Should be fixed now…) 
 
 Labelled spoiler[[spoiler:Watch out, this is a spoiler!]] 
 
-Discord emote: :kananYouNot: [[https://cdn.discordapp.com/emojis/230129080886886400.png :‌wacko:]] [[https://cdn.discordapp.com/emojis/306183254350757888.png :‌ConcernFroge:]] [[https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:]] [[https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:]] [[https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:]] [[https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:]] 
+Discord emote: :kananYouNot: &lt;:wacko:230129080886886400&gt; &lt;:ConcernFroge:306183254350757888&gt; &lt;:kananYouNot:264549500385886208&gt; &lt;:madeupemoteshortcode:306183254350757888&gt; :madeupemoteshortcode: :kananYouNot: 
 
 '''Greetings''' 
 
@@ -448,7 +448,7 @@ Likewise for [[subscript:sub[[subscript:sub[[subscript:sub]]]]script]] and [[sup
 
 Trying with HTML escapes [[subscript:subscript]] [[superscript:superscript]]: 和真 (カズマ) 。 
 
-HZ encoding: 我が名はめぐみん！ 〘我が名はめぐみん！〙 
+HZ encoding: 我が名はめぐみん！ ~&#123;〘NR$,C&#123;$O$a$0$_$s#!〙~&#125; 
 
 盐·惠 &#47; 塩・惠・恵 
 
@@ -460,7 +460,7 @@ Hello\world hello\`world hello\\world
 
 [[strike:Crossed out]] 
 
-¬in ∉ &amp;notin 
+¬in ∉ ¬in 
 
 [[spoiler:Inline spoiler]] again. 
 

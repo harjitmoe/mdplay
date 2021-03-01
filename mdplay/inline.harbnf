@@ -1,0 +1,203 @@
+spoileruri <- /[#\/]s(poiler)?( [^)]+)?/;
+%:ifndef noverifyurl
+uri <- /(\w|-)+:[^)> ]*/ | spoileruri;
+%:else
+uri <- /[^)> ]*/ | spoileruri;
+%:endif
+whateveruri <- /[^)>]*/;
+$EXPLODE :: spoileruri;
+
+dimensions <- /(\s+=\d*x\d*)?/;
+tagname <- /\w+/;
+
+plainhref <- #"[" content #"](" uri #")";
+embedhref <- #"!" #"[" content #"](" uri dimensions #")";
+specialhref <- #"!" tagname #"[" content #"](" whateveruri #")";
+nonhref <- "[" markup /\](?!\()/;
+$EXPLODE :: nonhref;
+
+%:ifndef nospecialhrefs
+href <- plainhref | embedhref | specialhref;
+nonembed <- /!(?!\w|\[)/;
+%:else
+%: ifndef noembeds
+href <- plainhref | embedhref;
+nonembed <- /!(?!\[)/;
+%: else
+href <- plainhref;
+nonembed <- "!";
+%: endif
+%:endif
+$EXPLODE :: href nonembed;
+
+codespan <- /(`+).+?\1/;
+
+escape <- /\\(?!\d)(\W|_)/;
+%:ifndef nohtmldeentity
+%: ifndef nohtmlsloppyentity
+namedentity <- /&\w+;?/;
+%: else
+namedentity <- /&\w+;/;
+%: endif
+%: ifndef nohtmlnumentity
+numentity <- /&#\d+;/a | /&#x[0123456789abcdef]+;/i;
+%: else
+numentity <- &;
+%: endif
+$EXPLODE :: namedentity numentity;
+entity <- /&#\d+;/a | /&#x[0123456789abcdef]+;/i | namedentity;
+%:else
+entity <- &;
+%:endif
+
+.. There are only true newlines by this point, since anything else would have been dealt
+.. with by the block parser.
+newline <- "\n";
+
+italicemphatic <- #"*" markup #"*";
+boldemphatic <- #"**" markup #"**";
+
+boundary <- /\b/;
+$STRIP :: boundary;
+
+italicbar <- boundary #"_" markup #"_" boundary;
+
+%:ifndef discordunderline
+boldbar <- boundary #"__" markup #"__" boundary;
+underline <- &;
+%:else
+boldbar <- &;
+underline <- boundary #"__" markup #"__" boundary;
+%:endif
+
+nonbaremph <- /(?<!_)\B_\B(?!_)/;
+$EXPLODE :: nonbaremph;
+
+notprecsingleapos <- /(?<![^']')/;
+notfollsingleapos <- /(?!'[^'])/;
+$STRIP :: notprecsingleapos notfollsingleapos;
+
+%:ifndef nowikiemph
+italicwiki <- notprecsingleapos #"''" notfollsingleapos markup notprecsingleapos #"''" notfollsingleapos;
+boldwiki <- #"'''" markup #"'''";
+nonwikiemph <- /'(?!')/;
+%:else
+italicwiki <- &;
+boldwiki <- &;
+nonwikiemph <- "'";
+%:endif
+$EXPLODE :: nonwikiemph;
+
+italicnonemphatic <- italicwiki | italicbar;
+boldnonemphatic <- boldwiki | boldbar;
+$NONEST :: italicemphatic boldemphatic italicbar italicwiki boldbar boldwiki underline;
+$EXPLODE :: italicbar italicwiki boldbar boldwiki;
+
+%:ifndef nodiscordstrike
+strikethru <- #"~~" markup #"~~";
+nonstrike <- /~(?!\{|~|jis~\{)/;
+%:else
+strikethru <- &;
+nonstrike <- /~(?!\{|jis~\{)/;
+%:endif
+$NONEST :: strikethru;
+$EXPLODE :: nonstrike;
+
+%:ifndef noredditrealspoiler
+redditspoiler <- #">!" markup #"!<";
+nonredditspoiler <- />(?!!)/;
+%:else
+redditspoiler <- &;
+nonredditspoiler <- ">";
+%:endif
+%:ifndef nodiscordspoiler
+discordspoiler <- #"||" markup #"||";
+nondiscordspoiler <- /\|(?!\|)/;
+%:else
+discordspoiler <- &;
+nondiscordspoiler <- "|";
+%:endif
+inlinespoiler <- redditspoiler | discordspoiler;
+nonspoiler <- nonredditspoiler | nondiscordspoiler;
+$EXPLODE :: redditspoiler discordspoiler nonspoiler nonredditspoiler nondiscordspoiler;
+
+%:ifndef noredditrefs
+redditref <- /\/[ru]\/\w{2:21}/i;
+nonredditref <- /\/(?![ru]\/\w{2})/i;
+%:else
+redditref <- &;
+nonredditref <- "/";
+%:endif
+$EXPLODE :: nonredditref;
+
+%:ifndef nopandocstyle
+subscript <- #"(~" markup #"~)";
+pandocsuperscript <- #"(^" markup #"^)";
+nonpandoc <- /\((?![~^])/;
+%:else
+subscript <- &;
+pandocsuperscript <- &;
+nonpandoc <- "(";
+%:endif
+$EXPLODE :: nonpandoc;
+
+%:ifndef noredditstylesuper
+redditsuperscript <- #"^(" markup #")";
+nonredditsuper <- /\^(?!\()/;
+%:else
+redditsuperscript <- &;
+nonredditsuper <- "^";
+%:endif
+$EXPLODE :: nonredditsuper;
+
+superscript <- pandocsuperscript | redditsuperscript;
+$EXPLODE :: pandocsuperscript redditsuperscript;
+
+%:ifndef nohz
+hz <- /~(jis~)?\{([!-~]{2})*?~\}/;
+nonhz <- /~(?!\{|~|jis~\{)/;
+%:else
+hz <- &;
+nonhz <- /~(?!~)/
+%:endif
+$EXPLODE :: nonhz;
+
+%:ifndef noshortcodeemoji
+shortcode <- /:\w+:/;
+nonshortcode <- /:(?!\w+:)/;
+%:else
+shortcode <- &;
+nonshortcode <- ":";
+%:endif
+$EXPLODE :: nonshortcode;
+
+%:ifndef nodiacritic
+bibuml <- /\{\\[^{}]+?(\{[^}]*\})?\}/;
+nonbibuml <- /\{(?!\\)/;
+%:else
+bibuml <- &;
+nonbibuml <- "{";
+%:endif
+$EXPLODE :: nonbibuml;
+
+.. ")" as a potential terminator has to be treated as a separate backtrackable token and not as
+.. part of the general variable-length "inert range" token. Hence the separate alternation.
+inert <- /[^^\\_*~{[\]:(!'&`\n|>\/)]+/ | ")" | nonwikiemph | nonshortcode | nonpandoc | nonembed | 
+         nonbibuml | nonstrike | nonhz | nonspoiler | nonredditref | nonredditsuper | nonbaremph;
+$EXPLODE :: inert;
+
+markup <- markelement | markelement markup;
+$EXPLODE :: markup;
+nil <- "";
+$STRIP :: nil;
+content <- markup | nil;
+markelement <- bibuml | shortcode | hz | superscript | subscript | redditref | inlinespoiler | 
+               strikethru | underline | boldnonemphatic | boldemphatic | italicnonemphatic | 
+               italicemphatic | newline | entity | escape | codespan | href | nonhref | inert;
+$EXPLODE :: markelement;
+
+top <- markup | nil;
+$EXPLODE :: top;
+
+
+

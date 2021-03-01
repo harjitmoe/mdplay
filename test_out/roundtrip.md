@@ -82,7 +82,7 @@ open(".build/MegaDb.txt","w").write(repr(arcs))
 
 ![This is not an embed either.](http://i.imgur.com/YW5So8y.jpg)
 
-Nor is !\[this.]([http://i.imgur.com/YW5So8y.jpg](http://i.imgur.com/YW5So8y.jpg))
+Nor is !\[this.](http://i.imgur.com/YW5So8y.jpg)
 
 Whereas this is: ![an embed](http://i.imgur.com/YW5So8y.jpg)
 
@@ -152,7 +152,7 @@ Parse\_this\_text stu*pen*dously, \ _mate_\ , do you \ _he_\ ar me?
 
 *Italic*, **bold**, ***both***, \*neither\*.
 
-\ _Italic_\ , \ __bold__\ , \ __\ _both_\ __\ , \_neither\_.
+\ _Italic_\ , \ __bold__\ , \_\_\_both\_\_\_, \_neither\_.
 
 # Level 1
 
@@ -230,7 +230,7 @@ Watashi\-wa Tōmasu desu.
 
 \ _spuriīs nōn carborandum_\ .
 
-øe vs œ vs \\oe vs œ mate.
+øe vs œ vs {\\o{e}} vs œ mate.
 
 {Nothing \^(Special) *h*.}
 
@@ -289,11 +289,11 @@ the news (also).
 
 !wiki[](User:HarJIT)
 
-!wiki[KSP](The King's (The Cathedral\) School)
+!wiki[KSP](The King's (The Cathedral\\) School)
 
-!wiki[KSP \ _(again)_\ ](The King's (The Cathedral\) School)
+\[\[The King's (The Cathedral) School|KSP \ _(again)_\ ]]
 
-!wiki[Hmm...](Try ''to'' br{'e}ak ``this``...)
+\[\[Try \ _to_\  bréak `this`...|Hmm...]]
 
 
 * one 
@@ -331,7 +331,7 @@ Tōkyō.  Literal &amp;omacr; or &amp;omacr;.
 
 &amp;unescaped behaviour.
 
-\[This is not a piped link.]([http://egscomics.com](http://egscomics.com))
+\[This is not a piped link.](http://egscomics.com)
 
 <omitting semicolons>, &amp;amoled.
 
@@ -366,7 +366,7 @@ This is just a paragraph.  ( ͡° ͜ʖ ͡° )  \ >!It actually is.!< ![🖖](htt
 
 Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)
 
-![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) ![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32) ![☺](https://twemoji.maxcdn.com/2/72x72/263a.png =32x32) ![:‌demonicduck:](http://i.imgur.com/SfHfed9.png =32x)
+![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) :D :) :demonicduck:
 
 |Why|What|
 |:-:|:--|
@@ -394,9 +394,9 @@ m̈ëẗälë Ë
 
 ![🇯🇵](https://twemoji.maxcdn.com/2/72x72/1f1ef-1f1f5.png =32x32) ![🇯](https://twemoji.maxcdn.com/2/72x72/1f1ef.png =32x32)‌![🇵](https://twemoji.maxcdn.com/2/72x72/1f1f5.png =32x32)
 
-Testing a URN: [urn:x\-interwiki:wikipedia:Tree](https://en.wikipedia.org/wiki/Tree)
+Testing a URN: urn:x\-interwiki:wikipedia:Tree
 
-Case sensitivity: [urn:x\-interwiki:gausswiki:Hello](http://gauss.ffii.org/Hello) \[Eh?]([uRn:x\-inteRwiki:gaU](uRn:x-inteRwiki:gaU)ß[wiki:Hello](wiki:Hello))
+Case sensitivity: urn:x\-interwiki:gausswiki:Hello [Eh?](http://gauss.ffii.org/Hello)
 
 x̄ and ȳ
 
@@ -451,13 +451,13 @@ This should be a rainbow banner: ![🏳️‍🌈](https://twemoji.maxcdn.com/2/
 
 ![⛹🏻‍♀️](https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb-200d-2640-fe0f.png =32x32)
 
-![😆](https://twemoji.maxcdn.com/2/72x72/1f606.png =32x32)
+:D
 
 \ _This should behave more or less as expected. However, I have reason to believe otherwise._\  (Should be fixed now…)
 
 [Labelled spoiler](/s Watch out, this is a spoiler!)
 
-Discord emote: :kananYouNot: ![:‌wacko:](https://cdn.discordapp.com/emojis/230129080886886400.png =32x) ![:‌ConcernFroge:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x) ![:‌madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x)
+Discord emote: :kananYouNot: <:wacko:230129080886886400> <:ConcernFroge:306183254350757888> <:kananYouNot:264549500385886208> <:madeupemoteshortcode:306183254350757888> :madeupemoteshortcode: :kananYouNot:
 
 <u>Greetings</u>
 
@@ -488,7 +488,7 @@ Likewise for (~sub(~sub(~sub~\\)~\)script~) and ^(super^(super^(super\\)\)script
 
 Trying with HTML escapes (~subscript~) ^(superscript): 和真 (カズマ) 。
 
-HZ encoding: 我が名はめぐみん！ 〘我が名はめぐみん！〙
+HZ encoding: 我が名はめぐみん！ ~{〘NR$,C{$O$a$0$\_$s#!〙~}
 
 盐·惠 / 塩・惠・恵
 
@@ -498,9 +498,9 @@ And \ >!Inline spoiler!<
 
 Hello\\world hello\\`world hello\\\\world
 
-ERROR<mdplay.nodes.StrikeNode object at 0x050A1B38>
+ERROR<mdplay.nodes.StrikeNode object at 0x7fd67f65ba00>
 
-¬in ∉ &amp;notin
+¬in ∉ ¬in
 
 \ >!Inline spoiler!< again.
 

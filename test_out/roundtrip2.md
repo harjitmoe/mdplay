@@ -498,7 +498,7 @@ And \ >!Inline spoiler!<
 
 Hello\\world hello\\`world hello\\\\world
 
-ERROR<mdplay.nodes.StrikeNode object at 0x7fd67f65ba00>
+ERROR<mdplay.nodes.StrikeNode object at 0x7fadc92b4eb0>
 
 ¬in ∉ ¬in
 

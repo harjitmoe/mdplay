@@ -95,13 +95,30 @@ $EXPLODE :: italicbar italicwiki boldbar boldwiki;
 
 %:ifndef nodiscordstrike
 strikethru <- #"~~" markup #"~~";
-nonstrike <- /~(?!\{|~|jis~\{)/;
 %:else
 strikethru <- &;
-nonstrike <- /~(?!\{|jis~\{)/;
 %:endif
 $NONEST :: strikethru;
-$EXPLODE :: nonstrike;
+%:ifndef nohz
+hz <- /~(jis~)?\{([!-~]{2})*?~\}/;
+%:else
+hz <- &;
+%:endif
+$EXPLODE :: nonhz;
+%:ifndef nohz
+%: ifndef nodiscordstrike
+plaintilde <- /~(?!\{|~|jis~\{)/;
+%: else
+plaintilde <- /~(?!\{|jis~\{)/;
+%: endif
+%:else
+%: ifndef nodiscordstrike
+plaintilde <- /~(?!~)/
+%: else
+plaintilde <- "~"
+%: endif
+%:endif
+$EXPLODE :: plaintilde;
 
 %:ifndef noredditrealspoiler
 redditspoiler <- #">!" markup #"!<";
@@ -153,15 +170,6 @@ $EXPLODE :: nonredditsuper;
 superscript <- pandocsuperscript | redditsuperscript;
 $EXPLODE :: pandocsuperscript redditsuperscript;
 
-%:ifndef nohz
-hz <- /~(jis~)?\{([!-~]{2})*?~\}/;
-nonhz <- /~(?!\{|~|jis~\{)/;
-%:else
-hz <- &;
-nonhz <- /~(?!~)/
-%:endif
-$EXPLODE :: nonhz;
-
 %:ifndef noshortcodeemoji
 shortcode <- /:\w+:/;
 nonshortcode <- /:(?!\w+:)/;
@@ -183,7 +191,7 @@ $EXPLODE :: nonbibuml;
 .. ")" as a potential terminator has to be treated as a separate backtrackable token and not as
 .. part of the general variable-length "inert range" token. Hence the separate alternation.
 inert <- /[^^\\_*~{[\]:(!'&`\n|>\/)]+/ | ")" | nonwikiemph | nonshortcode | nonpandoc | nonembed | 
-         nonbibuml | nonstrike | nonhz | nonspoiler | nonredditref | nonredditsuper | nonbaremph;
+         nonbibuml | plaintilde | nonspoiler | nonredditref | nonredditsuper | nonbaremph;
 $EXPLODE :: inert;
 
 markup <- markelement | markelement markup;

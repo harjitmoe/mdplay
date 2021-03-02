@@ -450,6 +450,8 @@ Hello\world hello\`world hello\\world
 
 ¬in ∉ ¬in 
 
+[font=monospace]`[/font] / [font=monospace]\[/font]`:code: / [font=monospace]\[/font]` 
+
 [spoiler]Inline spoiler[/spoiler] again. 
 
 Testing This (as)  so. 

@@ -506,6 +506,8 @@ Hello\\world hello\\\`world hello\\\\world
 
 &not;in &notin; &notin
 
+`\``:code: / ``\```:code: / ``\```
+
 \ >!Inline spoiler!< again.
 
 Testing [1\\This[3\\as[0\\ so.

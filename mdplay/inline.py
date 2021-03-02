@@ -10,7 +10,22 @@ from mdplay import nodes, diacritic, uriregex, cjk, emoji, harbnf
 from mdplay import htmlentitydefs_latest as htmlentitydefs
 import os, re, string
 
-#punct = string.punctuation + string.whitespace
+def _clean_parsed_literal(literal):
+    """ Process the content of a parsed literal (i.e. where escapes are permitted). """
+    out = []
+    inesc = False
+    for i in literal:
+        if not inesc:
+            if i != "\\":
+                out.append(i)
+            else:
+                inesc = True
+        else:
+            if i.isalnum():
+                out.append("\\")
+            out.append(i)
+            inesc = False
+    return "".join(out)
 
 def _parse_inline(content, state):
     out = []
@@ -48,6 +63,17 @@ def _parse_inline(content, state):
             assert len(inner) == 1
             backticks = len(inner[0]) - len(inner[0].lstrip("`"))
             out.append(nodes.CodeSpanNode([inner[0][backticks:-backticks]]))
+        elif tag == "role":
+            assert len(inner) == 2
+            assert inner[0][0] == "rolecontent"
+            assert len(inner[0][1]) == 1
+            assert inner[1][0] == "rolename"
+            assert len(inner[1][1]) == 1
+            if inner[1][1][0] in ("code", "literal"):
+                out.append(nodes.CodeSpanNode([_clean_parsed_literal(inner[0][1][0])]))
+            else:
+                out.append(nodes.CodeSpanNode([inner[0][1][0]]))
+                out.append(":" + inner[1][1][0] + ":")
         ### Escaping ###
         elif tag == "escape":
             assert len(inner) == 1 and len(inner[0]) == 2
@@ -155,6 +181,9 @@ def _parse_inline(content, state):
             codec = "gb18030"
             if code.startswith("~jis"):
                 codec = "euc-jp"
+                code = code[4:]
+            elif code.startswith("~ksc"):
+                codec = "euc-kr"
                 code = code[4:]
             code = code[2:-2]
             buf = list(code)

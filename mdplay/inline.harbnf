@@ -30,7 +30,15 @@ nonembed <- "!";
 %:endif
 $EXPLODE :: href nonembed;
 
+%:ifndef noroles
+codespan <- /(``+).+?\1|`[^`]+`(?![:`])/;
+rolename <- /((?!:)\w)+/;
+rolecontent <- /([^`\\]|\\.)+/;
+role <- #"`" rolecontent #"`:" rolename #":";
+%:else
 codespan <- /(`+).+?\1/;
+role <- &;
+%:endif
 
 escape <- /\\(?!\d)(\W|_)/;
 %:ifndef nohtmldeentity
@@ -100,16 +108,16 @@ strikethru <- &;
 %:endif
 $NONEST :: strikethru;
 %:ifndef nohz
-hz <- /~(jis~)?\{([!-~]{2})*?~\}/;
+hz <- /~(jis~|ksc~)?\{([!-~]{2})*?~\}/;
 %:else
 hz <- &;
 %:endif
 $EXPLODE :: nonhz;
 %:ifndef nohz
 %: ifndef nodiscordstrike
-plaintilde <- /~(?!\{|~|jis~\{)/;
+plaintilde <- /~(?!\{|~|jis~\{|ksc~\{)/;
 %: else
-plaintilde <- /~(?!\{|jis~\{)/;
+plaintilde <- /~(?!\{|jis~\{|ksc~\{)/;
 %: endif
 %:else
 %: ifndef nodiscordstrike
@@ -211,7 +219,7 @@ content <- markup | nil;
 markelement <- bibuml | shortcode | hz | superscript | subscript | redditref | inlinespoiler | 
                strikethru | underline | boldnonemphatic | boldemphatic | italicnonemphatic | 
                italicemphatic | newline | entity | escape | codespan | href | nonhref | inert |
-               discordemote;
+               discordemote | role;
 $EXPLODE :: markelement;
 
 top <- markup | nil;

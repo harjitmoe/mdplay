@@ -505,6 +505,8 @@ Hello\world hello\`world hello\\world
 
 ¬in ∉ ¬in 
 
+<code>`</code> / <code>\</code>`:code: / <code>\</code>` 
+
 <span class="mw-customtoggle-9" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-9" class="mw-collapsible mw-collapsed" style="display:none;">Inline spoiler</div> again. 
 
 Testing <ruby>This<rp> (</rp><rt>as</rt><rp>) </rp></ruby> so. 

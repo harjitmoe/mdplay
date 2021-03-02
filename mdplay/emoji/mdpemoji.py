@@ -177,7 +177,7 @@ def _is_emotic(s):
     return False
 
 def emote_handler(tag, inner, state):
-    """Handle ASCII emoticons and shortcodes, converting as appropriate."""
+    """Handle shortcodes, converting as appropriate."""
     zw = "\u200c" # Insert zero-width char as round-trip kludge.
     ### Emoticons and Emoji ###
     if tag == "shortcode":

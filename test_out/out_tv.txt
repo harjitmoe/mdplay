@@ -334,7 +334,7 @@ This is just a paragraph.  ( ͡° ͜ʖ ͡° )  [[spoiler:It actually is.]] 🖖 
 
 Squirt ♈ Squirt ♈ Squirt ♈ 
 
-😄 😀 :D :) :demonicduck: 
+😄 😀 :D :) [[http://i.imgur.com/SfHfed9.png :‌demonicduck:]] 
 
 ||border=1"
 ||Why||What||
@@ -420,7 +420,7 @@ This should be a rainbow banner: 🏳️‍🌈 or 🏳️‍🌈 or 🏳️‍�
 
 Labelled spoiler[[spoiler:Watch out, this is a spoiler!]] 
 
-Discord emote: :kananYouNot: &lt;:wacko:230129080886886400&gt; &lt;:ConcernFroge:306183254350757888&gt; &lt;:kananYouNot:264549500385886208&gt; &lt;:madeupemoteshortcode:306183254350757888&gt; :madeupemoteshortcode: :kananYouNot: 
+Discord emote: :kananYouNot: [[https://cdn.discordapp.com/emojis/230129080886886400.png :‌wacko:]] [[https://cdn.discordapp.com/emojis/306183254350757888.png :‌ConcernFroge:]] [[https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:]] [[https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:]] [[https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:]] [[https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:]] 
 
 '''Greetings''' 
 

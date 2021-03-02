@@ -164,11 +164,11 @@ emoji_scan = lambda nodesz: list(_emoji_scan(nodesz))
 
 #-------------------------------------------------------------------------------------------------
 
-def _emoteid_to_url(s):
+def _emoteid_to_url(s, anim = False):
     if ":" in s: # i.e. probably URI and not a number
         return s
     else:
-        return "https://cdn.discordapp.com/emojis/" + s + ".png"
+        return "https://cdn.discordapp.com/emojis/" + s + (".png" if not anim else ".gif")
 
 def _is_emotic(s):
     for i in list(SMILEYA.keys()):
@@ -176,7 +176,7 @@ def _is_emotic(s):
             return i
     return False
 
-def emote_handler(tag, inner):
+def emote_handler(tag, inner, state):
     """Handle ASCII emoticons and shortcodes, converting as appropriate."""
     zw = "\u200c" # Insert zero-width char as round-trip kludge.
     ### Emoticons and Emoji ###
@@ -196,29 +196,19 @@ def emote_handler(tag, inner):
             alphaname_lookup = alphaname_lookup[4:] 
         if alphaname_lookup in eacd: 
             return eacd[alphaname_lookup]
-        #elif alphaname_lookup in state.custom_eac:
-        #    emoteurl = _emoteid_to_url(state.custom_eac[alphaname_lookup])
-        #    out.append(nodes.HrefNode(emoteurl, alpha_alt_text, "img", width = 32))
+        elif alphaname_lookup in state.custom_eac:
+            emoteurl = _emoteid_to_url(state.custom_eac[alphaname_lookup])
+            return nodes.HrefNode(emoteurl, alpha_alt_text, "img", width = 32)
         else:
             return code # Pass through, i.e. do NOT use colon_then_wj
-    elif False:
-        alphaname = ""
-        emoteid = ""
-        del content[0] # the <
-        c = content.pop(0)
-        while (c != ":"):
-            alphaname += c
-            c = content.pop(0)
+    elif tag == "discordemote":
+        assert len(inner) == 1
+        anim, alphaname, emoteid = inner[0].strip("<>").split(":", 2)
         alt_text = ":" + zw + alphaname + ":"
-        c = content.pop(0)
-        while (c != ">"):
-            emoteid += c
-            c = content.pop(0)
-        emoteurl = _emoteid_to_url(emoteid) # id is not a URL here as regex enforces numerical
+        emoteurl = _emoteid_to_url(emoteid, anim == "a")
         if alphaname not in eacd:
-            state.custom_eac[alphaname] = emoteurl # could alternatively use emoteid I suppose
-        out.append(nodes.HrefNode(emoteurl, alt_text, "img", width = 32))
-        return True
+            state.custom_eac[alphaname] = emoteurl
+        return nodes.HrefNode(emoteurl, alt_text, "img", width = 32)
     return None
 
 #-------------------------------------------------------------------------------------------------

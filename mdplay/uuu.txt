@@ -1,0 +1,7 @@
+I can use *italic*, **bold**, `monospace`, \ __bold__\ .  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/YW5So8y.jpg) images and !media[embeds with site\-specific tags](http://i.imgur.com/YW5So8y.jpg), or even [link images ![like this](http://i.imgur.com/YW5So8y.jpg)](http://egscomics.com)!
+
+''illegitimi n{\=o}n carborundum''.
+
+''spuri{\=i}s n{\=o}n carborandum''.
+
+{\o}e vs {\oe} vs {\o{e}} vs {\oe{}} mate.

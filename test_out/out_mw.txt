@@ -362,7 +362,7 @@ This is just a paragraph.  ( ͡° ͜ʖ ͡° )  <span class="mw-customtoggle-4" s
 
 Squirt ♈ Squirt ♈ Squirt ♈ 
 
-😄 😀 :D :) :demonicduck: 
+😄 😀 :D :) [http://i.imgur.com/SfHfed9.png :‌demonicduck:] 
 
 {|border="1"
 |-
@@ -465,7 +465,7 @@ This should be a rainbow banner: 🏳️‍🌈 or 🏳️‍🌈 or 🏳️‍�
 
 <span class="mw-customtoggle-6" style="color:blue;cursor:pointer">Labelled spoiler</span><div id="mw-customcollapsible-6" class="mw-collapsible mw-collapsed" style="display:none;">Watch out, this is a spoiler!</div> 
 
-Discord emote: :kananYouNot: &lt;:wacko:230129080886886400&gt; &lt;:ConcernFroge:306183254350757888&gt; &lt;:kananYouNot:264549500385886208&gt; &lt;:madeupemoteshortcode:306183254350757888&gt; :madeupemoteshortcode: :kananYouNot: 
+Discord emote: :kananYouNot: [https://cdn.discordapp.com/emojis/230129080886886400.png :‌wacko:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌ConcernFroge:] [https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:] [https://cdn.discordapp.com/emojis/306183254350757888.png :‌madeupemoteshortcode:] [https://cdn.discordapp.com/emojis/264549500385886208.png :‌kananYouNot:] 
 
 <u>Greetings</u> 
 
@@ -505,7 +505,7 @@ Hello\world hello\`world hello\\world
 
 ¬in ∉ ¬in 
 
-<span class="mw-customtoggle-8" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-8" class="mw-collapsible mw-collapsed" style="display:none;">Inline spoiler</div> again. 
+<span class="mw-customtoggle-9" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-9" class="mw-collapsible mw-collapsed" style="display:none;">Inline spoiler</div> again. 
 
 Testing <ruby>This<rp> (</rp><rt>as</rt><rp>) </rp></ruby> so. 
 

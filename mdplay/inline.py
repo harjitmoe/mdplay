@@ -12,7 +12,7 @@ import os, re, string
 
 #punct = string.punctuation + string.whitespace
 
-def _parse_inline(content):
+def _parse_inline(content, state):
     out = []
     for c in content:
         if not isinstance(c, tuple):
@@ -47,7 +47,7 @@ def _parse_inline(content):
         elif tag == "codespan":
             assert len(inner) == 1
             backticks = len(inner[0]) - len(inner[0].lstrip("`"))
-            out.append(nodes.CodeSpanNode(inner[0][backticks:-backticks]))
+            out.append(nodes.CodeSpanNode([inner[0][backticks:-backticks]]))
         ### Escaping ###
         elif tag == "escape":
             assert len(inner) == 1 and len(inner[0]) == 2
@@ -79,23 +79,23 @@ def _parse_inline(content):
         ### Emphases ###
         #### /With asterisks
         elif tag == "boldemphatic":
-            out.append(nodes.BoldNode(_parse_inline(inner), emphatic=True))
+            out.append(nodes.BoldNode(_parse_inline(inner, state), emphatic=True))
         elif tag == "italicemphatic":
-            out.append(nodes.ItalicNode(_parse_inline(inner), emphatic=True))
+            out.append(nodes.ItalicNode(_parse_inline(inner, state), emphatic=True))
         #### /With underscores or apostrophes
         elif tag == "boldnonemphatic":
-            out.append(nodes.BoldNode(_parse_inline(inner), emphatic=False))
+            out.append(nodes.BoldNode(_parse_inline(inner, state), emphatic=False))
         elif tag == "underline":
-            out.append(nodes.UnderlineNode(_parse_inline(inner), emphatic=False))
+            out.append(nodes.UnderlineNode(_parse_inline(inner, state), emphatic=False))
         elif tag == "italicnonemphatic":
-            out.append(nodes.ItalicNode(_parse_inline(inner), emphatic=False))
+            out.append(nodes.ItalicNode(_parse_inline(inner, state), emphatic=False))
         #### /Others
         elif tag == "strikethru":
             # emphatic=True would be <del>, emphatic=False would be <s>
-            out.append(nodes.StrikeNode(_parse_inline(inner), emphatic=True))
+            out.append(nodes.StrikeNode(_parse_inline(inner, state), emphatic=True))
         ### New Reddit spoilers ###
         elif tag == "inlinespoiler":
-            out.append(nodes.InlineSpoilerNode(_parse_inline(inner)))
+            out.append(nodes.InlineSpoilerNode(_parse_inline(inner, state)))
         ### HREFs (links and embeds, plus CJK extensions) ###
         elif tag == "plainhref":
             assert len(inner) == 2
@@ -104,12 +104,12 @@ def _parse_inline(content):
             assert len(inner[1][1]) == 1
             if inner[1][1][0].strip().split(None, 1)[0] in ("/spoiler", "/s", "#spoiler", "#s"):
                 if " " not in inner[1][1][0].strip():
-                    out.append(nodes.InlineSpoilerNode(_parse_inline(inner[0][1])))
+                    out.append(nodes.InlineSpoilerNode(_parse_inline(inner[0][1], state)))
                 else:
                     out.append(nodes.InlineSpoilerNode([inner[1][1][0].strip().split(None, 1)[1]], 
-                        _parse_inline(inner[0][1])))
+                        _parse_inline(inner[0][1], state)))
             else:
-                out.append(nodes.HrefNode(inner[1][1][0], _parse_inline(inner[0][1]), "url"))
+                out.append(nodes.HrefNode(inner[1][1][0], _parse_inline(inner[0][1], state), "url"))
         elif tag == "embedhref":
             assert len(inner) == 3
             assert inner[0][0] == "content"
@@ -122,7 +122,7 @@ def _parse_inline(content):
                         for i in inner[2][1][0].lstrip().lstrip("=").split("x", 1)]
             else:
                 width = height = None
-            out.append(nodes.HrefNode(inner[1][1][0], _parse_inline(inner[0][1]), "img", 
+            out.append(nodes.HrefNode(inner[1][1][0], _parse_inline(inner[0][1], state), "img", 
                     width=width, height=height))
         elif tag == "specialhref":
             assert len(inner) == 3
@@ -133,19 +133,20 @@ def _parse_inline(content):
             assert len(inner[2][1]) == 1
             if inner[0][1][0].lower() == "deseret":
                 out.append(nodes.DeseretNode(inner[2][1][0]))
-            elif cjkv := cjk.cjk_handler(inner[0][1][0], inner[2][1][0], _parse_inline(inner[1][1])):
+            elif cjkv := cjk.cjk_handler(inner[0][1][0], inner[2][1][0], 
+                        _parse_inline(inner[1][1], state)):
                 out.append(cjkv)
             else:
-                out.append(nodes.HrefNode(inner[2][1][0], _parse_inline(inner[1][1]), 
+                out.append(nodes.HrefNode(inner[2][1][0], _parse_inline(inner[1][1], state), 
                     inner[0][1][0]))
         elif tag == "redditref":
             assert len(inner) == 1
             out.append(nodes.HrefNode("https://reddit.com" + inner[0], [inner[0]], "url"))
         ### Superscripts and Subscripts ###
         elif tag == "superscript":
-            out.append(nodes.SuperNode(_parse_inline(inner)))
+            out.append(nodes.SuperNode(_parse_inline(inner, state)))
         elif tag == "subscript":
-            out.append(nodes.SubscrNode(_parse_inline(inner)))
+            out.append(nodes.SubscrNode(_parse_inline(inner, state)))
         ### HZ escapes / codes / whatever (todo dedupe this repeated code) ###
         elif tag == "hz":
             assert len(inner) == 1
@@ -165,7 +166,7 @@ def _parse_inline(content):
                 obuf.append(mine)
             out.extend(obuf)
         ### Emoticons and shortcodes ###
-        elif emote := emoji.emote_handler(tag, inner):
+        elif emote := emoji.emote_handler(tag, inner, state):
             out.append(emote)
         ### Other ###
         elif tag == "#ERROR":
@@ -180,6 +181,6 @@ def parse_inline(content, flags, state):
         os.path.join(os.path.dirname(os.path.abspath(__file__)), "inline.harbnf"), 
     "r"), flags))
     tree = harbnf.strip_and_fold(harbnf.execute(rules, content, attributes, soft=True), attributes)
-    return _parse_inline(tree)
+    return _parse_inline(tree, state)
 
 

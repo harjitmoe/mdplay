@@ -178,6 +178,14 @@ shortcode <- &;
 nonshortcode <- ":";
 %:endif
 $EXPLODE :: nonshortcode;
+%:ifndef nodiscordemotes
+discordemote <- /<a?:\w+:[^>]+>/;
+nondiscordemote <- /<(?!a:|:)/;
+%:else
+discordemote <- &;
+nondiscordemote <- "<";
+%:endif
+$EXPLODE :: nondiscordemote;
 
 %:ifndef nodiacritic
 bibuml <- /\{\\[^{}]+?(\{[^}]*\})?\}/;
@@ -190,8 +198,9 @@ $EXPLODE :: nonbibuml;
 
 .. ")" as a potential terminator has to be treated as a separate backtrackable token and not as
 .. part of the general variable-length "inert range" token. Hence the separate alternation.
-inert <- /[^^\\_*~{[\]:(!'&`\n|>\/)]+/ | ")" | nonwikiemph | nonshortcode | nonpandoc | nonembed | 
-         nonbibuml | plaintilde | nonspoiler | nonredditref | nonredditsuper | nonbaremph;
+inert <- /[^^\\_*~{[\]:(!'&`\n|<>\/)]+/ | ")" | nonwikiemph | nonshortcode | nonpandoc | nonembed | 
+         nonbibuml | plaintilde | nonspoiler | nonredditref | nonredditsuper | nonbaremph |
+         nondiscordemote;
 $EXPLODE :: inert;
 
 markup <- markelement | markelement markup;
@@ -201,7 +210,8 @@ $STRIP :: nil;
 content <- markup | nil;
 markelement <- bibuml | shortcode | hz | superscript | subscript | redditref | inlinespoiler | 
                strikethru | underline | boldnonemphatic | boldemphatic | italicnonemphatic | 
-               italicemphatic | newline | entity | escape | codespan | href | nonhref | inert;
+               italicemphatic | newline | entity | escape | codespan | href | nonhref | inert |
+               discordemote;
 $EXPLODE :: markelement;
 
 top <- markup | nil;

@@ -366,7 +366,7 @@ This is just a paragraph.  ( ͡° ͜ʖ ͡° )  >!It actually is.!< ![🖖](https
 
 Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)
 
-![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) :D :) :demonicduck:
+![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) :D :) ![:‌demonicduck:](http://i.imgur.com/SfHfed9.png =32x)
 
 |Why|What|
 |:-:|:--|
@@ -457,7 +457,7 @@ This should be a rainbow banner: ![🏳️‍🌈](https://twemoji.maxcdn.com/2/
 
 [Labelled spoiler](/s Watch out, this is a spoiler!)
 
-Discord emote: :kananYouNot: <:wacko:230129080886886400> <:ConcernFroge:306183254350757888> <:kananYouNot:264549500385886208> <:madeupemoteshortcode:306183254350757888> :madeupemoteshortcode: :kananYouNot:
+Discord emote: :kananYouNot: ![:‌wacko:](https://cdn.discordapp.com/emojis/230129080886886400.png =32x) ![:‌ConcernFroge:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x) ![:‌madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x)
 
 <u>Greetings</u>
 
@@ -498,7 +498,7 @@ And >!Inline spoiler!<
 
 Hello\\world hello\\`world hello\\\\world
 
-ERROR<mdplay.nodes.StrikeNode object at 0x7f717944bc70>
+ERROR<mdplay.nodes.StrikeNode object at 0x7f42bea35c70>
 
 ¬in ∉ ¬in
 

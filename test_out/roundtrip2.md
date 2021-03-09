@@ -20,9 +20,9 @@ I think so too.
 
 Another paragraph.
 
-(The following page makes use of Twemoji, by Twitter, Inc.  [CC\-BY 4.0](http://creativecommons.org/licenses/by/4.0/), [origin](https://github.com/twitter/twemoji).)
+(The following page makes use of Twemoji, by Twitter, Inc.  \[CC\-BY 4.0](http://creativecommons.org/licenses/by/4.0/), \[origin](https://github.com/twitter/twemoji).)
 
-I can use *italic*, **bold**, `monospace`, \ __bold__\ .  I can [link](http://egscomics.com), or include ![](http://i.imgur.com/YW5So8y.jpg) images and !media[embeds with site\-specific tags](http://i.imgur.com/YW5So8y.jpg), or even [link images ![like this](http://i.imgur.com/YW5So8y.jpg)](http://egscomics.com)!
+I can use *italic*, **bold**, `monospace`, \ __bold__\ .  I can \[link](http://egscomics.com), or include !\[](http://i.imgur.com/YW5So8y.jpg) images and !media[embeds with site\-specific tags](http://i.imgur.com/YW5So8y.jpg), or even \[link images !\[like this](http://i.imgur.com/YW5So8y.jpg)](http://egscomics.com)!
 
 ~~~~~~~~ python
 #!/usr/bin/env python
@@ -80,25 +80,25 @@ open(".build/MegaDb.txt","w").write(repr(arcs))
 
 !\[This is not](an embed.)
 
-![This is not an embed either.](http://i.imgur.com/YW5So8y.jpg)
+!\[This is not an embed either.](http://i.imgur.com/YW5So8y.jpg)
 
 Nor is !\[this.](http://i.imgur.com/YW5So8y.jpg)
 
-Whereas this is: ![an embed](http://i.imgur.com/YW5So8y.jpg)
+Whereas this is: !\[an embed](http://i.imgur.com/YW5So8y.jpg)
 
-![This embed](http://i.imgur.com/YW5So8y.jpg) is also an embed.
+!\[This embed](http://i.imgur.com/YW5So8y.jpg) is also an embed.
 
 \[This is not](a link).
 
 Th\[is isn't](either).
 
-Th[is is.](http://egscomics.com)
+Th\[is is.](http://egscomics.com)
 
 At the start of a  
-[line](http://egscomics.com)
+\[line](http://egscomics.com)
 
 Likewise  
-![](http://i.imgur.com/YW5So8y.jpg)
+!\[](http://i.imgur.com/YW5So8y.jpg)
 
 C:\\WINDOWS\\\-\-hello\-\-
 
@@ -108,7 +108,7 @@ C:\\WINDOWS\\\-\-hello\-\-
 
 - - -
 
-[Useful Notes: UNIX](http://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/UNIX)
+\[Useful Notes: UNIX](http://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/UNIX)
 
 ## Superscripts and subscripts
 
@@ -321,9 +321,9 @@ And
 * ``*sa`me*`` 
 * list 
 
-[Testing hashes.](http://i.imgur.com/YW5So8y.jpg#hash)
+\[Testing hashes.](http://i.imgur.com/YW5So8y.jpg#hash)
 
-![Let me \ _break_\  this!](http://i.imgur.com/YW5So8y.jpg)
+!\[Let me \ _break_\  this!](http://i.imgur.com/YW5So8y.jpg)
 
 ~In other news~
 
@@ -362,11 +362,11 @@ Testing ordered lists:
       2) Coming back to this level. 
   * Similarly 
 
-This is just a paragraph.  ( ͡° ͜ʖ ͡° )  \ >!It actually is.!< ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32) ![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32)
+This is just a paragraph.  ( ͡° ͜ʖ ͡° )  \[It actually is.](/spoiler) !\[![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32) !\[![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32) !\[![👀](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f440.png =32x32)
 
-Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt ![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)
+Squirt !\[![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt !\[![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) Squirt !\[![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)
 
-![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) ![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) :D :) ![:‌demonicduck:](http://i.imgur.com/SfHfed9.png =32x)
+!\[![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) !\[![😀](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f600.png =32x32) :D :) !\[:‌demonicduck:](http://i.imgur.com/SfHfed9.png =32x)
 
 |Why|What|
 |:-:|:--|
@@ -382,21 +382,21 @@ m̈ëẗälë Ë
 
 ẍ=\-ω^(2)x
 
-![🙆](https://twemoji.maxcdn.com/2/72x72/1f646.png =32x32) ![🙆🏽](https://twemoji.maxcdn.com/2/72x72/1f646-1f3fd.png =32x32) ![🙆🏿](https://twemoji.maxcdn.com/2/72x72/1f646-1f3ff.png =32x32)
+!\[![🙆](https://twemoji.maxcdn.com/2/72x72/1f646.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f646.png =32x32) !\[![🙆🏽](https://twemoji.maxcdn.com/2/72x72/1f646-1f3fd.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f646\-1f3fd.png =32x32) !\[![🙆🏿](https://twemoji.maxcdn.com/2/72x72/1f646-1f3ff.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f646\-1f3ff.png =32x32)
 
-![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) ![small image](http://i.imgur.com/YW5So8y.jpg =32x32) ![small image](http://i.imgur.com/YW5So8y.jpg =32x)
+!\[![♈](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32)](https://twemoji.maxcdn.com/2/72x72/2648.png =32x32) !\[small image](http://i.imgur.com/YW5So8y.jpg =32x32) !\[small image](http://i.imgur.com/YW5So8y.jpg =32x)
 
-![🖖🏿](https://twemoji.maxcdn.com/2/72x72/1f596-1f3ff.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)  
-![🖖🏼](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fc.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏼](https://twemoji.maxcdn.com/2/72x72/1f3fc.png =32x32)  
-![🖖🏽](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fd.png =32x32) ![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏽](https://twemoji.maxcdn.com/2/72x72/1f3fd.png =32x32)
+!\[![🖖🏿](https://twemoji.maxcdn.com/2/72x72/1f596-1f3ff.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f596\-1f3ff.png =32x32) !\[![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌!\[![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)  
+!\[![🖖🏼](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fc.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f596\-1f3fc.png =32x32) !\[![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌!\[![🏼](https://twemoji.maxcdn.com/2/72x72/1f3fc.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f3fc.png =32x32)  
+!\[![🖖🏽](https://twemoji.maxcdn.com/2/72x72/1f596-1f3fd.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f596\-1f3fd.png =32x32) !\[![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌!\[![🏽](https://twemoji.maxcdn.com/2/72x72/1f3fd.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f3fd.png =32x32)
 
 :undiefined:
 
-![🇯🇵](https://twemoji.maxcdn.com/2/72x72/1f1ef-1f1f5.png =32x32) ![🇯](https://twemoji.maxcdn.com/2/72x72/1f1ef.png =32x32)‌![🇵](https://twemoji.maxcdn.com/2/72x72/1f1f5.png =32x32)
+!\[![🇯🇵](https://twemoji.maxcdn.com/2/72x72/1f1ef-1f1f5.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f1ef\-1f1f5.png =32x32) !\[![🇯](https://twemoji.maxcdn.com/2/72x72/1f1ef.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f1ef.png =32x32)‌!\[![🇵](https://twemoji.maxcdn.com/2/72x72/1f1f5.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f1f5.png =32x32)
 
 Testing a URN: urn:x\-interwiki:wikipedia:Tree
 
-Case sensitivity: urn:x\-interwiki:gausswiki:Hello [Eh?](http://gauss.ffii.org/Hello)
+Case sensitivity: urn:x\-interwiki:gausswiki:Hello \[Eh?](uRn:x\-inteRwiki:gaUßwiki:Hello)
 
 x̄ and ȳ
 
@@ -435,29 +435,29 @@ Pinguinet (PANG\-win\-ay)
 キェ ブァハハハハ イェヴィンギャ シジチヂツヅ  
 キェ ブァハハハハ イェヴィンギャ スィズィティディトゥドゥ
 
-\ >!Spojra!<
+\[Spojra](#s)
 
 ヴァ ヴィ ヴ ヴェ ヴォ 〜 ヴャ ヸ ヴュ ヹ ヴョ 〜 ヴァ ヴィ ヴゥ ヴェ ヴォ 〜 ヷ ヸ ヺゥ ヹ ヺ
 
 テガみ てがみ テガミ
 
-![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32) 🌚︎︎︎ ![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)️ ![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)‌︎
+!\[![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32) 🌚︎︎︎ !\[![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)️ !\[![🌚](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f31a.png =32x32)‌︎
 
-![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) 😄︎︎︎ ![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)️ ![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)‌︎
+!\[![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32) 😄︎︎︎ !\[![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)️ !\[![😄](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f604.png =32x32)‌︎
 
-This should be a rainbow banner: ![🏳️‍🌈](https://twemoji.maxcdn.com/2/72x72/1f3f3-fe0f-200d-1f308.png =32x32) or ![🏳️‍🌈](https://twemoji.maxcdn.com/2/72x72/1f3f3-fe0f-200d-1f308.png =32x32) or ![🏳️‍🌈](https://twemoji.maxcdn.com/2/72x72/1f3f3-fe0f-200d-1f308.png =32x32)
+This should be a rainbow banner: !\[![🏳️‍🌈](https://twemoji.maxcdn.com/2/72x72/1f3f3-fe0f-200d-1f308.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f3f3\-fe0f\-200d\-1f308.png =32x32) or !\[![🏳️‍🌈](https://twemoji.maxcdn.com/2/72x72/1f3f3-fe0f-200d-1f308.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f3f3\-fe0f\-200d\-1f308.png =32x32) or !\[![🏳️‍🌈](https://twemoji.maxcdn.com/2/72x72/1f3f3-fe0f-200d-1f308.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f3f3\-fe0f\-200d\-1f308.png =32x32)
 
-![⛹🏻‍♀️](https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb-200d-2640-fe0f.png =32x32)
+!\[![⛹🏻‍♀️](https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb-200d-2640-fe0f.png =32x32)](https://twemoji.maxcdn.com/2/72x72/26f9\-1f3fb\-200d\-2640\-fe0f.png =32x32)
 
-![⛹🏻‍♀️](https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb-200d-2640-fe0f.png =32x32)
+!\[![⛹🏻‍♀️](https://twemoji.maxcdn.com/2/72x72/26f9-1f3fb-200d-2640-fe0f.png =32x32)](https://twemoji.maxcdn.com/2/72x72/26f9\-1f3fb\-200d\-2640\-fe0f.png =32x32)
 
 :D
 
 \ _This should behave more or less as expected. However, I have reason to believe otherwise._\  (Should be fixed now…)
 
-[Labelled spoiler](/s Watch out, this is a spoiler!)
+\[Labelled spoiler](/s Watch out, this is a spoiler!)
 
-Discord emote: :kananYouNot: ![:‌wacko:](https://cdn.discordapp.com/emojis/230129080886886400.png =32x) ![:‌ConcernFroge:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x) ![:‌madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) ![:‌kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x)
+Discord emote: :kananYouNot: !\[:‌wacko:](https://cdn.discordapp.com/emojis/230129080886886400.png =32x) !\[:‌ConcernFroge:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) !\[:‌kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x) !\[:‌madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) !\[:‌madeupemoteshortcode:](https://cdn.discordapp.com/emojis/306183254350757888.png =32x) !\[:‌kananYouNot:](https://cdn.discordapp.com/emojis/264549500385886208.png =32x)
 
 <u>Greetings</u>
 
@@ -469,11 +469,11 @@ Discord emote: :kananYouNot: ![:‌wacko:](https://cdn.discordapp.com/emojis/230
 
 :vanirLUL:
 
-![🖖🏿](https://twemoji.maxcdn.com/2/72x72/1f596-1f3ff.png =32x32)
+!\[![🖖🏿](https://twemoji.maxcdn.com/2/72x72/1f596-1f3ff.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f596\-1f3ff.png =32x32)
 
-![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)
+!\[![🖖](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f596.png =32x32)‌!\[![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)
 
-![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)
+!\[![🏿](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)](https://twemoji.maxcdn.com/2/72x72/1f3ff.png =32x32)
 
 めぐみん (JA)  
 → 惠 (めぐ) みん (reconstructed kanji spelling, even though one clearly isn't used for her (S2 OVA confirms Megumin cannot read Japanese script), rather than resort to a Mandarin ateji / jièzì — the み is okurigana)  
@@ -498,18 +498,18 @@ And \ >!Inline spoiler!<
 
 Hello\\world hello\\`world hello\\\\world
 
-ERROR<mdplay.nodes.StrikeNode object at 0x7f88c2eb5b50>
+ERROR<mdplay.nodes.StrikeNode object at 0x7f8c154a1b80>
 
 ¬in ∉ ¬in
 
-`` / ````` / ```
+`` / ```:coco: / ````` / ```
 
 \ >!Inline spoiler!< again.
 
 Testing This (as)  so.
 
-\[This should [actually work now](http://example.com/).]
+\[This should \[actually work now](http://example.com/).]
 
-\[This] should [actually work now](http://example.com/).
+\[This] should \[actually work now](http://example.com/).
 
-[This](http://example.com/) should \[ideally] actually [work now](http://example.com/).
+\[This](http://example.com/) should \[ideally] actually \[work now](http://example.com/).

@@ -173,7 +173,7 @@ def _parse_inline(content, state):
             out.append(nodes.SuperNode(_parse_inline(inner, state)))
         elif tag == "subscript":
             out.append(nodes.SubscrNode(_parse_inline(inner, state)))
-        ### HZ escapes / codes / whatever (todo dedupe this repeated code) ###
+        ### HZ escapes / codes / whatever ###
         elif tag == "hz":
             assert len(inner) == 1
             code = inner[0]

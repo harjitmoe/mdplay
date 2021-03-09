@@ -10,8 +10,11 @@ $EXPLODE :: spoileruri;
 dimensions <- /(\s+=\d*x\d*)?/;
 tagname <- /\w+/;
 
-plainhref <- #"[" content #"](" uri #")";
-embedhref <- #"!" #"[" content #"](" uri dimensions #")";
+whitespace <- /\s+/;
+$STRIP :: whitespace;
+
+plainhref <- #"[" content #"](" whitespace uri whitespace #")";
+embedhref <- #"!" #"[" content #"](" whitespace uri dimensions whitespace #")";
 specialhref <- #"!" tagname #"[" content #"](" whateveruri #")";
 nonhref <- "[" markup /\](?!\()/;
 $EXPLODE :: nonhref;

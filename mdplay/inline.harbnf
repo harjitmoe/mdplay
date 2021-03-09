@@ -10,7 +10,7 @@ $EXPLODE :: spoileruri;
 dimensions <- /(\s+=\d*x\d*)?/;
 tagname <- /\w+/;
 
-whitespace <- /\s+/;
+whitespace <- /\s*/;
 $STRIP :: whitespace;
 
 plainhref <- #"[" content #"](" whitespace uri whitespace #")";

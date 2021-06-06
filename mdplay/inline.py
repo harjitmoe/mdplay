@@ -10,21 +10,42 @@ from mdplay import nodes, diacritic, uriregex, cjk, emoji, harbnf
 from mdplay import htmlentitydefs_latest as htmlentitydefs
 import os, re, string
 
+htmlentityre = re.compile(r"(?<!\\)(?:\\\\)*&(" + "|".join(htmlentitydefs.html5.keys()) + 
+    r"|#[0123456789]+;?|#x[0123456789abcdefABCDEF]+;?)")
+
+def _handle_entity(match):
+    span = match.group(1)
+    if span in htmlentitydefs.html5:
+        return htmlentitydefs.html5[span]
+    elif span.startswith("#x"):
+        return int(span[:2].rstrip(";"), 16)
+    elif span.startswith("#"):
+        return int(span[:1].rstrip(";"))
+    else:
+        raise ValueError(f"unrecognised entity {span!r}")
+
 def _clean_parsed_literal(literal):
     """ Process the content of a parsed literal (i.e. where escapes are permitted). """
     out = []
     inesc = False
-    for i in literal:
+    n = 0 # gets incremented by more than one in event of entity, hence not a for.
+    while n < len(literal):
+        i = literal[n]
         if not inesc:
-            if i != "\\":
-                out.append(i)
-            else:
+            if i == "\\":
                 inesc = True
+            elif i == "&" and (match := htmlentityre.match(literal, n)):
+                out.append(_handle_entity(match))
+                n += len(match.group(0))
+                continue
+            else:
+                out.append(i)
         else:
             if i.isalnum():
                 out.append("\\")
             out.append(i)
             inesc = False
+        n += 1
     return "".join(out)
 
 def _parse_inline(content, state):

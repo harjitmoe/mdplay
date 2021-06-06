@@ -18,9 +18,9 @@ def _handle_entity(match):
     if span in htmlentitydefs.html5:
         return htmlentitydefs.html5[span]
     elif span.startswith("#x"):
-        return int(span[:2].rstrip(";"), 16)
+        return int(span[2:].rstrip(";"), 16)
     elif span.startswith("#"):
-        return int(span[:1].rstrip(";"))
+        return int(span[1:].rstrip(";"))
     else:
         raise ValueError(f"unrecognised entity {span!r}")
 

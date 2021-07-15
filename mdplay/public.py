@@ -24,7 +24,7 @@ class NoSuchRendererError(MdplayError):
 class NoSnippetRendererError(MdplayError):
     pass
 
-writernames = ["debug", "bbcode", "html", "mwiki", "md", "tvwiki"]
+writernames = ["debug", "bbcode", "html", "mwiki", "md", "tvwiki", "creole"]
 
 def _load_renderer(modname):
     importlib.import_module("mdplay.writers." + modname)

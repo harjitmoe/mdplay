@@ -16,6 +16,9 @@ def creole_out_body(nodel,flags=()):
         r+=_creole_out_body(node,flags=flags)
     return r
 
+# https://web.archive.org/web/20190406174234/http://www.wikicreole.org/wiki/Creole1.0
+# https://web.archive.org/web/20191229025127/http://www.wikicreole.org/wiki/CreoleAdditions
+
 def _creole_out_body(node,flags=()):
     if not isinstance(node,nodes.Node): #i.e. is a string
         return node.replace("~","~~").replace("[","~[").replace("]","~]").replace("{","~{").replace("}","~}").replace("*","~*").replace("#","~#").replace("/","~/").replace("\\","~\\")
@@ -24,7 +27,15 @@ def _creole_out_body(node,flags=()):
     elif isinstance(node,nodes.ParagraphNode):
         return "\n"+creole_out_body(node.content,flags=flags)+"\n"
     elif isinstance(node,nodes.BlockQuoteNode):
-        return "\n:"+creole_out_body(node.content,flags=flags).strip("\r\n").replace("\n","\n:")+"\n"
+        def incrindent(data):
+            data=data.split("\n\n")
+            for i in range(len(data)):
+                if data[i].startswith(">"):
+                    data[i]=">"+data[i]
+                else:
+                    data[i]="> "+data[i]
+            return "\n".join(data)
+        return "\n"+incrindent(creole_out_body(node.content).strip("\r\n"))+"\n"
     #elif isinstance(node,nodes.SpoilerNode):
     elif isinstance(node,nodes.CodeBlockNode):
         return "\n{{{\n"+creole_out_body(node.content,flags=flags).replace("\n}}}\n", "\n }}}\n")+"\n}}}\n"
@@ -36,8 +47,8 @@ def _creole_out_body(node,flags=()):
         return ("#"*node.depth)+"# "+creole_out_body(node.content,flags=flags).strip("\r\n")+"\n"
     elif isinstance(node,nodes.BoldNode):
         return "**"+creole_out_body(node.content,flags=flags)+"**"
-    #elif isinstance(node,nodes.UnderlineNode):
-    #    return "<u>"+creole_out_body(node.content,flags=flags)+"</u>"
+    elif isinstance(node,nodes.UnderlineNode):
+        return "__"+creole_out_body(node.content,flags=flags)+"__"
     elif isinstance(node,nodes.ItalicNode):
         return "//"+creole_out_body(node.content,flags=flags)+"//"
     #elif isinstance(node,nodes.StrikeNode):
@@ -45,10 +56,10 @@ def _creole_out_body(node,flags=()):
     #        return "<del>"+creole_out_body(node.content,flags=flags)+"</del>"
     #    else:
     #        return "<s>"+creole_out_body(node.content,flags=flags)+"</s>"
-    #elif isinstance(node,nodes.SuperNode):
-    #    return "<sup>"+creole_out_body(node.content,flags=flags)+"</sup>"
-    #elif isinstance(node,nodes.SubscrNode):
-    #    return "<sub>"+creole_out_body(node.content,flags=flags)+"</sub>"
+    elif isinstance(node,nodes.SuperNode):
+        return "^^"+creole_out_body(node.content,flags=flags)+"^^"
+    elif isinstance(node,nodes.SubscrNode):
+        return ",,"+creole_out_body(node.content,flags=flags)+",,"
     #elif isinstance(node,nodes.RubiNode):
     #    label = creole_out_body(node.label, flags=flags)
     #    content = creole_out_body(node.content, flags=flags)
@@ -71,9 +82,9 @@ def _creole_out_body(node,flags=()):
             #%-escapes will be parsed by browser and may be already present,
             #so NO escaping of %.
             if label:
-                return "[["+content.replace(" ","%20").replace("|","%7C")+" "+label+"]]"
+                return "[["+content.replace(" ","%20").replace("|","%7C")+"|"+label+"]]"
             else:
-                return content.replace(" ","%20")
+                return "[["+content.replace(" ","%20").replace("|","%7C")+"]]"
     elif isinstance(node,nodes.NewlineNode):
         return r"\\"
     elif isinstance(node,nodes.RuleNode):

@@ -20,10 +20,12 @@ def creole_out_body(nodel,flags=()):
 # Higher authority: https://web.archive.org/web/20191229025127/http://www.wikicreole.org/wiki/CreoleAdditions
 # Lower authority: https://web.archive.org/web/20200808212700/http://www.wikicreole.org/wiki/HintsOnExtending
 
+tripleclose_re = re.compile(r"\n(\s*)\}\}\}")
+
 def _creole_out_body(node,flags=()):
     if not isinstance(node,nodes.Node): #i.e. is a string
         ret = node.replace("~","~~").replace("[[","[~[").replace("]]","]~]").replace("{{","{~{"
-                 ).replace("}}","}~}").replace("**","*~*").replace("__", "_~_"
+                 ).replace("}}","}~}").replace("**","*~*").replace("__", "_~_").replace("##", "#~#"
                  ).replace("//","/~/").replace("\\\\","\\~\\").replace("^^","^~^"
                  ).replace(",,",",~,").replace("<<","<~<")
         if len(ret) and ret[0] in "#*=|":
@@ -45,9 +47,15 @@ def _creole_out_body(node,flags=()):
         return "\n"+incrindent(creole_out_body(node.content).strip("\r\n"))+"\n"
     #elif isinstance(node,nodes.SpoilerNode):
     elif isinstance(node,nodes.CodeBlockNode):
-        return "\n{{{\n"+creole_out_body(node.content,flags=flags).replace("\n}}}\n", "\n }}}\n")+"\n}}}\n"
+        rcontent="".join(node.content)
+        rcontent=tripleclose_re.sub(lambda m: "\n" + m.group(1) + " }}}", rcontent)
+        return "\n{{{\n"+rcontent+"\n}}}\n"
     elif isinstance(node,nodes.CodeSpanNode):
-        return "{{{"+creole_out_body(node.content,flags=flags)+"}}}"
+        rcontent="".join(node.content)
+        if "}}}" not in rcontent:
+            return "{{{"+rcontent+"}}}"
+        else:
+            return "##"+_creole_out_body(rcontent,flags=flags)+"##"
     elif isinstance(node,nodes.UlliNode):
         return ("*"*node.depth)+"* "+creole_out_body(node.content,flags=flags).strip("\r\n")+"\n"
     elif isinstance(node,nodes.OlliNode):

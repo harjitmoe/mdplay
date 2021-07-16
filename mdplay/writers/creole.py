@@ -16,12 +16,19 @@ def creole_out_body(nodel,flags=()):
         r+=_creole_out_body(node,flags=flags)
     return r
 
-# https://web.archive.org/web/20190406174234/http://www.wikicreole.org/wiki/Creole1.0
-# https://web.archive.org/web/20191229025127/http://www.wikicreole.org/wiki/CreoleAdditions
+# Highest authority: https://web.archive.org/web/20190406174234/http://www.wikicreole.org/wiki/Creole1.0
+# Higher authority: https://web.archive.org/web/20191229025127/http://www.wikicreole.org/wiki/CreoleAdditions
+# Lower authority: https://web.archive.org/web/20200808212700/http://www.wikicreole.org/wiki/HintsOnExtending
 
 def _creole_out_body(node,flags=()):
     if not isinstance(node,nodes.Node): #i.e. is a string
-        return node.replace("~","~~").replace("[","~[").replace("]","~]").replace("{","~{").replace("}","~}").replace("*","~*").replace("#","~#").replace("/","~/").replace("\\","~\\")
+        ret = node.replace("~","~~").replace("[[","[~[").replace("]]","]~]").replace("{{","{~{"
+                 ).replace("}}","}~}").replace("**","*~*").replace("__", "_~_"
+                 ).replace("//","/~/").replace("\\\\","\\~\\").replace("^^","^~^"
+                 ).replace(",,",",~,").replace("<<","<~<")
+        if len(ret) and ret[0] in "#*=|":
+            ret = "~" + ret
+        return ret
     elif isinstance(node,nodes.TitleNode):
         return "\n"+("="*node.depth)+" "+creole_out_body(node.content,flags=flags)+"\n"
     elif isinstance(node,nodes.ParagraphNode):
@@ -51,19 +58,16 @@ def _creole_out_body(node,flags=()):
         return "__"+creole_out_body(node.content,flags=flags)+"__"
     elif isinstance(node,nodes.ItalicNode):
         return "//"+creole_out_body(node.content,flags=flags)+"//"
-    #elif isinstance(node,nodes.StrikeNode):
-    #    if note.emphatic:
-    #        return "<del>"+creole_out_body(node.content,flags=flags)+"</del>"
-    #    else:
-    #        return "<s>"+creole_out_body(node.content,flags=flags)+"</s>"
+    elif isinstance(node,nodes.StrikeNode):
+        return "--"+creole_out_body(node.content,flags=flags)+"--"
     elif isinstance(node,nodes.SuperNode):
         return "^^"+creole_out_body(node.content,flags=flags)+"^^"
     elif isinstance(node,nodes.SubscrNode):
         return ",,"+creole_out_body(node.content,flags=flags)+",,"
-    #elif isinstance(node,nodes.RubiNode):
-    #    label = creole_out_body(node.label, flags=flags)
-    #    content = creole_out_body(node.content, flags=flags)
-    #    return "<ruby>"+content+"<rp> (</rp><rt>"+label+"</rt><rp>) </rp></ruby>"
+    elif isinstance(node,nodes.RubiNode):
+        label = creole_out_body(node.label, flags=flags)
+        content = creole_out_body(node.content, flags=flags)
+        return "<<ruby>>"+content+"<<rp>> (<</rp>><<rt>>"+label+"<</rt>><<rp>>) <</rp>><</ruby>>"
     elif isinstance(node,nodes.HrefNode):
         label=creole_out_body(node.label,flags=flags)
         ht=node.hreftype

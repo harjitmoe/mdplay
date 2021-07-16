@@ -52,7 +52,7 @@ def _creole_out_body(node,flags=()):
         return "\n{{{\n"+rcontent+"\n}}}\n"
     elif isinstance(node,nodes.CodeSpanNode):
         rcontent="".join(node.content)
-        if "}}}" not in rcontent:
+        if "}}}" not in rcontent.rstrip("}"):
             return "{{{"+rcontent+"}}}"
         else:
             return "##"+_creole_out_body(rcontent,flags=flags)+"##"

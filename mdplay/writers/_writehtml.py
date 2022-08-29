@@ -47,11 +47,15 @@ source
 track
 wbr""".split()
 
-# Elements that are CDATA in HTML (not XHTML), HTML5's "raw text elements".
+# Elements that are CDATA in HTML (not XHTML), also called "raw text elements".
 ALL_HTML_CDATA_ELEMENTS = ("script", "style")
 
-# Elements that are PCDATA in HTML, HTML5's "escapable raw text elements".
-ALL_HTML_PCDATA_ELEMENTS = ("textarea", "title")
+# Elements that are RCDATA in HTML (not XHTML), also called "escapable raw text elements".
+ALL_HTML_RCDATA_ELEMENTS = ("textarea", "title")
+# A previous version of this module incorrectly referred to PCDATA elements rather than RCDATA.
+# A <option> element is a PCDATA element; it is not an RCDATA element. An element being PCDATA
+# affects only validation, not parsing, hence they're allowed in XML while CDATA/RCDATA elements
+# are not (only CDATA sections).
 
 JAVASCRIPT_WORD_CHARACTERS = "0123456789abcdefghijklmnopqrstuvwxyz$_"
 
@@ -95,7 +99,7 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
     # addindent = indentation to add to higher levels
     # newl = newline string
     is_implied_cdata = parenttag in ALL_HTML_CDATA_ELEMENTS
-    is_pcdata = parenttag in ALL_HTML_PCDATA_ELEMENTS
+    is_rcdata = parenttag in ALL_HTML_RCDATA_ELEMENTS
     _d = dommodule
     if isinstance(node, _d.Text):
         if (mode == "html") and is_implied_cdata:
@@ -117,11 +121,11 @@ def writehtml(node, writer, indent="", addindent="", newl="", encoding=None, mod
             writer.write("%s%s" % (indent, json.dumps(node.data)))
         else:
             _write_data(writer, "%s%s%s" % (indent, node.data, newl), mode)
-    elif (is_implied_cdata or is_pcdata) and (mode in ("html", "xhtml")):
+    elif (is_implied_cdata or is_rcdata) and (mode in ("html", "xhtml")):
         raise ValueError("%s nodes are not allowed in a %s element"
             % (node.__class__.__name__, parenttag))
     elif isinstance(node, _d.Element):
-        if is_pcdata or is_implied_cdata:
+        if is_rcdata or is_implied_cdata:
             raise ValueError
         if (mode == "nml") and ("|" in node.tagName):
             raise ValueError("pipe in tag name %r" % node.tagName)

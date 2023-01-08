@@ -235,14 +235,14 @@ Watashi-wa Tōmasu desu.
 ||UUU||Dwelt||
 
 ||border=1"
-||Why||What[softreturn]||
-||123||4567 8 9[softreturn]||
-||a||bcde[softreturn]||
-||fgh||ijkl[softreturn]||
-||||mnop[softreturn]||
+||Why||What||
+||123||4567 8 9||
+||a||bcde||
+||fgh||ijkl||
+||||mnop||
 ||123||||
-||456||789[softreturn]||
-||UUU||Dwelt[softreturn]||
+||456||789||
+||UUU||Dwelt||
 
 Hi. 
 
@@ -462,7 +462,7 @@ Hello\world hello\`world hello\\world
 
 ¬in ∉ ¬in 
 
-@@[=`=]@@ &#47; @@[=\=]@@`:code: &#47; @@[=\=]@@` 
+@@[=`=]@@ &#47; @@[=\`=]@@:coco: &#47; @@[=\=]@@`:code: &#47; @@[=\=]@@` 
 
 [[spoiler:Inline spoiler]] again. 
 

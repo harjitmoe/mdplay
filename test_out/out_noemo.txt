@@ -19,9 +19,9 @@ rule.
 
 Another paragraph. 
 
-(The following page makes use of Twemoji, by Twitter, Inc.  [url="http://creativecommons.org/licenses/by/4.0/"]CC-BY 4.0[/url], [url="https://github.com/twitter/twemoji"]origin[/url].) 
+(The following page makes use of Twemoji, by Twitter, Inc.  [url=http://creativecommons.org/licenses/by/4.0/]CC-BY 4.0[/url], [url=https://github.com/twitter/twemoji]origin[/url].) 
 
-I can use [i]italic[/i], [b]bold[/b], [font=monospace]monospace[/font], [b]bold[/b].  I can [url="http://egscomics.com"]link[/url], or include [img]http://i.imgur.com/YW5So8y.jpg[/img] images and [media alt="embeds with site-specific tags"]http://i.imgur.com/YW5So8y.jpg[/media], or even [url="http://egscomics.com"]link images [img alt="like this"]http://i.imgur.com/YW5So8y.jpg[/img][/url]! 
+I can use [i]italic[/i], [b]bold[/b], [font=monospace]monospace[/font], [b]bold[/b].  I can [url=http://egscomics.com]link[/url], or include [img]http://i.imgur.com/YW5So8y.jpg[/img] images and [media alt="embeds with site-specific tags"]http://i.imgur.com/YW5So8y.jpg[/media], or even [url=http://egscomics.com]link images [img alt="like this"]http://i.imgur.com/YW5So8y.jpg[/img][/url]! 
 
 [code]#!/usr/bin/env python
 # -*- python -*-
@@ -77,7 +77,7 @@ Bob the builder yes we can [/quote]
 
 ![This is not](an embed.) 
 
-![url="http://i.imgur.com/YW5So8y.jpg"]This is not an embed either.[/url] 
+![url=http://i.imgur.com/YW5So8y.jpg]This is not an embed either.[/url] 
 
 Nor is ![this.](http://i.imgur.com/YW5So8y.jpg) 
 
@@ -89,9 +89,9 @@ Whereas this is: [img alt="an embed"]http://i.imgur.com/YW5So8y.jpg[/img]
 
 Th[is isn't](either). 
 
-Th[url="http://egscomics.com"]is is.[/url] 
+Th[url=http://egscomics.com]is is.[/url] 
 
-At the start of a[br][url="http://egscomics.com"]line[/url] 
+At the start of a[br][url=http://egscomics.com]line[/url] 
 
 Likewise[br][img]http://i.imgur.com/YW5So8y.jpg[/img] 
 
@@ -103,7 +103,7 @@ C:\WINDOWS\--hello--
 
 [rule]
 
-[url="http://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/UNIX"]Useful Notes: UNIX[/url] 
+[url=http://tvtropes.org/pmwiki/pmwiki.php/UsefulNotes/UNIX]Useful Notes: UNIX[/url] 
 
 [size=6][b]Superscripts and subscripts [/b][/size]
 
@@ -223,7 +223,7 @@ Watashi-wa Tōmasu desu.
 
 [table][tr][th]Why [/th][th]What [/th][/tr][tr][td]123 [/td][td]4567 8 9 [/td][/tr][tr][td]a [/td][td]bcde [/td][/tr][tr][td]fgh [/td][td]ijkl [/td][/tr][tr][td][/td][td]mnop [/td][/tr][tr][td]123 [/td][td][/td][/tr][tr][td]456 [/td][td]789 [/td][/tr][tr][td]UUU [/td][td]Dwelt [/td][/tr][/table]
 
-[table][tr][th]Why[/th][th]What[br][/th][/tr][tr][td]123[/td][td]4567 8 9[br][/td][/tr][tr][td]a[/td][td]bcde[br][/td][/tr][tr][td]fgh[/td][td]ijkl[br][/td][/tr][tr][td] [/td][td]mnop[br][/td][/tr][tr][td]123[/td][td][/td][/tr][tr][td]456[/td][td]789[br][/td][/tr][tr][td]UUU[/td][td]Dwelt[br][/td][/tr][/table]
+[table][tr][th]Why[/th][th]What[/th][/tr][tr][td]123[/td][td]4567 8 9[/td][/tr][tr][td]a[/td][td]bcde[/td][/tr][tr][td]fgh[/td][td]ijkl[/td][/tr][tr][td] [/td][td]mnop[/td][/tr][tr][td]123[/td][td][/td][/tr][tr][td]456[/td][td]789[/td][/tr][tr][td]UUU[/td][td]Dwelt[/td][/tr][/table]
 
 Hi. 
 
@@ -278,7 +278,7 @@ And
 [*]list 
 [/list]
 
-[url="http://i.imgur.com/YW5So8y.jpg#hash"]Testing hashes.[/url] 
+[url=http://i.imgur.com/YW5So8y.jpg#hash]Testing hashes.[/url] 
 
 [img alt="Let me [i]break[/i] this!"]http://i.imgur.com/YW5So8y.jpg[/img] 
 
@@ -350,7 +350,7 @@ m̈ëẗälë Ë
 
 Testing a URN: urn:x-interwiki:wikipedia:Tree 
 
-Case sensitivity: urn:x-interwiki:gausswiki:Hello [url="http://gauss.ffii.org/Hello"]Eh?[/url] 
+Case sensitivity: urn:x-interwiki:gausswiki:Hello [url=http://gauss.ffii.org/Hello]Eh?[/url] 
 
 x̄ and ȳ 
 
@@ -450,14 +450,14 @@ Hello\world hello\`world hello\\world
 
 ¬in ∉ ¬in 
 
-[font=monospace]`[/font] / [font=monospace]\[/font]`:code: / [font=monospace]\[/font]` 
+[font=monospace]`[/font] / [font=monospace]\`[/font]:coco: / [font=monospace]\[/font]`:code: / [font=monospace]\[/font]` 
 
 [spoiler]Inline spoiler[/spoiler] again. 
 
 Testing This (as)  so. 
 
-[This should [url="http://example.com/"]actually work now[/url].] 
+[This should [url=http://example.com/]actually work now[/url].] 
 
-[This] should [url="http://example.com/"]actually work now[/url]. 
+[This] should [url=http://example.com/]actually work now[/url]. 
 
-[url="http://example.com/"]This[/url] should [ideally] actually [url="http://example.com/"]work now[/url]. 
+[url=http://example.com/]This[/url] should [ideally] actually [url=http://example.com/]work now[/url]. 

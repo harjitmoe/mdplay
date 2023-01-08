@@ -551,9 +551,10 @@ def _parse_block(f, state, flags):
                         cols[-1]+=char
                     elif char=="|":
                         cols.append("")
+                        cols[-1]=cols[-1].strip()
                     else:
                         cols[-1]+=char
-                if not cols[-1].strip(): cols[-1]=""
+                cols[-1]=cols[-1].strip()
                 return cols
             if depth:
                 line=line.strip()

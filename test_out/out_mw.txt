@@ -248,28 +248,28 @@ Watashi-wa Tōmasu desu.
 {|border="1"
 |-
 !Why
-!What<br />
+!What
 |-
 |123
-|4567 8 9<br />
+|4567 8 9
 |-
 |a
-|bcde<br />
+|bcde
 |-
 |fgh
-|ijkl<br />
+|ijkl
 |-
 | 
-|mnop<br />
+|mnop
 |-
 |123
 |
 |-
 |456
-|789<br />
+|789
 |-
 |UUU
-|Dwelt<br />
+|Dwelt
 |}
 
 Hi. 
@@ -505,9 +505,9 @@ Hello\world hello\`world hello\\world
 
 ¬in ∉ ¬in 
 
-<code>`</code> / <code>\</code>`:code: / <code>\</code>` 
+<code>`</code> / <code>\`</code>:coco: / <code>\</code>`:code: / <code>\</code>` 
 
-<span class="mw-customtoggle-9" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-9" class="mw-collapsible mw-collapsed" style="display:none;">Inline spoiler</div> again. 
+<span class="mw-customtoggle-6" style="color:blue;cursor:pointer">Expand/Hide Spoiler</span><div id="mw-customcollapsible-6" class="mw-collapsible mw-collapsed" style="display:none;">Inline spoiler</div> again. 
 
 Testing <ruby>This<rp> (</rp><rt>as</rt><rp>) </rp></ruby> so. 
 
